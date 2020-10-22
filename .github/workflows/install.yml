@@ -51,3 +51,11 @@ jobs:
         run: |
           rm -f hypercomplex.h
           rm -f hypercomplex.cpp
+
+      - name: Compile Test Program
+        working-directory: ${{env.working-directory}}
+        run: g++ test.cpp hypercomplex.cpp -o test
+
+      - name: Execute Test Program
+        working-directory: ${{env.working-directory}}
+        run: ./test
