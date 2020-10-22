@@ -21,17 +21,18 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set CWD
-        run: ls
+        run: cd .test/include
 
       - name: Copy Library Files
         run: |
-          g++ --version
+          cp ../../hypercomplex/hypercomplex.h hypercomplex.h
+          cp ../../hypercomplex/hypercomplex.cpp hypercomplex.cpp
 
       - name: Display compiler version
         run: g++ --version
 
       - name: Compile Test Program
-        run: g++ --version
+        run: g++ test.cpp hypercomplex.cpp -o test
 
       - name: Execute Test Program
-        run: g++ --version
+        run: ./test
