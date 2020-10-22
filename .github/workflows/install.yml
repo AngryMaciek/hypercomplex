@@ -22,16 +22,22 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
+      - name: Copy Library Files
+        working-directory: ${{env.working-directory}}
+        run: |
+          cp ../../hypercomplex/hypercomplex.h hypercomplex.h
+          cp ../../hypercomplex/hypercomplex.cpp hypercomplex.cpp
+
       - name: Display Make version
         run: make --version
 
       - name: Display compiler version
         run: g++ --version
 
-      #- name: Compile Test Program
-      #  working-directory: ${{env.working-directory}}
-      #  run: g++ test.cpp hypercomplex.cpp -o test
+      - name: Build Static Library
+        working-directory: ${{env.working-directory}}
+        run: make
 
-      #- name: Execute Test Program
-      #  working-directory: ${{env.working-directory}}
-      #  run: ./test
+      - name: Copy Static Library
+        working-directory: ${{env.working-directory}}
+        run: make install
