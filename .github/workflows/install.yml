@@ -41,3 +41,13 @@ jobs:
       - name: Copy Static Library
         working-directory: ${{env.working-directory}}
         run: make install
+
+      - name: Remove Build Files in CWD
+        working-directory: ${{env.working-directory}}
+        run: make clean
+
+      - name: Remove Library Files in CWD
+        working-directory: ${{env.working-directory}}
+        run: |
+          rm -f hypercomplex.h
+          rm -f hypercomplex.cpp
