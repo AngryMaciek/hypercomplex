@@ -33,7 +33,7 @@ jobs:
 
       - name: Compile Test Program
         working-directory: ${{env.working-directory}}
-        run: g++ test.cpp -o test
+        run: g++ test.cpp hypercomplex.cpp -o test
 
       - name: Execute Test Program
         run: .test/include/test
