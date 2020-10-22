@@ -13,7 +13,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-10.15, ubuntu-20.04, windows-2019]
+        os: [macos-10.15, ubuntu-20.04]
     env:
       working-directory: .test/install
 
@@ -37,15 +37,6 @@ jobs:
       - name: Build Static Library
         working-directory: ${{env.working-directory}}
         run: make
-
-      - name: ls
-        working-directory: ${{env.working-directory}}
-        run: |
-          mkdir -p ~/lib/lib
-          chmod 700 ~/lib/lib
-          chmod 700 ~/lib
-          ls ~
-
 
       - name: Copy Static Library
         working-directory: ${{env.working-directory}}
