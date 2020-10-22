@@ -14,7 +14,7 @@
 */
 
 #include <cstdlib>
-#include "hypercomplex.h"
+#include "hypercomplex/hypercomplex.h"
 
 // Returns integer argument
 int mirror(int n) {
