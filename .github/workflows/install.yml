@@ -59,3 +59,7 @@ jobs:
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}
         run: ./test
+
+      - name: Remove Copied Library
+        working-directory: ${{env.working-directory}}
+        run: make uninstall
