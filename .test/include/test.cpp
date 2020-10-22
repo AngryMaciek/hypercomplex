@@ -18,8 +18,8 @@ int main(void){
     if (!mirror(1)){
         return -1;
     }
-    //if (!mirror(0)){
-    //    return -1;
-    //}
+    if (mirror(0)){
+        return -1;
+    }
     return 0;
 }
