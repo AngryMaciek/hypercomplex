@@ -13,8 +13,8 @@
 */
 
 // mark that we included this header
-#ifndef HYPERCOMPLEX
-#define HYPERCOMPLEX
+#ifndef HYPERCOMPLEX_HYPERCOMPLEX_H_
+#define HYPERCOMPLEX_HYPERCOMPLEX_H_
 
 /*
 Prints out the "Hello world!" message
@@ -25,4 +25,4 @@ Returns:
 */
 int mirror(int n);
 
-#endif  // HYPERCOMPLEX
+#endif  // HYPERCOMPLEX_HYPERCOMPLEX_H_
