@@ -23,4 +23,4 @@ jobs:
       - name: Static Code Analysis
         run: |
           /home/runner/.local/bin/cpplint --help
-        # cp hypercomplex/hypercomplex.h
+          /home/runner/.local/bin/cpplint hypercomplex/hypercomplex.h --verbose
