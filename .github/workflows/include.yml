@@ -39,10 +39,6 @@ jobs:
         working-directory: ${{env.working-directory}}
         run: ls -al
 
-      - name: Adjust File Permissions
-        working-directory: ${{env.working-directory}}
-        run: chmod +x test
-
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}
-        run: ls -al
+        run: test
