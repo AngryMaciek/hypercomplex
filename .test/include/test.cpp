@@ -15,6 +15,9 @@
 #include "hypercomplex.h"
 
 int main(void){
+
+    return 0;
+
     if (!mirror(1)){
         return -1;
     }
