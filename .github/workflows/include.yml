@@ -36,4 +36,5 @@ jobs:
         run: g++ test.cpp hypercomplex.cpp -o test
 
       - name: Execute Test Program
-        run: .test/include/test
+        working-directory: ${{env.working-directory}}
+        run: test
