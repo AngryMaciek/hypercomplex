@@ -38,3 +38,7 @@ jobs:
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}
         run: ls
+
+      - name: Execute Test Program
+        working-directory: ${{env.working-directory}}
+        run: ./test
