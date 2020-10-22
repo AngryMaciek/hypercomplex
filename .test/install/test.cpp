@@ -12,7 +12,7 @@
 ###############################################################################
 */
 
-#include "hypercomplex.h"
+#include <hypercomplex.h>
 
 int main(void){
     if (!mirror(1)){
