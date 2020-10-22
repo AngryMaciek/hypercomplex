@@ -32,8 +32,8 @@ jobs:
         run: g++ --version
 
       - name: Compile Test Program
-        #working-directory: ${{env.working-directory}}
-        run: g++ .test/include/test.cpp -o test
+        working-directory: ${{env.working-directory}}
+        run: g++ test.cpp -o ../../test
 
       - name: Execute Test Program
         #working-directory: ${{env.working-directory}}
