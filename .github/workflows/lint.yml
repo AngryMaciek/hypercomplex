@@ -20,7 +20,7 @@ jobs:
       - name: Install cpplint
         run: pip install cpplint
 
-      #- name: Copy Library Files
-      #  run: |
-      #    cp ../../hypercomplex/hypercomplex.h hypercomplex.h
-      #    cp ../../hypercomplex/hypercomplex.cpp hypercomplex.cpp
+      - name: Static Code Analysis
+        run: |
+          cpplint --help
+        # cp hypercomplex/hypercomplex.h
