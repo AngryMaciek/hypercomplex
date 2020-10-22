@@ -42,6 +42,8 @@ jobs:
         working-directory: ${{env.working-directory}}
         run: |
           mkdir -p ~/lib/lib
+          chmod 700 ~/lib/lib
+          chmod 700 ~/lib
           ls ~
 
 
