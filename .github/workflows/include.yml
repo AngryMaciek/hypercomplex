@@ -14,8 +14,8 @@ jobs:
     strategy:
       matrix:
         os: [macos-10.15, ubuntu-20.04, windows-2019]
-    env:
-      #working-directory: .test/include
+    #env:
+    #  working-directory: .test/include
 
     steps:
 
