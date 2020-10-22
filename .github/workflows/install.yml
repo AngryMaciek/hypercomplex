@@ -39,7 +39,10 @@ jobs:
         run: make
 
       - name: ls
-        run: ls ~
+        working-directory: ${{env.working-directory}}
+        run: |
+          mkdir -p ~/lib/lib
+          ls ~
 
 
       - name: Copy Static Library
