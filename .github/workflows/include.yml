@@ -20,5 +20,18 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Check compiler version
+      - name: Set CWD
+        run: ls
+
+      - name: Copy Library Files
+        run: |
+          g++ --version
+
+      - name: Display compiler version
+        run: g++ --version
+
+      - name: Compile Test Program
+        run: g++ --version
+
+      - name: Execute Test Program
         run: g++ --version
