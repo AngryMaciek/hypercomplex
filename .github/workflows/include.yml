@@ -37,8 +37,4 @@ jobs:
 
       - name: Execute Test Program
         #working-directory: ${{env.working-directory}}
-        run: test
-
-      - name: Execute Test Program
-        #working-directory: ${{env.working-directory}}
         run: cat test
