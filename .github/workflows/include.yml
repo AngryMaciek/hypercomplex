@@ -41,4 +41,4 @@ jobs:
 
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}
-        run: ./test
+        run: cat ./test
