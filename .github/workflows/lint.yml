@@ -1,0 +1,26 @@
+name: cpplint
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  cpplint:
+    runs-on: ubuntu-20.04
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Install cpplint
+        run: pip install cpplint
+
+      #- name: Copy Library Files
+      #  run: |
+      #    cp ../../hypercomplex/hypercomplex.h hypercomplex.h
+      #    cp ../../hypercomplex/hypercomplex.cpp hypercomplex.cpp
