@@ -33,8 +33,8 @@ jobs:
 
       - name: Compile Test Program
         working-directory: ${{env.working-directory}}
-        run: g++ test.cpp -o ../../test
+        run: g++ test.cpp -o test
 
       - name: Execute Test Program
         #working-directory: ${{env.working-directory}}
-        run: ./test
+        run: .test/include/test
