@@ -9,21 +9,21 @@ on:
       - master
 
 jobs:
-  build:
+  Include:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [macos-10.15, ubuntu-20.04, windows-2019]
+    env:
+      working-directory: .test/include
 
     steps:
 
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Set CWD
-        run: cd .test/include
-
       - name: Copy Library Files
+        working-directory: ${{env.working-directory}}
         run: |
           cp ../../hypercomplex/hypercomplex.h hypercomplex.h
           cp ../../hypercomplex/hypercomplex.cpp hypercomplex.cpp
@@ -32,7 +32,9 @@ jobs:
         run: g++ --version
 
       - name: Compile Test Program
+        working-directory: ${{env.working-directory}}
         run: g++ test.cpp hypercomplex.cpp -o test
 
       - name: Execute Test Program
+        working-directory: ${{env.working-directory}}
         run: ./test
