@@ -38,12 +38,13 @@ jobs:
         working-directory: ${{env.working-directory}}
         run: make
 
+      - name: ls
+        run: ls ~
+
+
       - name: Copy Static Library
         working-directory: ${{env.working-directory}}
         run: make install
-
-      - name: ls
-        run: ls ~
 
       - name: Remove Build Files in CWD
         working-directory: ${{env.working-directory}}
