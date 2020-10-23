@@ -18,12 +18,10 @@
 
 // Hypercomplex constructor
 Hypercomplex::Hypercomplex(unsigned int d, float* arr) {
-
     float * temparr = new float[d];
     for (unsigned int i=0; i < d; i++) {
         temparr[i] = arr[i];
     }
-
     this->d = d;
     this->arr = temparr;
 }
