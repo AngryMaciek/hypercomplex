@@ -18,11 +18,11 @@
 #define HYPERCOMPLEX_HYPERCOMPLEX_H_
 
 /*
-Prints out the "Hello world!" message
+Gives bach what you give in.
 Arguments:
-- integer n that sets how many times the message will be displayed
+- integer n
 Returns:
-(null)
+- integer n
 */
 int mirror(int n);
 
