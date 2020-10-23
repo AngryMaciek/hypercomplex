@@ -24,7 +24,7 @@ class Hypercomplex {
  private:
     float v;
  public:
-    Hypercomplex(float v);  // constructor
+    explicit Hypercomplex(float v);  // constructor
     float _() { return v; }  // space dimension
     Hypercomplex operator! ();  // conjugate operator
 };
