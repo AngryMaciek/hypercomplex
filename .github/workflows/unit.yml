@@ -26,15 +26,18 @@ jobs:
         working-directory: ${{env.working-directory}}
         run: cp -r ../../hypercomplex hypercomplex
 
-      - name: Display compiler version
-        run: g++ --version
-
       - name: Display Python version
         run: python --version
 
+      - name: Install cpp-coveralls
+        run: pip install cpp-coveralls
+
+      - name: Display compiler version
+        run: g++ --version
+
       - name: Compile Test Program
         working-directory: ${{env.working-directory}}
-        run: g++ test.cpp hypercomplex/hypercomplex.cpp -o test
+        run: g++ test.cpp hypercomplex/hypercomplex.cpp --coverage -o test
 
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}
