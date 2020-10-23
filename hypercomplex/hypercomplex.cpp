@@ -43,6 +43,17 @@ Hypercomplex Hypercomplex::operator~ () {
     return H;
 }
 
+// - unary operator
+Hypercomplex Hypercomplex::operator- () {
+    float * temparr = new float[d];
+    for (unsigned int i=0; i < d; i++) {
+        temparr[i] = -arr[i];
+    }
+    Hypercomplex H = Hypercomplex(d, temparr);
+    delete[] temparr;
+    return H;
+}
+
 // overloaded == operator
 bool Hypercomplex::operator ==(const Hypercomplex& H) {
     if (d != H.d) {
@@ -71,9 +82,8 @@ bool Hypercomplex::operator !=(const Hypercomplex& H) {
 
 /*
 Operators:
-unary -
 + - += -=
 * / *= /=
 ^ ^=
-=
+= (h1=h2 memory leak!)
 */

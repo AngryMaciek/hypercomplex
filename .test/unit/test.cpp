@@ -46,5 +46,8 @@ int main(void){
     if (h1 == h2){ std::abort(); }
     if (!(h1 != h2)){ std::abort(); }
 
+    // test unary - operator
+    // ?
+
     return 0;
 }

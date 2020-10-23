@@ -29,6 +29,7 @@ class Hypercomplex {
     ~Hypercomplex();  // destructor
     float _() { return d; }  // space dimension
     Hypercomplex operator~ ();  // conjugate operator
+    Hypercomplex operator- ();
     bool operator== (const Hypercomplex& H);
     bool operator!= (const Hypercomplex& H);
 };
