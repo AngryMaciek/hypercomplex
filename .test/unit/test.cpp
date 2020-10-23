@@ -17,19 +17,12 @@
 
 int main(void){
 
-    if (!mirror(1)){
-        std::abort();
-    }
-    if (mirror(0)){
-        std::abort();
-    }
-
     float x = 1.2;
+
     Hypercomplex h = Hypercomplex(x);
+
     if (h._() != x){ std::abort(); }
     if ( (!h)._() != -x){ std::abort(); }
-
-    std::cout << (!h)._() << std::endl;
 
     return 0;
 }

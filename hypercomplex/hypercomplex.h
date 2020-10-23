@@ -18,15 +18,6 @@
 #define HYPERCOMPLEX_HYPERCOMPLEX_H_
 
 /*
-Gives bach what you give in.
-Arguments:
-- integer n
-Returns:
-- integer n
-*/
-int mirror(int n);
-
-/*
 Main class of the library
 */
 class Hypercomplex
