@@ -13,7 +13,7 @@
 */
 
 #include <iostream>
-#include "hypercomplex.h"
+#include "hypercomplex/hypercomplex.h"
 
 int main(void){
 
