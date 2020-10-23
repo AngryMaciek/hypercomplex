@@ -22,18 +22,16 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Copy Library Files
+      - name: Copy Library Directory
         working-directory: ${{env.working-directory}}
-        run: |
-          cp ../../hypercomplex/hypercomplex.h hypercomplex.h
-          cp ../../hypercomplex/hypercomplex.cpp hypercomplex.cpp
+        run: cp -r ../../hypercomplex hypercomplex
 
       - name: Display compiler version
         run: g++ --version
 
       - name: Compile Test Program
         working-directory: ${{env.working-directory}}
-        run: g++ test.cpp hypercomplex.cpp -o test
+        run: g++ test.cpp hypercomplex/hypercomplex.cpp -o test
 
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}
