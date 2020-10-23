@@ -28,7 +28,7 @@ class Hypercomplex {
     explicit Hypercomplex(unsigned int d, float* arr);  // constructor
     ~Hypercomplex();  // destructor
     float _() { return d; }  // space dimension
-    Hypercomplex operator! ();  // conjugate operator
+    Hypercomplex operator~ ();  // conjugate operator
 };
 
 #endif  // HYPERCOMPLEX_HYPERCOMPLEX_H_

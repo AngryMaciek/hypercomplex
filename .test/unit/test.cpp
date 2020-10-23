@@ -27,7 +27,7 @@ int main(void){
 
     if (h._() != x){ std::abort(); }
 
-    Hypercomplex h_ = !h;
+    Hypercomplex h_ = ~h;
 
     for (unsigned int i=0; i<x; i++) {
         std::cout << h_.arr[i] << " ";
