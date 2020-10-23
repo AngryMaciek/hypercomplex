@@ -42,3 +42,7 @@ jobs:
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}
         run: ./test
+
+      - name: Submit to Coveralls
+        working-directory: ${{env.working-directory}}
+        run: /home/runner/.local/bin/coveralls -i hypercomplex
