@@ -27,6 +27,7 @@ int main(void){
 
     if (h._() != x){ std::abort(); }
 
+    // test ~ operator
     Hypercomplex h_ = ~h;
 
     for (unsigned int i=0; i<x; i++) {
@@ -34,7 +35,7 @@ int main(void){
     } std::cout << std::endl;
 
     if (h_.arr[0] != A[0]) {std::abort(); }
-    if (h_.arr[1] != A[1]) {std::abort(); }
+    if (h_.arr[1] != -A[1]) {std::abort(); }
     if (h_.arr[2] != -A[2]) {std::abort(); }
     if (h_.arr[3] != -A[3]) {std::abort(); }
 

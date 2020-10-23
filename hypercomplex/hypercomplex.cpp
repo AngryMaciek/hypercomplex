@@ -31,13 +31,11 @@ Hypercomplex::~Hypercomplex() {
     delete[] arr;
 }
 
-// overloaded operator
+// ~ operator
 Hypercomplex Hypercomplex::operator~ () {
     float * temparr = new float[d];
-    for (unsigned int i=0; i < d/2; i++) {
-        temparr[i] = arr[i];
-    }
-    for (unsigned int i=d/2; i < d; i++) {
+    temparr[0] = arr[0];
+    for (unsigned int i=1; i < d; i++) {
         temparr[i] = -arr[i];
     }
     Hypercomplex H = Hypercomplex(d, temparr);
