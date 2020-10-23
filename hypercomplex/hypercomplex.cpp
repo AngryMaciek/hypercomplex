@@ -24,7 +24,7 @@ Hypercomplex::Hypercomplex(unsigned int d, float* arr) {
 
 // overloaded operator
 Hypercomplex Hypercomplex::operator! () {
-    float * temparr = new float [d];  // delete?
+    float * temparr = new float[d];  // delete?
     for (unsigned int i=0; i < d; i++) {
         temparr[i] = -arr[i];
     }
