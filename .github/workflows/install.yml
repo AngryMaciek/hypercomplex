@@ -15,18 +15,13 @@ jobs:
       matrix:
         os: [macos-10.15, ubuntu-20.04]
     env:
-      working-directory: .test/install
+      test-directory: .test/install
+      lib-directory: "hypercomplex"
 
     steps:
 
       - name: Checkout Repository
         uses: actions/checkout@v2
-
-      - name: Copy Library Files
-        working-directory: ${{env.working-directory}}
-        run: |
-          cp ../../hypercomplex/hypercomplex.h hypercomplex.h
-          cp ../../hypercomplex/hypercomplex.cpp hypercomplex.cpp
 
       - name: Display Make version
         run: make --version
@@ -35,31 +30,25 @@ jobs:
         run: g++ --version
 
       - name: Build Static Library
-        working-directory: ${{env.working-directory}}
+        working-directory: ${{env.lib-directory}}
         run: make
 
       - name: Copy Static Library
-        working-directory: ${{env.working-directory}}
+        working-directory: ${{env.lib-directory}}
         run: make install
 
       - name: Remove Build Files in CWD
-        working-directory: ${{env.working-directory}}
+        working-directory: ${{env.lib-directory}}
         run: make clean
 
-      - name: Remove Library Files in CWD
-        working-directory: ${{env.working-directory}}
-        run: |
-          rm -f hypercomplex.h
-          rm -f hypercomplex.cpp
-
       - name: Compile Test Program
-        working-directory: ${{env.working-directory}}
+        working-directory: ${{env.test-directory}}
         run: g++ test.cpp -I ~/lib/include/ ~/lib/lib/hypercomplex.a -o test
 
       - name: Execute Test Program
-        working-directory: ${{env.working-directory}}
+        working-directory: ${{env.test-directory}}
         run: ./test
 
       - name: Remove Copied Library
-        working-directory: ${{env.working-directory}}
+        working-directory: ${{env.lib-directory}}
         run: make uninstall
