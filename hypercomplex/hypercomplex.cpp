@@ -80,6 +80,11 @@ bool Hypercomplex::operator !=(const Hypercomplex& H) {
     return false;
 }
 
+// overloaded [] operator
+float& Hypercomplex::operator[](unsigned int i) {
+    return arr[i];
+}
+
 /*
 Operators:
 + - += -=

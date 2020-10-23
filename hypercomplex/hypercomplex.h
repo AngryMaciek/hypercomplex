@@ -30,6 +30,7 @@ class Hypercomplex {
     float _() { return d; }  // space dimension
     Hypercomplex operator~ ();  // conjugate operator
     Hypercomplex operator- ();
+    float& operator[] (unsigned int i);
     bool operator== (const Hypercomplex& H);
     bool operator!= (const Hypercomplex& H);
 };

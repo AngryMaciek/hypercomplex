@@ -49,5 +49,11 @@ int main(void){
     // test unary - operator
     // ?
 
+    // test [] operator
+    if (h1[0]!=1.0) {std::abort(); }
+    if (h1[1]!=2.0) {std::abort(); }
+    if (h1[2]!=0.0) {std::abort(); }
+    if (h1[3]!=-1.0) {std::abort(); }
+
     return 0;
 }
