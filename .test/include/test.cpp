@@ -12,7 +12,7 @@
 ###############################################################################
 */
 
-#include "hypercomplex.h"
+#include "hypercomplex/hypercomplex.h"
 
 int main(void){
     Hypercomplex h = Hypercomplex(0.0);
