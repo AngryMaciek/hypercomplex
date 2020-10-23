@@ -16,28 +16,35 @@
 #include "hypercomplex/hypercomplex.h"
 
 int main(void){
-    unsigned int x = 4;
+    unsigned int dim = 4;
     float A[] = {1.0, 2.0, 0.0, -1.0};
+    float B[] = {-0.5, 1.0, 0.0, 6.0};
 
-    Hypercomplex h = Hypercomplex(x, A);
+    Hypercomplex h1 = Hypercomplex(dim, A);
+    Hypercomplex h2 = Hypercomplex(dim, B);
 
-    for (unsigned int i=0; i<x; i++) {
-        std::cout << h.arr[i] << " ";
+    for (unsigned int i=0; i<dim; i++) {
+        std::cout << h1.arr[i] << " ";
     } std::cout << std::endl;
 
-    if (h._() != x){ std::abort(); }
+    // test attribute getter
+    if (h1._() != dim){ std::abort(); }
 
     // test ~ operator
-    Hypercomplex h_ = ~h;
+    Hypercomplex h1_ = ~h1;
 
-    for (unsigned int i=0; i<x; i++) {
-        std::cout << h_.arr[i] << " ";
+    for (unsigned int i=0; i<dim; i++) {
+        std::cout << h1_.arr[i] << " ";
     } std::cout << std::endl;
 
-    if (h_.arr[0] != A[0]) {std::abort(); }
-    if (h_.arr[1] != -A[1]) {std::abort(); }
-    if (h_.arr[2] != -A[2]) {std::abort(); }
-    if (h_.arr[3] != -A[3]) {std::abort(); }
+    if (h1_.arr[0] != A[0]) {std::abort(); }
+    if (h1_.arr[1] != -A[1]) {std::abort(); }
+    if (h1_.arr[2] != -A[2]) {std::abort(); }
+    if (h1_.arr[3] != -A[3]) {std::abort(); }
+
+    // test == and != operators
+    if (h1 == h2){ std::abort(); }
+    if (!(h1 != h2)){ std::abort(); }
 
     return 0;
 }
