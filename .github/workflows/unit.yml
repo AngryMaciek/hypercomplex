@@ -22,7 +22,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-        - name: Copy Library Directory
+      - name: Copy Library Directory
         working-directory: ${{env.working-directory}}
         run: cp -r ../../hypercomplex hypercomplex
 
