@@ -26,4 +26,18 @@ Returns:
 */
 int mirror(int n);
 
+/*
+Main class of the library
+*/
+class Hypercomplex
+{
+private:
+    float v;
+public:
+    Hypercomplex(float v); // constructor
+    float _() { return v; } // space dimension
+    Hypercomplex operator! (); // conjugate operator
+
+};
+
 #endif  // HYPERCOMPLEX_HYPERCOMPLEX_H_

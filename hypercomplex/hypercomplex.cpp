@@ -19,3 +19,13 @@
 int mirror(int n) {
     return n;
 }
+
+// Hypercomplex constructor
+Hypercomplex::Hypercomplex(float v) {
+    this->v=v;
+}
+
+// overloaded operator
+Hypercomplex Hypercomplex::operator! () {
+    return Hypercomplex(-v);
+}
