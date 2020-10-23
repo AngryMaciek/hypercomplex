@@ -17,11 +17,17 @@
 #include "hypercomplex.h" // NOLINT
 
 // Hypercomplex constructor
-Hypercomplex::Hypercomplex(float v) {
-    this->v = v;
+Hypercomplex::Hypercomplex(unsigned int d, float* arr) {
+    this->d = d;
+    this->arr = arr;
 }
 
 // overloaded operator
 Hypercomplex Hypercomplex::operator! () {
-    return Hypercomplex(-v);
+    float temparr[d];
+    for (unsigned int i=0; i<d; i++) {
+        temparr[i] = -arr[i];
+    }
+    Hypercomplex H = Hypercomplex(d, temparr);
+    return H;
 }

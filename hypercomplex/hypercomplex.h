@@ -22,10 +22,11 @@ Main class of the library
 */
 class Hypercomplex {
  private:
-    float v;
+    unsigned int d;
  public:
-    explicit Hypercomplex(float v);  // constructor
-    float _() { return v; }  // space dimension
+    float* arr;
+    explicit Hypercomplex(unsigned int d, float* arr);  // constructor
+    float _() { return d; }  // space dimension
     Hypercomplex operator! ();  // conjugate operator
 };
 

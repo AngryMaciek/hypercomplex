@@ -17,12 +17,28 @@
 
 int main(void){
 
-    float x = 1.2;
+    unsigned int x = 4;
+    float A[] = {1.0, 2.0, 0.0, -1.0};
 
-    Hypercomplex h = Hypercomplex(x);
+    Hypercomplex h = Hypercomplex(x, A);
+
+    for (unsigned int i=0; i<x; i++) {
+        std::cout << h.arr[i] << " ";
+    } std::cout << std::endl;
 
     if (h._() != x){ std::abort(); }
-    if ( (!h)._() != -x){ std::abort(); }
+
+    Hypercomplex h_ = !h;
+
+    for (unsigned int i=0; i<x; i++) {
+        std::cout << h_.arr[i] << " ";
+    } std::cout << std::endl;
+
+    for (unsigned int i=0; i<x; i++) {
+        if (h_.arr[i] != -A[i]) {
+            std::abort();
+        }
+    }
 
     return 0;
 }
