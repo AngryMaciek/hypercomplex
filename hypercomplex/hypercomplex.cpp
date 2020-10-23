@@ -45,7 +45,7 @@ Hypercomplex Hypercomplex::operator~ () {
 
 // overloaded == operator
 bool Hypercomplex::operator ==(const Hypercomplex& H) {
-    if(d != H.d) {
+    if (d != H.d) {
         return false;
     }
     for (unsigned int i=0; i < d; i++) {
@@ -58,7 +58,7 @@ bool Hypercomplex::operator ==(const Hypercomplex& H) {
 
 // overloaded != operator
 bool Hypercomplex::operator !=(const Hypercomplex& H) {
-    if(d != H.d) {
+    if (d != H.d) {
         return true;
     }
     for (unsigned int i=0; i < d; i++) {
