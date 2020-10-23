@@ -18,7 +18,7 @@
 
 // Hypercomplex constructor
 Hypercomplex::Hypercomplex(float v) {
-    this->v=v;
+    this->v = v;
 }
 
 // overloaded operator
