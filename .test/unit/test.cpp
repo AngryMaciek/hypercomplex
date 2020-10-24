@@ -12,12 +12,10 @@
 ###############################################################################
 */
 
-#define CATCH_CONFIG_MAIN  // This tells Catch to provide a main()
 #include <iostream>
-#include "catch2/catch_amalgamated.hpp"
+// #include "catch2/catch_amalgamated.hpp"
 #include "hypercomplex/hypercomplex.h"
 
-/*
 int main(void){
     unsigned int dim = 4;
     float A[] = {1.0, 2.0, 0.0, -1.0};
@@ -60,4 +58,3 @@ int main(void){
 
     return 0;
 }
-*/
