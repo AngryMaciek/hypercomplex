@@ -65,7 +65,7 @@ int main(int argc, char* const argv[]) {
     // if ((-h1)[3]!=-1.0) {std::abort(); }
 
     // test assignment operator
-    // h1 = h2;
+    h1 = h2;
 
     return Catch::Session().run(argc, argv);
 }
