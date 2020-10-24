@@ -48,7 +48,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COVERALLS_PARALLEL: true
-        run: /home/runner/.local/bin/coveralls -i hypercomplex
+        run: /home/runner/.local/bin/coveralls -i hypercomplex --gcov-options '\-lp'
 
   complete-coveralls:
     needs: unit
