@@ -29,7 +29,6 @@ TEST_CASE( "DemoTest", "Demo" ) {
 }
 
 int main(int argc, char* const argv[]) {
-
     unsigned int dim = 4;
     float A[] = {1.0, 2.0, 0.0, -1.0};
     float B[] = {-0.5, 1.0, 0.0, 6.0};
