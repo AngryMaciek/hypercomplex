@@ -26,12 +26,6 @@ jobs:
         working-directory: ${{env.working-directory}}
         run: cp -r ../../hypercomplex hypercomplex
 
-      - name: Display Python version
-        run: python --version
-
-      - name: Install cpp-coveralls
-        run: pip install cpp-coveralls
-
       - name: Display compiler version
         run: g++ --version
 
@@ -41,15 +35,13 @@ jobs:
 
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}
-        run: |
-          ./test
-          gcov -o . test.cpp
+        run: ./test
 
-      - name: Submit to Covdecov
+      - name: Generate Coverage Report
+        run: gcov -o . test.cpp
+
+      - name: Submit Report to Codecov
         working-directory: ${{env.working-directory}}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           CODECOV_TOKEN="b4d8e754-58fe-4412-ab69-d8b7d368d8f4"
           bash <(curl -s https://codecov.io/bash)
-
