@@ -38,13 +38,9 @@ jobs:
         working-directory: ${{env.working-directory}}
         run: ar rvs hypercomplex.a hypercomplex.o
 
-      - name: Compile Catch2 Header
-        working-directory: ${{env.working-directory}}
-        run: g++ -Wall --std=c++14 -x c++-header test.h -o test.h.gch
-
       - name: Compile Test Program
         working-directory: ${{env.working-directory}}
-        run: g++ -Wall --std=c++14 -include test.h -o test test.cpp hypercomplex.a
+        run: g++ -Wall --std=c++14 -o test test.cpp hypercomplex.a
 
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}
