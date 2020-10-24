@@ -58,7 +58,7 @@ Hypercomplex& Hypercomplex::operator= (const Hypercomplex &H) {
     // self-assignment guard
     if (this == &H) return *this;
     // reassign
-    d = H.d
+    d = H.d;
     delete[] arr;
     float * temparr = new float[d];
     for (unsigned int i=0; i < d; i++) {
