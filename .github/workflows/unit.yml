@@ -98,4 +98,4 @@ jobs:
 
       - name: Analyze Test Program Execution
         working-directory: ${{env.working-directory}}
-        run: valgrind ./test
+        run: valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose ./test
