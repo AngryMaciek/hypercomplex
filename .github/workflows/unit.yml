@@ -43,5 +43,7 @@ jobs:
       - name: Submit Report to Codecov
         working-directory: ${{env.working-directory}}
         run: |
-          CODECOV_TOKEN="b4d8e754-58fe-4412-ab69-d8b7d368d8f4"
-          bash <(curl -s https://codecov.io/bash)
+          if [ "$RUNNER_OS" == "Linux" ]; then
+            CODECOV_TOKEN="b4d8e754-58fe-4412-ab69-d8b7d368d8f4"
+            bash <(curl -s https://codecov.io/bash)
+          fi
