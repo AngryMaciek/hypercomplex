@@ -29,6 +29,11 @@ TEST_CASE( "DemoTest", "Demo" ) {
 }
 
 int main(int argc, char* const argv[]) {
+
+    unsigned int dim = 4;
+    float A[] = {1.0, 2.0, 0.0, -1.0};
+    Hypercomplex h1 = Hypercomplex(dim, A);
+
     return Catch::Session().run(argc, argv);
 }
 
