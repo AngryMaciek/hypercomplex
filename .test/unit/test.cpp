@@ -12,11 +12,22 @@
 ###############################################################################
 */
 
+#include "test.h"
 #include <iostream>
-// #include "catch2/catch_amalgamated.hpp"
 #include "hypercomplex/hypercomplex.h"
 
-int main(void){
+
+TEST_CASE( "DemoTest", "Demo" ) {
+REQUIRE( 2 == 1 );
+}
+
+int main() {
+    return Catch::Session().run(argc, argv);
+}
+
+
+
+/*int main(void){
     unsigned int dim = 4;
     float A[] = {1.0, 2.0, 0.0, -1.0};
     float B[] = {-0.5, 1.0, 0.0, 6.0};
@@ -58,3 +69,4 @@ int main(void){
 
     return 0;
 }
+*/

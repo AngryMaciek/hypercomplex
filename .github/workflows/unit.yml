@@ -30,9 +30,13 @@ jobs:
       - name: Display compiler version
         run: g++ --version
 
+      - name: Compile Catch2 Header
+        working-directory: ${{env.working-directory}}
+        run: g++ -O0 -Wall -x c++-header test.h -o test.h.gch --std=c++14
+
       - name: Compile Test Program
         working-directory: ${{env.working-directory}}
-        run: g++ test.cpp hypercomplex/hypercomplex.cpp -o test
+        run: g++ -O0 -Wall -include test.h -o test test.cpp hypercomplex/hypercomplex.cpp --std=c++14
 
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}
