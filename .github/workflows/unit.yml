@@ -28,7 +28,7 @@ jobs:
         run: cp -r ../../hypercomplex hypercomplex
 
       - name: Display compiler version
-        run: g++ --version
+        run: sudo g++ --version
 
       - name: Compile Test Program
         working-directory: ${{env.working-directory}}
