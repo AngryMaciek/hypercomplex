@@ -28,7 +28,11 @@ jobs:
           git clone https://github.com/catchorg/Catch2.git
           cd Catch2
           cmake -Bbuild -S. -DBUILD_TESTING=OFF
-          sudo cmake --build build/ --target install
+          if [ "$RUNNER_OS" == "Linux" ]; then
+              sudo cmake --build build/ --target install
+          elif [ "$RUNNER_OS" == "Windows" ]; then
+              cmake --build build/ --target install
+          fi
           cd ..
           rm -rf Catch2
 
