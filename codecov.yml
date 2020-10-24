@@ -1,2 +1,2 @@
 ignore:
-   - ".tests/unit/test.cpp"
+   - ".test/unit/test.cpp"
