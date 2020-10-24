@@ -9,11 +9,37 @@ on:
       - master
 
 jobs:
-  unit:
+
+  platform-compatibility:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [macos-10.15, ubuntu-20.04, windows-2019]
+    env:
+      working-directory: .test/unit
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Copy Library Directory
+        working-directory: ${{env.working-directory}}
+        run: cp -r ../../hypercomplex hypercomplex
+
+      - name: Display compiler version
+        run: g++ --version
+
+      - name: Compile Test Program
+        working-directory: ${{env.working-directory}}
+        run: g++ test.cpp hypercomplex/hypercomplex.cpp -o test
+
+      - name: Execute Test Program
+        working-directory: ${{env.working-directory}}
+        run: ./test
+
+  code-coverage:
+    runs-on: ubuntu-20.04
     env:
       working-directory: .test/unit
 
@@ -43,7 +69,5 @@ jobs:
       - name: Submit Report to Codecov
         working-directory: ${{env.working-directory}}
         run: |
-          if [ "$RUNNER_OS" == "Linux" ]; then
-            CODECOV_TOKEN="b4d8e754-58fe-4412-ab69-d8b7d368d8f4"
-            bash <(curl -s https://codecov.io/bash)
-          fi
+          CODECOV_TOKEN="b4d8e754-58fe-4412-ab69-d8b7d368d8f4"
+          bash <(curl -s https://codecov.io/bash)
