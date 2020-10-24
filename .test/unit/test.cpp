@@ -14,8 +14,6 @@
 
 #define CATCH_CONFIG_RUNNER
 #include "catch.hpp"
-
-//#include "test.h"
 #include <iostream>
 #include "hypercomplex/hypercomplex.h"
 
