@@ -64,7 +64,9 @@ jobs:
         run: ./test
 
       - name: Generate Coverage Report
-        run: gcov -o . hypercomplex
+        run: |
+          gcov -o . test.cpp
+          rm -f test.cpp.gcov test.gcno
 
       - name: Submit Report to Codecov
         working-directory: ${{env.working-directory}}
