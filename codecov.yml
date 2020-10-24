@@ -1,3 +1,3 @@
 ignore:
    - ".test/unit/test.cpp"
-   #- ".test/unit/catch.hpp"
+   - ".test/unit/catch.hpp"
