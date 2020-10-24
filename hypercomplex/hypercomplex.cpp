@@ -86,9 +86,9 @@ float& Hypercomplex::operator[](unsigned int i) {
 }
 
 /*
+Constructors.
 Operators:
 + - += -=
 * / *= /=
 ^ ^=
-= (h1=h2 memory leak!)
 */

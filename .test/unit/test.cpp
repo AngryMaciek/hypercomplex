@@ -29,27 +29,20 @@ TEST_CASE( "DemoTest", "Demo" ) {
 }
 
 int main(int argc, char* const argv[]) {
+    // data for test objects
     unsigned int dim = 4;
     float A[] = {1.0, 2.0, 0.0, -1.0};
     float B[] = {-0.5, 1.0, 0.0, 6.0};
 
+    // test constructors
     Hypercomplex h1 = Hypercomplex(dim, A);
     Hypercomplex h2 = Hypercomplex(dim, B);
-
-    for (unsigned int i=0; i<dim; i++) {
-        std::cout << h1.arr[i] << " ";
-    } std::cout << std::endl;
 
     // test attribute getter
     if (h1._() != dim){ std::abort(); }
 
     // test ~ operator
     Hypercomplex h1_ = ~h1;
-
-    for (unsigned int i=0; i<dim; i++) {
-        std::cout << h1_.arr[i] << " ";
-    } std::cout << std::endl;
-
     if (h1_.arr[0] != A[0]) {std::abort(); }
     if (h1_.arr[1] != -A[1]) {std::abort(); }
     if (h1_.arr[2] != -A[2]) {std::abort(); }
@@ -59,17 +52,17 @@ int main(int argc, char* const argv[]) {
     if (h1 == h2){ std::abort(); }
     if (!(h1 != h2)){ std::abort(); }
 
-    // test unary - operator
-    // ?
-
     // test [] operator
     if (h1[0]!=1.0) {std::abort(); }
     if (h1[1]!=2.0) {std::abort(); }
     if (h1[2]!=0.0) {std::abort(); }
     if (h1[3]!=-1.0) {std::abort(); }
 
-
-
+    // test unary - operator
+    if ((-h1)[0]!=-1.0) {std::abort(); }
+    if ((-h1)[1]!=-1.0) {std::abort(); }
+    if ((-h1)[2]!=-1.0) {std::abort(); }
+    if ((-h1)[3]!=-1.0) {std::abort(); }
 
     return Catch::Session().run(argc, argv);
 }
