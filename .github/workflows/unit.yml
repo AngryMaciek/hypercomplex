@@ -57,7 +57,7 @@ jobs:
 
       - name: Compile Test Program
         working-directory: ${{env.working-directory}}
-        run: g++ -O0 -Wall --std=c++14 --coverage -fno-inline -fno-inline-small-functions -fno-default-inline -o test test.cpp hypercomplex/hypercomplex.cpp
+        run: g++ -O0 -Wall --std=c++14 --coverage -o test test.cpp hypercomplex/hypercomplex.cpp
 
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}
