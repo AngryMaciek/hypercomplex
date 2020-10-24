@@ -12,6 +12,7 @@
 ###############################################################################
 */
 
+#define CATCH_CONFIG_MAIN  // This tells Catch to provide a main()
 #include <iostream>
 #include "catch2/catch_amalgamated.hpp"
 #include "hypercomplex/hypercomplex.h"
