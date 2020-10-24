@@ -1,4 +1,4 @@
-name: unit
+name: Catch2
 
 on:
   push:
