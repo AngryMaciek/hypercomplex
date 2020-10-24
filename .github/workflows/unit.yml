@@ -45,19 +45,11 @@ jobs:
           ./test
           gcov -o . test.cpp
 
-      - name: Submit to Coveralls
+      - name: Submit to Covdecov
         working-directory: ${{env.working-directory}}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          COVERALLS_PARALLEL: true
-        run: /home/runner/.local/bin/coveralls
+        run: |
+          CODECOV_TOKEN="b4d8e754-58fe-4412-ab69-d8b7d368d8f4"
+          bash <(curl -s https://codecov.io/bash)
 
-  complete-coveralls:
-    needs: unit
-    runs-on: ubuntu-20.04
-    steps:
-    - name: Coveralls Finished
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        parallel-finished: true
