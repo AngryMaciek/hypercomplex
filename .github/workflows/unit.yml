@@ -41,14 +41,16 @@ jobs:
 
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}
-        run: ./test
+        run: |
+          ./test
+          gcov -o . test.cpp
 
       - name: Submit to Coveralls
         working-directory: ${{env.working-directory}}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COVERALLS_PARALLEL: true
-        run: /home/runner/.local/bin/coveralls -i hypercomplex --gcov-options '\-lp'
+        run: /home/runner/.local/bin/coveralls
 
   complete-coveralls:
     needs: unit
