@@ -54,6 +54,20 @@ Hypercomplex Hypercomplex::operator- () {
     return H;
 }
 
+Hypercomplex& Hypercomplex::operator= (const Hypercomplex &H) {
+    // self-assignment guard
+    if (this == &H) return *this;
+    // reassign
+    d = H.d
+    delete[] arr;
+    float * temparr = new float[d];
+    for (unsigned int i=0; i < d; i++) {
+        temparr[i] = H.arr[i];
+    }
+    // return the existing object so we can chain this operator
+    return *this;
+}
+
 // overloaded == operator
 bool Hypercomplex::operator ==(const Hypercomplex& H) {
     if (d != H.d) {
