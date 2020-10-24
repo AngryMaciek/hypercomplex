@@ -100,4 +100,5 @@ jobs:
         working-directory: ${{env.working-directory}}
         run: |
           valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind.txt ./test
+          cat valgrind.txt
           grep -q -w "All heap blocks were freed -- no leaks are possible" "valgrind.txt"
