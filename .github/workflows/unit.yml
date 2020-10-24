@@ -32,7 +32,7 @@ jobs:
 
       - name: Compile the Library
         working-directory: ${{env.working-directory}}
-        run: g++ -c hypercomplex/hypercomplex.cpp
+        run: g++ -O0 -c hypercomplex/hypercomplex.cpp
 
       - name: Create Library Archive
         working-directory: ${{env.working-directory}}
@@ -40,7 +40,7 @@ jobs:
 
       - name: Compile Test Program
         working-directory: ${{env.working-directory}}
-        run: g++ -Wall --std=c++14 -o test test.cpp hypercomplex.a
+        run: g++ -O0 -Wall --std=c++14 -o test test.cpp hypercomplex.a
 
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}
@@ -65,7 +65,7 @@ jobs:
 
       - name: Compile the Library
         working-directory: ${{env.working-directory}}
-        run: g++ --coverage -c hypercomplex/hypercomplex.cpp
+        run: g++ -O0 --coverage -c hypercomplex/hypercomplex.cpp
 
       - name: Create Library Archive
         working-directory: ${{env.working-directory}}
@@ -73,7 +73,7 @@ jobs:
 
       - name: Compile Test Program
         working-directory: ${{env.working-directory}}
-        run: g++ -Wall --std=c++14 --coverage -o test test.cpp hypercomplex.a
+        run: g++ -O0 -Wall --std=c++14 --coverage -o test test.cpp hypercomplex.a
 
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}
