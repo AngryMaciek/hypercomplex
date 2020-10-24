@@ -23,20 +23,24 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Copy Library Directory
-        working-directory: ${{env.working-directory}}
-        run: cp -r ../../hypercomplex hypercomplex
-
       - name: Display compiler version
         run: g++ --version
 
+      - name: Compile the Library
+        working-directory: ${{env.working-directory}}
+        run: g++ -c ../../hypercomplex/hypercomplex.cpp
+
+      - name: Create Library Archive
+        working-directory: ${{env.working-directory}}
+        run: ar rvs hypercomplex.a hypercomplex.o
+
       - name: Compile Catch2 Header
         working-directory: ${{env.working-directory}}
-        run: g++ -O0 -Wall -x c++-header test.h -o test.h.gch --std=c++14
+        run: g++ -Wall --std=c++14 -x c++-header test.h -o test.h.gch
 
       - name: Compile Test Program
         working-directory: ${{env.working-directory}}
-        run: g++ -O0 -Wall -include test.h -o test test.cpp hypercomplex/hypercomplex.cpp --std=c++14
+        run: g++ -Wall --std=c++14 -include test.h -o test test.cpp hypercomplex.a
 
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}
