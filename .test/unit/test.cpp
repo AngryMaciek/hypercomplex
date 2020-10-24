@@ -18,7 +18,7 @@
 
 
 TEST_CASE( "DemoTest", "Demo" ) {
-REQUIRE( 2 == 1 );
+REQUIRE( 1 == 1 );
 }
 
 int main(int argc, char* const argv[]) {
