@@ -13,11 +13,9 @@
 */
 
 #define CATCH_CONFIG_RUNNER
-#include "hypercomplex/hypercomplex.h"
 #include "catch.hpp"
+#include "hypercomplex/hypercomplex.h"
 #include <iostream>
-
-
 
 TEST_CASE( "DemoTest", "Demo" ) {
     unsigned int dim = 4;
@@ -33,8 +31,6 @@ TEST_CASE( "DemoTest", "Demo" ) {
 int main(int argc, char* const argv[]) {
     return Catch::Session().run(argc, argv);
 }
-
-
 
 /*int main(void){
 
@@ -70,6 +66,5 @@ int main(int argc, char* const argv[]) {
     if (h1[2]!=0.0) {std::abort(); }
     if (h1[3]!=-1.0) {std::abort(); }
 
-    return 0;
 }
 */

@@ -30,17 +30,9 @@ jobs:
       - name: Display compiler version
         run: g++ --version
 
-      - name: Compile the Library
-        working-directory: ${{env.working-directory}}
-        run: g++ -O0 -c hypercomplex/hypercomplex.cpp
-
-      - name: Create Library Archive
-        working-directory: ${{env.working-directory}}
-        run: ar rvs hypercomplex.a hypercomplex.o
-
       - name: Compile Test Program
         working-directory: ${{env.working-directory}}
-        run: g++ -O0 -Wall --std=c++14 -o test test.cpp hypercomplex.a
+        run: g++ -O0 -Wall --std=c++14 -o test test.cpp hypercomplex/hypercomplex.cpp
 
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}
@@ -62,14 +54,6 @@ jobs:
 
       - name: Display compiler version
         run: g++ --version
-
-      - name: Compile the Library
-        working-directory: ${{env.working-directory}}
-        run: g++ -O0 --coverage -c hypercomplex/hypercomplex.cpp
-
-      - name: Create Library Archive
-        working-directory: ${{env.working-directory}}
-        run: ar rvs hypercomplex.a hypercomplex.o
 
       - name: Compile Test Program
         working-directory: ${{env.working-directory}}
