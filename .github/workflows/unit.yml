@@ -26,9 +26,13 @@ jobs:
       - name: Display compiler version
         run: g++ --version
 
+      - name: Copy Library Directory
+        working-directory: ${{env.working-directory}}
+        run: cp -r ../../hypercomplex hypercomplex
+
       - name: Compile the Library
         working-directory: ${{env.working-directory}}
-        run: g++ -c ../../hypercomplex/hypercomplex.cpp
+        run: g++ -c hypercomplex/hypercomplex.cpp
 
       - name: Create Library Archive
         working-directory: ${{env.working-directory}}
