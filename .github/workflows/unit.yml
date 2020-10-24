@@ -45,4 +45,17 @@ jobs:
 
       - name: Submit to Coveralls
         working-directory: ${{env.working-directory}}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COVERALLS_PARALLEL: true
         run: /home/runner/.local/bin/coveralls -i hypercomplex
+
+  complete-coveralls:
+    needs: unit
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Coveralls Finished
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        parallel-finished: true
