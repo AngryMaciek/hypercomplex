@@ -23,15 +23,6 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Install Catch2
-        run: |
-          git clone https://github.com/catchorg/Catch2.git
-          cd Catch2
-          cmake -Bbuild -S. -DBUILD_TESTING=OFF
-          cmake --build build/ --target install
-          cd ..
-          rm -rf Catch2
-
       - name: Copy Library Directory
         working-directory: ${{env.working-directory}}
         run: cp -r ../../hypercomplex hypercomplex
