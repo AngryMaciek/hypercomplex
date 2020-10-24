@@ -30,6 +30,12 @@ TEST_CASE( "DemoTest", "Demo" ) {
 
 int main(int argc, char* const argv[]) {
 
+    unsigned int dim = 4;
+    float A[] = {1.0, 2.0, 0.0, -1.0};
+    float B[] = {-0.5, 1.0, 0.0, 6.0};
+
+    Hypercomplex h1 = Hypercomplex(dim, A);
+    Hypercomplex h2 = Hypercomplex(dim, B);
 
     for (unsigned int i=0; i<dim; i++) {
         std::cout << h1.arr[i] << " ";
