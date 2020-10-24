@@ -21,7 +21,7 @@ TEST_CASE( "DemoTest", "Demo" ) {
 REQUIRE( 2 == 1 );
 }
 
-int main() {
+int main(int argc, char* const argv[]) {
     return Catch::Session().run(argc, argv);
 }
 
