@@ -36,7 +36,7 @@ jobs:
 
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}
-        run: ./test --benchmark-samples 100 --benchmark-resamples 100000
+        run: ./test -s -d yes -w NoAssertions --use-colour yes --benchmark-samples 100 --benchmark-resamples 100000
 
   code-coverage:
     runs-on: ubuntu-20.04
