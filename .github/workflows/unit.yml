@@ -36,7 +36,7 @@ jobs:
 
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}
-        run: ./test -s -l -t -d yes --libidentify
+        run: ./test -s -l -t -d yes
 
   code-coverage:
     runs-on: ubuntu-20.04
