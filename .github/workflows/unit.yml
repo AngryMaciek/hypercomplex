@@ -36,7 +36,7 @@ jobs:
 
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}
-        run: ./test -s -l
+        run: ./test -s -d yes
 
   code-coverage:
     runs-on: ubuntu-20.04
