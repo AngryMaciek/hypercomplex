@@ -33,6 +33,8 @@ TEST_CASE( "Class Structure", "[class]" ) {
 
     // copy constructor
 
+    // BOOST: octonion & university lib - methods?
+
     // destructor
 }
 
@@ -79,6 +81,12 @@ TEST_CASE( "Overloading Operators", "[operators]" ) {
     }
 
     // assignment operator
+
+    // + - += -=
+
+    // * / *= /=
+
+    // ^ ^=
 }
 
 int main(int argc, char* const argv[]) {
