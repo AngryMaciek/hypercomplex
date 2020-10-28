@@ -98,11 +98,3 @@ bool Hypercomplex::operator !=(const Hypercomplex& H) {
 float& Hypercomplex::operator[](unsigned int i) {
     return arr[i];
 }
-
-/*
-Constructors.
-Operators:
-+ - += -=
-* / *= /=
-^ ^=
-*/

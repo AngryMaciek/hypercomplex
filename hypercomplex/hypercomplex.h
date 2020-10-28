@@ -22,18 +22,18 @@ Main class of the library
 */
 class Hypercomplex {
  private:
-    unsigned int d;
+    unsigned int d;  // dimension
  public:
     float* arr;  // move to private once [] is implemented
-    explicit Hypercomplex(unsigned int d, float* arr);  // constructor
+    explicit Hypercomplex(unsigned int d, float* arr);  // main constructor
     ~Hypercomplex();  // destructor
     float _() { return d; }  // space dimension
     Hypercomplex operator~ ();  // conjugate operator
-    Hypercomplex operator- ();
-    Hypercomplex& operator= (const Hypercomplex &H);
-    float& operator[] (unsigned int i);
-    bool operator== (const Hypercomplex& H);
-    bool operator!= (const Hypercomplex& H);
+    Hypercomplex operator- ();  // negation operator
+    Hypercomplex& operator= (const Hypercomplex &H);  // assignment operator
+    float& operator[] (unsigned int i);  // access operator
+    bool operator== (const Hypercomplex& H);  // equality operator
+    bool operator!= (const Hypercomplex& H);  // inequality operator
 };
 
 #endif  // HYPERCOMPLEX_HYPERCOMPLEX_H_

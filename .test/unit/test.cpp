@@ -18,9 +18,8 @@
 #include <iostream>
 
 TEST_CASE( "Class Structure", "[class]" ) {
-
+    //
     SECTION( "Main constructor" ) {
-    
         unsigned int dim = 4;
         float A[] = {1.0, 2.0, 0.0, -1.0};
         Hypercomplex h1 = Hypercomplex(dim, A);
@@ -38,7 +37,7 @@ TEST_CASE( "Class Structure", "[class]" ) {
 }
 
 TEST_CASE( "Overloading Operators", "[operators]" ) {
-
+    //
     unsigned int dim = 4;
     float A[] = {1.0, 2.0, 0.0, -1.0};
     float B[] = {-0.5, 1.0, 0.0, 6.0};
@@ -71,7 +70,13 @@ TEST_CASE( "Overloading Operators", "[operators]" ) {
         REQUIRE( result == true );
     }
 
-    // unary negation operator
+    SECTION( "Negation operator" ) {
+        Hypercomplex h1_ = -h1;
+        REQUIRE( h1_.arr[0] == -A[0] );
+        REQUIRE( h1_.arr[1] == -A[1] );
+        REQUIRE( h1_.arr[2] == -A[2] );
+        REQUIRE( h1_.arr[3] == -A[3] );
+    }
 
     // assignment operator
 }
