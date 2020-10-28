@@ -17,7 +17,28 @@
 #include "hypercomplex/hypercomplex.h"
 #include <iostream>
 
-TEST_CASE( "DemoTest", "[Demo]" ) {
+TEST_CASE( "Class Structure", "[class]" ) {
+
+    SECTION( "Main constructor" ) {
+    
+        unsigned int dim = 4;
+        float A[] = {1.0, 2.0, 0.0, -1.0};
+        Hypercomplex h1 = Hypercomplex(dim, A);
+
+        SECTION( "Getters" ) {
+            REQUIRE( h1._() == dim );
+        }
+    }
+
+    // default constructor
+
+    // copy constructor
+
+    // destructor
+}
+
+TEST_CASE( "Overloading Operators", "[operators]" ) {
+
     unsigned int dim = 4;
     float A[] = {1.0, 2.0, 0.0, -1.0};
     float B[] = {-0.5, 1.0, 0.0, 6.0};
@@ -25,47 +46,36 @@ TEST_CASE( "DemoTest", "[Demo]" ) {
     Hypercomplex h1 = Hypercomplex(dim, A);
     Hypercomplex h2 = Hypercomplex(dim, B);
 
-    REQUIRE( 1 == 1 );
+    SECTION( "Conjugate operator" ) {
+        Hypercomplex h1_ = ~h1;
+        REQUIRE( h1_.arr[0] == A[0] );
+        REQUIRE( h1_.arr[1] == -A[1] );
+        REQUIRE( h1_.arr[2] == -A[2] );
+        REQUIRE( h1_.arr[3] == -A[3] );
+    }
+
+    SECTION( "Access operator" ) {
+        REQUIRE( h1[0] == A[0] );
+        REQUIRE( h1[1] == A[1] );
+        REQUIRE( h1[2] == A[2] );
+        REQUIRE( h1[3] == A[3] );
+    }
+
+    SECTION( "Equality operator" ) {
+        bool result = h1 == h2;
+        REQUIRE( result == false );
+    }
+
+    SECTION( "Inequality operator" ) {
+        bool result = h1 != h2;
+        REQUIRE( result == true );
+    }
+
+    // unary negation operator
+
+    // assignment operator
 }
 
 int main(int argc, char* const argv[]) {
-    // data for test objects
-    unsigned int dim = 4;
-    float A[] = {1.0, 2.0, 0.0, -1.0};
-    float B[] = {-0.5, 1.0, 0.0, 6.0};
-
-    // test constructors
-    Hypercomplex h1 = Hypercomplex(dim, A);
-    Hypercomplex h2 = Hypercomplex(dim, B);
-
-    // test attribute getter
-    if (h1._() != dim){ std::abort(); }
-
-    // test ~ operator
-    Hypercomplex h1_ = ~h1;
-    if (h1_.arr[0] != A[0]) {std::abort(); }
-    if (h1_.arr[1] != -A[1]) {std::abort(); }
-    if (h1_.arr[2] != -A[2]) {std::abort(); }
-    if (h1_.arr[3] != -A[3]) {std::abort(); }
-
-    // test == and != operators
-    if (h1 == h2){ std::abort(); }
-    if (!(h1 != h2)){ std::abort(); }
-
-    // test [] operator
-    if (h1[0]!=1.0) {std::abort(); }
-    if (h1[1]!=2.0) {std::abort(); }
-    if (h1[2]!=0.0) {std::abort(); }
-    if (h1[3]!=-1.0) {std::abort(); }
-
-    // test unary - operator
-    // if ((-h1)[0]!=-1.0) {std::abort(); }
-    // if ((-h1)[1]!=-1.0) {std::abort(); }
-    // if ((-h1)[2]!=-1.0) {std::abort(); }
-    // if ((-h1)[3]!=-1.0) {std::abort(); }
-
-    // test assignment operator
-    // h1 = h2;
-
     return Catch::Session().run(argc, argv);
 }
