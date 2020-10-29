@@ -40,7 +40,7 @@ Hypercomplex::~Hypercomplex() {
 }
 
 // ~ operator
-Hypercomplex Hypercomplex::operator~ () {
+Hypercomplex Hypercomplex::operator~ () const {
     float *temparr = new float[d];
     temparr[0] = arr[0];
     for (unsigned int i=1; i < d; i++) {
@@ -52,7 +52,7 @@ Hypercomplex Hypercomplex::operator~ () {
 }
 
 // - unary operator
-Hypercomplex Hypercomplex::operator- () {
+Hypercomplex Hypercomplex::operator- () const {
     float *temparr = new float[d];
     for (unsigned int i=0; i < d; i++) {
         temparr[i] = -arr[i];
