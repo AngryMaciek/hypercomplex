@@ -23,7 +23,7 @@ Main class of the library
 class Hypercomplex {
  private:
     unsigned int d;  // dimension
-    float* arr;  // elements
+    float *arr;  // elements
  public:
     explicit
         Hypercomplex(unsigned int arg_d, float* arg_arr);  // main constructor
@@ -34,7 +34,7 @@ class Hypercomplex {
     Hypercomplex operator~ ();  // conjugate operator
     Hypercomplex operator- ();  // negation operator
     Hypercomplex& operator= (const Hypercomplex &H);  // assignment operator
-    float& operator[] (unsigned int i);  // element access operator
+    float operator[] (unsigned int i);  // element access operator
     bool operator== (const Hypercomplex& H);  // equality operator
     bool operator!= (const Hypercomplex& H);  // inequality operator
 };
