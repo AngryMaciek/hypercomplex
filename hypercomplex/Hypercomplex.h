@@ -34,7 +34,7 @@ class Hypercomplex {
     Hypercomplex operator~ () const;  // conjugate operator
     Hypercomplex operator- () const;  // negation operator
     Hypercomplex& operator= (const Hypercomplex &H);  // assignment operator
-    float operator[] (unsigned int i);  // element access operator
+    float& operator[] (unsigned int i);  // element access operator
     bool operator== (const Hypercomplex& H);  // equality operator
     bool operator!= (const Hypercomplex& H);  // inequality operator
 };
