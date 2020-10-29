@@ -70,10 +70,10 @@ TEST_CASE( "Overloading Operators", "[operators]" ) {
 
     SECTION( "Conjugate operator" ) {
         Hypercomplex h1_ = ~h1;
-        REQUIRE( h1_.arr[0] == A[0] );
-        REQUIRE( h1_.arr[1] == -A[1] );
-        REQUIRE( h1_.arr[2] == -A[2] );
-        REQUIRE( h1_.arr[3] == -A[3] );
+        REQUIRE( h1[0] == A[0] );
+        REQUIRE( h1[1] == -A[1] );
+        REQUIRE( h1[2] == -A[2] );
+        REQUIRE( h1[3] == -A[3] );
     }
 
     SECTION( "Access operator" ) {
@@ -105,10 +105,10 @@ TEST_CASE( "Overloading Operators", "[operators]" ) {
 
     SECTION( "Negation operator" ) {
         Hypercomplex h1_ = -h1;
-        REQUIRE( h1_.arr[0] == -A[0] );
-        REQUIRE( h1_.arr[1] == -A[1] );
-        REQUIRE( h1_.arr[2] == -A[2] );
-        REQUIRE( h1_.arr[3] == -A[3] );
+        REQUIRE( h1[0] == -A[0] );
+        REQUIRE( h1[1] == -A[1] );
+        REQUIRE( h1[2] == -A[2] );
+        REQUIRE( h1[3] == -A[3] );
     }
 
     SECTION( "Assignment operator" ) {

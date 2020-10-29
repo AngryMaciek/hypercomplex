@@ -29,11 +29,11 @@ class Hypercomplex {
     Hypercomplex(const Hypercomplex& H);  // copy constructor
     Hypercomplex() = delete;  // forbid default constructor | c++11
     ~Hypercomplex();  // destructor
-    float _() { return d; }  // space dimension
+    float _() { return d; }  // get space dimension
     Hypercomplex operator~ ();  // conjugate operator
     Hypercomplex operator- ();  // negation operator
     Hypercomplex& operator= (const Hypercomplex &H);  // assignment operator
-    float& operator[] (unsigned int i);  // access operator
+    float& operator[] (unsigned int i);  // element access operator
     bool operator== (const Hypercomplex& H);  // equality operator
     bool operator!= (const Hypercomplex& H);  // inequality operator
 };
