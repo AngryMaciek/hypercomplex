@@ -75,6 +75,8 @@ TEST_CASE( "Overloading Operators", "[operators]" ) {
         REQUIRE( h1_[1] == -A[1] );
         REQUIRE( h1_[2] == -A[2] );
         REQUIRE( h1_[3] == -A[3] );
+        unsigned int dim = (~h1)._();
+        REQUIRE( dim == dim4 );
     }
 
     SECTION( "Access operator" ) {
@@ -111,6 +113,8 @@ TEST_CASE( "Overloading Operators", "[operators]" ) {
         REQUIRE( h1_[1] == -A[1] );
         REQUIRE( h1_[2] == -A[2] );
         REQUIRE( h1_[3] == -A[3] );
+        unsigned int dim = (-h1)._();
+        REQUIRE( dim == dim4 );
     }
 
     SECTION( "Assignment operator" ) {
