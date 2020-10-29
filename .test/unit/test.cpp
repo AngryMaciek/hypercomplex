@@ -111,7 +111,6 @@ TEST_CASE( "Overloading Operators", "[operators]" ) {
         REQUIRE( h1_[3] == -A[3] );
     }
 
-    /*
     SECTION( "Assignment operator" ) {
         float a[] = {-3.0, 5.0, 2.0, 1.0};
         float b[] = {9.0, 0.0, -4.0, 1.0};
@@ -135,7 +134,6 @@ TEST_CASE( "Overloading Operators", "[operators]" ) {
         // test self-assignment:
         h1 = h1;
     }
-    */
 
     // + - += -=
 
