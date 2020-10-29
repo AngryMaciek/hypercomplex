@@ -26,7 +26,7 @@ class Hypercomplex {
  public:
     float* arr;  // move to private once [] is implemented
     explicit Hypercomplex(unsigned int d, float* arr);  // main constructor
-    Hypercomplex() = delete; // forbid default constructor | c++11
+    Hypercomplex() = delete;  // forbid default constructor | c++11
     ~Hypercomplex();  // destructor
     float _() { return d; }  // space dimension
     Hypercomplex operator~ ();  // conjugate operator
