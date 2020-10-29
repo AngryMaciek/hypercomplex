@@ -106,3 +106,9 @@ float& Hypercomplex::operator[](unsigned int i) {
     assert(0 <= i && i < d);
     return arr[i];
 }
+
+// overloaded [] operator
+const float& Hypercomplex::operator[](unsigned int i) const {
+    assert(0 <= i && i < d);
+    return arr[i];
+}

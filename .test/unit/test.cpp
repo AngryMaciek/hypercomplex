@@ -67,6 +67,7 @@ TEST_CASE( "Overloading Operators", "[operators]" ) {
     Hypercomplex h1 = Hypercomplex(dim4, A);
     Hypercomplex h2 = Hypercomplex(dim4, B);
     Hypercomplex h3 = Hypercomplex(dim2, C);
+    const Hypercomplex const_h1 = Hypercomplex(dim4, A);
 
     SECTION( "Conjugate operator" ) {
         Hypercomplex h1_ = ~h1;
@@ -86,6 +87,7 @@ TEST_CASE( "Overloading Operators", "[operators]" ) {
         REQUIRE( h1[3] == A[3] );
         h1[0] = 100;
         REQUIRE( h1[0] == 100 );
+        REQUIRE( const_h1[0] == A[0] );
     }
 
     SECTION( "Equality operator" ) {
