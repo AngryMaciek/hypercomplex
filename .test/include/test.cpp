@@ -12,7 +12,7 @@
 ###############################################################################
 */
 
-#include "hypercomplex/hypercomplex.h"
+#include "hypercomplex/Hypercomplex.h"
 
 int main(void){
     unsigned int x = 4;

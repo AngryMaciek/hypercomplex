@@ -14,7 +14,7 @@
 
 #define CATCH_CONFIG_RUNNER
 #include "catch.hpp"
-#include "hypercomplex/hypercomplex.h"
+#include "hypercomplex/Hypercomplex.h"
 #include <iostream>
 
 TEST_CASE( "Class Structure", "[class]" ) {

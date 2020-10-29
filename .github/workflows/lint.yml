@@ -23,5 +23,5 @@ jobs:
       - name: Static Code Analysis
         run: |
           cd hypercomplex
-          /home/runner/.local/bin/cpplint --quiet hypercomplex.h
-          /home/runner/.local/bin/cpplint --quiet hypercomplex.cpp
+          /home/runner/.local/bin/cpplint --quiet Hypercomplex.h
+          /home/runner/.local/bin/cpplint --quiet Hypercomplex.cpp

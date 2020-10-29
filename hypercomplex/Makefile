@@ -9,7 +9,7 @@
 
 CC = g++
 CFLAGS = -O2
-SRC = hypercomplex.cpp
+SRC = Hypercomplex.cpp
 HDR = $(SRC:.cpp=.h)
 OBJ = $(SRC:.cpp=.o)
 LIB = $(OBJ:.o=.a)

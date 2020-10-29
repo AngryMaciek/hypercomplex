@@ -14,7 +14,7 @@
 */
 
 #include <cstdlib>
-#include "hypercomplex.h" // NOLINT
+#include "Hypercomplex.h" // NOLINT
 
 // Hypercomplex constructor
 Hypercomplex::Hypercomplex(unsigned int d, float* arr) {
