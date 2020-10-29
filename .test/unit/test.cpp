@@ -83,7 +83,7 @@ TEST_CASE( "Overloading Operators", "[operators]" ) {
         REQUIRE( h1[0] == A[0] );
         REQUIRE( h1[1] == A[1] );
         REQUIRE( h1[2] == A[2] );
-        REQUIRE( h1[7] == A[3] );
+        REQUIRE( h1[3] == A[3] );
     }
 
     SECTION( "Equality operator" ) {
