@@ -25,7 +25,8 @@ class Hypercomplex {
     unsigned int d;  // dimension
     float* arr;  // elements
  public:
-    explicit Hypercomplex(unsigned int arg_d, float* arg_arr);  // main constructor
+    explicit
+        Hypercomplex(unsigned int arg_d, float* arg_arr);  // main constructor
     Hypercomplex(const Hypercomplex& H);  // copy constructor
     Hypercomplex() = delete;  // forbid default constructor | c++11
     ~Hypercomplex();  // destructor
