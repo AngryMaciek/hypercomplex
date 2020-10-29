@@ -94,8 +94,13 @@ TEST_CASE( "Overloading Operators", "[operators]" ) {
     }
 
     SECTION( "Inequality operator" ) {
-        bool result = h1 != h2;
+        bool result;
+        result = h1 != h2;
         REQUIRE( result == true );
+        result = h1 != h3;
+        REQUIRE( result == true );
+        result = h1 != h1;
+        REQUIRE( result == false );
     }
 
     SECTION( "Negation operator" ) {
