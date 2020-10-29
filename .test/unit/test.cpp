@@ -70,6 +70,7 @@ TEST_CASE( "Overloading Operators", "[operators]" ) {
 
     SECTION( "Conjugate operator" ) {
         Hypercomplex h1_ = ~h1;
+        REQUIRE( &h1 != &h1_ );
         REQUIRE( h1_[0] == A[0] );
         REQUIRE( h1_[1] == -A[1] );
         REQUIRE( h1_[2] == -A[2] );
@@ -105,6 +106,7 @@ TEST_CASE( "Overloading Operators", "[operators]" ) {
 
     SECTION( "Negation operator" ) {
         Hypercomplex h1_ = -h1;
+        REQUIRE( &h1 != &h1_ );
         REQUIRE( h1_[0] == -A[0] );
         REQUIRE( h1_[1] == -A[1] );
         REQUIRE( h1_[2] == -A[2] );
