@@ -35,7 +35,13 @@ TEST_CASE( "Class Structure", "[class]" ) {
 
     // BOOST: octonion & university lib - methods?
 
-    // destructor
+    SECTION( "Destructor" ) {
+        unsigned int dim = 4;
+        float A[] = {1.0, 2.0, 0.0, -1.0};
+        Hypercomplex* h = new Hypercomplex(dim, A);
+        delete h;
+        REQUIRE( true == true );
+    }
 }
 
 TEST_CASE( "Overloading Operators", "[operators]" ) {
