@@ -58,12 +58,15 @@ TEST_CASE( "Class Structure", "[class]" ) {
 
 TEST_CASE( "Overloading Operators", "[operators]" ) {
     //
-    unsigned int dim = 4;
+    unsigned int dim2 = 2;
+    unsigned int dim4 = 4;
     float A[] = {1.0, 2.0, 0.0, -1.0};
     float B[] = {-0.5, 1.0, 0.0, 6.0};
+    float C[] = {10.0, -10.0};
 
-    Hypercomplex h1 = Hypercomplex(dim, A);
-    Hypercomplex h2 = Hypercomplex(dim, B);
+    Hypercomplex h1 = Hypercomplex(dim4, A);
+    Hypercomplex h2 = Hypercomplex(dim4, B);
+    Hypercomplex h3 = Hypercomplex(dim2, C);
 
     SECTION( "Conjugate operator" ) {
         Hypercomplex h1_ = ~h1;
@@ -83,6 +86,10 @@ TEST_CASE( "Overloading Operators", "[operators]" ) {
     SECTION( "Equality operator" ) {
         bool result = h1 == h2;
         REQUIRE( result == false );
+        bool result = h1 == h3;
+        REQUIRE( result == false );
+        bool result = h1 == h1;
+        REQUIRE( result == true );
     }
 
     SECTION( "Inequality operator" ) {
@@ -102,9 +109,9 @@ TEST_CASE( "Overloading Operators", "[operators]" ) {
         float a[] = {-3.0, 5.0, 2.0, 1.0};
         float b[] = {9.0, 0.0, -4.0, 1.0};
         float c[] = {5.0, 8.0, 0.0, -8.0};
-        Hypercomplex ha = Hypercomplex(dim, a);
-        Hypercomplex hb = Hypercomplex(dim, b);
-        Hypercomplex hc = Hypercomplex(dim, c);
+        Hypercomplex ha = Hypercomplex(dim4, a);
+        Hypercomplex hb = Hypercomplex(dim4, b);
+        Hypercomplex hc = Hypercomplex(dim4, c);
         REQUIRE( &h1 != &ha );
         REQUIRE( h1[0] != ha[0] );
         ha = h1;
