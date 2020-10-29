@@ -134,8 +134,8 @@ TEST_CASE( "Overloading Operators", "[operators]" ) {
         REQUIRE( hc[0] == ha[0] );    
         // test self-assignment:
         h1 = h1;
-        */
     }
+    */
 
     // + - += -=
 
