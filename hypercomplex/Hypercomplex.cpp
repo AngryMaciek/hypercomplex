@@ -103,6 +103,6 @@ bool Hypercomplex::operator !=(const Hypercomplex& H) {
 
 // overloaded [] operator
 float Hypercomplex::operator[](unsigned int i) {
-    assert(i < d);
+    assert(0 <= i && i < d);
     return arr[i];
 }
