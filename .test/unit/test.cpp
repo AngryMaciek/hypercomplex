@@ -29,11 +29,7 @@ TEST_CASE( "Class Structure", "[class]" ) {
         }
     }
 
-    // default constructor
-
     // copy constructor
-
-    // BOOST: octonion & university lib - methods?
 
     SECTION( "Destructor" ) {
         unsigned int dim = 4;
