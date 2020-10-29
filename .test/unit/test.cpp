@@ -144,12 +144,6 @@ TEST_CASE( "Overloading Operators", "[operators]" ) {
         // test self-assignment:
         h1 = h1;
     }
-
-    // + - += -=
-
-    // * / *= /=
-
-    // ^ ^=
 }
 
 int main(int argc, char* const argv[]) {
