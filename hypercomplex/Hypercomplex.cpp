@@ -17,12 +17,12 @@
 #include "Hypercomplex.h" // NOLINT
 
 // Hypercomplex main constructor
-Hypercomplex::Hypercomplex(unsigned int d, float* arr) {
-    float * temparr = new float[d];
-    for (unsigned int i=0; i < d; i++) {
-        temparr[i] = arr[i];
+Hypercomplex::Hypercomplex(unsigned int arg_d, float* arg_arr) {
+    float * temparr = new float[arg_d];
+    for (unsigned int i=0; i < arg_d; i++) {
+        temparr[i] = arg_arr[i];
     }
-    d = d;
+    d = arg_d;
     arr = temparr;
 }
 
