@@ -14,6 +14,7 @@
 */
 
 #include <cstdlib>
+#include <cassert>
 #include "Hypercomplex.h" // NOLINT
 
 // Hypercomplex main constructor
@@ -102,5 +103,6 @@ bool Hypercomplex::operator !=(const Hypercomplex& H) {
 
 // overloaded [] operator
 float Hypercomplex::operator[](unsigned int i) {
+    assert(i < d);
     return arr[i];
 }
