@@ -22,8 +22,8 @@ Hypercomplex::Hypercomplex(unsigned int d, float* arr) {
     for (unsigned int i=0; i < d; i++) {
         temparr[i] = arr[i];
     }
-    this->d = d;
-    this->arr = temparr;
+    d = d;
+    arr = temparr;
 }
 
 // Hypercomplex copy constructor
@@ -32,8 +32,8 @@ Hypercomplex::Hypercomplex(const Hypercomplex& H) {
     for (unsigned int i=0; i < H.d; i++) {
         temparr[i] = H.arr[i];
     }
-    this->d = H.d;
-    this->arr = temparr;
+    d = H.d;
+    arr = temparr;
 }
 
 // Hypercomplex destructor
