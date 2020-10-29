@@ -29,7 +29,22 @@ TEST_CASE( "Class Structure", "[class]" ) {
         }
     }
 
-    // copy constructor
+    SECTION( "Copy constructor" ) {
+        unsigned int dim = 4;
+        float A[] = {1.0, 2.0, 0.0, -1.0};
+        Hypercomplex h1 = Hypercomplex(dim, A);
+        Hypercomplex h2 = Hypercomplex(h1);
+        Hypercomplex h3 = h2;
+        REQUIRE( &h1 != &h2 );
+        REQUIRE( &h2 != &h3 );
+        REQUIRE( &h3 != &h1 );
+        REQUIRE( h1._() == h2._() );
+        REQUIRE( h2._() == h3._() );
+        REQUIRE( h3._() == h1._() );
+        REQUIRE( h1[0] == h2[0] );
+        REQUIRE( h2[0] == h3[0] );
+        REQUIRE( h3[0] == h1[0] );
+    }
 
     SECTION( "Destructor" ) {
         unsigned int dim = 4;
