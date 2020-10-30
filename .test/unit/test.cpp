@@ -44,13 +44,16 @@ TEST_CASE( "Class Structure", "[class]" ) {
             REQUIRE( invh1[1] == target2 );
             REQUIRE( invh1[2] == target3 );
             REQUIRE( invh1[3] == target4 );
+            float A0[] = {0.0,0.0};
+            REQUIRE_THROWS_AS(Hypercomplex(2, A0), std::invalid_argument);
         }
     }
 
     SECTION( "Main constructor: exception" ) {
         float A1[] = {10.10};
+        float A0[] = {};
         REQUIRE_NOTHROW(Hypercomplex(1, A1));
-        REQUIRE_THROWS_AS(Hypercomplex(0, {}), std::invalid_argument);
+        REQUIRE_THROWS_AS(Hypercomplex(0, A0), std::invalid_argument);
     }
 
     SECTION( "Copy constructor" ) {

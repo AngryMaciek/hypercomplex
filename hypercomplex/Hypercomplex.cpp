@@ -57,15 +57,19 @@ float Hypercomplex::norm() const {
 
 // calculate inverse of the number
 Hypercomplex Hypercomplex::inv() const {
-    float norm2 = pow((*this).norm(), 2);
-    float *temparr = new float[d];
-    temparr[0] = arr[0] / norm2;
-    for (unsigned int i=1; i < d; i++) {
-        temparr[i] = -arr[i] / norm2;
+    if (!((*this).norm())) {
+        throw std::invalid_argument("division by zero");
+    } else {
+        float norm2 = pow((*this).norm(), 2);
+        float *temparr = new float[d];
+        temparr[0] = arr[0] / norm2;
+        for (unsigned int i=1; i < d; i++) {
+            temparr[i] = -arr[i] / norm2;
+        }
+        Hypercomplex H = Hypercomplex(d, temparr);
+        delete[] temparr;
+        return H;   
     }
-    Hypercomplex H = Hypercomplex(d, temparr);
-    delete[] temparr;
-    return H;
 }
 
 // overloaded ~ operator
@@ -208,6 +212,13 @@ Hypercomplex operator^(const Hypercomplex &H, const unsigned int x) {
         }
         return Hx;
     }
+}
+
+// overloaded / binary operator
+Hypercomplex operator/(const Hypercomplex &H1, const Hypercomplex &H2) {
+    // division H1 / H2 is implemented as H1 * 1/H2
+    Hypercomplex H = H1 * H2.inv();
+    return(H);
 }
 
 // overloaded += operator
