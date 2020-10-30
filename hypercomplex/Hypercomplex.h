@@ -38,6 +38,7 @@ class Hypercomplex {
     const float& operator[] (unsigned int i) const;  // element access operator
     Hypercomplex& operator+= (const Hypercomplex &H);
     Hypercomplex& operator-= (const Hypercomplex &H);
+    Hypercomplex& operator*= (const Hypercomplex &H);
 };
 
 /*

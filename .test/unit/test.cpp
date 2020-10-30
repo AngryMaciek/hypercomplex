@@ -191,6 +191,14 @@ TEST_CASE( "Overloading Operators", "[operators]" ) {
         REQUIRE( h[2] == -13.0 );
         REQUIRE( h[3] == 6.5 );
     }
+
+    SECTION( "Multiplication-Assignment operator" ) {
+        h1 *= h2;
+        REQUIRE( h1[0] == 3.5 );
+        REQUIRE( h1[1] == 0.0 );
+        REQUIRE( h1[2] == -13.0 );
+        REQUIRE( h1[3] == 6.5 );
+    }
 }
 
 int main(int argc, char* const argv[]) {

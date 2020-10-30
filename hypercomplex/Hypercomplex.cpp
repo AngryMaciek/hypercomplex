@@ -188,3 +188,14 @@ Hypercomplex& Hypercomplex::operator-=(const Hypercomplex &H) {
     }
     return *this;
 }
+
+// overloaded *= operator
+Hypercomplex& Hypercomplex::operator*=(const Hypercomplex &H) {
+    // due to the method's complexity and to avoid code redundancy
+    // this member function calls the global * operator
+    Hypercomplex result = (*this) * H;
+    for (unsigned int i=0; i < d; i++) {
+        (*this)[i] = result[i];
+    }
+    return *this;
+}
