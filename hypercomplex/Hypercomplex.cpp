@@ -157,13 +157,13 @@ Hypercomplex operator*(const Hypercomplex &H1, const Hypercomplex &H2) {
     Hypercomplex H2b = Hypercomplex(halfd, temparr);
     delete[] temparr;
     // multiply recursively:
-    Hypercomplex H1a1b = H1a * H1b;
+    Hypercomplex H1a2a = H1a * H2a;
+    Hypercomplex H1b2b = H1b * H2b;
     Hypercomplex H1a2b = H1a * H2b;
-    Hypercomplex H2a1b = H2a * H1b;
-    Hypercomplex H2a2b = H2a * H2b;
+    Hypercomplex H1b2a = H1b * H2a;
     // helper addition/subtraction
-    Hypercomplex Ha = H1a2b - H2a1b;
-    Hypercomplex Hb = H1a1b + H2a2b;
+    Hypercomplex Ha = H1a2a - H1b2b;
+    Hypercomplex Hb = H1a2b + H1b2a;
     // construct the final object
     temparr = new float[d];
     for (unsigned int i=0; i < halfd; i++) temparr[i] = Ha[i];
