@@ -28,6 +28,11 @@ TEST_CASE( "Class Structure", "[class]" ) {
         SECTION( "Getters" ) {
             REQUIRE( h1._() == dim );
         }
+
+        SECTION( "Norm" ) {
+            Approx target = Approx(2.45).epsilon(0.01);
+            REQUIRE( h1.norm() == target );
+        }
     }
 
     SECTION( "Main constructor: exception" ) {

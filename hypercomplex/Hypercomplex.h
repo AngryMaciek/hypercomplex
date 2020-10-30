@@ -31,6 +31,7 @@ class Hypercomplex {
     Hypercomplex() = delete;  // forbid default constructor | c++11
     ~Hypercomplex();  // destructor
     float _() const { return d; }  // get space dimension
+    float norm() const;  // calculate object's norm
     Hypercomplex operator~ () const;  // conjugate operator
     Hypercomplex operator- () const;  // negation operator
     Hypercomplex& operator= (const Hypercomplex &H);  // assignment operator

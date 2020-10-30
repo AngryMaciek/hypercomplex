@@ -13,8 +13,9 @@
 ###############################################################################
 */
 
-#include <cstdlib>
 #include <cassert>
+#include <cmath>
+#include <cstdlib>
 #include <stdexcept>
 #include "Hypercomplex.h" // NOLINT
 
@@ -42,6 +43,16 @@ Hypercomplex::Hypercomplex(const Hypercomplex& H) {
 // Hypercomplex destructor
 Hypercomplex::~Hypercomplex() {
     delete[] arr;
+}
+
+// calculate norm of the number
+float Hypercomplex::norm() const {
+    float result = 0.0;
+    for (unsigned int i=0; i < d; i++) {
+        result += arr[i] * arr[i];
+    }
+    result = sqrt(result);
+    return result;
 }
 
 // overloaded ~ operator
