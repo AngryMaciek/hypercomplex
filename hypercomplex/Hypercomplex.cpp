@@ -109,3 +109,25 @@ bool operator==(const Hypercomplex &H1, const Hypercomplex &H2) {
 bool operator!=(const Hypercomplex &H1, const Hypercomplex &H2) {
     return !(H1 == H2);
 }
+
+// overloaded + binary operator
+Hypercomplex operator+(const Hypercomplex &H1, const Hypercomplex &H2) {
+    float *temparr = new float[H1._()];
+    for (unsigned int i=0; i < H1._(); i++) {
+        temparr[i] = H1[i] + H2[i];
+    }
+    Hypercomplex H = Hypercomplex(H1._(), temparr);
+    delete[] temparr;
+    return H;
+}
+
+// overloaded - binary operator
+Hypercomplex operator-(const Hypercomplex &H1, const Hypercomplex &H2) {
+    float *temparr = new float[H1._()];
+    for (unsigned int i=0; i < H1._(); i++) {
+        temparr[i] = H1[i] - H2[i];
+    }
+    Hypercomplex H = Hypercomplex(H1._(), temparr);
+    delete[] temparr;
+    return H;
+}

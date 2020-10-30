@@ -151,6 +151,14 @@ TEST_CASE( "Overloading Operators", "[operators]" ) {
         // test self-assignment:
         h1 = h1;
     }
+
+    SECTION( "Addition operator" ) {
+        Hypercomplex h = h1 + h2;
+        REQUIRE( h[0] == 0.5 );
+        REQUIRE( h[1] == 3.0 );
+        REQUIRE( h[2] == 0.0 );
+        REQUIRE( h[3] == 5.0 );
+    }
 }
 
 int main(int argc, char* const argv[]) {
