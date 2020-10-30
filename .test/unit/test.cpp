@@ -175,6 +175,14 @@ TEST_CASE( "Overloading Operators", "[operators]" ) {
         REQUIRE( h1[2] == 0.0 );
         REQUIRE( h1[3] == 5.0 );
     }
+
+    SECTION( "Subtraction-Assignment operator" ) {
+        h1 -= h2;
+        REQUIRE( h1[0] == 1.5 );
+        REQUIRE( h1[1] == 1.0 );
+        REQUIRE( h1[2] == 0.0 );
+        REQUIRE( h1[3] == -7.0 );
+    }
 }
 
 int main(int argc, char* const argv[]) {
