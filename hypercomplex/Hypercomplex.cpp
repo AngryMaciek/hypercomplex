@@ -173,6 +173,20 @@ Hypercomplex operator*(const Hypercomplex &H1, const Hypercomplex &H2) {
     return H;
 }
 
+// overloaded ^ binary operator
+Hypercomplex operator^(const Hypercomplex &H, const unsigned int x) {
+    if (!(x)) {
+        throw std::invalid_argument("zero is not a valid argument");
+    }
+    else {
+        Hypercomplex Hx = Hypercomplex(H);
+        for (unsigned int i=0; i < x-1; i++) {
+            Hx = Hx * H;
+        }
+        return Hx;
+    }
+}
+
 // overloaded += operator
 Hypercomplex& Hypercomplex::operator+=(const Hypercomplex &H) {
     for (unsigned int i=0; i < d; i++) {
@@ -198,4 +212,21 @@ Hypercomplex& Hypercomplex::operator*=(const Hypercomplex &H) {
         (*this)[i] = result[i];
     }
     return *this;
+}
+
+// overloaded ^= operator
+Hypercomplex& Hypercomplex::operator^=(const unsigned int x) {
+    if (!(x)) {
+        throw std::invalid_argument("zero is not a valid argument");
+    }
+    else {
+        Hypercomplex Hx = Hypercomplex((*this));
+        for (unsigned int i=0; i < x-1; i++) {
+            Hx = Hx * (*this);
+        }
+        for (unsigned int i=0; i < d; i++) {
+            (*this)[i] = Hx[i];
+        }
+        return *this;
+    }
 }

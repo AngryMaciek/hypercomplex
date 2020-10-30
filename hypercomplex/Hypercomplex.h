@@ -39,6 +39,7 @@ class Hypercomplex {
     Hypercomplex& operator+= (const Hypercomplex &H);
     Hypercomplex& operator-= (const Hypercomplex &H);
     Hypercomplex& operator*= (const Hypercomplex &H);
+    Hypercomplex& operator^= (const unsigned int x);
 };
 
 /*
@@ -49,5 +50,6 @@ bool operator!= (const Hypercomplex &H1, const Hypercomplex &H2);
 Hypercomplex operator+ (const Hypercomplex &H1, const Hypercomplex &H2);
 Hypercomplex operator- (const Hypercomplex &H1, const Hypercomplex &H2);
 Hypercomplex operator* (const Hypercomplex &H1, const Hypercomplex &H2);
+Hypercomplex operator^ (const Hypercomplex &H, const unsigned int x);
 
 #endif  // HYPERCOMPLEX_HYPERCOMPLEX_H_

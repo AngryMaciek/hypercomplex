@@ -199,6 +199,26 @@ TEST_CASE( "Overloading Operators", "[operators]" ) {
         REQUIRE( h1[2] == -13.0 );
         REQUIRE( h1[3] == 6.5 );
     }
+
+    SECTION( "Power operator" ) {
+        REQUIRE_THROWS_AS(h1 ^ 0, std::invalid_argument);
+        REQUIRE_NOTHROW(h1 ^ 1);
+        Hypercomplex h = h1 ^ 2;
+        REQUIRE( h[0] == -4.0 );
+        REQUIRE( h[1] == 4.0 );
+        REQUIRE( h[2] == 0.0 );
+        REQUIRE( h[3] == -2.0 );
+    }
+
+    SECTION( "Power-Assignment operator" ) {
+        REQUIRE_THROWS_AS(h1 ^= 0, std::invalid_argument);
+        REQUIRE_NOTHROW(h1 ^= 1);
+        h1 ^= 2;
+        REQUIRE( h1[0] == -4.0 );
+        REQUIRE( h1[1] == 4.0 );
+        REQUIRE( h1[2] == 0.0 );
+        REQUIRE( h1[3] == -2.0 );
+    }
 }
 
 int main(int argc, char* const argv[]) {
