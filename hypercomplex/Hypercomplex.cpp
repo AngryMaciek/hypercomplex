@@ -93,7 +93,7 @@ const float& Hypercomplex::operator[](unsigned int i) const {
 }
 
 // overloaded == operator
-bool Hypercomplex::operator==(const Hypercomplex &H1, const Hypercomplex &H2);
+bool operator==(const Hypercomplex &H1, const Hypercomplex &H2);
     if (H1.d != H2.d) {
         return false;
     }
@@ -106,6 +106,6 @@ bool Hypercomplex::operator==(const Hypercomplex &H1, const Hypercomplex &H2);
 }
 
 // overloaded != operator
-bool Hypercomplex::operator!=(const Hypercomplex &H1, const Hypercomplex &H2);
+bool operator!=(const Hypercomplex &H1, const Hypercomplex &H2);
     return !(H1 == H2);
 }
