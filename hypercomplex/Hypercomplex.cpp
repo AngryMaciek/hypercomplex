@@ -138,7 +138,7 @@ Hypercomplex operator-(const Hypercomplex &H1, const Hypercomplex &H2) {
 Hypercomplex operator*(const Hypercomplex &H1, const Hypercomplex &H2) {
     unsigned int d = H1._();
     // recursion base:
-    if (d==1) {
+    if (d == 1) {
         float temparr[] = { H1[0] * H2[0] };
         return Hypercomplex(1, temparr);
     }
