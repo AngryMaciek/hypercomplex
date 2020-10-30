@@ -57,7 +57,7 @@ float Hypercomplex::norm() const {
 
 // calculate inverse of the number
 Hypercomplex Hypercomplex::inv() const {
-    if (!((*this).norm())) {
+    if ((*this).norm()==0) {
         throw std::invalid_argument("division by zero");
     } else {
         float norm2 = pow((*this).norm(), 2);

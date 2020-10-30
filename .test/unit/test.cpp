@@ -45,7 +45,7 @@ TEST_CASE( "Class Structure", "[class]" ) {
             REQUIRE( invh1[2] == target3 );
             REQUIRE( invh1[3] == target4 );
             float A0[] = {0.0,0.0};
-            REQUIRE_THROWS_AS(Hypercomplex(2, A0), std::invalid_argument);
+            REQUIRE_THROWS_AS(Hypercomplex(2, A0).inv(), std::invalid_argument);
         }
     }
 
@@ -238,6 +238,18 @@ TEST_CASE( "Overloading Operators", "[operators]" ) {
         REQUIRE( h1[1] == 4.0 );
         REQUIRE( h1[2] == 0.0 );
         REQUIRE( h1[3] == -2.0 );
+    }
+
+    SECTION( "Division operator" ) {
+        Approx target1 = Approx(-0.121).epsilon(0.01);
+        Approx target2 = Approx(-0.054).epsilon(0.01);
+        Approx target3 = Approx(0.350).epsilon(0.01);
+        Approx target4 = Approx(-0.148).epsilon(0.01);
+        Hypercomplex h = h1 / h2;
+        REQUIRE( h[0] == target1 );
+        REQUIRE( h[1] == target2 );
+        REQUIRE( h[2] == target3 );
+        REQUIRE( h[3] == target4 );
     }
 }
 
