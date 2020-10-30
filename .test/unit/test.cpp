@@ -193,10 +193,10 @@ TEST_CASE( "Overloading Operators", "[operators]" ) {
         REQUIRE( h[0] == (float)-70.2 );
         REQUIRE( h[1] == (float)-8.6 );
         h = h1 * h2;
-        REQUIRE( h[0] == 3.5 );
-        REQUIRE( h[1] == 0.0 );
-        REQUIRE( h[2] == -13.0 );
-        REQUIRE( h[3] == 6.5 );
+        REQUIRE( h[0] == (float)3.5 );
+        REQUIRE( h[1] == (float)0.0 );
+        REQUIRE( h[2] == (float)-13.0 );
+        REQUIRE( h[3] == (float)6.5 );
     }
 }
 
