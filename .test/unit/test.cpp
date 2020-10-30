@@ -185,7 +185,14 @@ TEST_CASE( "Overloading Operators", "[operators]" ) {
     }
 
     SECTION( "Multiplication operator" ) {
-        Hypercomplex h = h1 * h2;
+        float x1[] = {-1.0, 7.0};
+        float x2[] = {0.2, 10.0};
+        Hypercomplex ha = Hypercomplex(dim2, x1);
+        Hypercomplex hb = Hypercomplex(dim2, x2);
+        Hypercomplex h = ha * hb;
+        REQUIRE( h[0] == (float)-70.2 );
+        REQUIRE( h[1] == (float)-8.6 );
+        h = h1 * h2;
         REQUIRE( h[0] == 3.5 );
         REQUIRE( h[1] == 0.0 );
         REQUIRE( h[2] == -13.0 );

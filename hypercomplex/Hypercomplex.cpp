@@ -149,11 +149,11 @@ Hypercomplex operator*(const Hypercomplex &H1, const Hypercomplex &H2) {
     // construct helper objects:
     for (unsigned int i=0; i < halfd; i++) temparr[i] = H1[i];
     Hypercomplex H1a = Hypercomplex(halfd, temparr);
-    for (unsigned int i=halfd; i < d; i++) temparr[i] = H1[i];
+    for (unsigned int i=0; i < halfd; i++) temparr[i] = H1[i+halfd];
     Hypercomplex H1b = Hypercomplex(halfd, temparr);
     for (unsigned int i=0; i < halfd; i++) temparr[i] = H2[i];
     Hypercomplex H2a = Hypercomplex(halfd, temparr);
-    for (unsigned int i=halfd; i < d; i++) temparr[i] = H2[i];
+    for (unsigned int i=0; i < halfd; i++) temparr[i] = H2[i+halfd];
     Hypercomplex H2b = Hypercomplex(halfd, temparr);
     delete[] temparr;
     // multiply recursively:
