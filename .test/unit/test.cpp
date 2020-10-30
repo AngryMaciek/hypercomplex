@@ -31,6 +31,7 @@ TEST_CASE( "Class Structure", "[class]" ) {
     }
 
     SECTION( "Main constructor: exception" ) {
+        REQUIRE_NOTHROW(Hypercomplex(1, {10.10}))
         REQUIRE_THROWS_AS(Hypercomplex(0, {}), std::invalid_argument);
     }
 
