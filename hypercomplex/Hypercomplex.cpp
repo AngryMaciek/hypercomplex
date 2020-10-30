@@ -57,7 +57,7 @@ float Hypercomplex::norm() const {
 
 // calculate inverse of the number
 Hypercomplex Hypercomplex::inv() const {
-    if ((*this).norm()==0) {
+    if ((*this).norm() == 0) {
         throw std::invalid_argument("division by zero");
     } else {
         float norm2 = pow((*this).norm(), 2);
@@ -68,7 +68,7 @@ Hypercomplex Hypercomplex::inv() const {
         }
         Hypercomplex H = Hypercomplex(d, temparr);
         delete[] temparr;
-        return H;   
+        return H;
     }
 }
 
@@ -262,4 +262,14 @@ Hypercomplex& Hypercomplex::operator^=(const unsigned int x) {
         }
         return *this;
     }
+}
+
+// overloaded /= operator
+Hypercomplex& Hypercomplex::operator/=(const Hypercomplex &H) {
+    // division by H is implemented as multiplication by 1/H
+    Hypercomplex result = (*this) * H.inv();
+    for (unsigned int i=0; i < d; i++) {
+        (*this)[i] = result[i];
+    }
+    return *this;
 }
