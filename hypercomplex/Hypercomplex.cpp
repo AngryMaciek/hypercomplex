@@ -55,6 +55,19 @@ float Hypercomplex::norm() const {
     return result;
 }
 
+// calculate inverse of the number
+Hypercomplex Hypercomplex::inv() const {
+    float norm2 = pow((*this).norm(), 2);
+    float *temparr = new float[d];
+    temparr[0] = arr[0] / norm2;
+    for (unsigned int i=1; i < d; i++) {
+        temparr[i] = -arr[i] / norm2;
+    }
+    Hypercomplex H = Hypercomplex(d, temparr);
+    delete[] temparr;
+    return H;
+}
+
 // overloaded ~ operator
 Hypercomplex Hypercomplex::operator~() const {
     float *temparr = new float[d];

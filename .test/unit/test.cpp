@@ -33,6 +33,18 @@ TEST_CASE( "Class Structure", "[class]" ) {
             Approx target = Approx(2.45).epsilon(0.01);
             REQUIRE( h1.norm() == target );
         }
+
+        SECTION( "Inverse" ) {
+            Approx target1 = Approx(0.166).epsilon(0.01);
+            Approx target2 = Approx(-0.333).epsilon(0.01);
+            float target3 = 0.0;
+            Approx target4 = Approx(0.166).epsilon(0.01);
+            Hypercomplex invh1 = h1.inv();
+            REQUIRE( invh1[0] == target1 );
+            REQUIRE( invh1[1] == target2 );
+            REQUIRE( invh1[2] == target3 );
+            REQUIRE( invh1[3] == target4 );
+        }
     }
 
     SECTION( "Main constructor: exception" ) {
