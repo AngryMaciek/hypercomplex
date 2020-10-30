@@ -15,6 +15,7 @@
 #define CATCH_CONFIG_RUNNER
 #include "catch.hpp"
 #include "hypercomplex/Hypercomplex.h"
+#include <stdexcept>
 #include <iostream>
 
 TEST_CASE( "Class Structure", "[class]" ) {
@@ -27,6 +28,12 @@ TEST_CASE( "Class Structure", "[class]" ) {
         SECTION( "Getters" ) {
             REQUIRE( h1._() == dim );
         }
+    }
+
+    SECTION( "Main constructor: exception" ) {
+        // unsigned int dim_zero = 0;
+        // float A_zero[] = {};
+        REQUIRE_THROWS_AS(Hypercomplex(0, {}), std::invalid_argument)
     }
 
     SECTION( "Copy constructor" ) {
