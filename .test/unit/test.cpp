@@ -33,7 +33,7 @@ TEST_CASE( "Class Structure", "[class]" ) {
     SECTION( "Main constructor: exception" ) {
         // unsigned int dim_zero = 0;
         // float A_zero[] = {};
-        REQUIRE_THROWS_AS(Hypercomplex(0, {}), std::invalid_argument)
+        REQUIRE_THROWS_AS(Hypercomplex(0, {}), std::invalid_argument);
     }
 
     SECTION( "Copy constructor" ) {
