@@ -44,8 +44,8 @@ Hypercomplex::~Hypercomplex() {
     delete[] arr;
 }
 
-// ~ operator
-Hypercomplex Hypercomplex::operator~ () const {
+// overloaded ~ operator
+Hypercomplex Hypercomplex::operator~() const {
     float *temparr = new float[d];
     temparr[0] = arr[0];
     for (unsigned int i=1; i < d; i++) {
@@ -56,8 +56,8 @@ Hypercomplex Hypercomplex::operator~ () const {
     return H;
 }
 
-// - unary operator
-Hypercomplex Hypercomplex::operator- () const {
+// overloaded - unary operator
+Hypercomplex Hypercomplex::operator-() const {
     float *temparr = new float[d];
     for (unsigned int i=0; i < d; i++) {
         temparr[i] = -arr[i];
@@ -67,7 +67,8 @@ Hypercomplex Hypercomplex::operator- () const {
     return H;
 }
 
-Hypercomplex& Hypercomplex::operator= (const Hypercomplex &H) {
+// overloaded = operator
+Hypercomplex& Hypercomplex::operator=(const Hypercomplex &H) {
     // self-assignment guard
     if (this == &H) return *this;
     // reassign
@@ -77,32 +78,6 @@ Hypercomplex& Hypercomplex::operator= (const Hypercomplex &H) {
     }
     // return the existing object so we can chain this operator
     return *this;
-}
-
-// overloaded == operator
-bool Hypercomplex::operator ==(const Hypercomplex& H) {
-    if (d != H.d) {
-        return false;
-    }
-    for (unsigned int i=0; i < d; i++) {
-        if (arr[i] != H.arr[i]) {
-            return false;
-        }
-    }
-    return true;
-}
-
-// overloaded != operator
-bool Hypercomplex::operator !=(const Hypercomplex& H) {
-    if (d != H.d) {
-        return true;
-    }
-    for (unsigned int i=0; i < d; i++) {
-        if (arr[i] != H.arr[i]) {
-            return true;
-        }
-    }
-    return false;
 }
 
 // overloaded [] operator
@@ -115,4 +90,22 @@ float& Hypercomplex::operator[](unsigned int i) {
 const float& Hypercomplex::operator[](unsigned int i) const {
     assert(0 <= i && i < d);
     return arr[i];
+}
+
+// overloaded == operator
+bool Hypercomplex::operator==(const Hypercomplex &H1, const Hypercomplex &H2);
+    if (H1.d != H2.d) {
+        return false;
+    }
+    for (unsigned int i=0; i < H1.d; i++) {
+        if (H1[i] != H2[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// overloaded != operator
+bool Hypercomplex::operator!=(const Hypercomplex &H1, const Hypercomplex &H2);
+    return !(H1 == H2);
 }

@@ -36,8 +36,12 @@ class Hypercomplex {
     Hypercomplex& operator= (const Hypercomplex &H);  // assignment operator
     float& operator[] (unsigned int i);  // element access operator
     const float& operator[] (unsigned int i) const;  // element access operator
-    bool operator== (const Hypercomplex& H);  // equality operator
-    bool operator!= (const Hypercomplex& H);  // inequality operator
 };
+
+/*
+Operators
+*/
+bool operator== (const Hypercomplex &H1, const Hypercomplex &H2);
+bool operator!= (const Hypercomplex &H1, const Hypercomplex &H2);
 
 #endif  // HYPERCOMPLEX_HYPERCOMPLEX_H_
