@@ -133,3 +133,11 @@ Hypercomplex operator-(const Hypercomplex &H1, const Hypercomplex &H2) {
     delete[] temparr;
     return H;
 }
+
+// overloaded += operator
+Hypercomplex& Hypercomplex::operator+=(const Hypercomplex &H) {
+    for (unsigned int i=0; i < d; i++) {
+        (*this)[i] = (*this)[i] + H[i];
+    }
+    return *this;
+}
