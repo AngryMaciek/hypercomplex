@@ -94,10 +94,10 @@ const float& Hypercomplex::operator[](unsigned int i) const {
 
 // overloaded == operator
 bool operator==(const Hypercomplex &H1, const Hypercomplex &H2) {
-    if (H1.d != H2.d) {
+    if (H1._() != H2._()) {
         return false;
     }
-    for (unsigned int i=0; i < H1.d; i++) {
+    for (unsigned int i=0; i < H1._(); i++) {
         if (H1[i] != H2[i]) {
             return false;
         }
