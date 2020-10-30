@@ -47,5 +47,6 @@ bool operator== (const Hypercomplex &H1, const Hypercomplex &H2);
 bool operator!= (const Hypercomplex &H1, const Hypercomplex &H2);
 Hypercomplex operator+ (const Hypercomplex &H1, const Hypercomplex &H2);
 Hypercomplex operator- (const Hypercomplex &H1, const Hypercomplex &H2);
+Hypercomplex operator* (const Hypercomplex &H1, const Hypercomplex &H2);
 
 #endif  // HYPERCOMPLEX_HYPERCOMPLEX_H_

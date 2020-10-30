@@ -183,6 +183,14 @@ TEST_CASE( "Overloading Operators", "[operators]" ) {
         REQUIRE( h1[2] == 0.0 );
         REQUIRE( h1[3] == -7.0 );
     }
+
+    SECTION( "Multiplication operator" ) {
+        Hypercomplex h = h1 * h2;
+        REQUIRE( h[0] == 6.5 );
+        REQUIRE( h[1] == 13.0 );
+        REQUIRE( h[2] == 2.0 );
+        REQUIRE( h[3] == -4.5 );
+    }
 }
 
 int main(int argc, char* const argv[]) {
