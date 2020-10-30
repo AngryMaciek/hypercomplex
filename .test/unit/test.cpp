@@ -159,6 +159,14 @@ TEST_CASE( "Overloading Operators", "[operators]" ) {
         REQUIRE( h[2] == 0.0 );
         REQUIRE( h[3] == 5.0 );
     }
+
+    SECTION( "Subtraction operator" ) {
+        Hypercomplex h = h1 - h2;
+        REQUIRE( h[0] == 1.5 );
+        REQUIRE( h[1] == 1.0 );
+        REQUIRE( h[2] == 0.0 );
+        REQUIRE( h[3] == -7.0 );
+    }
 }
 
 int main(int argc, char* const argv[]) {

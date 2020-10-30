@@ -112,8 +112,9 @@ bool operator!=(const Hypercomplex &H1, const Hypercomplex &H2) {
 
 // overloaded + binary operator
 Hypercomplex operator+(const Hypercomplex &H1, const Hypercomplex &H2) {
-    float *temparr = new float[H1._()];
-    for (unsigned int i=0; i < H1._(); i++) {
+    unsigned int d = H1._();
+    float *temparr = new float[d];
+    for (unsigned int i=0; i < d; i++) {
         temparr[i] = H1[i] + H2[i];
     }
     Hypercomplex H = Hypercomplex(H1._(), temparr);
@@ -123,8 +124,9 @@ Hypercomplex operator+(const Hypercomplex &H1, const Hypercomplex &H2) {
 
 // overloaded - binary operator
 Hypercomplex operator-(const Hypercomplex &H1, const Hypercomplex &H2) {
-    float *temparr = new float[H1._()];
-    for (unsigned int i=0; i < H1._(); i++) {
+    unsigned int d = H1._();
+    float *temparr = new float[d];
+    for (unsigned int i=0; i < d; i++) {
         temparr[i] = H1[i] - H2[i];
     }
     Hypercomplex H = Hypercomplex(H1._(), temparr);
