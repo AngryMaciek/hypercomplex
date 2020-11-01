@@ -33,7 +33,7 @@ class Hypercomplex {
     float _() const { return d; }  // get space dimension
     float norm() const;  // calculate object's norm
     Hypercomplex inv() const;  // calculate object's inverse
-    Hypercomplex expand(unsigned int arg_d);  // expand object to a higher dimension
+    Hypercomplex expand(unsigned int arg_d);
     Hypercomplex operator~ () const;  // conjugate operator
     Hypercomplex operator- () const;  // negation operator
     Hypercomplex& operator= (const Hypercomplex &H);  // assignment operator
