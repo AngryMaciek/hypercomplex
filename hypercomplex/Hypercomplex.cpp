@@ -213,10 +213,9 @@ Hypercomplex operator*(const Hypercomplex &H1, const Hypercomplex &H2) {
     Hypercomplex H2b_1b = ~H2b * H1b;
     Hypercomplex H2b1a = H2b * H1a;
     Hypercomplex H1b2a_ = H1b * ~H2a;
-    // helper addition/subtraction
+    // construct the final object
     Hypercomplex Ha = H1a2a - H2b_1b;
     Hypercomplex Hb = H2b1a + H1b2a_;
-    // construct the final object
     for (unsigned int i=0; i < halfd; i++) temparr[i] = Ha[i];
     for (unsigned int i=0; i < halfd; i++) temparr[i+halfd] = Hb[i];
     Hypercomplex H = Hypercomplex(d, temparr);
