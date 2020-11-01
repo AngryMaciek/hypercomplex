@@ -23,7 +23,9 @@ TEST_CASE( "Class Structure", "[class]" ) {
     SECTION( "Main constructor" ) {
         unsigned int dim = 4;
         float A[] = {1.0, 2.0, 0.0, -1.0};
+        float invalidA[] = {1.0, 2.0, 0.0};
         Hypercomplex h1 = Hypercomplex(dim, A);
+        REQUIRE_THROWS_AS(Hypercomplex(3, invalidA), std::invalid_argument);
 
         SECTION( "Getters" ) {
             REQUIRE( h1._() == dim );

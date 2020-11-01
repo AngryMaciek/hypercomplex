@@ -22,7 +22,10 @@
 // Hypercomplex main constructor
 Hypercomplex::Hypercomplex(unsigned int arg_d, float* arg_arr) {
     if (arg_d == 0) {
-        throw std::invalid_argument("zero is not a valid argument");
+        throw std::invalid_argument("invalid dimension");
+    }
+    if((arg_d & (arg_d - 1)) != 0) {
+        throw std::invalid_argument("invalid dimension");
     }
     d = arg_d;
     arr = new float[arg_d];
