@@ -178,6 +178,7 @@ TEST_CASE( "Overloading Operators", "[operators]" ) {
         REQUIRE( h[1] == 3.0 );
         REQUIRE( h[2] == 0.0 );
         REQUIRE( h[3] == 5.0 );
+        REQUIRE_THROWS_AS(h1 + h3, std::invalid_argument);
     }
 
     SECTION( "Subtraction operator" ) {
@@ -186,6 +187,7 @@ TEST_CASE( "Overloading Operators", "[operators]" ) {
         REQUIRE( h[1] == 1.0 );
         REQUIRE( h[2] == 0.0 );
         REQUIRE( h[3] == -7.0 );
+        REQUIRE_THROWS_AS(h1 - h3, std::invalid_argument);
     }
 
     SECTION( "Addition-Assignment operator" ) {
@@ -194,6 +196,7 @@ TEST_CASE( "Overloading Operators", "[operators]" ) {
         REQUIRE( h1[1] == 3.0 );
         REQUIRE( h1[2] == 0.0 );
         REQUIRE( h1[3] == 5.0 );
+        REQUIRE_THROWS_AS(h1 += h3, std::invalid_argument);
     }
 
     SECTION( "Subtraction-Assignment operator" ) {
@@ -202,6 +205,7 @@ TEST_CASE( "Overloading Operators", "[operators]" ) {
         REQUIRE( h1[1] == 1.0 );
         REQUIRE( h1[2] == 0.0 );
         REQUIRE( h1[3] == -7.0 );
+        REQUIRE_THROWS_AS(h1 -= h3, std::invalid_argument);
     }
 
     SECTION( "Multiplication operator" ) {
@@ -210,6 +214,7 @@ TEST_CASE( "Overloading Operators", "[operators]" ) {
         REQUIRE( h[1] == 0.0 );
         REQUIRE( h[2] == -13.0 );
         REQUIRE( h[3] == 6.5 );
+        REQUIRE_THROWS_AS(h1 * h3, std::invalid_argument);
     }
 
     SECTION( "Multiplication-Assignment operator" ) {
@@ -218,6 +223,7 @@ TEST_CASE( "Overloading Operators", "[operators]" ) {
         REQUIRE( h1[1] == 0.0 );
         REQUIRE( h1[2] == -13.0 );
         REQUIRE( h1[3] == 6.5 );
+        REQUIRE_THROWS_AS(h1 *= h3, std::invalid_argument);
     }
 
     SECTION( "Power operator" ) {
@@ -284,6 +290,7 @@ TEST_CASE( "Overloading Operators", "[operators]" ) {
         REQUIRE( h[1] == target2 );
         REQUIRE( h[2] == target3 );
         REQUIRE( h[3] == target4 );
+        REQUIRE_THROWS_AS(h1 / h3, std::invalid_argument);
     }
 
     SECTION( "Division-Assignment operator" ) {
@@ -296,6 +303,7 @@ TEST_CASE( "Overloading Operators", "[operators]" ) {
         REQUIRE( h1[1] == target2 );
         REQUIRE( h1[2] == target3 );
         REQUIRE( h1[3] == target4 );
+        REQUIRE_THROWS_AS(h1 /= h3, std::invalid_argument);
     }
 }
 

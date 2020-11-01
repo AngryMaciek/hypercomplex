@@ -140,6 +140,9 @@ bool operator!=(const Hypercomplex &H1, const Hypercomplex &H2) {
 
 // overloaded + binary operator
 Hypercomplex operator+(const Hypercomplex &H1, const Hypercomplex &H2) {
+    if (H1._() != H2._()) {
+        throw std::invalid_argument("operand mismatch");
+    }
     unsigned int d = H1._();
     float *temparr = new float[d];
     for (unsigned int i=0; i < d; i++) {
@@ -152,6 +155,9 @@ Hypercomplex operator+(const Hypercomplex &H1, const Hypercomplex &H2) {
 
 // overloaded - binary operator
 Hypercomplex operator-(const Hypercomplex &H1, const Hypercomplex &H2) {
+    if (H1._() != H2._()) {
+        throw std::invalid_argument("operand mismatch");
+    }
     unsigned int d = H1._();
     float *temparr = new float[d];
     for (unsigned int i=0; i < d; i++) {
@@ -164,6 +170,9 @@ Hypercomplex operator-(const Hypercomplex &H1, const Hypercomplex &H2) {
 
 // overloaded * binary operator
 Hypercomplex operator*(const Hypercomplex &H1, const Hypercomplex &H2) {
+    if (H1._() != H2._()) {
+        throw std::invalid_argument("operand mismatch");
+    }
     unsigned int d = H1._();
     // recursion base:
     if (d == 1) {
@@ -216,6 +225,9 @@ Hypercomplex operator^(const Hypercomplex &H, const unsigned int x) {
 
 // overloaded / binary operator
 Hypercomplex operator/(const Hypercomplex &H1, const Hypercomplex &H2) {
+    if (H1._() != H2._()) {
+        throw std::invalid_argument("operand mismatch");
+    }
     // division H1 / H2 is implemented as H1 * 1/H2
     Hypercomplex H = H1 * H2.inv();
     return(H);
@@ -223,6 +235,9 @@ Hypercomplex operator/(const Hypercomplex &H1, const Hypercomplex &H2) {
 
 // overloaded += operator
 Hypercomplex& Hypercomplex::operator+=(const Hypercomplex &H) {
+    if ((*this)._() != H._()) {
+        throw std::invalid_argument("operand mismatch");
+    }
     for (unsigned int i=0; i < d; i++) {
         (*this)[i] = (*this)[i] + H[i];
     }
@@ -231,6 +246,9 @@ Hypercomplex& Hypercomplex::operator+=(const Hypercomplex &H) {
 
 // overloaded -= operator
 Hypercomplex& Hypercomplex::operator-=(const Hypercomplex &H) {
+    if ((*this)._() != H._()) {
+        throw std::invalid_argument("operand mismatch");
+    }
     for (unsigned int i=0; i < d; i++) {
         (*this)[i] = (*this)[i] - H[i];
     }
@@ -267,6 +285,9 @@ Hypercomplex& Hypercomplex::operator^=(const unsigned int x) {
 // overloaded /= operator
 Hypercomplex& Hypercomplex::operator/=(const Hypercomplex &H) {
     // division by H is implemented as multiplication by 1/H
+    if ((*this)._() != H._()) {
+        throw std::invalid_argument("operand mismatch");
+    }
     Hypercomplex result = (*this) * H.inv();
     for (unsigned int i=0; i < d; i++) {
         (*this)[i] = result[i];
