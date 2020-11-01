@@ -198,8 +198,7 @@ Hypercomplex operator*(const Hypercomplex &H1, const Hypercomplex &H2) {
     }
     // shared objects:
     unsigned int halfd = d / 2;
-    float *temparr;
-    temparr = new float[halfd];
+    float *temparr = new float[d];
     // construct helper objects:
     for (unsigned int i=0; i < halfd; i++) temparr[i] = H1[i];
     Hypercomplex H1a = Hypercomplex(halfd, temparr);
@@ -209,7 +208,6 @@ Hypercomplex operator*(const Hypercomplex &H1, const Hypercomplex &H2) {
     Hypercomplex H2a = Hypercomplex(halfd, temparr);
     for (unsigned int i=0; i < halfd; i++) temparr[i] = H2[i+halfd];
     Hypercomplex H2b = Hypercomplex(halfd, temparr);
-    delete[] temparr;
     // multiply recursively:
     Hypercomplex H1a2a = H1a * H2a;
     Hypercomplex H2b_1b = ~H2b * H1b;
@@ -219,7 +217,6 @@ Hypercomplex operator*(const Hypercomplex &H1, const Hypercomplex &H2) {
     Hypercomplex Ha = H1a2a - H2b_1b;
     Hypercomplex Hb = H2b1a + H1b2a_;
     // construct the final object
-    temparr = new float[d];
     for (unsigned int i=0; i < halfd; i++) temparr[i] = Ha[i];
     for (unsigned int i=0; i < halfd; i++) temparr[i+halfd] = Hb[i];
     Hypercomplex H = Hypercomplex(d, temparr);

@@ -18,7 +18,7 @@
 #include <stdexcept>
 #include <iostream>
 
-TEST_CASE( "Class Structure", "[class]" ) {
+TEST_CASE( "Class Structure", "[unit]" ) {
     //
     SECTION( "Main constructor" ) {
         unsigned int dim = 4;
@@ -98,7 +98,7 @@ TEST_CASE( "Class Structure", "[class]" ) {
     }
 }
 
-TEST_CASE( "Overloading Operators", "[operators]" ) {
+TEST_CASE( "Overloading Operators", "[unit]" ) {
     //
     unsigned int dim2 = 2;
     unsigned int dim4 = 4;
@@ -319,6 +319,20 @@ TEST_CASE( "Overloading Operators", "[operators]" ) {
         REQUIRE( h1[2] == target3 );
         REQUIRE( h1[3] == target4 );
         REQUIRE_THROWS_AS(h1 /= h3, std::invalid_argument);
+    }
+}
+
+TEST_CASE( "Special", "[usecase]" ) {
+    //
+    SECTION( "Multiplication optimization" ) {
+    float A[] = {1.51, -1.13, 2.28, -10.77, -2.63, -9.11, 0.01, 4.02};
+    float B[] = {-7.32, -0.70, 0.91, 99.32, 8.09, -9.33, 0.84, -5.32};
+    float C[] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+    Hypercomplex h1 = Hypercomplex(8, A);
+    Hypercomplex h2 = Hypercomplex(8, B);
+    Hypercomplex result = Hypercomplex(8, C);
+    for (unsigned int i=0; i < 10000; i++) result = h1 * h2;
+    REQUIRE( true == true );
     }
 }
 
