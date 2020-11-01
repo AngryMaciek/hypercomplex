@@ -24,7 +24,7 @@ Hypercomplex::Hypercomplex(unsigned int arg_d, float* arg_arr) {
     if (arg_d == 0) {
         throw std::invalid_argument("invalid dimension");
     }
-    if((arg_d & (arg_d - 1)) != 0) {
+    if( (arg_d & (arg_d - 1) ) != 0) {
         throw std::invalid_argument("invalid dimension");
     }
     d = arg_d;
