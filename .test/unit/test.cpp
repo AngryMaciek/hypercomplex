@@ -49,6 +49,19 @@ TEST_CASE( "Class Structure", "[class]" ) {
             float A0[] = {0.0,0.0};
             REQUIRE_THROWS_AS(Hypercomplex(2, A0).inv(), std::invalid_argument);
         }
+
+        SECTION( "Expansion" ) {
+            Hypercomplex hexpanded = h1.expand(8);
+            REQUIRE( hexpanded[0] == h1[0] );
+            REQUIRE( hexpanded[1] == h1[1] );
+            REQUIRE( hexpanded[2] == h1[2] );
+            REQUIRE( hexpanded[3] == h1[3] );
+            REQUIRE( hexpanded[4] == 0.0 );
+            REQUIRE( hexpanded[5] == 0.0 );
+            REQUIRE( hexpanded[6] == 0.0 );
+            REQUIRE( hexpanded[7] == 0.0 );
+            REQUIRE_THROWS_AS(h1.expand(4), std::invalid_argument);
+        }
     }
 
     SECTION( "Main constructor: exception" ) {
