@@ -22,7 +22,7 @@ Main class of the library
 */
 class Hypercomplex {
  private:
-    unsigned int d;  // dimension
+    const unsigned int d;  // dimension
     float *arr;  // elements
  public:
     explicit
@@ -30,7 +30,7 @@ class Hypercomplex {
     Hypercomplex(const Hypercomplex& H);  // copy constructor
     Hypercomplex() = delete;  // forbid default constructor | c++11
     ~Hypercomplex();  // destructor
-    float _() const { return d; }  // get space dimension
+    const float _() const { return d; }  // get space dimension
     float norm() const;  // calculate object's norm
     Hypercomplex inv() const;  // calculate object's inverse
     Hypercomplex expand(unsigned int arg_d);
