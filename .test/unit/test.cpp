@@ -28,7 +28,6 @@ TEST_CASE( "Class Structure", "[unit]" ) {
         REQUIRE_THROWS_AS(Hypercomplex(3, invalidA), std::invalid_argument);
 
         SECTION( "Getters" ) {
-            h1._() = 5;
             REQUIRE( h1._() == dim );
         }
 
