@@ -237,22 +237,18 @@ Hypercomplex operator/(const Hypercomplex &H1, const Hypercomplex &H2) {
 
 // overloaded += operator
 Hypercomplex& Hypercomplex::operator+=(const Hypercomplex &H) {
-    if ((*this)._() != H._()) {
-        throw std::invalid_argument("operand mismatch");
-    }
+    Hypercomplex result = (*this) + H;
     for (unsigned int i=0; i < d; i++) {
-        (*this)[i] = (*this)[i] + H[i];
+        (*this)[i] = result[i];
     }
     return *this;
 }
 
 // overloaded -= operator
 Hypercomplex& Hypercomplex::operator-=(const Hypercomplex &H) {
-    if ((*this)._() != H._()) {
-        throw std::invalid_argument("operand mismatch");
-    }
+    Hypercomplex result = (*this) - H;
     for (unsigned int i=0; i < d; i++) {
-        (*this)[i] = (*this)[i] - H[i];
+        (*this)[i] = result[i];
     }
     return *this;
 }
