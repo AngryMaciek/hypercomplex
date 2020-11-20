@@ -264,18 +264,11 @@ Hypercomplex& Hypercomplex::operator*=(const Hypercomplex &H) {
 
 // overloaded ^= operator
 Hypercomplex& Hypercomplex::operator^=(const unsigned int x) {
-    if (!(x)) {
-        throw std::invalid_argument("zero is not a valid argument");
-    } else {
-        Hypercomplex Hx = Hypercomplex((*this));
-        for (unsigned int i=0; i < x-1; i++) {
-            Hx = Hx * (*this);
-        }
-        for (unsigned int i=0; i < d; i++) {
-            (*this)[i] = Hx[i];
-        }
-        return *this;
+    Hypercomplex result = (*this) ^ x;
+    for (unsigned int i=0; i < d; i++) {
+        (*this)[i] = result[i];
     }
+    return *this;
 }
 
 // overloaded /= operator
