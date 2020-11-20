@@ -91,13 +91,8 @@ Hypercomplex Hypercomplex::expand(unsigned int arg_d) const {
 
 // overloaded ~ operator
 Hypercomplex Hypercomplex::operator~() const {
-    float *temparr = new float[d];
-    temparr[0] = arr[0];
-    for (unsigned int i=1; i < d; i++) {
-        temparr[i] = -arr[i];
-    }
-    Hypercomplex H = Hypercomplex(d, temparr);
-    delete[] temparr;
+    Hypercomplex H = -(*this);
+    H[0] = arr[0];
     return H;
 }
 
