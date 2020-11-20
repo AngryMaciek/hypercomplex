@@ -76,7 +76,7 @@ Hypercomplex Hypercomplex::inv() const {
 }
 
 // expand object to a higher dimension
-Hypercomplex Hypercomplex::expand(unsigned int arg_d) {
+Hypercomplex Hypercomplex::expand(unsigned int arg_d) const {
     if (arg_d <= d) {
         throw std::invalid_argument("invalid dimension");
     }
