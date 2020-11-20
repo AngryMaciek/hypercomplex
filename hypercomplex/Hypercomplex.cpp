@@ -273,11 +273,7 @@ Hypercomplex& Hypercomplex::operator^=(const unsigned int x) {
 
 // overloaded /= operator
 Hypercomplex& Hypercomplex::operator/=(const Hypercomplex &H) {
-    // division by H is implemented as multiplication by 1/H
-    if ((*this)._() != H._()) {
-        throw std::invalid_argument("operand mismatch");
-    }
-    Hypercomplex result = (*this) * H.inv();
+    Hypercomplex result = (*this) / H;
     for (unsigned int i=0; i < d; i++) {
         (*this)[i] = result[i];
     }
