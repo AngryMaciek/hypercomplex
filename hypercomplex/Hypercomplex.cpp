@@ -29,18 +29,14 @@ Hypercomplex::Hypercomplex(unsigned int arg_d, float* arg_arr) {
     }
     d = arg_d;
     arr = new float[arg_d];
-    for (unsigned int i=0; i < arg_d; i++) {
-        arr[i] = arg_arr[i];
-    }
+    for (unsigned int i=0; i < arg_d; i++) arr[i] = arg_arr[i];
 }
 
 // Hypercomplex copy constructor
 Hypercomplex::Hypercomplex(const Hypercomplex& H) {
     d = H.d;
     arr = new float[H.d];
-    for (unsigned int i=0; i < H.d; i++) {
-        arr[i] = H.arr[i];
-    }
+    for (unsigned int i=0; i < H.d; i++) arr[i] = H.arr[i];
 }
 
 // Hypercomplex destructor
