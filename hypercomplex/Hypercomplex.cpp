@@ -123,14 +123,10 @@ bool operator!=(const Hypercomplex &H1, const Hypercomplex &H2) {
 
 // overloaded + binary operator
 Hypercomplex operator+(const Hypercomplex &H1, const Hypercomplex &H2) {
-    if (H1._() != H2._()) {
-        throw std::invalid_argument("operand mismatch");
-    }
+    if (H1._() != H2._()) throw std::invalid_argument("operand mismatch");
     unsigned int d = H1._();
     float *temparr = new float[d];
-    for (unsigned int i=0; i < d; i++) {
-        temparr[i] = H1[i] + H2[i];
-    }
+    for (unsigned int i=0; i < d; i++) temparr[i] = H1[i] + H2[i];
     Hypercomplex H = Hypercomplex(H1._(), temparr);
     delete[] temparr;
     return H;
@@ -138,14 +134,10 @@ Hypercomplex operator+(const Hypercomplex &H1, const Hypercomplex &H2) {
 
 // overloaded - binary operator
 Hypercomplex operator-(const Hypercomplex &H1, const Hypercomplex &H2) {
-    if (H1._() != H2._()) {
-        throw std::invalid_argument("operand mismatch");
-    }
+    if (H1._() != H2._()) throw std::invalid_argument("operand mismatch");
     unsigned int d = H1._();
     float *temparr = new float[d];
-    for (unsigned int i=0; i < d; i++) {
-        temparr[i] = H1[i] - H2[i];
-    }
+    for (unsigned int i=0; i < d; i++) temparr[i] = H1[i] - H2[i];
     Hypercomplex H = Hypercomplex(H1._(), temparr);
     delete[] temparr;
     return H;
@@ -153,9 +145,7 @@ Hypercomplex operator-(const Hypercomplex &H1, const Hypercomplex &H2) {
 
 // overloaded * binary operator
 Hypercomplex operator*(const Hypercomplex &H1, const Hypercomplex &H2) {
-    if (H1._() != H2._()) {
-        throw std::invalid_argument("operand mismatch");
-    }
+    if (H1._() != H2._()) throw std::invalid_argument("operand mismatch");
     unsigned int d = H1._();
     // recursion base:
     if (d == 1) {
@@ -195,18 +185,14 @@ Hypercomplex operator^(const Hypercomplex &H, const unsigned int x) {
         throw std::invalid_argument("zero is not a valid argument");
     } else {
         Hypercomplex Hx = Hypercomplex(H);
-        for (unsigned int i=0; i < x-1; i++) {
-            Hx = Hx * H;
-        }
+        for (unsigned int i=0; i < x-1; i++) Hx = Hx * H;
         return Hx;
     }
 }
 
 // overloaded / binary operator
 Hypercomplex operator/(const Hypercomplex &H1, const Hypercomplex &H2) {
-    if (H1._() != H2._()) {
-        throw std::invalid_argument("operand mismatch");
-    }
+    if (H1._() != H2._()) throw std::invalid_argument("operand mismatch");
     // division H1 / H2 is implemented as H1 * 1/H2
     Hypercomplex H = H1 * H2.inv();
     return(H);
@@ -215,44 +201,34 @@ Hypercomplex operator/(const Hypercomplex &H1, const Hypercomplex &H2) {
 // overloaded += operator
 Hypercomplex& Hypercomplex::operator+=(const Hypercomplex &H) {
     Hypercomplex result = (*this) + H;
-    for (unsigned int i=0; i < d; i++) {
-        (*this)[i] = result[i];
-    }
+    for (unsigned int i=0; i < d; i++) (*this)[i] = result[i];
     return *this;
 }
 
 // overloaded -= operator
 Hypercomplex& Hypercomplex::operator-=(const Hypercomplex &H) {
     Hypercomplex result = (*this) - H;
-    for (unsigned int i=0; i < d; i++) {
-        (*this)[i] = result[i];
-    }
+    for (unsigned int i=0; i < d; i++) (*this)[i] = result[i];
     return *this;
 }
 
 // overloaded *= operator
 Hypercomplex& Hypercomplex::operator*=(const Hypercomplex &H) {
     Hypercomplex result = (*this) * H;
-    for (unsigned int i=0; i < d; i++) {
-        (*this)[i] = result[i];
-    }
+    for (unsigned int i=0; i < d; i++) (*this)[i] = result[i];
     return *this;
 }
 
 // overloaded ^= operator
 Hypercomplex& Hypercomplex::operator^=(const unsigned int x) {
     Hypercomplex result = (*this) ^ x;
-    for (unsigned int i=0; i < d; i++) {
-        (*this)[i] = result[i];
-    }
+    for (unsigned int i=0; i < d; i++) (*this)[i] = result[i];
     return *this;
 }
 
 // overloaded /= operator
 Hypercomplex& Hypercomplex::operator/=(const Hypercomplex &H) {
     Hypercomplex result = (*this) / H;
-    for (unsigned int i=0; i < d; i++) {
-        (*this)[i] = result[i];
-    }
+    for (unsigned int i=0; i < d; i++) (*this)[i] = result[i];
     return *this;
 }
