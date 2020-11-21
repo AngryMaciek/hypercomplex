@@ -21,12 +21,8 @@
 
 // Hypercomplex main constructor
 Hypercomplex::Hypercomplex(unsigned int arg_d, float* arg_arr) {
-    if (arg_d == 0) {
-        throw std::invalid_argument("invalid dimension");
-    }
-    if ((arg_d & (arg_d - 1)) != 0) {
-        throw std::invalid_argument("invalid dimension");
-    }
+    if (arg_d == 0) throw std::invalid_argument("invalid dimension");
+    if ((arg_d & (arg_d - 1)) != 0) throw std::invalid_argument("invalid dimension");
     d = arg_d;
     arr = new float[arg_d];
     for (unsigned int i=0; i < arg_d; i++) arr[i] = arg_arr[i];
@@ -47,11 +43,8 @@ Hypercomplex::~Hypercomplex() {
 // calculate norm of the number
 float Hypercomplex::norm() const {
     float result = 0.0;
-    for (unsigned int i=0; i < d; i++) {
-        result += arr[i] * arr[i];
-    }
-    result = sqrt(result);
-    return result;
+    for (unsigned int i=0; i < d; i++) result += arr[i] * arr[i];
+    return sqrt(result);
 }
 
 // calculate inverse of the number
@@ -62,9 +55,7 @@ Hypercomplex Hypercomplex::inv() const {
         float norm2 = pow((*this).norm(), 2);
         float *temparr = new float[d];
         temparr[0] = arr[0] / norm2;
-        for (unsigned int i=1; i < d; i++) {
-            temparr[i] = -arr[i] / norm2;
-        }
+        for (unsigned int i=1; i < d; i++) temparr[i] = -arr[i] / norm2;
         Hypercomplex H = Hypercomplex(d, temparr);
         delete[] temparr;
         return H;
@@ -73,13 +64,9 @@ Hypercomplex Hypercomplex::inv() const {
 
 // expand object to a higher dimension
 Hypercomplex Hypercomplex::expand(unsigned int arg_d) const {
-    if (arg_d <= d) {
-        throw std::invalid_argument("invalid dimension");
-    }
+    if (arg_d <= d) throw std::invalid_argument("invalid dimension");
     float *temparr = new float[arg_d]();  // zero-init
-    for (unsigned int i=0; i < d; i++) {
-        temparr[i] = arr[i];
-    }
+    for (unsigned int i=0; i < d; i++) temparr[i] = arr[i];
     Hypercomplex H = Hypercomplex(arg_d, temparr);
     delete[] temparr;
     return H;
