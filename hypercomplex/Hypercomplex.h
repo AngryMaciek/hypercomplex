@@ -25,7 +25,7 @@ class Hypercomplex {
     unsigned int d;  // dimension
     float *arr;  // elements
  public:
-    explicit // main constructor
+    explicit  // main constructor
         Hypercomplex(const unsigned int arg_d, const float* arg_arr);
     Hypercomplex(const Hypercomplex& H);  // copy constructor
     Hypercomplex() = delete;  // forbid default constructor | c++11
@@ -33,11 +33,11 @@ class Hypercomplex {
     float _() const { return d; }  // get space dimension
     float norm() const;  // calculate object's norm
     Hypercomplex inv() const;  // calculate object's inverse
-    Hypercomplex expand(unsigned int arg_d) const;
+    Hypercomplex expand(const unsigned int arg_d) const;
     Hypercomplex operator~ () const;  // conjugate operator
     Hypercomplex operator- () const;  // negation operator
     Hypercomplex& operator= (const Hypercomplex &H);  // assignment operator
-    float& operator[] (unsigned int i) const;  // element access operator
+    float& operator[] (const unsigned int i) const;  // element access operator
     Hypercomplex& operator+= (const Hypercomplex &H);
     Hypercomplex& operator-= (const Hypercomplex &H);
     Hypercomplex& operator*= (const Hypercomplex &H);
