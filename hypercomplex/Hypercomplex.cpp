@@ -65,7 +65,7 @@ Hypercomplex Hypercomplex::inv() const {
 }
 
 // expand object to a higher dimension
-Hypercomplex Hypercomplex::expand(unsigned int arg_d) const {
+Hypercomplex Hypercomplex::expand(const unsigned int arg_d) const {
     if (arg_d <= d) throw std::invalid_argument("invalid dimension");
     float *temparr = new float[arg_d]();  // zero-init
     for (unsigned int i=0; i < d; i++) temparr[i] = arr[i];
@@ -102,7 +102,7 @@ Hypercomplex& Hypercomplex::operator=(const Hypercomplex &H) {
 }
 
 // overloaded [] operator
-float& Hypercomplex::operator[](unsigned int i) const {
+float& Hypercomplex::operator[](const unsigned int i) const {
     assert(0 <= i && i < d);
     return arr[i];
 }
