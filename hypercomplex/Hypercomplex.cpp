@@ -22,7 +22,9 @@
 // Hypercomplex main constructor
 Hypercomplex::Hypercomplex(unsigned int arg_d, float* arg_arr) {
     if (arg_d == 0) throw std::invalid_argument("invalid dimension");
-    if ((arg_d & (arg_d - 1)) != 0) throw std::invalid_argument("invalid dimension");
+    if ((arg_d & (arg_d - 1)) != 0) {
+        throw std::invalid_argument("invalid dimension");
+    }
     d = arg_d;
     arr = new float[arg_d];
     for (unsigned int i=0; i < arg_d; i++) arr[i] = arg_arr[i];
@@ -82,9 +84,7 @@ Hypercomplex Hypercomplex::operator~() const {
 // overloaded - unary operator
 Hypercomplex Hypercomplex::operator-() const {
     float *temparr = new float[d];
-    for (unsigned int i=0; i < d; i++) {
-        temparr[i] = -arr[i];
-    }
+    for (unsigned int i=0; i < d; i++) temparr[i] = -arr[i];
     Hypercomplex H = Hypercomplex(d, temparr);
     delete[] temparr;
     return H;
@@ -96,9 +96,7 @@ Hypercomplex& Hypercomplex::operator=(const Hypercomplex &H) {
     if (this == &H) return *this;
     // reassign
     d = H.d;
-    for (unsigned int i=0; i < d; i++) {
-        arr[i] = H.arr[i];
-    }
+    for (unsigned int i=0; i < d; i++) arr[i] = H.arr[i];
     // return the existing object so we can chain this operator
     return *this;
 }
@@ -111,13 +109,9 @@ float& Hypercomplex::operator[](unsigned int i) const {
 
 // overloaded == operator
 bool operator==(const Hypercomplex &H1, const Hypercomplex &H2) {
-    if (H1._() != H2._()) {
-        return false;
-    }
+    if (H1._() != H2._()) return false;
     for (unsigned int i=0; i < H1._(); i++) {
-        if (H1[i] != H2[i]) {
-            return false;
-        }
+        if (H1[i] != H2[i]) return false;
     }
     return true;
 }
