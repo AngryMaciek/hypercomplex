@@ -270,3 +270,17 @@ Hypercomplex exp(const Hypercomplex &H) {
     delete[] temparr;
     return result;
 }
+
+// calculate ln(H)
+Hypercomplex exp(const Hypercomplex &H) {
+    unsigned int dim = H._();
+    float *temparr = new float[1];
+    Hypercomplex results = H;
+    result[0] = log(H.norm());
+    Hypercomplex ImH = Im(H);
+    temparr[0] = acos(H[0] / H.norm()) / ImH.norm();
+    Hypercomplex product = Hypercomplex(1, temparr).expand(dim) * Im(H);
+    for (unsigned int i=1; i < dim; i++) result[i] = product[i];
+    delete[] temparr;
+    return result;
+}
