@@ -262,7 +262,8 @@ Hypercomplex exp(const Hypercomplex &H) {
     temparr[0] = exp(H[0]);
     Hypercomplex term1 = Hypercomplex(1, temparr).expand(dim);
     Hypercomplex ImH = Im(H);
-    Hypercomplex term2 = cos(ImH.norm()).expand(dim);
+    temparr[0] = cos(ImH.norm());
+    Hypercomplex term2 = Hypercomplex(1, temparr).expand(dim);
     temparr[0] = sin(ImH.norm()) / ImH.norm();
     Hypercomplex term3 = ImH * Hypercomplex(1, temparr).expand(dim);
     Hypercomplex result = term1 * (term2 + term3);
