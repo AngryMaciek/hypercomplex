@@ -75,6 +75,20 @@ Hypercomplex Hypercomplex::expand(const unsigned int arg_d) const {
     return H;
 }
 
+// return the real part of the number
+Hypercomplex Hypercomplex::Im() const {
+    Hypercomplex H = (*this);
+    for (unsigned int i=1; i < d; i++) H[i] = 0;
+    return H;
+}
+
+// return the imaginary part of the number
+Hypercomplex Hypercomplex::Im() const {
+    Hypercomplex H = (*this);
+    H[0] = 0;
+    return H;
+}
+
 // overloaded ~ operator
 Hypercomplex Hypercomplex::operator~() const {
     Hypercomplex H = -(*this);

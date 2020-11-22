@@ -36,6 +36,8 @@ class Hypercomplex {
     float norm() const;
     Hypercomplex inv() const;
     Hypercomplex expand(const unsigned int arg_d) const;
+    Hypercomplex Re() const;
+    Hypercomplex Im() const;
     Hypercomplex operator~ () const;
     Hypercomplex operator- () const;
     Hypercomplex& operator= (const Hypercomplex &H);
