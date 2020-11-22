@@ -235,7 +235,7 @@ Hypercomplex& Hypercomplex::operator/=(const Hypercomplex &H) {
 
 // overload << operator
 std::ostream& operator<< (std::ostream &os, const Hypercomplex &H) {
-    for (unsigned int i=0; i < H_() - 1; i++) os << H[i] << " ";
-    os << H[H_() - 1];
+    for (unsigned int i=0; i < H._() - 1; i++) os << H[i] << " ";
+    os << H[H._() - 1];
     return os;
 }
