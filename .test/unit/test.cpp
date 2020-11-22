@@ -335,27 +335,26 @@ TEST_CASE( "Special", "[usecase]" ) {
 
     SECTION( "Const objects" ) {
         const unsigned int dim = 4;
+        const unsigned int newdim = 8;
+        const unsigned int cui = 2;
         const float A[] = {1.0, 2.0, 0.0, -1.0};
         const float B[] = {-0.5, 1.0, 0.0, 6.0};
         const Hypercomplex const_h1 = Hypercomplex(dim, A);
         const Hypercomplex const_h2 = Hypercomplex(dim, B);
-        const_h1._();
-        const_h1.norm();
-        ~const_h1;
-        -const_h1;
-        const Hypercomplex invh1 = const_h1.inv();
-        const unsigned int newdim = 8;
-        const_h1.expand(newdim);
-        const_h1[0] == A[0];
-        REQUIRE( true == true );
-        const_h1 == const_h2;
-        const_h1 != const_h2;
-        const_h1 + const_h2;
-        const_h1 - const_h2;
-        const_h1 * const_h2;
-        const_h1 / const_h2;
-        const long int cli = 2;
-        REQUIRE_NOTHROW(const_h1 ^ cli);
+        REQUIRE_NOTHROW(const_h1._());
+        REQUIRE_NOTHROW(const_h1.norm());
+        REQUIRE_NOTHROW(const_h1.inv());
+        REQUIRE_NOTHROW(~const_h1);
+        REQUIRE_NOTHROW(-const_h1);
+        REQUIRE_NOTHROW(const_h1.expand(newdim));
+        REQUIRE_NOTHROW(const_h1[0]);
+        REQUIRE_NOTHROW(const_h1 == const_h2);
+        REQUIRE_NOTHROW(const_h1 != const_h2);
+        REQUIRE_NOTHROW(const_h1 + const_h2);
+        REQUIRE_NOTHROW(const_h1 - const_h2);
+        REQUIRE_NOTHROW(const_h1 * const_h2);
+        REQUIRE_NOTHROW(const_h1 / const_h2);
+        REQUIRE_NOTHROW(const_h1 ^ cui);
     }
 }
 
