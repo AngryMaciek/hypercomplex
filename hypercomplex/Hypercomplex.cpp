@@ -17,6 +17,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <stdexcept>
+#include <iostream>
 #include "Hypercomplex.h" // NOLINT
 
 // Hypercomplex main constructor
