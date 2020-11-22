@@ -17,8 +17,7 @@
 #ifndef HYPERCOMPLEX_HYPERCOMPLEX_H_
 #define HYPERCOMPLEX_HYPERCOMPLEX_H_
 
-//#include <iosfwd>
-#include <iostream>
+#include <iosfwd>
 
 /*
 Main class of the library
