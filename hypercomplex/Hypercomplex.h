@@ -24,22 +24,22 @@ Main class of the library
 */
 class Hypercomplex {
  private:
-    unsigned int d;  // dimension
-    float *arr;  // elements
+    unsigned int d;
+    float *arr;
  public:
-    explicit  // main constructor
+    explicit
         Hypercomplex(const unsigned int arg_d, const float* arg_arr);
-    Hypercomplex(const Hypercomplex& H);  // copy constructor
+    Hypercomplex(const Hypercomplex& H);
     Hypercomplex() = delete;  // forbid default constructor | c++11
-    ~Hypercomplex();  // destructor
-    float _() const { return d; }  // get space dimension
-    float norm() const;  // calculate object's norm
-    Hypercomplex inv() const;  // calculate object's inverse
+    ~Hypercomplex();
+    float _() const { return d; }
+    float norm() const;
+    Hypercomplex inv() const;
     Hypercomplex expand(const unsigned int arg_d) const;
-    Hypercomplex operator~ () const;  // conjugate operator
-    Hypercomplex operator- () const;  // negation operator
-    Hypercomplex& operator= (const Hypercomplex &H);  // assignment operator
-    float& operator[] (const unsigned int i) const;  // element access operator
+    Hypercomplex operator~ () const;
+    Hypercomplex operator- () const;
+    Hypercomplex& operator= (const Hypercomplex &H);
+    float& operator[] (const unsigned int i) const;
     Hypercomplex& operator+= (const Hypercomplex &H);
     Hypercomplex& operator-= (const Hypercomplex &H);
     Hypercomplex& operator*= (const Hypercomplex &H);
