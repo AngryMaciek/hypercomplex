@@ -36,8 +36,6 @@ class Hypercomplex {
     float norm() const;
     Hypercomplex inv() const;
     Hypercomplex expand(const unsigned int arg_d) const;
-    Hypercomplex Re() const;
-    Hypercomplex Im() const;
     Hypercomplex operator~ () const;
     Hypercomplex operator- () const;
     Hypercomplex& operator= (const Hypercomplex &H);
@@ -60,5 +58,11 @@ Hypercomplex operator* (const Hypercomplex &H1, const Hypercomplex &H2);
 Hypercomplex operator^ (const Hypercomplex &H, const unsigned int x);
 Hypercomplex operator/ (const Hypercomplex &H1, const Hypercomplex &H2);
 std::ostream& operator<< (std::ostream &os, const Hypercomplex &H);
+
+/*
+Global functions
+*/
+Hypercomplex Re(const Hypercomplex &H);
+Hypercomplex Im(const Hypercomplex &H);
 
 #endif  // HYPERCOMPLEX_HYPERCOMPLEX_H_

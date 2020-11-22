@@ -75,20 +75,6 @@ Hypercomplex Hypercomplex::expand(const unsigned int arg_d) const {
     return H;
 }
 
-// return the real part of the number
-Hypercomplex Hypercomplex::Re() const {
-    Hypercomplex H = (*this);
-    for (unsigned int i=1; i < d; i++) H[i] = 0;
-    return H;
-}
-
-// return the imaginary part of the number
-Hypercomplex Hypercomplex::Im() const {
-    Hypercomplex H = (*this);
-    H[0] = 0;
-    return H;
-}
-
 // overloaded ~ operator
 Hypercomplex Hypercomplex::operator~() const {
     Hypercomplex H = -(*this);
@@ -253,4 +239,18 @@ std::ostream& operator<< (std::ostream &os, const Hypercomplex &H) {
     for (unsigned int i=0; i < H._() - 1; i++) os << H[i] << " ";
     os << H[H._() - 1];
     return os;
+}
+
+// return the real part of the number
+Hypercomplex Re(const Hypercomplex &H) {
+    Hypercomplex result = H;
+    for (unsigned int i=1; i < d; i++) result[i] = 0;
+    return result;
+}
+
+// return the imaginary part of the number
+Hypercomplex Im(const Hypercomplex &H) {
+    Hypercomplex result = H;
+    result[0] = 0;
+    return result;
 }

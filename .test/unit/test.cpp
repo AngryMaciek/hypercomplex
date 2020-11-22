@@ -64,7 +64,7 @@ TEST_CASE( "Class Structure", "[unit]" ) {
         }
 
         SECTION( "Real part" ) {
-            Hypercomplex real_h1 = h1.Re();
+            Hypercomplex real_h1 = Re(h1);
             REQUIRE( real_h1[0] == h1[0] );
             REQUIRE( real_h1[1] == 0 );
             REQUIRE( real_h1[2] == 0 );
@@ -72,7 +72,7 @@ TEST_CASE( "Class Structure", "[unit]" ) {
         }
 
         SECTION( "Imaginary part" ) {
-            Hypercomplex imaginary_h1 = h1.Im();
+            Hypercomplex imaginary_h1 = Im(h1);
             REQUIRE( imaginary_h1[0] == 0 );
             REQUIRE( imaginary_h1[1] == h1[1] );
             REQUIRE( imaginary_h1[2] == h1[2] );
