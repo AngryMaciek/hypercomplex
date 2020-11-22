@@ -244,7 +244,7 @@ std::ostream& operator<< (std::ostream &os, const Hypercomplex &H) {
 // return the real part of the number
 Hypercomplex Re(const Hypercomplex &H) {
     Hypercomplex result = H;
-    for (unsigned int i=1; i < d; i++) result[i] = 0;
+    for (unsigned int i=1; i < H._(); i++) result[i] = 0;
     return result;
 }
 
