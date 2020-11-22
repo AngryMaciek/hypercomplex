@@ -275,7 +275,7 @@ Hypercomplex exp(const Hypercomplex &H) {
 Hypercomplex log(const Hypercomplex &H) {
     unsigned int dim = H._();
     float *temparr = new float[1];
-    Hypercomplex results = H;
+    Hypercomplex result = H;
     result[0] = log(H.norm());
     Hypercomplex ImH = Im(H);
     temparr[0] = acos(H[0] / H.norm()) / ImH.norm();
