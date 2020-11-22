@@ -320,7 +320,7 @@ TEST_CASE( "Overloading Operators", "[unit]" ) {
     }
 
     SECTION( "Output stream operator" ) {
-        REQUIRE_NOTHROW(std::cout << h1);
+        REQUIRE_NOTHROW(std::cout << h1 << std::endl);
     }
 }
 
@@ -359,7 +359,7 @@ TEST_CASE( "Special", "[usecase]" ) {
         REQUIRE_NOTHROW(const_h1 * const_h2);
         REQUIRE_NOTHROW(const_h1 / const_h2);
         REQUIRE_NOTHROW(const_h1 ^ cui);
-        REQUIRE_NOTHROW(std::cout << const_h1);
+        REQUIRE_NOTHROW(std::cout << const_h1 << std::endl);
     }
 }
 
