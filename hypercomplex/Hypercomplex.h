@@ -65,6 +65,6 @@ Global functions
 Hypercomplex Re(const Hypercomplex &H);
 Hypercomplex Im(const Hypercomplex &H);
 Hypercomplex exp(const Hypercomplex &H);
-Hypercomplex ln(const Hypercomplex &H);
+Hypercomplex log(const Hypercomplex &H);
 
 #endif  // HYPERCOMPLEX_HYPERCOMPLEX_H_

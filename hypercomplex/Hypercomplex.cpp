@@ -272,7 +272,7 @@ Hypercomplex exp(const Hypercomplex &H) {
 }
 
 // calculate ln(H)
-Hypercomplex exp(const Hypercomplex &H) {
+Hypercomplex log(const Hypercomplex &H) {
     unsigned int dim = H._();
     float *temparr = new float[1];
     Hypercomplex results = H;
