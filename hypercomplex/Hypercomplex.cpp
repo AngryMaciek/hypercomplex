@@ -260,11 +260,11 @@ Hypercomplex exp(const Hypercomplex &H) {
     unsigned int dim = H._();
     float *temparr = new float[1];
     temparr[0] = exp(H[0]);
-    Hypercomplex term1 = Hypercomplex(1, &temparr).expand(dim);
+    Hypercomplex term1 = Hypercomplex(1, temparr).expand(dim);
     Hypercomplex ImH = Im(H);
     Hypercomplex term2 = cos(ImH.norm()).expand(dim);
     temparr[0] = sin(ImH.norm()) / ImH.norm();
-    Hypercomplex term3 = ImH * Hypercomplex(1, &temparr).expand(dim);
+    Hypercomplex term3 = ImH * Hypercomplex(1, temparr).expand(dim);
     Hypercomplex result = term1 * (term2 + term3);
     delete[] temparr;
     return result;
