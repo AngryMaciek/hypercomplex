@@ -62,6 +62,22 @@ TEST_CASE( "Class Structure", "[unit]" ) {
             REQUIRE( hexpanded[7] == 0.0 );
             REQUIRE_THROWS_AS(h1.expand(4), std::invalid_argument);
         }
+
+        SECTION( "Real part" ) {
+            Hypercomplex real_h1 = h1.Re();
+            REQUIRE( real_h1[0] == h1[0] );
+            REQUIRE( real_h1[1] == 0 );
+            REQUIRE( real_h1[2] == 0 );
+            REQUIRE( real_h1[3] == 0 );
+        }
+
+        SECTION( "Imaginary part" ) {
+            Hypercomplex imaginary_h1 = h1.Im();
+            REQUIRE( imaginary_h1[0] == 0 );
+            REQUIRE( imaginary_h1[1] == h1[1] );
+            REQUIRE( imaginary_h1[2] == h1[2] );
+            REQUIRE( imaginary_h1[3] == h1[3] );
+        }
     }
 
     SECTION( "Main constructor: exception" ) {
