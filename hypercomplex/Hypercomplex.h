@@ -23,7 +23,6 @@
 Main class of the library
 */
 class Hypercomplex {
-
  private:
     unsigned int d;
     float *arr;
