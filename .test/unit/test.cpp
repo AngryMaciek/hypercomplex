@@ -318,6 +318,10 @@ TEST_CASE( "Overloading Operators", "[unit]" ) {
         REQUIRE( h1[3] == target4 );
         REQUIRE_THROWS_AS(h1 /= h3, std::invalid_argument);
     }
+
+    SECTION( "Output stream operator" ) {
+        REQUIRE_NOTHROW(std::cout << h1);
+    }
 }
 
 TEST_CASE( "Special", "[usecase]" ) {
@@ -355,6 +359,7 @@ TEST_CASE( "Special", "[usecase]" ) {
         REQUIRE_NOTHROW(const_h1 * const_h2);
         REQUIRE_NOTHROW(const_h1 / const_h2);
         REQUIRE_NOTHROW(const_h1 ^ cui);
+        REQUIRE_NOTHROW(std::cout << const_h1);
     }
 }
 

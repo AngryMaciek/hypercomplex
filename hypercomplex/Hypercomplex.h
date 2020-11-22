@@ -55,5 +55,6 @@ Hypercomplex operator- (const Hypercomplex &H1, const Hypercomplex &H2);
 Hypercomplex operator* (const Hypercomplex &H1, const Hypercomplex &H2);
 Hypercomplex operator^ (const Hypercomplex &H, const unsigned int x);
 Hypercomplex operator/ (const Hypercomplex &H1, const Hypercomplex &H2);
+std::ostream& operator<< (std::ostream &os, const Hypercomplex &H);
 
 #endif  // HYPERCOMPLEX_HYPERCOMPLEX_H_
