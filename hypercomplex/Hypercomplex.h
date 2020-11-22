@@ -23,9 +23,11 @@
 Main class of the library
 */
 class Hypercomplex {
+
  private:
     unsigned int d;
     float *arr;
+
  public:
     explicit
         Hypercomplex(const unsigned int arg_d, const float* arg_arr);
