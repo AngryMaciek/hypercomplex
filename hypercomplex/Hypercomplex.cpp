@@ -258,16 +258,12 @@ Hypercomplex Im(const Hypercomplex &H) {
 // calculate e^H
 Hypercomplex exp(const Hypercomplex &H) {
     unsigned int dim = H._();
-    float *temparr = new float[1];
-    temparr[0] = exp(H[0]);
-    Hypercomplex term1 = Hypercomplex(1, temparr).expand(dim);
     Hypercomplex ImH = Im(H);
-    temparr[0] = cos(ImH.norm());
-    Hypercomplex term2 = Hypercomplex(1, temparr).expand(dim);
-    temparr[0] = sin(ImH.norm()) / ImH.norm();
-    Hypercomplex term3 = ImH * Hypercomplex(1, temparr).expand(dim);
-    Hypercomplex result = term1 * (term2 + term3);
-    delete[] temparr;
+    Hypercomplex result = ImH;
+    float sinv_v = sin(ImH.norm()) / ImH.norm();
+    for (unsigned int i=0; i < dim; i++) result[i] = result[i] * sinv_v;
+    result[0] += cos(ImH.norm());
+    for (unsigned int i=0; i < dim; i++) result[i] = result[i] * exp(H[0]);
     return result;
 }
 
