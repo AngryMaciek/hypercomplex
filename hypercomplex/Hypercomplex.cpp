@@ -258,12 +258,12 @@ Hypercomplex Im(const Hypercomplex &H) {
 // calculate e^H
 Hypercomplex exp(const Hypercomplex &H) {
     unsigned int dim = H._();
-    Hypercomplex ImH = Im(H);
-    Hypercomplex result = ImH;
-    float sinv_v = sin(ImH.norm()) / ImH.norm();
-    for (unsigned int i=0; i < dim; i++) result[i] = result[i] * sinv_v;
-    result[0] += cos(ImH.norm());
-    for (unsigned int i=0; i < dim; i++) result[i] = result[i] * exp(H[0]);
+    Hypercomplex result = Im(H);
+    float norm = result.norm();
+    float sinv_v = sin(norm) / norm;
+    for (unsigned int i=0; i < dim; i++) result[i] *= sinv_v;
+    result[0] += cos(norm);
+    for (unsigned int i=0; i < dim; i++) result[i] *= exp(H[0]);
     return result;
 }
 
