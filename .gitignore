@@ -1,2 +1,5 @@
 # Mac directory config
 .DS_Store
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
