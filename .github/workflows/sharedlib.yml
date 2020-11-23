@@ -17,6 +17,9 @@ jobs:
 
     steps:
 
+      - name: Install md5sum for mac
+        run: brew install md5sha1sum
+
       - name: Checkout Repository
         uses: actions/checkout@v2
 
