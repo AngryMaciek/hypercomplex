@@ -388,6 +388,10 @@ TEST_CASE( "Special", "[usecase]" ) {
         REQUIRE_NOTHROW(const_h1 / const_h2);
         REQUIRE_NOTHROW(const_h1 ^ cui);
         REQUIRE_NOTHROW(std::cout << const_h1 << std::endl);
+        REQUIRE_NOTHROW(Re(const_h1));
+        REQUIRE_NOTHROW(Im(const_h1));
+        REQUIRE_NOTHROW(exp(const_h1));
+        // REQUIRE_NOTHROW(Re(const_h1));
     }
 }
 
