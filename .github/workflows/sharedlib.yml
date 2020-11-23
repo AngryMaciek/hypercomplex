@@ -1,0 +1,36 @@
+name: Shared Library
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+
+  build:
+    runs-on: ubuntu-20.04
+    env:
+      working-directory: ./hypercomplex
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Display compiler version
+        run: g++ --version
+
+      - name: Create MD5 Checksum
+        working-directory: ${{env.working-directory}}
+        run: md5sum Hypercomplex.so > Hypercomplex.so.txt
+
+      - name: Rebuild Library
+        working-directory: ${{env.working-directory}}
+        run: gcc -shared -o Hypercomplex.so -fPIC Hypercomplex.cpp
+
+      - name: Compare MD5 Checksum
+        working-directory: ${{env.working-directory}}
+        run: md5sum --check Hypercomplex.so.txt
