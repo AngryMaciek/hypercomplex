@@ -78,6 +78,15 @@ TEST_CASE( "Class Structure", "[unit]" ) {
             REQUIRE( imaginary_h1[2] == h1[2] );
             REQUIRE( imaginary_h1[3] == h1[3] );
         }
+
+        SECTION( "Hypercomplex exponentiation" ) {
+            Hypercomplex exp_h1 = exp(h1);
+            REQUIRE_NOTHROW(std::cout << exp_h1 << std::endl);
+            //REQUIRE( imaginary_h1[0] == 0 );
+            //REQUIRE( imaginary_h1[1] == h1[1] );
+            //REQUIRE( imaginary_h1[2] == h1[2] );
+            //REQUIRE( imaginary_h1[3] == h1[3] );
+        }
     }
 
     SECTION( "Main constructor: exception" ) {
