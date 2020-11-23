@@ -80,6 +80,8 @@ TEST_CASE( "Class Structure", "[unit]" ) {
         }
 
         SECTION( "Hypercomplex exponentiation" ) {
+            float A[] = {2.0, 0.0, 1.0, 5.0};
+            Hypercomplex h1 = Hypercomplex(4, A);
             Hypercomplex exp_h1 = exp(h1);
             REQUIRE_NOTHROW(std::cout << exp_h1 << std::endl);
             //REQUIRE( imaginary_h1[0] == 0 );
