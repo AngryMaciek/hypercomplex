@@ -80,12 +80,15 @@ TEST_CASE( "Class Structure", "[unit]" ) {
         }
 
         SECTION( "Hypercomplex exponentiation" ) {
+            Approx target1 = Approx(-1.678).epsilon(0.01);
+            Approx target2 = Approx(1.913).epsilon(0.01);
+            float target3 = 0.0;
+            Approx target4 = Approx(-0.956).epsilon(0.01);
             Hypercomplex exp_h1 = exp(h1);
-            REQUIRE_NOTHROW(std::cout << exp_h1 << std::endl);
-            //REQUIRE( imaginary_h1[0] == 0 );
-            //REQUIRE( imaginary_h1[1] == h1[1] );
-            //REQUIRE( imaginary_h1[2] == h1[2] );
-            //REQUIRE( imaginary_h1[3] == h1[3] );
+            REQUIRE( exp_h1[0] == target1 );
+            REQUIRE( exp_h1[1] == target2 );
+            REQUIRE( exp_h1[2] == target3 );
+            REQUIRE( exp_h1[3] == target4 );
         }
     }
 
