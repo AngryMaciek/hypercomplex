@@ -1,0 +1,24 @@
+###############################################################################
+#
+#   Software to be installed in the environment
+#
+#   AUTHOR: Maciej_Bak
+#   AFFILIATION: University_of_Basel
+#   AFFILIATION: Swiss_Institute_of_Bioinformatics
+#   CONTACT: wsciekly.maciek@gmail.com
+#   CREATED: 23-11-2020
+#   LICENSE: Apache_2.0
+#
+###############################################################################
+---
+
+  name: jupyter-lab-cpp
+
+  channels:
+    - conda-forge
+
+  dependencies:
+    - jupyterlab=2.2.0
+    - xeus-cling=0.10.0
+
+...
