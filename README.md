@@ -9,6 +9,10 @@
 
 # ![Hypercomplex](img/logo.png)
 
+Hypercomplex is a *C++* library which allows for calculations with hypercomplex numbers from the [Cayley-Dickson algebras](https://en.wikipedia.org/wiki/Cayley%E2%80%93Dickson_construction).
+
+
+
 For a brief overwiev of the library's functionality please inspect the following [notebook](./example/example.ipynb).  
 Full API Documentation is available at [this link](https://www.youtube.com/watch?v=dQw4w9WgXcQ).
 
