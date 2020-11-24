@@ -89,6 +89,9 @@ TEST_CASE( "Class Structure", "[unit]" ) {
             REQUIRE( exp_h1[1] == target2 );
             REQUIRE( exp_h1[2] == target3 );
             REQUIRE( exp_h1[3] == target4 );
+            float B[] = {5.0, 0.0, 0.0, 0.0};
+            Hypercomplex h2 = Hypercomplex(dim, A);
+            REQUIRE_NOTHROW(exp(h2));
         }
     }
 
