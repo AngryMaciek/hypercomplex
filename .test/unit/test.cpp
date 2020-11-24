@@ -84,15 +84,18 @@ TEST_CASE( "Class Structure", "[unit]" ) {
             Approx target2 = Approx(1.913).epsilon(0.01);
             float target3 = 0.0;
             Approx target4 = Approx(-0.956).epsilon(0.01);
-            // Hypercomplex exp_h1 = exp(h1);
-            // REQUIRE( exp_h1[0] == target1 );
-            // REQUIRE( exp_h1[1] == target2 );
-            // REQUIRE( exp_h1[2] == target3 );
-            // REQUIRE( exp_h1[3] == target4 );
+            Hypercomplex exp_h1 = exp(h1);
+            REQUIRE( exp_h1[0] == target1 );
+            REQUIRE( exp_h1[1] == target2 );
+            REQUIRE( exp_h1[2] == target3 );
+            REQUIRE( exp_h1[3] == target4 );
             float B[] = {5.0, 0.0, 0.0, 0.0};
             Hypercomplex h2 = Hypercomplex(dim, B);
-            REQUIRE_NOTHROW(exp(h2));
-            REQUIRE_NOTHROW(std::cout << exp(h2) << std::endl);
+            Hypercomplex exp_h2 = exp(h2);
+            REQUIRE( exp_h2[0] == 25.0 );
+            REQUIRE( exp_h2[1] == 0.0 );
+            REQUIRE( exp_h2[2] == 0.0 );
+            REQUIRE( exp_h2[3] == 0.0 );
         }
     }
 
