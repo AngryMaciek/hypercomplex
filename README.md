@@ -13,8 +13,8 @@ A *C++* library for arbitrary hypercomplex numbers from the [Cayley-Dickson alge
 
 The library is relatively small, it is recommended to include the header file into the main program and compile it together with the library's implementation. Alternatively, the shared library file is also provided.  
 
-Compilation process is specified explicitly in the [YAML recipe](./github/workflows/include.yml) for the CI workflow.  
-Another [workflow recipe](./github/workflows/install.yml), dedicted to Unix-based operating systems, provides instructions for a global installation of the library.
+Compilation process is specified explicitly in the [YAML recipe](./.github/workflows/include.yml) for the CI workflow.  
+Another [workflow recipe](./.github/workflows/install.yml), dedicted to Unix-based operating systems, provides instructions for a global installation of the library.
 
 For a brief overwiev of the library's functionality please inspect the following [notebook](./example/example.ipynb).  
 Full API Documentation is available at [this link](https://www.youtube.com/watch?v=dQw4w9WgXcQ).  
