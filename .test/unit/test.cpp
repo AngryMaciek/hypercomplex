@@ -342,7 +342,7 @@ TEST_CASE( "Overloading Operators", "[unit]" ) {
         REQUIRE_THROWS_AS(h1 / h3, std::invalid_argument);
         float D[] = {0.0, 0.0, 0.0, 0.0};
         Hypercomplex h4 = Hypercomplex(dim4, D);
-        REQUIRE_THROWS_AS(h1 / h3, std::invalid_argument);
+        REQUIRE_THROWS_AS(h1 / h4, std::invalid_argument);
     }
 
     SECTION( "Division-Assignment operator" ) {
