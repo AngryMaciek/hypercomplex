@@ -90,18 +90,6 @@ TEST_CASE( "Class Structure", "[unit]" ) {
             REQUIRE( exp_h1[2] == target3 );
             REQUIRE( exp_h1[3] == target4 );
         }
-
-        SECTION( "Hypercomplex logarithm" ) {
-            Approx target1 = Approx(0.896).epsilon(0.01);
-            Approx target2 = Approx(1.029).epsilon(0.01);
-            float target3 = 0.0;
-            Approx target4 = Approx(-0.514).epsilon(0.01);
-            Hypercomplex log_h1 = log(h1);
-            REQUIRE( log_h1[0] == target1 );
-            REQUIRE( log_h1[1] == target2 );
-            REQUIRE( log_h1[2] == target3 );
-            REQUIRE( log_h1[3] == target4 );
-        }
     }
 
     SECTION( "Main constructor: exception" ) {
@@ -403,7 +391,6 @@ TEST_CASE( "Special", "[usecase]" ) {
         REQUIRE_NOTHROW(Re(const_h1));
         REQUIRE_NOTHROW(Im(const_h1));
         REQUIRE_NOTHROW(exp(const_h1));
-        REQUIRE_NOTHROW(log(const_h1));
     }
 }
 
