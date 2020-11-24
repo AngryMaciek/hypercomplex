@@ -8,3 +8,8 @@
 [![GitHub license](https://img.shields.io/github/license/AngryMaciek/hypercomplex)](https://github.com/AngryMaciek/hypercomplex/blob/master/LICENSE)
 
 # ![Hypercomplex](img/logo.png)
+
+For a brief overwiev of the library's functionality please inspect the following [notebook]("example/example.ipynb").  
+Full API Documentation is available at [this link](https://www.youtube.com/watch?v=dQw4w9WgXcQ).
+
+© 2020 Maciej Bak
