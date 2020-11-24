@@ -9,7 +9,7 @@
 
 # ![Hypercomplex](img/logo.png)
 
-Hypercomplex is a *C++* library which allows for calculations with arbitrary hypercomplex numbers from the [Cayley-Dickson algebras](https://en.wikipedia.org/wiki/Cayley%E2%80%93Dickson_construction).
+Hypercomplex is a *C++* library which allows for calculations with hypercomplex numbers from the [Cayley-Dickson algebras](https://en.wikipedia.org/wiki/Cayley%E2%80%93Dickson_construction).
 
 The library is relatively small, it is recommended to include the header file into the main program and compile it together with the library's implementation. Alternatively, the shared library file is also provided.  
 Instructions and commands on how include the library into another compilation unit are specified explicitly in the [YAML recipe](./github/workflows/include.yml) for the CI workflow.
