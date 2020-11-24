@@ -14,6 +14,9 @@ Hypercomplex is a *C++* library which allows for calculations with hypercomplex 
 The library is relatively small, it is recommended to include the header file into the main program and compile it together with the library's implementation file.
 
 For a brief overwiev of the library's functionality please inspect the following [notebook](./example/example.ipynb).  
-Full API Documentation is available at [this link](https://www.youtube.com/watch?v=dQw4w9WgXcQ).
+Full API Documentation is available at [this link](https://www.youtube.com/watch?v=dQw4w9WgXcQ).  
+Please refer to the [contributing guidelines](CONTRIBUTING.md) if you are interested to contribute to this repository.  
+Please mind the [code of conduct](CODE_OF_CONDUCT.md) for all interactions with the community.  
+For questions or suggestions regarding the code, please use the [issue tracker](https://github.com/AngryMaciek/hypercomplex/issues).  
 
 © 2020 Maciej Bak
