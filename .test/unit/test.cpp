@@ -92,6 +92,7 @@ TEST_CASE( "Class Structure", "[unit]" ) {
             float B[] = {5.0, 0.0, 0.0, 0.0};
             Hypercomplex h2 = Hypercomplex(dim, B);
             REQUIRE_NOTHROW(exp(h2));
+            REQUIRE_NOTHROW(std::cout << exp(h2) << std::endl);
         }
     }
 
