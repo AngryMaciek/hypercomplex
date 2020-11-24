@@ -259,11 +259,12 @@ Hypercomplex Im(const Hypercomplex &H) {
 Hypercomplex exp(const Hypercomplex &H) {
     unsigned int dim = H._();
     Hypercomplex result = Im(H);
+    std::cout << result[0] << std::endl;
     float norm = result.norm();
+    std::cout << norm << std::endl;
     float sinv_v = sin(norm) / norm;
     for (unsigned int i=0; i < dim; i++) result[i] *= sinv_v;
     result[0] += cos(norm);
-    std::cout << result[0] << std::endl;
     for (unsigned int i=0; i < dim; i++) result[i] *= exp(H[0]);
     return result;
 }
