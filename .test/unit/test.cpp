@@ -92,7 +92,8 @@ TEST_CASE( "Class Structure", "[unit]" ) {
             float B[] = {5.0, 0.0, 0.0, 0.0};
             Hypercomplex h2 = Hypercomplex(dim, B);
             Hypercomplex exp_h2 = exp(h2);
-            REQUIRE( exp_h2[0] == 25.0 );
+            Approx target5 = Approx(148.413).epsilon(0.01);
+            REQUIRE( exp_h2[0] == target5 );
             REQUIRE( exp_h2[1] == 0.0 );
             REQUIRE( exp_h2[2] == 0.0 );
             REQUIRE( exp_h2[3] == 0.0 );

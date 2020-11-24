@@ -262,7 +262,7 @@ Hypercomplex exp(const Hypercomplex &H) {
     float norm = result.norm();
     if (norm == 0.0) {
         result[0] = exp(H[0]);
-        for (unsigned int i=1; i < dim; i++) result[i] = 0;       
+        for (unsigned int i=1; i < dim; i++) result[i] = 0;
     } else {
         float sinv_v = sin(norm) / norm;
         for (unsigned int i=0; i < dim; i++) result[i] *= sinv_v;
