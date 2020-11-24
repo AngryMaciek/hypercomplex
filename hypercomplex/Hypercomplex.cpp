@@ -262,6 +262,7 @@ Hypercomplex exp(const Hypercomplex &H) {
     std::cout << result[0] << std::endl;
     float norm = result.norm();
     std::cout << norm << std::endl;
+    std::cout << sin(norm) / norm << std::endl;
     float sinv_v = sin(norm) / norm;
     for (unsigned int i=0; i < dim; i++) result[i] *= sinv_v;
     result[0] += cos(norm);
