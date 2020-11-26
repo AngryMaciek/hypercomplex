@@ -7,7 +7,7 @@
 [![GitHub issues](https://img.shields.io/github/issues/AngryMaciek/hypercomplex)](https://github.com/AngryMaciek/hypercomplex/issues)
 [![GitHub license](https://img.shields.io/github/license/AngryMaciek/hypercomplex)](https://github.com/AngryMaciek/hypercomplex/blob/master/LICENSE)
 
-<img src="img/logo.png" alt="drawing" height="40"/>
+<img src="img/logo.png" alt="drawing" height="30"/>
 
 A *C++* library for arbitrary hypercomplex numbers from the [Cayley-Dickson algebras](https://en.wikipedia.org/wiki/Cayley%E2%80%93Dickson_construction).
 
