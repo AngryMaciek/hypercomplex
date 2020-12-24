@@ -14,7 +14,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-10.15, ubuntu-20.04, windows-2019]
+        os: [macos-10.15, ubuntu-20.04]
     env:
       working-directory: .test/unit
 
@@ -25,8 +25,6 @@ jobs:
           if [ "$RUNNER_OS" == "Linux" ]; then
             sudo apt-get update
             sudo apt-get install libmpfr-dev libmpfr-doc libmpfr4 libmpfr4-dbg
-          elif [ "$RUNNER_OS" == "Windows" ]; then
-            choco install important_windows_software
           elif [ "$RUNNER_OS" == "macOS" ]; then
             brew update
             brew install mpfr
