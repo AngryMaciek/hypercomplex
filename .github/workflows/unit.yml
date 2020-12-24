@@ -24,7 +24,7 @@ jobs:
       - name: Install MPFR
         run: |
           if [ "$RUNNER_OS" == "Linux" ]; then
-            sudo apt-get update
+            sudo apt-get update -y
             sudo apt-get install libmpfr-dev libmpfr-doc
           elif [ "$RUNNER_OS" == "macOS" ]; then
             brew update
@@ -58,7 +58,7 @@ jobs:
 
       - name: Install MPFR
         run: |
-          sudo apt-get update
+          sudo apt-get update -y
           sudo apt-get install libmpfr-dev libmpfr-doc
 
       - name: Checkout Repository
@@ -95,13 +95,13 @@ jobs:
 
     steps:
 
-      - name: Install Valgrind
-        run: sudo apt install -y valgrind
-
       - name: Install MPFR
         run: |
-          sudo apt-get update
+          sudo apt-get update -y
           sudo apt-get install libmpfr-dev libmpfr-doc
+
+      - name: Install Valgrind
+        run: sudo apt install -y valgrind
 
       - name: Checkout Repository
         uses: actions/checkout@v2
