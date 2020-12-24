@@ -416,7 +416,7 @@ TEST_CASE( "Special", "[usecase]" ) {
         mpfr_init2(t, 2000);
         mpfr_set_d(t, 7, MPFR_RNDD);
         mpfr_div(s, s, t, MPFR_RNDD);
-        mpfr_out_str(stdout, 10, 0, s, MPFR_RNDD); putchar("\n");
+        mpfr_out_str(stdout, 10, 0, s, MPFR_RNDD);
         // possible memory leaks at the multiplication? destructor overload?
         mpfr_clear(s);
         mpfr_clear(t);
