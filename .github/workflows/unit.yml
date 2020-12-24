@@ -23,8 +23,8 @@ jobs:
       - name: Install MPFR
         run: |
           if [ "$RUNNER_OS" == "Linux" ]; then
-            apt update
-            apt-get install libmpfr-dev libmpfr-doc libmpfr4 libmpfr4-dbg
+            sudo apt-get update
+            sudo apt-get install libmpfr-dev libmpfr-doc libmpfr4 libmpfr4-dbg
           elif [ "$RUNNER_OS" == "Windows" ]; then
             choco install important_windows_software
           elif [ "$RUNNER_OS" == "macOS" ]; then
