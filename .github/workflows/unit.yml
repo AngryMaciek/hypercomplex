@@ -42,7 +42,7 @@ jobs:
 
       - name: Compile Test Program
         working-directory: ${{env.working-directory}}
-        run: g++ -O0 -Wall --std=c++14 -o test test.cpp hypercomplex/Hypercomplex.cpp
+        run: g++ -O0 -Wall --std=c++14 -lmpfr -o test test.cpp hypercomplex/Hypercomplex.cpp
 
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}
@@ -72,7 +72,7 @@ jobs:
 
       - name: Compile Test Program
         working-directory: ${{env.working-directory}}
-        run: g++ -O0 -Wall --std=c++14 --coverage -o test test.cpp hypercomplex/Hypercomplex.cpp
+        run: g++ -O0 -Wall --std=c++14 -lmpfr --coverage -o test test.cpp hypercomplex/Hypercomplex.cpp
 
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}
@@ -94,13 +94,6 @@ jobs:
 
     steps:
 
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - name: Copy Library Directory
-        working-directory: ${{env.working-directory}}
-        run: cp -r ../../hypercomplex hypercomplex
-
       - name: Install Valgrind
         run: sudo apt install -y valgrind
 
@@ -109,12 +102,19 @@ jobs:
           sudo apt-get update
           sudo apt-get install libmpfr-dev libmpfr-doc
 
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Copy Library Directory
+        working-directory: ${{env.working-directory}}
+        run: cp -r ../../hypercomplex hypercomplex
+
       - name: Display compiler version
         run: g++ --version
 
       - name: Compile Test Program
         working-directory: ${{env.working-directory}}
-        run: g++ -O0 -Wall --std=c++14 -o test test.cpp hypercomplex/Hypercomplex.cpp
+        run: g++ -O0 -Wall --std=c++14 -lmpfr -o test test.cpp hypercomplex/Hypercomplex.cpp
 
       - name: Analyze Test Program Execution
         working-directory: ${{env.working-directory}}
