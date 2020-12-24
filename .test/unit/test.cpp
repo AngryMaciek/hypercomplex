@@ -417,11 +417,12 @@ TEST_CASE( "Special", "[usecase]" ) {
         mpfr_set_d(t, 7, MPFR_RNDD);
         mpfr_div(s, s, t, MPFR_RNDD);
         mpfr_out_str(stdout, 10, 0, s, MPFR_RNDD);
+        std::cout << std::endl;
         // possible memory leaks at the multiplication? destructor overload?
         mpfr_clear(s);
         mpfr_clear(t);
         mpfr_free_cache();
-        REQUIRE_NOTHROW(true)
+        REQUIRE_NOTHROW(true);
         // remember to overload proper operators for the class!
     }
 }

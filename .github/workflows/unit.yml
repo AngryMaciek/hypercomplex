@@ -55,6 +55,11 @@ jobs:
 
     steps:
 
+      - name: Install MPFR
+        run: |
+          sudo apt-get update
+          sudo apt-get install libmpfr-dev libmpfr-doc
+
       - name: Checkout Repository
         uses: actions/checkout@v2
 
@@ -98,6 +103,11 @@ jobs:
 
       - name: Install Valgrind
         run: sudo apt install -y valgrind
+
+      - name: Install MPFR
+        run: |
+          sudo apt-get update
+          sudo apt-get install libmpfr-dev libmpfr-doc
 
       - name: Display compiler version
         run: g++ --version
