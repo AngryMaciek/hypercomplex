@@ -25,7 +25,7 @@ jobs:
         run: |
           if [ "$RUNNER_OS" == "Linux" ]; then
             sudo apt-get update -y
-            sudo apt-get install -y libmpfr-dev libmpfr-doc libmpfr6 libmpfr6-dbg
+            sudo apt-get install -y libmpfr-dev libmpfr-doc libmpfr6
           elif [ "$RUNNER_OS" == "macOS" ]; then
             brew update
             brew install mpfr
