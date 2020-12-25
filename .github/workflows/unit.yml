@@ -26,7 +26,6 @@ jobs:
           if [ "$RUNNER_OS" == "Linux" ]; then
             sudo apt-get update -y
             sudo apt-get install -y libmpfr-dev
-            dpkg -L libmpfr-dev
           elif [ "$RUNNER_OS" == "macOS" ]; then
             brew update
             brew install mpfr
@@ -44,7 +43,7 @@ jobs:
 
       - name: Compile Test Program
         working-directory: ${{env.working-directory}}
-        run: g++ -O0 -Wall --std=c++14 -L/usr/lib -lmpfr -lgmp -o test test.cpp hypercomplex/Hypercomplex.cpp
+        run: g++ -O0 -Wall --std=c++14 -L/usr/lib -o test test.cpp hypercomplex/Hypercomplex.cpp -lmpfr -lgmp
 
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}
