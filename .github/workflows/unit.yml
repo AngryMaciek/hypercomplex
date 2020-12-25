@@ -43,7 +43,7 @@ jobs:
 
       - name: Compile Test Program
         working-directory: ${{env.working-directory}}
-        run: g++ -O0 -Wall --std=c++14 -L/usr/lib -o test test.cpp hypercomplex/Hypercomplex.cpp -lmpfr -lgmp
+        run: g++ -O0 -Wall --std=c++14 -o test test.cpp hypercomplex/Hypercomplex.cpp -lmpfr -lgmp
 
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}
@@ -59,7 +59,7 @@ jobs:
       - name: Install MPFR
         run: |
           sudo apt-get update -y
-          sudo apt-get install libmpfr-dev
+          sudo apt-get install -y libmpfr-dev
 
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -98,7 +98,7 @@ jobs:
       - name: Install MPFR
         run: |
           sudo apt-get update -y
-          sudo apt-get install libmpfr-dev
+          sudo apt-get install -y libmpfr-dev
 
       - name: Install Valgrind
         run: sudo apt install -y valgrind
