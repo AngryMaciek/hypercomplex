@@ -44,7 +44,7 @@ jobs:
 
       - name: Compile Test Program
         working-directory: ${{env.working-directory}}
-        run: g++ -O0 -Wall --std=c++14 -lmpfr -lgmp -o test test.cpp hypercomplex/Hypercomplex.cpp
+        run: g++ -O0 -Wall --std=c++14 -L/usr/lib -lmpfr -lgmp -o test test.cpp hypercomplex/Hypercomplex.cpp
 
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}
