@@ -31,7 +31,7 @@ jobs:
 
       - name: Compile Test Program
         working-directory: ${{env.working-directory}}
-        run: g++ test.cpp hypercomplex/Hypercomplex.cpp -o test
+        run: g++ test.cpp -o test
 
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}

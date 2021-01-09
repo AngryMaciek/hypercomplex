@@ -29,21 +29,13 @@ jobs:
       - name: Display compiler version
         run: g++ --version
 
-      - name: Build Static Library
-        working-directory: ${{env.lib-directory}}
-        run: make
-
-      - name: Copy Static Library
+      - name: Copy Header-Only Library
         working-directory: ${{env.lib-directory}}
         run: make install
 
-      - name: Remove Build Files in CWD
-        working-directory: ${{env.lib-directory}}
-        run: make clean
-
       - name: Compile Test Program
         working-directory: ${{env.test-directory}}
-        run: g++ test.cpp -I ~/lib/include/ ~/lib/lib/Hypercomplex.a -o test
+        run: g++ test.cpp -I ~/lib/include/ -o test
 
       - name: Execute Test Program
         working-directory: ${{env.test-directory}}
