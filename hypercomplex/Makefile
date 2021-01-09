@@ -43,7 +43,7 @@ install: ~/lib/include/$(SRC)
 
 # Remove the top-level directories
 uninstall:
-	rm -f ~/lib/include/$(HDR);
+	rm -f ~/lib/include/$(SRC);
 	if [ $$(ls -a1 ~/lib/include | wc -l)==2 ]; then \
 		rm -rf ~/lib/include; \
 	fi;
