@@ -3,7 +3,7 @@ name: cpplint
 on:
   push:
     branches:
-      - master
+      - "*"
   pull_request:
     branches:
       - master
@@ -24,4 +24,3 @@ jobs:
         run: |
           cd hypercomplex
           /home/runner/.local/bin/cpplint --quiet Hypercomplex.h
-          /home/runner/.local/bin/cpplint --quiet Hypercomplex.cpp

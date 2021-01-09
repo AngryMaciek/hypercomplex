@@ -3,7 +3,7 @@ name: Install
 on:
   push:
     branches:
-      - master
+      - "*"
   pull_request:
     branches:
       - master
@@ -29,21 +29,13 @@ jobs:
       - name: Display compiler version
         run: g++ --version
 
-      - name: Build Static Library
+      - name: Copy Header-Only Library
         working-directory: ${{env.lib-directory}}
-        run: make
-
-      - name: Copy Static Library
-        working-directory: ${{env.lib-directory}}
-        run: make install
-
-      - name: Remove Build Files in CWD
-        working-directory: ${{env.lib-directory}}
-        run: make clean
+        run: sudo make install
 
       - name: Compile Test Program
         working-directory: ${{env.test-directory}}
-        run: g++ test.cpp -I ~/lib/include/ ~/lib/lib/Hypercomplex.a -o test
+        run: g++ test.cpp -o test
 
       - name: Execute Test Program
         working-directory: ${{env.test-directory}}
@@ -51,4 +43,4 @@ jobs:
 
       - name: Remove Copied Library
         working-directory: ${{env.lib-directory}}
-        run: make uninstall
+        run: sudo make uninstall

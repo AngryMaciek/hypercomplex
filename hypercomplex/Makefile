@@ -1,84 +1,50 @@
 #
-# Makefile for build and
-# installation of the C++ library.
+# Makefile for installation of the library.
 #
 # Maciej Bak
 # Swiss Institute of Bioinformatics
 # 22.10.2019
 #
 
-CC = g++
-CFLAGS = -O2
-SRC = Hypercomplex.cpp
-HDR = $(SRC:.cpp=.h)
-OBJ = $(SRC:.cpp=.o)
-LIB = $(OBJ:.o=.a)
+SRC = Hypercomplex.h
 
-.PHONY: all install clean uninstall
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Linux)
+    INCLUDE_PREFIX = /usr/include
+endif
+ifeq ($(UNAME_S),Darwin)
+    INCLUDE_PREFIX = /usr/local/include
+endif
+
+.PHONY: help install uninstall
 
 # =========================================================
-# Build
+# Print available commands
 # =========================================================
 
-all: $(LIB)
-
-# Create an object file
-$(OBJ):
-	$(CC) $(CFLAGS) -c -o $@ $(SRC)
-
-# Create a static library file
-$(LIB): $(OBJ)
-	ar rcs $@ $<
+help:
+	@echo "help - display this message"
+	@echo "install - install the library (requires admin rights)"
+	@echo "uninstall - uninstall the library (requires admin rights)"
 
 # =========================================================
 # Install
 # =========================================================
 
-install: ~/lib/lib/$(LIB) ~/lib/include/$(HDR)
+install: $(INCLUDE_PREFIX)/Hypercomplex/$(SRC)
 
-# Create top-level directory for the libraries
-~/lib:
+# Create a separate directory for the header-only library
+$(INCLUDE_PREFIX)/Hypercomplex:
 	mkdir -p $@;
 
-# Create top-level directory for the static library files
-~/lib/lib:
-	mkdir -p $@;
-
-# Create top-level directory for the headers
-~/lib/include:
-	mkdir -p $@;
-
-# Copy the library file into the right directory
-~/lib/lib/$(LIB): $(LIB) ~/lib/lib
+# Copy the header-only library file into the right directory
+$(INCLUDE_PREFIX)/Hypercomplex/$(SRC): $(SRC) $(INCLUDE_PREFIX)/Hypercomplex
 	cp $< $@
-
-# Copy the header file into the right directory
-~/lib/include/$(HDR): $(HDR) ~/lib/include
-	cp $< $@
-
-# =========================================================
-# Clean
-# =========================================================
-
-# Remove the build files
-clean:
-	rm -f $(OBJ);
-	rm -f $(LIB);
 
 # =========================================================
 # Uninstall
 # =========================================================
 
-# Remove the top-level directories
+# Remove the library directory
 uninstall:
-	rm -f ~/lib/lib/$(LIB);
-	rm -f ~/lib/include/$(HDR);
-	if [ $$(ls -a1 ~/lib/lib | wc -l)==2 ]; then \
-		rm -rf ~/lib/lib; \
-	fi;
-	if [ $$(ls -a1 ~/lib/include | wc -l)==2 ]; then \
-		rm -rf ~/lib/include; \
-	fi;
-	if [ $$(ls -a1 ~/lib | wc -l)==2 ]; then \
-		rm -rf ~/lib; \
-	fi;
+	rm -rf $(INCLUDE_PREFIX)/Hypercomplex
