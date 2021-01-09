@@ -31,14 +31,14 @@ help:
 # Install
 # =========================================================
 
-install: INCLUDE_PREFIX/Hypercomplex/$(SRC)
+install: $(INCLUDE_PREFIX)/Hypercomplex/$(SRC)
 
 # Create a separate directory for the header-only library
-INCLUDE_PREFIX/Hypercomplex:
+$(INCLUDE_PREFIX)/Hypercomplex:
 	mkdir -p $@;
 
 # Copy the header-only library file into the right directory
-INCLUDE_PREFIX/Hypercomplex/$(SRC): $(SRC) INCLUDE_PREFIX/Hypercomplex
+$(INCLUDE_PREFIX)/Hypercomplex/$(SRC): $(SRC) $(INCLUDE_PREFIX)/Hypercomplex
 	cp $< $@
 
 # =========================================================
@@ -47,4 +47,4 @@ INCLUDE_PREFIX/Hypercomplex/$(SRC): $(SRC) INCLUDE_PREFIX/Hypercomplex
 
 # Remove the library directory
 uninstall:
-	rm -rf INCLUDE_PREFIX/Hypercomplex
+	rm -rf $(INCLUDE_PREFIX)/Hypercomplex
