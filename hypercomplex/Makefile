@@ -16,8 +16,8 @@ SRC = Hypercomplex.h
 
 help:
 	@echo "help - display this message"
-	@echo "install - install the library"
-	@echo "uninstall - uninstall the library"
+	@echo "install - install the library (requires admin rights)"
+	@echo "uninstall - uninstall the library (requires admin rights)"
 
 # =========================================================
 # Install

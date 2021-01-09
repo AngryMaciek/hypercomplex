@@ -31,7 +31,7 @@ jobs:
 
       - name: Copy Header-Only Library
         working-directory: ${{env.lib-directory}}
-        run: make install
+        run: sudo make install
 
       - name: Compile Test Program
         working-directory: ${{env.test-directory}}
@@ -43,4 +43,4 @@ jobs:
 
       - name: Remove Copied Library
         working-directory: ${{env.lib-directory}}
-        run: make uninstall
+        run: sudo make uninstall
