@@ -20,7 +20,6 @@
 #include <cassert>
 #include <cmath>
 #include <cstdlib>
-#include <iosfwd>
 #include <iostream>
 #include <stdexcept>
 
