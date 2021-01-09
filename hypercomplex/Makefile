@@ -8,6 +8,14 @@
 
 SRC = Hypercomplex.h
 
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Linux)
+    INCLUDE_PREFIX = /usr/include
+endif
+ifeq ($(UNAME_S),Darwin)
+    INCLUDE_PREFIX = /usr/include
+endif
+
 .PHONY: help install uninstall
 
 # =========================================================
@@ -23,14 +31,14 @@ help:
 # Install
 # =========================================================
 
-install: /usr/include/Hypercomplex/$(SRC)
+install: INCLUDE_PREFIX/Hypercomplex/$(SRC)
 
 # Create a separate directory for the header-only library
-/usr/include/Hypercomplex:
+INCLUDE_PREFIX/Hypercomplex:
 	mkdir -p $@;
 
 # Copy the header-only library file into the right directory
-/usr/include/Hypercomplex/$(SRC): $(SRC) /usr/include/Hypercomplex
+INCLUDE_PREFIX/Hypercomplex/$(SRC): $(SRC) INCLUDE_PREFIX/Hypercomplex
 	cp $< $@
 
 # =========================================================
@@ -39,4 +47,4 @@ install: /usr/include/Hypercomplex/$(SRC)
 
 # Remove the library directory
 uninstall:
-	rm -rf /usr/include/Hypercomplex
+	rm -rf INCLUDE_PREFIX/Hypercomplex
