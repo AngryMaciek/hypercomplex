@@ -27,11 +27,11 @@ install: /usr/include/Hypercomplex/$(SRC)
 
 # Create a separate directory for the header-only library
 /usr/include/Hypercomplex:
-	mkdir -p $@;
+	sudo mkdir -p $@;
 
 # Copy the header-only library file into the right directory
 /usr/include/Hypercomplex/$(SRC): $(SRC) /usr/include/Hypercomplex
-	cp $< $@
+	sudo cp $< $@
 
 # =========================================================
 # Uninstall
@@ -39,4 +39,4 @@ install: /usr/include/Hypercomplex/$(SRC)
 
 # Remove the library directory
 uninstall:
-	rm -rf /usr/include/Hypercomplex
+	sudo rm -rf /usr/include/Hypercomplex
