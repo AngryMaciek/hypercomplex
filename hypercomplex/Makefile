@@ -13,7 +13,7 @@ ifeq ($(UNAME_S),Linux)
     INCLUDE_PREFIX = /usr/include
 endif
 ifeq ($(UNAME_S),Darwin)
-    INCLUDE_PREFIX = /usr/include
+    INCLUDE_PREFIX = /usr/local/include
 endif
 
 .PHONY: help install uninstall
