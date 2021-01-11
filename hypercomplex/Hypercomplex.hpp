@@ -14,8 +14,8 @@
 */
 
 // mark that we included this library
-#ifndef HYPERCOMPLEX_HYPERCOMPLEX_H_
-#define HYPERCOMPLEX_HYPERCOMPLEX_H_
+#ifndef HYPERCOMPLEX_HYPERCOMPLEX_HPP_
+#define HYPERCOMPLEX_HYPERCOMPLEX_HPP_
 
 #include <cassert>
 #include <cmath>
@@ -413,4 +413,4 @@ Hypercomplex<T, dim> exp(const Hypercomplex<T, dim> &H) {
     return result;
 }
 
-#endif  // HYPERCOMPLEX_HYPERCOMPLEX_H_
+#endif  // HYPERCOMPLEX_HYPERCOMPLEX_HPP_
