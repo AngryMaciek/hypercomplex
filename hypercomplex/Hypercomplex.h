@@ -71,8 +71,10 @@ std::ostream& operator<< (std::ostream &os, const Hypercomplex &H);
 // Global functions
 template <typename T, const unsigned int dim>
 Hypercomplex<T, dim> Re(const Hypercomplex<T, dim> &H);
-Hypercomplex Im(const Hypercomplex &H);
-Hypercomplex exp(const Hypercomplex &H);
+template <typename T, const unsigned int dim>
+Hypercomplex<T, dim> Im(const Hypercomplex<T, dim> &H);
+template <typename T, const unsigned int dim>
+Hypercomplex<T, dim> exp(const Hypercomplex<T, dim> &H);
 
 /*
 ###############################################################################
@@ -327,16 +329,18 @@ Hypercomplex<T, dim> Re(const Hypercomplex<T, dim> &H) {
 }
 
 // return the imaginary part of the number
-Hypercomplex Im(const Hypercomplex &H) {
-    Hypercomplex result = H;
+template <typename T, const unsigned int dim>
+Hypercomplex<T, dim> Im(const Hypercomplex<T, dim> &H) {
+    Hypercomplex<T, dim> result = H;
     result[0] = 0;
     return result;
 }
 
 // calculate e^H
-Hypercomplex exp(const Hypercomplex &H) {
+template <typename T, const unsigned int dim>
+Hypercomplex<T, dim> exp(const Hypercomplex<T, dim> &H) {
     unsigned int dim = H._();
-    Hypercomplex result = Im(H);
+    Hypercomplex<T, dim> result = Im(H);
     T norm = result.norm();
     if (norm == 0.0) {
         result[0] = exp(H[0]);
