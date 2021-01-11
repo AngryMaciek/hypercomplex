@@ -35,7 +35,6 @@
 template <typename T, const unsigned int dim>
 class Hypercomplex {
  private:
-    unsigned int d;
     T* arr;
  public:
     explicit Hypercomplex(const T* ARR);
@@ -121,7 +120,6 @@ Hypercomplex<T, dim>::Hypercomplex(const T* ARR) {
     if ((dim & (dim - 1)) != 0) {
         throw std::invalid_argument("invalid dimension");
     }
-    d = dim;
     arr = new T[dim];
     for (unsigned int i=0; i < dim; i++) arr[i] = ARR[i];
 }
@@ -129,7 +127,6 @@ Hypercomplex<T, dim>::Hypercomplex(const T* ARR) {
 // Hypercomplex copy constructor
 template <typename T, const unsigned int dim>
 Hypercomplex<T, dim>::Hypercomplex(const Hypercomplex& H) {
-    d = H.d;
     arr = new T[H.d];
     for (unsigned int i=0; i < H.d; i++) arr[i] = H.arr[i];
 }
@@ -202,8 +199,7 @@ inline Hypercomplex<T, dim>& Hypercomplex<T, dim>::operator=(
     // self-assignment guard
     if (this == &H) return *this;
     // reassign
-    d = H.d;
-    for (unsigned int i=0; i < d; i++) arr[i] = H.arr[i];
+    for (unsigned int i=0; i < dim; i++) arr[i] = H.arr[i];
     // return the existing object so we can chain this operator
     return *this;
 }
@@ -244,9 +240,8 @@ Hypercomplex<T, dim> operator+(
     const Hypercomplex<T, dim> &H2
 ) {
     if (H1._() != H2._()) throw std::invalid_argument("operand mismatch");
-    unsigned int d = H1._();
-    T *temparr = new T[d];
-    for (unsigned int i=0; i < d; i++) temparr[i] = H1[i] + H2[i];
+    T *temparr = new T[dim];
+    for (unsigned int i=0; i < dim; i++) temparr[i] = H1[i] + H2[i];
     Hypercomplex<T, dim> H(temparr);
     delete[] temparr;
     return H;
@@ -259,9 +254,8 @@ Hypercomplex<T, dim> operator-(
     const Hypercomplex<T, dim> &H2
 ) {
     if (H1._() != H2._()) throw std::invalid_argument("operand mismatch");
-    unsigned int d = H1._();
-    T* temparr = new T[d];
-    for (unsigned int i=0; i < d; i++) temparr[i] = H1[i] - H2[i];
+    T* temparr = new T[dim];
+    for (unsigned int i=0; i < dim; i++) temparr[i] = H1[i] - H2[i];
     Hypercomplex<T, dim> H(temparr);
     delete[] temparr;
     return H;
