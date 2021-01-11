@@ -207,7 +207,8 @@ bool operator!=(const Hypercomplex<T, dim> &H1, const Hypercomplex<T, dim> &H2) 
 }
 
 // overloaded + binary operator
-Hypercomplex operator+(const Hypercomplex &H1, const Hypercomplex &H2) {
+template <typename T, const unsigned int dim>
+Hypercomplex<T, dim> operator+(const Hypercomplex<T, dim> &H1, const Hypercomplex<T, dim> &H2) {
     if (H1._() != H2._()) throw std::invalid_argument("operand mismatch");
     unsigned int d = H1._();
     T *temparr = new T[d];
@@ -218,7 +219,8 @@ Hypercomplex operator+(const Hypercomplex &H1, const Hypercomplex &H2) {
 }
 
 // overloaded - binary operator
-Hypercomplex operator-(const Hypercomplex &H1, const Hypercomplex &H2) {
+template <typename T, const unsigned int dim>
+Hypercomplex<T, dim> operator-(const Hypercomplex<T, dim> &H1, const Hypercomplex<T, dim> &H2) {
     if (H1._() != H2._()) throw std::invalid_argument("operand mismatch");
     unsigned int d = H1._();
     T* temparr = new T[d];
@@ -229,7 +231,8 @@ Hypercomplex operator-(const Hypercomplex &H1, const Hypercomplex &H2) {
 }
 
 // overloaded * binary operator
-Hypercomplex operator*(const Hypercomplex &H1, const Hypercomplex &H2) {
+template <typename T, const unsigned int dim>
+Hypercomplex<T, dim> operator*(const Hypercomplex<T, dim> &H1, const Hypercomplex<T, dim> &H2) {
     if (H1._() != H2._()) throw std::invalid_argument("operand mismatch");
     unsigned int d = H1._();
     // recursion base:
@@ -265,7 +268,8 @@ Hypercomplex operator*(const Hypercomplex &H1, const Hypercomplex &H2) {
 }
 
 // overloaded ^ binary operator
-Hypercomplex operator^(const Hypercomplex &H, const unsigned int x) {
+template <typename T, const unsigned int dim>
+Hypercomplex<T, dim> operator^(const Hypercomplex<T, dim> &H, const unsigned int x) {
     if (!(x)) {
         throw std::invalid_argument("zero is not a valid argument");
     } else {
@@ -276,7 +280,8 @@ Hypercomplex operator^(const Hypercomplex &H, const unsigned int x) {
 }
 
 // overloaded / binary operator
-Hypercomplex operator/(const Hypercomplex &H1, const Hypercomplex &H2) {
+template <typename T, const unsigned int dim>
+Hypercomplex<T, dim> operator/(const Hypercomplex<T, dim> &H1, const Hypercomplex<T, dim> &H2) {
     if (H1._() != H2._()) throw std::invalid_argument("operand mismatch");
     // division H1 / H2 is implemented as H1 * 1/H2
     Hypercomplex H = H1 * H2.inv();
