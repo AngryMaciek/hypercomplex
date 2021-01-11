@@ -58,14 +58,22 @@ class Hypercomplex {
 };
 
 // Operators
-bool operator== (const Hypercomplex &H1, const Hypercomplex &H2);
-bool operator!= (const Hypercomplex &H1, const Hypercomplex &H2);
-Hypercomplex operator+ (const Hypercomplex &H1, const Hypercomplex &H2);
-Hypercomplex operator- (const Hypercomplex &H1, const Hypercomplex &H2);
-Hypercomplex operator* (const Hypercomplex &H1, const Hypercomplex &H2);
-Hypercomplex operator^ (const Hypercomplex &H, const unsigned int x);
-Hypercomplex operator/ (const Hypercomplex &H1, const Hypercomplex &H2);
-std::ostream& operator<< (std::ostream &os, const Hypercomplex &H);
+template <typename T, const unsigned int dim>
+bool operator== (const Hypercomplex<T, dim> &H1, const Hypercomplex<T, dim> &H2);
+template <typename T, const unsigned int dim>
+bool operator!= (const Hypercomplex<T, dim> &H1, const Hypercomplex<T, dim> &H2);
+template <typename T, const unsigned int dim>
+Hypercomplex<T, dim> operator+ (const Hypercomplex<T, dim> &H1, const Hypercomplex<T, dim> &H2);
+template <typename T, const unsigned int dim>
+Hypercomplex<T, dim> operator- (const Hypercomplex<T, dim> &H1, const Hypercomplex<T, dim> &H2);
+template <typename T, const unsigned int dim>
+Hypercomplex<T, dim> operator* (const Hypercomplex<T, dim> &H1, const Hypercomplex<T, dim> &H2);
+template <typename T, const unsigned int dim>
+Hypercomplex<T, dim> operator^ (const Hypercomplex<T, dim> &H, const unsigned int x);
+template <typename T, const unsigned int dim>
+Hypercomplex<T, dim> operator/ (const Hypercomplex<T, dim> &H1, const Hypercomplex<T, dim> &H2);
+template <typename T, const unsigned int dim>
+std::ostream& operator<< (std::ostream &os, const Hypercomplex<T, dim> &H);
 
 
 // Global functions
