@@ -38,8 +38,7 @@ class Hypercomplex {
     unsigned int d;
     T* arr;
  public:
-    explicit
-        Hypercomplex(const unsigned int arg_d, const T* arg_arr);
+    explicit Hypercomplex(const T* ARR);
     Hypercomplex(const Hypercomplex& H);
     Hypercomplex() = delete;  // forbid default constructor | c++11
     ~Hypercomplex();
@@ -84,14 +83,14 @@ Hypercomplex exp(const Hypercomplex &H);
 
 // Hypercomplex main constructor
 template <typename T, const unsigned int dim>
-Hypercomplex<T, dim>::Hypercomplex(const unsigned int arg_d, const T* arg_arr) {
-    if (arg_d == 0) throw std::invalid_argument("invalid dimension");
-    if ((arg_d & (arg_d - 1)) != 0) {
+Hypercomplex<T, dim>::Hypercomplex(const T* ARR) {
+    if (dim == 0) throw std::invalid_argument("invalid dimension");
+    if ((dim & (dim - 1)) != 0) {
         throw std::invalid_argument("invalid dimension");
     }
-    d = arg_d;
-    arr = new T[arg_d];
-    for (unsigned int i=0; i < arg_d; i++) arr[i] = arg_arr[i];
+    d = dim;
+    arr = new T[dim];
+    for (unsigned int i=0; i < dim; i++) arr[i] = ARR[i];
 }
 
 // Hypercomplex copy constructor
