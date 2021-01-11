@@ -16,6 +16,9 @@
 
 int main(void){
     double A[] = {1.0, 2.0, 0.0, -1.0};
-    Hypercomplex<double, 4> h(A);
+    Hypercomplex<double, 4> h1(A);
+    double B[] = {1.0, 2.0};
+    Hypercomplex<double, 2> h2(B);
+    h1 == h2;
     return 0;
 }
