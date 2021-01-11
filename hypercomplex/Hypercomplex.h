@@ -324,7 +324,7 @@ std::ostream& operator<< (std::ostream &os, const Hypercomplex &H) {
 template <typename T, const unsigned int dim>
 Hypercomplex<T, dim> Re(const Hypercomplex<T, dim> &H) {
     Hypercomplex<T, dim> result = H;
-    for (unsigned int i=1; i < H._(); i++) result[i] = 0;
+    for (unsigned int i=1; i < dim; i++) result[i] = 0;
     return result;
 }
 
@@ -339,7 +339,6 @@ Hypercomplex<T, dim> Im(const Hypercomplex<T, dim> &H) {
 // calculate e^H
 template <typename T, const unsigned int dim>
 Hypercomplex<T, dim> exp(const Hypercomplex<T, dim> &H) {
-    unsigned int dim = H._();
     Hypercomplex<T, dim> result = Im(H);
     T norm = result.norm();
     if (norm == 0.0) {
