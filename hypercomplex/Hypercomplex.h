@@ -213,7 +213,7 @@ Hypercomplex<T, dim> operator+(const Hypercomplex<T, dim> &H1, const Hypercomple
     unsigned int d = H1._();
     T *temparr = new T[d];
     for (unsigned int i=0; i < d; i++) temparr[i] = H1[i] + H2[i];
-    Hypercomplex H = Hypercomplex(H1._(), temparr);
+    Hypercomplex<T, dim> H(temparr);
     delete[] temparr;
     return H;
 }
@@ -225,7 +225,7 @@ Hypercomplex<T, dim> operator-(const Hypercomplex<T, dim> &H1, const Hypercomple
     unsigned int d = H1._();
     T* temparr = new T[d];
     for (unsigned int i=0; i < d; i++) temparr[i] = H1[i] - H2[i];
-    Hypercomplex H = Hypercomplex(H1._(), temparr);
+    Hypercomplex<T, dim> H(temparr);
     delete[] temparr;
     return H;
 }
@@ -273,7 +273,7 @@ Hypercomplex<T, dim> operator^(const Hypercomplex<T, dim> &H, const unsigned int
     if (!(x)) {
         throw std::invalid_argument("zero is not a valid argument");
     } else {
-        Hypercomplex Hx = Hypercomplex(H);
+        Hypercomplex<T, dim> Hx = Hypercomplex<T, dim>(H); // call!
         for (unsigned int i=0; i < x-1; i++) Hx = Hx * H;
         return Hx;
     }
