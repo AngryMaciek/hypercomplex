@@ -70,7 +70,7 @@ std::ostream& operator<< (std::ostream &os, const Hypercomplex &H);
 
 // Global functions
 template <typename T, const unsigned int dim>
-Hypercomplex<T, dim> Re(const Hypercomplex &H);
+Hypercomplex<T, dim> Re(const Hypercomplex<T, dim> &H);
 Hypercomplex Im(const Hypercomplex &H);
 Hypercomplex exp(const Hypercomplex &H);
 
@@ -320,7 +320,7 @@ std::ostream& operator<< (std::ostream &os, const Hypercomplex &H) {
 
 // return the real part of the number
 template <typename T, const unsigned int dim>
-Hypercomplex<T, dim> Re(const Hypercomplex &H) {
+Hypercomplex<T, dim> Re(const Hypercomplex<T, dim> &H) {
     Hypercomplex result = H;
     for (unsigned int i=1; i < H._(); i++) result[i] = 0;
     return result;
