@@ -241,7 +241,7 @@ Hypercomplex<T, dim> operator*(const Hypercomplex<T, dim> &H1, const Hypercomple
     }
     // shared objects:
     const unsigned int halfd = dim / 2;
-    T* temparr = new T[d];
+    T* temparr = new T[dim];
     // construct helper objects:
     for (unsigned int i=0; i < halfd; i++) temparr[i] = H1[i];
     Hypercomplex<T, halfd> H1a(temparr);
