@@ -173,7 +173,7 @@ Hypercomplex<T, dim> Hypercomplex<T, dim>::operator-() const {
 
 // overloaded = operator
 template <typename T, const unsigned int dim>
-inline Hypercomplex& Hypercomplex<T, dim>::operator=(const Hypercomplex &H) {
+inline Hypercomplex<T, dim>& Hypercomplex<T, dim>::operator=(const Hypercomplex &H) {
     // self-assignment guard
     if (this == &H) return *this;
     // reassign
@@ -191,7 +191,8 @@ inline T& Hypercomplex<T, dim>::operator[](const unsigned int i) const {
 }
 
 // overloaded == operator
-bool operator==(const Hypercomplex &H1, const Hypercomplex &H2) {
+template <typename T, const unsigned int dim>
+bool operator==(const Hypercomplex<T, dim> &H1, const Hypercomplex<T, dim> &H2) {
     if (H1._() != H2._()) return false;
     for (unsigned int i=0; i < H1._(); i++) {
         if (H1[i] != H2[i]) return false;
@@ -200,7 +201,8 @@ bool operator==(const Hypercomplex &H1, const Hypercomplex &H2) {
 }
 
 // overloaded != operator
-bool operator!=(const Hypercomplex &H1, const Hypercomplex &H2) {
+template <typename T, const unsigned int dim>
+bool operator!=(const Hypercomplex<T, dim> &H1, const Hypercomplex<T, dim> &H2) {
     return !(H1 == H2);
 }
 
