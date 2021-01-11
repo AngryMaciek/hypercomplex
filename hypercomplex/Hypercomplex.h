@@ -69,7 +69,8 @@ std::ostream& operator<< (std::ostream &os, const Hypercomplex &H);
 
 
 // Global functions
-Hypercomplex Re(const Hypercomplex &H);
+template <typename T, const unsigned int dim>
+Hypercomplex<T, dim> Re(const Hypercomplex &H);
 Hypercomplex Im(const Hypercomplex &H);
 Hypercomplex exp(const Hypercomplex &H);
 
