@@ -217,8 +217,7 @@ bool operator==(
     const Hypercomplex<T, dim> &H1,
     const Hypercomplex<T, dim> &H2
 ) {
-    if (H1._() != H2._()) return false;
-    for (unsigned int i=0; i < H1._(); i++) {
+    for (unsigned int i=0; i < dim; i++) {
         if (H1[i] != H2[i]) return false;
     }
     return true;
@@ -239,7 +238,6 @@ Hypercomplex<T, dim> operator+(
     const Hypercomplex<T, dim> &H1,
     const Hypercomplex<T, dim> &H2
 ) {
-    if (H1._() != H2._()) throw std::invalid_argument("operand mismatch");
     T *temparr = new T[dim];
     for (unsigned int i=0; i < dim; i++) temparr[i] = H1[i] + H2[i];
     Hypercomplex<T, dim> H(temparr);
@@ -253,7 +251,6 @@ Hypercomplex<T, dim> operator-(
     const Hypercomplex<T, dim> &H1,
     const Hypercomplex<T, dim> &H2
 ) {
-    if (H1._() != H2._()) throw std::invalid_argument("operand mismatch");
     T* temparr = new T[dim];
     for (unsigned int i=0; i < dim; i++) temparr[i] = H1[i] - H2[i];
     Hypercomplex<T, dim> H(temparr);
@@ -267,7 +264,6 @@ Hypercomplex<T, dim> operator*(
     const Hypercomplex<T, dim> &H1,
     const Hypercomplex<T, dim> &H2
 ) {
-    if (H1._() != H2._()) throw std::invalid_argument("operand mismatch");
     // recursion base:
     if (dim == 1) {
         T temparr[] = { H1[0] * H2[0] };
@@ -321,7 +317,6 @@ Hypercomplex<T, dim> operator/(
     const Hypercomplex<T, dim> &H1,
     const Hypercomplex<T, dim> &H2
 ) {
-    if (H1._() != H2._()) throw std::invalid_argument("operand mismatch");
     // division H1 / H2 is implemented as H1 * 1/H2
     Hypercomplex<T, dim> H = H1 * H2.inv();
     return(H);
@@ -380,8 +375,8 @@ Hypercomplex<T, dim>& Hypercomplex<T, dim>::operator/=(
 // overload << operator
 template <typename T, const unsigned int dim>
 std::ostream& operator<< (std::ostream &os, const Hypercomplex<T, dim> &H) {
-    for (unsigned int i=0; i < H._() - 1; i++) os << H[i] << " ";
-    os << H[H._() - 1];
+    for (unsigned int i=0; i < dim - 1; i++) os << H[i] << " ";
+    os << H[dim - 1];
     return os;
 }
 
