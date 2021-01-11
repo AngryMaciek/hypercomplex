@@ -328,7 +328,7 @@ Hypercomplex<T, dim>& Hypercomplex<T, dim>::operator/=(const Hypercomplex<T, dim
 }
 
 // overload << operator
-std::ostream& operator<< (std::ostream &os, const Hypercomplex &H) {
+std::ostream& operator<< (std::ostream &os, const Hypercomplex<T, dim> &H) {
     for (unsigned int i=0; i < H._() - 1; i++) os << H[i] << " ";
     os << H[H._() - 1];
     return os;
