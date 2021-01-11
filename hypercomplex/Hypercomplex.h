@@ -142,7 +142,7 @@ Hypercomplex<T, dim> Hypercomplex<T, dim>::inv() const {
     }
 }
 
-// expand object to a higher dimension
+// cast object to a higher dimension
 template <typename T, const unsigned int dim>
 template <const unsigned int newdim>
 Hypercomplex<T, newdim> Hypercomplex<T, dim>::expand() const {
