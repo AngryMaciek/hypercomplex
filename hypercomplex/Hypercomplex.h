@@ -196,7 +196,9 @@ Hypercomplex<T, dim> Hypercomplex<T, dim>::operator-() const {
 
 // overloaded = operator
 template <typename T, const unsigned int dim>
-inline Hypercomplex<T, dim>& Hypercomplex<T, dim>::operator=(const Hypercomplex &H) {
+inline Hypercomplex<T, dim>& Hypercomplex<T, dim>::operator=(
+    const Hypercomplex &H
+) {
     // self-assignment guard
     if (this == &H) return *this;
     // reassign
@@ -215,7 +217,10 @@ inline T& Hypercomplex<T, dim>::operator[](const unsigned int i) const {
 
 // overloaded == operator
 template <typename T, const unsigned int dim>
-bool operator==(const Hypercomplex<T, dim> &H1, const Hypercomplex<T, dim> &H2) {
+bool operator==(
+    const Hypercomplex<T, dim> &H1,
+    const Hypercomplex<T, dim> &H2
+) {
     if (H1._() != H2._()) return false;
     for (unsigned int i=0; i < H1._(); i++) {
         if (H1[i] != H2[i]) return false;
@@ -225,13 +230,19 @@ bool operator==(const Hypercomplex<T, dim> &H1, const Hypercomplex<T, dim> &H2) 
 
 // overloaded != operator
 template <typename T, const unsigned int dim>
-bool operator!=(const Hypercomplex<T, dim> &H1, const Hypercomplex<T, dim> &H2) {
+bool operator!=(
+    const Hypercomplex<T, dim> &H1,
+    const Hypercomplex<T, dim> &H2
+) {
     return !(H1 == H2);
 }
 
 // overloaded + binary operator
 template <typename T, const unsigned int dim>
-Hypercomplex<T, dim> operator+(const Hypercomplex<T, dim> &H1, const Hypercomplex<T, dim> &H2) {
+Hypercomplex<T, dim> operator+(
+    const Hypercomplex<T, dim> &H1,
+    const Hypercomplex<T, dim> &H2
+) {
     if (H1._() != H2._()) throw std::invalid_argument("operand mismatch");
     unsigned int d = H1._();
     T *temparr = new T[d];
@@ -243,7 +254,10 @@ Hypercomplex<T, dim> operator+(const Hypercomplex<T, dim> &H1, const Hypercomple
 
 // overloaded - binary operator
 template <typename T, const unsigned int dim>
-Hypercomplex<T, dim> operator-(const Hypercomplex<T, dim> &H1, const Hypercomplex<T, dim> &H2) {
+Hypercomplex<T, dim> operator-(
+    const Hypercomplex<T, dim> &H1,
+    const Hypercomplex<T, dim> &H2
+) {
     if (H1._() != H2._()) throw std::invalid_argument("operand mismatch");
     unsigned int d = H1._();
     T* temparr = new T[d];
@@ -255,7 +269,10 @@ Hypercomplex<T, dim> operator-(const Hypercomplex<T, dim> &H1, const Hypercomple
 
 // overloaded * binary operator
 template <typename T, const unsigned int dim>
-Hypercomplex<T, dim> operator*(const Hypercomplex<T, dim> &H1, const Hypercomplex<T, dim> &H2) {
+Hypercomplex<T, dim> operator*(
+    const Hypercomplex<T, dim> &H1,
+    const Hypercomplex<T, dim> &H2
+) {
     if (H1._() != H2._()) throw std::invalid_argument("operand mismatch");
     // recursion base:
     if (dim == 1) {
@@ -291,7 +308,10 @@ Hypercomplex<T, dim> operator*(const Hypercomplex<T, dim> &H1, const Hypercomple
 
 // overloaded ^ binary operator
 template <typename T, const unsigned int dim>
-Hypercomplex<T, dim> operator^(const Hypercomplex<T, dim> &H, const unsigned int x) {
+Hypercomplex<T, dim> operator^(
+    const Hypercomplex<T, dim> &H,
+    const unsigned int x
+) {
     if (!(x)) {
         throw std::invalid_argument("zero is not a valid argument");
     } else {
@@ -303,7 +323,10 @@ Hypercomplex<T, dim> operator^(const Hypercomplex<T, dim> &H, const unsigned int
 
 // overloaded / binary operator
 template <typename T, const unsigned int dim>
-Hypercomplex<T, dim> operator/(const Hypercomplex<T, dim> &H1, const Hypercomplex<T, dim> &H2) {
+Hypercomplex<T, dim> operator/(
+    const Hypercomplex<T, dim> &H1,
+    const Hypercomplex<T, dim> &H2
+) {
     if (H1._() != H2._()) throw std::invalid_argument("operand mismatch");
     // division H1 / H2 is implemented as H1 * 1/H2
     Hypercomplex<T, dim> H = H1 * H2.inv();
@@ -312,7 +335,9 @@ Hypercomplex<T, dim> operator/(const Hypercomplex<T, dim> &H1, const Hypercomple
 
 // overloaded += operator
 template <typename T, const unsigned int dim>
-Hypercomplex<T, dim>& Hypercomplex<T, dim>::operator+=(const Hypercomplex<T, dim> &H) {
+Hypercomplex<T, dim>& Hypercomplex<T, dim>::operator+=(
+    const Hypercomplex<T, dim> &H
+) {
     Hypercomplex result = (*this) + H;
     for (unsigned int i=0; i < d; i++) (*this)[i] = result[i];
     return *this;
@@ -320,7 +345,9 @@ Hypercomplex<T, dim>& Hypercomplex<T, dim>::operator+=(const Hypercomplex<T, dim
 
 // overloaded -= operator
 template <typename T, const unsigned int dim>
-Hypercomplex<T, dim>& Hypercomplex<T, dim>::operator-=(const Hypercomplex<T, dim> &H) {
+Hypercomplex<T, dim>& Hypercomplex<T, dim>::operator-=(
+    const Hypercomplex<T, dim> &H
+) {
     Hypercomplex result = (*this) - H;
     for (unsigned int i=0; i < d; i++) (*this)[i] = result[i];
     return *this;
@@ -328,7 +355,9 @@ Hypercomplex<T, dim>& Hypercomplex<T, dim>::operator-=(const Hypercomplex<T, dim
 
 // overloaded *= operator
 template <typename T, const unsigned int dim>
-Hypercomplex<T, dim>& Hypercomplex<T, dim>::operator*=(const Hypercomplex<T, dim> &H) {
+Hypercomplex<T, dim>& Hypercomplex<T, dim>::operator*=(
+    const Hypercomplex<T, dim> &H
+) {
     Hypercomplex result = (*this) * H;
     for (unsigned int i=0; i < d; i++) (*this)[i] = result[i];
     return *this;
@@ -336,7 +365,9 @@ Hypercomplex<T, dim>& Hypercomplex<T, dim>::operator*=(const Hypercomplex<T, dim
 
 // overloaded ^= operator
 template <typename T, const unsigned int dim>
-Hypercomplex<T, dim>& Hypercomplex<T, dim>::operator^=(const unsigned int x) {
+Hypercomplex<T, dim>& Hypercomplex<T, dim>::operator^=(
+    const unsigned int x
+) {
     Hypercomplex result = (*this) ^ x;
     for (unsigned int i=0; i < d; i++) (*this)[i] = result[i];
     return *this;
@@ -344,7 +375,9 @@ Hypercomplex<T, dim>& Hypercomplex<T, dim>::operator^=(const unsigned int x) {
 
 // overloaded /= operator
 template <typename T, const unsigned int dim>
-Hypercomplex<T, dim>& Hypercomplex<T, dim>::operator/=(const Hypercomplex<T, dim> &H) {
+Hypercomplex<T, dim>& Hypercomplex<T, dim>::operator/=(
+    const Hypercomplex<T, dim> &H
+) {
     Hypercomplex result = (*this) / H;
     for (unsigned int i=0; i < d; i++) (*this)[i] = result[i];
     return *this;
