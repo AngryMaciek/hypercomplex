@@ -319,7 +319,8 @@ std::ostream& operator<< (std::ostream &os, const Hypercomplex &H) {
 }
 
 // return the real part of the number
-Hypercomplex Re(const Hypercomplex &H) {
+template <typename T, const unsigned int dim>
+Hypercomplex<T, dim> Re(const Hypercomplex &H) {
     Hypercomplex result = H;
     for (unsigned int i=1; i < H._(); i++) result[i] = 0;
     return result;
