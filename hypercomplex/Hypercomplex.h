@@ -234,14 +234,13 @@ Hypercomplex<T, dim> operator-(const Hypercomplex<T, dim> &H1, const Hypercomple
 template <typename T, const unsigned int dim>
 Hypercomplex<T, dim> operator*(const Hypercomplex<T, dim> &H1, const Hypercomplex<T, dim> &H2) {
     if (H1._() != H2._()) throw std::invalid_argument("operand mismatch");
-    unsigned int d = H1._();
     // recursion base:
-    if (d == 1) {
+    if (dim == 1) {
         T temparr[] = { H1[0] * H2[0] };
         return Hypercomplex<T, 1>(temparr);
     }
     // shared objects:
-    const unsigned int halfd = d / 2;
+    const unsigned int halfd = dim / 2;
     T* temparr = new T[d];
     // construct helper objects:
     for (unsigned int i=0; i < halfd; i++) temparr[i] = H1[i];
