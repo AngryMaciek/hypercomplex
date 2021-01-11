@@ -12,7 +12,7 @@
 ###############################################################################
 */
 
-#include <Hypercomplex/Hypercomplex.h>
+#include <Hypercomplex/Hypercomplex.hpp>
 
 int main(void){
     double A[] = {1.0, 2.0, 0.0, -1.0};
