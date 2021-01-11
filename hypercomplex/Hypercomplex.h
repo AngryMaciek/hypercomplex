@@ -273,7 +273,7 @@ Hypercomplex<T, dim> operator^(const Hypercomplex<T, dim> &H, const unsigned int
     if (!(x)) {
         throw std::invalid_argument("zero is not a valid argument");
     } else {
-        Hypercomplex<T, dim> Hx = Hypercomplex<T, dim>(H); // call!
+        Hypercomplex<T, dim> Hx(H);
         for (unsigned int i=0; i < x-1; i++) Hx = Hx * H;
         return Hx;
     }
