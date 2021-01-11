@@ -154,8 +154,8 @@ Hypercomplex<T, dim> Hypercomplex<T, dim>::inv() const {
         T norm2 = pow((*this).norm(), 2);
         T* temparr = new T[dim];
         temparr[0] = arr[0] / norm2;
-        for (unsigned int i=1; i < d; i++) temparr[i] = -arr[i] / norm2;
-        Hypercomplex H = Hypercomplex(d, temparr);
+        for (unsigned int i=1; i < dim; i++) temparr[i] = -arr[i] / norm2;
+        Hypercomplex H = Hypercomplex(dim, temparr);
         delete[] temparr;
         return H;
     }
