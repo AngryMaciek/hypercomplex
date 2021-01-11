@@ -70,15 +70,30 @@ bool operator!= (
     const Hypercomplex<T, dim> &H2
 );
 template <typename T, const unsigned int dim>
-Hypercomplex<T, dim> operator+ (const Hypercomplex<T, dim> &H1, const Hypercomplex<T, dim> &H2);
+Hypercomplex<T, dim> operator+ (
+    const Hypercomplex<T, dim> &H1,
+    const Hypercomplex<T, dim> &H2
+);
 template <typename T, const unsigned int dim>
-Hypercomplex<T, dim> operator- (const Hypercomplex<T, dim> &H1, const Hypercomplex<T, dim> &H2);
+Hypercomplex<T, dim> operator- (
+    const Hypercomplex<T, dim> &H1,
+    const Hypercomplex<T, dim> &H2
+);
 template <typename T, const unsigned int dim>
-Hypercomplex<T, dim> operator* (const Hypercomplex<T, dim> &H1, const Hypercomplex<T, dim> &H2);
+Hypercomplex<T, dim> operator* (
+    const Hypercomplex<T, dim> &H1,
+    const Hypercomplex<T, dim> &H2
+);
 template <typename T, const unsigned int dim>
-Hypercomplex<T, dim> operator^ (const Hypercomplex<T, dim> &H, const unsigned int x);
+Hypercomplex<T, dim> operator^ (
+    const Hypercomplex<T, dim> &H,
+    const unsigned int x
+);
 template <typename T, const unsigned int dim>
-Hypercomplex<T, dim> operator/ (const Hypercomplex<T, dim> &H1, const Hypercomplex<T, dim> &H2);
+Hypercomplex<T, dim> operator/ (
+    const Hypercomplex<T, dim> &H1,
+    const Hypercomplex<T, dim> &H2
+);
 template <typename T, const unsigned int dim>
 std::ostream& operator<< (std::ostream &os, const Hypercomplex<T, dim> &H);
 
