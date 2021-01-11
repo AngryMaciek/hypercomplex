@@ -45,7 +45,8 @@ class Hypercomplex {
     T _() const { return d; }
     T norm() const;
     Hypercomplex inv() const;
-    Hypercomplex expand(const unsigned int D) const;
+    template <const unsigned int newdim>
+    Hypercomplex<T, newdim> expand() const;
     Hypercomplex operator~ () const;
     Hypercomplex operator- () const;
     Hypercomplex& operator= (const Hypercomplex &H);
