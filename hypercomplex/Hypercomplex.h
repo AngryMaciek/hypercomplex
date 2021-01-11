@@ -144,7 +144,7 @@ Hypercomplex<T, dim> Hypercomplex<T, dim>::inv() const {
 
 // expand object to a higher dimension
 template <typename T, const unsigned int dim>
-Hypercomplex Hypercomplex<T, dim>::expand(const unsigned int D) const {
+Hypercomplex<T, D> Hypercomplex<T, dim>::expand(const unsigned int D) const {
     if (D <= d) throw std::invalid_argument("invalid dimension");
     T* temparr = new T[D]();  // zero-init
     for (unsigned int i=0; i < d; i++) temparr[i] = arr[i];
