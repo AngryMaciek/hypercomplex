@@ -17,6 +17,6 @@
 int main(void){
     unsigned int x = 4;
     float A[] = {1.0, 2.0, 0.0, -1.0};
-    Hypercomplex h = Hypercomplex(x, A);
+    Hypercomplex<float, x> h(x, A);
     return 0;
 }
