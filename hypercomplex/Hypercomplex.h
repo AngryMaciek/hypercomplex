@@ -128,7 +128,7 @@ inline T Hypercomplex<T, dim>::norm() const {
 
 // calculate inverse of the number
 template <typename T, const unsigned int dim>
-Hypercomplex Hypercomplex<T, dim>::inv() const {
+Hypercomplex<T, dim> Hypercomplex<T, dim>::inv() const {
     if ((*this).norm() == 0) {
         throw std::invalid_argument("division by zero");
     } else {
@@ -155,7 +155,7 @@ Hypercomplex Hypercomplex<T, dim>::expand(const unsigned int D) const {
 
 // overloaded ~ operator
 template <typename T, const unsigned int dim>
-inline Hypercomplex Hypercomplex<T, dim>::operator~() const {
+inline Hypercomplex<T, dim> Hypercomplex<T, dim>::operator~() const {
     Hypercomplex H = -(*this);
     H[0] = arr[0];
     return H;
@@ -163,7 +163,7 @@ inline Hypercomplex Hypercomplex<T, dim>::operator~() const {
 
 // overloaded - unary operator
 template <typename T, const unsigned int dim>
-Hypercomplex Hypercomplex<T, dim>::operator-() const {
+Hypercomplex<T, dim> Hypercomplex<T, dim>::operator-() const {
     T* temparr = new T[d];
     for (unsigned int i=0; i < d; i++) temparr[i] = -arr[i];
     Hypercomplex H = Hypercomplex(d, temparr);
