@@ -45,7 +45,7 @@ class Hypercomplex {
     T _() const { return d; }
     T norm() const;
     Hypercomplex inv() const;
-    Hypercomplex expand(const unsigned int arg_d) const;
+    Hypercomplex expand(const unsigned int D) const;
     Hypercomplex operator~ () const;
     Hypercomplex operator- () const;
     Hypercomplex& operator= (const Hypercomplex &H);
@@ -133,11 +133,11 @@ Hypercomplex Hypercomplex<T, dim>::inv() const {
 
 // expand object to a higher dimension
 template <typename T, const unsigned int dim>
-Hypercomplex Hypercomplex<T, dim>::expand(const unsigned int arg_d) const {
-    if (arg_d <= d) throw std::invalid_argument("invalid dimension");
-    T* temparr = new T[arg_d]();  // zero-init
+Hypercomplex Hypercomplex<T, dim>::expand(const unsigned int D) const {
+    if (D <= d) throw std::invalid_argument("invalid dimension");
+    T* temparr = new T[D]();  // zero-init
     for (unsigned int i=0; i < d; i++) temparr[i] = arr[i];
-    Hypercomplex H = Hypercomplex(arg_d, temparr);
+    Hypercomplex H = Hypercomplex(D, temparr);
     delete[] temparr;
     return H;
 }
