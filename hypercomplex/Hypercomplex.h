@@ -60,9 +60,15 @@ class Hypercomplex {
 
 // Operators
 template <typename T, const unsigned int dim>
-bool operator== (const Hypercomplex<T, dim> &H1, const Hypercomplex<T, dim> &H2);
+bool operator== (
+    const Hypercomplex<T, dim> &H1,
+    const Hypercomplex<T, dim> &H2
+);
 template <typename T, const unsigned int dim>
-bool operator!= (const Hypercomplex<T, dim> &H1, const Hypercomplex<T, dim> &H2);
+bool operator!= (
+    const Hypercomplex<T, dim> &H1,
+    const Hypercomplex<T, dim> &H2
+);
 template <typename T, const unsigned int dim>
 Hypercomplex<T, dim> operator+ (const Hypercomplex<T, dim> &H1, const Hypercomplex<T, dim> &H2);
 template <typename T, const unsigned int dim>
