@@ -32,7 +32,7 @@
 */
 
 // Main class of the library
-template <typename T, const unsigned int d>
+template <typename T, const unsigned int dim>
 class Hypercomplex {
  private:
     unsigned int d;
@@ -83,7 +83,7 @@ Hypercomplex exp(const Hypercomplex &H);
 */
 
 // Hypercomplex main constructor
-template <typename T, const unsigned int d>
+template <typename T, const unsigned int dim>
 Hypercomplex<T, d>::Hypercomplex(const unsigned int arg_d, const T* arg_arr) {
     if (arg_d == 0) throw std::invalid_argument("invalid dimension");
     if ((arg_d & (arg_d - 1)) != 0) {
@@ -95,7 +95,7 @@ Hypercomplex<T, d>::Hypercomplex(const unsigned int arg_d, const T* arg_arr) {
 }
 
 // Hypercomplex copy constructor
-template <typename T, const unsigned int d>
+template <typename T, const unsigned int dim>
 Hypercomplex<T, d>::Hypercomplex(const Hypercomplex& H) {
     d = H.d;
     arr = new T[H.d];
@@ -103,13 +103,13 @@ Hypercomplex<T, d>::Hypercomplex(const Hypercomplex& H) {
 }
 
 // Hypercomplex destructor
-template <typename T, const unsigned int d>
+template <typename T, const unsigned int dim>
 Hypercomplex<T, d>::~Hypercomplex() {
     delete[] arr;
 }
 
 // calculate norm of the number
-template <typename T, const unsigned int d>
+template <typename T, const unsigned int dim>
 inline T Hypercomplex<T, d>::norm() const {
     T result = 0.0;
     for (unsigned int i=0; i < d; i++) result += arr[i] * arr[i];
@@ -117,7 +117,7 @@ inline T Hypercomplex<T, d>::norm() const {
 }
 
 // calculate inverse of the number
-template <typename T, const unsigned int d>
+template <typename T, const unsigned int dim>
 Hypercomplex Hypercomplex<T, d>::inv() const {
     if ((*this).norm() == 0) {
         throw std::invalid_argument("division by zero");
@@ -133,7 +133,7 @@ Hypercomplex Hypercomplex<T, d>::inv() const {
 }
 
 // expand object to a higher dimension
-template <typename T, const unsigned int d>
+template <typename T, const unsigned int dim>
 Hypercomplex Hypercomplex<T, d>::expand(const unsigned int arg_d) const {
     if (arg_d <= d) throw std::invalid_argument("invalid dimension");
     T* temparr = new T[arg_d]();  // zero-init
@@ -144,7 +144,7 @@ Hypercomplex Hypercomplex<T, d>::expand(const unsigned int arg_d) const {
 }
 
 // overloaded ~ operator
-template <typename T, const unsigned int d>
+template <typename T, const unsigned int dim>
 inline Hypercomplex Hypercomplex<T, d>::operator~() const {
     Hypercomplex H = -(*this);
     H[0] = arr[0];
@@ -152,7 +152,7 @@ inline Hypercomplex Hypercomplex<T, d>::operator~() const {
 }
 
 // overloaded - unary operator
-template <typename T, const unsigned int d>
+template <typename T, const unsigned int dim>
 Hypercomplex Hypercomplex<T, d>::operator-() const {
     T* temparr = new T[d];
     for (unsigned int i=0; i < d; i++) temparr[i] = -arr[i];
@@ -162,7 +162,7 @@ Hypercomplex Hypercomplex<T, d>::operator-() const {
 }
 
 // overloaded = operator
-template <typename T, const unsigned int d>
+template <typename T, const unsigned int dim>
 inline Hypercomplex& Hypercomplex<T, d>::operator=(const Hypercomplex &H) {
     // self-assignment guard
     if (this == &H) return *this;
@@ -174,7 +174,7 @@ inline Hypercomplex& Hypercomplex<T, d>::operator=(const Hypercomplex &H) {
 }
 
 // overloaded [] operator
-template <typename T, const unsigned int d>
+template <typename T, const unsigned int dim>
 inline T& Hypercomplex<T, d>::operator[](const unsigned int i) const {
     assert(0 <= i && i < d);
     return arr[i];
@@ -272,7 +272,7 @@ Hypercomplex operator/(const Hypercomplex &H1, const Hypercomplex &H2) {
 }
 
 // overloaded += operator
-template <typename T, const unsigned int d>
+template <typename T, const unsigned int dim>
 Hypercomplex& Hypercomplex<T, d>::operator+=(const Hypercomplex &H) {
     Hypercomplex result = (*this) + H;
     for (unsigned int i=0; i < d; i++) (*this)[i] = result[i];
@@ -280,7 +280,7 @@ Hypercomplex& Hypercomplex<T, d>::operator+=(const Hypercomplex &H) {
 }
 
 // overloaded -= operator
-template <typename T, const unsigned int d>
+template <typename T, const unsigned int dim>
 Hypercomplex& Hypercomplex<T, d>::operator-=(const Hypercomplex &H) {
     Hypercomplex result = (*this) - H;
     for (unsigned int i=0; i < d; i++) (*this)[i] = result[i];
@@ -288,7 +288,7 @@ Hypercomplex& Hypercomplex<T, d>::operator-=(const Hypercomplex &H) {
 }
 
 // overloaded *= operator
-template <typename T, const unsigned int d>
+template <typename T, const unsigned int dim>
 Hypercomplex& Hypercomplex<T, d>::operator*=(const Hypercomplex &H) {
     Hypercomplex result = (*this) * H;
     for (unsigned int i=0; i < d; i++) (*this)[i] = result[i];
@@ -296,7 +296,7 @@ Hypercomplex& Hypercomplex<T, d>::operator*=(const Hypercomplex &H) {
 }
 
 // overloaded ^= operator
-template <typename T, const unsigned int d>
+template <typename T, const unsigned int dim>
 Hypercomplex& Hypercomplex<T, d>::operator^=(const unsigned int x) {
     Hypercomplex result = (*this) ^ x;
     for (unsigned int i=0; i < d; i++) (*this)[i] = result[i];
@@ -304,7 +304,7 @@ Hypercomplex& Hypercomplex<T, d>::operator^=(const unsigned int x) {
 }
 
 // overloaded /= operator
-template <typename T, const unsigned int d>
+template <typename T, const unsigned int dim>
 Hypercomplex& Hypercomplex<T, d>::operator/=(const Hypercomplex &H) {
     Hypercomplex result = (*this) / H;
     for (unsigned int i=0; i < d; i++) (*this)[i] = result[i];
