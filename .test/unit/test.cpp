@@ -20,6 +20,8 @@
 #include <mpfr.h>
 
 template<typename T>
+using Hypercomplex2 = Hypercomplex<T, 2>;
+template<typename T>
 using Hypercomplex3 = Hypercomplex<T, 3>;
 
 TEST_CASE( "Class Structure", "[unit]" ) {
@@ -51,7 +53,7 @@ TEST_CASE( "Class Structure", "[unit]" ) {
             REQUIRE( invh1[2] == target3 );
             REQUIRE( invh1[3] == target4 );
             float A0[] = {0.0,0.0};
-            REQUIRE_THROWS_AS(Hypercomplex<float, 2>(A0).inv(), std::invalid_argument);
+            REQUIRE_THROWS_AS(Hypercomplex2<float>(A0).inv(), std::invalid_argument);
         }
 
         SECTION( "Expansion" ) {
