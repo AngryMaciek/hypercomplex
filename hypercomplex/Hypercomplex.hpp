@@ -178,8 +178,11 @@ Hypercomplex<T, newdim> Hypercomplex<T, dim>::expand() const {
 // overloaded ~ operator
 template <typename T, const unsigned int dim>
 inline Hypercomplex<T, dim> Hypercomplex<T, dim>::operator~() const {
-    Hypercomplex H = -(*this);
-    H[0] = arr[0];
+    T* temparr = new T[dim];
+    temparr[0] = arr[0]
+    for (unsigned int i=1; i < dim; i++) temparr[i] = -arr[i];
+    Hypercomplex<T, dim> H(temparr);
+    delete[] temparr;
     return H;
 }
 
@@ -188,7 +191,7 @@ template <typename T, const unsigned int dim>
 Hypercomplex<T, dim> Hypercomplex<T, dim>::operator-() const {
     T* temparr = new T[dim];
     for (unsigned int i=0; i < dim; i++) temparr[i] = -arr[i];
-    Hypercomplex H = Hypercomplex(dim, temparr);
+    Hypercomplex<T, dim> H(temparr);
     delete[] temparr;
     return H;
 }
