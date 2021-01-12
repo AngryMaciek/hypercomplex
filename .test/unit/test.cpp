@@ -236,7 +236,7 @@ TEST_CASE( "Overloading Operators", "[unit]" ) {
     }
 
     SECTION( "Subtraction operator" ) {
-        Hypercomplex h = h1 - h2;
+        Hypercomplex<float, dim4> h = h1 - h2;
         REQUIRE( h[0] == 1.5 );
         REQUIRE( h[1] == 1.0 );
         REQUIRE( h[2] == 0.0 );
@@ -260,12 +260,11 @@ TEST_CASE( "Overloading Operators", "[unit]" ) {
     }
 
     SECTION( "Multiplication operator" ) {
-        Hypercomplex h = h1 * h2;
+        Hypercomplex<float, dim4> h = h1 * h2;
         REQUIRE( h[0] == 3.5 );
         REQUIRE( h[1] == 0.0 );
         REQUIRE( h[2] == -13.0 );
         REQUIRE( h[3] == 6.5 );
-        REQUIRE_THROWS_AS(h1 * h3, std::invalid_argument);
     }
 
     SECTION( "Multiplication-Assignment operator" ) {
@@ -274,13 +273,12 @@ TEST_CASE( "Overloading Operators", "[unit]" ) {
         REQUIRE( h1[1] == 0.0 );
         REQUIRE( h1[2] == -13.0 );
         REQUIRE( h1[3] == 6.5 );
-        REQUIRE_THROWS_AS(h1 *= h3, std::invalid_argument);
     }
 
     SECTION( "Power operator" ) {
         REQUIRE_THROWS_AS(h1 ^ 0, std::invalid_argument);
         REQUIRE_NOTHROW(h1 ^ 1);
-        Hypercomplex h = h1 ^ 2;
+        Hypercomplex<float, dim4> h = h1 ^ 2;
         REQUIRE( h[0] == -4.0 );
         REQUIRE( h[1] == 4.0 );
         REQUIRE( h[2] == 0.0 );
@@ -336,14 +334,14 @@ TEST_CASE( "Overloading Operators", "[unit]" ) {
         Approx target2 = Approx(-0.054).epsilon(0.01);
         Approx target3 = Approx(0.350).epsilon(0.01);
         Approx target4 = Approx(-0.148).epsilon(0.01);
-        Hypercomplex h = h1 / h2;
+        Hypercomplex<float, dim4> h = h1 / h2;
         REQUIRE( h[0] == target1 );
         REQUIRE( h[1] == target2 );
         REQUIRE( h[2] == target3 );
         REQUIRE( h[3] == target4 );
         REQUIRE_THROWS_AS(h1 / h3, std::invalid_argument);
         float D[] = {0.0, 0.0, 0.0, 0.0};
-        Hypercomplex h4 = Hypercomplex(dim4, D);
+        Hypercomplex<float, dim4> h4(D);
         REQUIRE_THROWS_AS(h1 / h4, std::invalid_argument);
     }
 
@@ -359,7 +357,7 @@ TEST_CASE( "Overloading Operators", "[unit]" ) {
         REQUIRE( h1[3] == target4 );
         REQUIRE_THROWS_AS(h1 /= h3, std::invalid_argument);
         float D[] = {0.0, 0.0, 0.0, 0.0};
-        Hypercomplex h4 = Hypercomplex(dim4, D);
+        Hypercomplex<float, dim4> h4(D);
         REQUIRE_THROWS_AS(h1 /= h4, std::invalid_argument);
     }
 
