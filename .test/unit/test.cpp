@@ -19,7 +19,8 @@
 #include <iostream>
 #include <mpfr.h>
 
-#define REQUIRE_THROWS_AS_VA_ARGS(...) REQUIRE_THROWS_AS(__VA_ARGS__)
+template<typename T>
+using Hypercomplex3 = Hypercomplex<T, 3>;
 
 TEST_CASE( "Class Structure", "[unit]" ) {
     //
@@ -28,7 +29,7 @@ TEST_CASE( "Class Structure", "[unit]" ) {
         float A[] = {1.0, 2.0, 0.0, -1.0};
         float invalidA[] = {1.0, 2.0, 0.0};
         Hypercomplex<float, dim> h1(A);
-        REQUIRE_THROWS_AS(Hypercomplex<float, 3>(invalidA), std::invalid_argument);
+        REQUIRE_THROWS_AS(Hypercomplex3<float>(invalidA), std::invalid_argument);
 
         SECTION( "Getters" ) {
             REQUIRE( h1._() == dim );
