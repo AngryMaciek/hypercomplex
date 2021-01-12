@@ -109,8 +109,8 @@ TEST_CASE( "Class Structure", "[unit]" ) {
     SECTION( "Main constructor: exception" ) {
         float A1[] = {10.10};
         float A0[] = {};
-        REQUIRE_NOTHROW(Hypercomplex(1, A1));
-        REQUIRE_THROWS_AS(Hypercomplex(0, A0), std::invalid_argument);
+        REQUIRE_NOTHROW(Hypercomplex<float, 1>(A1));
+        REQUIRE_THROWS_AS(Hypercomplex<float, 0>(A0), std::invalid_argument);
     }
 
     SECTION( "Copy constructor" ) {
@@ -176,8 +176,6 @@ TEST_CASE( "Overloading Operators", "[unit]" ) {
         bool result;
         result = h1 == h2;
         REQUIRE( result == false );
-        result = h1 == h3;
-        REQUIRE( result == false );
         result = h1 == h1;
         REQUIRE( result == true );
     }
@@ -185,8 +183,6 @@ TEST_CASE( "Overloading Operators", "[unit]" ) {
     SECTION( "Inequality operator" ) {
         bool result;
         result = h1 != h2;
-        REQUIRE( result == true );
-        result = h1 != h3;
         REQUIRE( result == true );
         result = h1 != h1;
         REQUIRE( result == false );
