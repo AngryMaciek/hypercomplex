@@ -2,7 +2,7 @@
 [![build](https://github.com/AngryMaciek/hypercomplex/workflows/Install/badge.svg?branch=master)](https://github.com/AngryMaciek/hypercomplex/actions?query=workflow%3AInstall)
 [![build](https://github.com/AngryMaciek/hypercomplex/workflows/Catch2/badge.svg?branch=master)](https://github.com/AngryMaciek/hypercomplex/actions?query=workflow%3ACatch2)
 [![codecov](https://codecov.io/gh/AngryMaciek/hypercomplex/branch/master/graph/badge.svg?token=SSKOK4XR1M)](https://codecov.io/gh/AngryMaciek/hypercomplex)
-[![Cpp14](https://img.shields.io/badge/C%2B%2B-14-blue)](https://isocpp.org/wiki/faq/cpp14)
+[![Cpp17](https://img.shields.io/badge/C%2B%2B-17-blue)](https://en.wikipedia.org/wiki/C%2B%2B17)
 [![build](https://github.com/AngryMaciek/hypercomplex/workflows/cpplint/badge.svg?branch=master)](https://github.com/AngryMaciek/hypercomplex/actions?query=workflow%3Acpplint)
 [![CodeFactor](https://www.codefactor.io/repository/github/angrymaciek/hypercomplex/badge)](https://www.codefactor.io/repository/github/angrymaciek/hypercomplex)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/AngryMaciek/hypercomplex/master?filepath=example%2Fexample.ipynb)
