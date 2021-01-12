@@ -274,6 +274,7 @@ Hypercomplex<T, dim> operator*(
         T temparr[] = { H1[0] * H2[0] };
         Hypercomplex<T, 1> H_(temparr);
         return H_;
+    // recursion step:
     } else {
         // shared objects:
         const unsigned int halfd = dim / 2;
