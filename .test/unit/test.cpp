@@ -20,6 +20,10 @@
 #include <mpfr.h>
 
 template<typename T>
+using Hypercomplex0 = Hypercomplex<T, 0>;
+template<typename T>
+using Hypercomplex1 = Hypercomplex<T, 1>;
+template<typename T>
 using Hypercomplex2 = Hypercomplex<T, 2>;
 template<typename T>
 using Hypercomplex3 = Hypercomplex<T, 3>;
@@ -112,8 +116,8 @@ TEST_CASE( "Class Structure", "[unit]" ) {
     SECTION( "Main constructor: exception" ) {
         float A1[] = {10.10};
         float A0[] = {};
-        REQUIRE_NOTHROW(Hypercomplex<float, 1>(A1));
-        REQUIRE_THROWS_AS(Hypercomplex<float, 0>(A0), std::invalid_argument);
+        REQUIRE_NOTHROW(Hypercomplex1<float>(A1));
+        REQUIRE_THROWS_AS(Hypercomplex0<float>(A0), std::invalid_argument);
     }
 
     SECTION( "Copy constructor" ) {
