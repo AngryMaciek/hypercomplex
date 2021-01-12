@@ -351,7 +351,6 @@ TEST_CASE( "Overloading Operators", "[unit]" ) {
         REQUIRE( h1[1] == target2 );
         REQUIRE( h1[2] == target3 );
         REQUIRE( h1[3] == target4 );
-        REQUIRE_THROWS_AS(h1 /= h3, std::invalid_argument);
         float D[] = {0.0, 0.0, 0.0, 0.0};
         Hypercomplex<float, dim4> h4(D);
         REQUIRE_THROWS_AS(h1 /= h4, std::invalid_argument);
@@ -388,7 +387,7 @@ TEST_CASE( "Special", "[usecase]" ) {
         REQUIRE_NOTHROW(const_h1.inv());
         REQUIRE_NOTHROW(~const_h1);
         REQUIRE_NOTHROW(-const_h1);
-        REQUIRE_NOTHROW(const_h1.expand(newdim));
+        REQUIRE_NOTHROW(const_h1.expand<newdim>());
         REQUIRE_NOTHROW(const_h1[0]);
         REQUIRE_NOTHROW(const_h1 == const_h2);
         REQUIRE_NOTHROW(const_h1 != const_h2);
