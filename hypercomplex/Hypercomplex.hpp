@@ -128,7 +128,7 @@ Hypercomplex<T, dim>::Hypercomplex(const T* ARR) {
 template <typename T, const unsigned int dim>
 Hypercomplex<T, dim>::Hypercomplex(const Hypercomplex<T, dim> &H) {
     arr = new T[dim];
-    for (unsigned int i=0; i < dim; i++) arr[i] = H.arr[i];
+    for (unsigned int i=0; i < dim; i++) arr[i] = H[i];
 }
 
 // Hypercomplex destructor
