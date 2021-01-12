@@ -405,15 +405,16 @@ Hypercomplex<T, dim> Im(const Hypercomplex<T, dim> &H) {
 template <typename T, const unsigned int dim>
 Hypercomplex<T, dim> exp(const Hypercomplex<T, dim> &H) {
     Hypercomplex<T, dim> result = Im(H);
+    T zero = T();
     T norm = result.norm();
-    if (norm == 0.0) {
+    if (norm == zero) {
         result[0] = exp(H[0]);
         for (unsigned int i=1; i < dim; i++) result[i] = 0;
     } else {
         T sinv_v = sin(norm) / norm;
-        for (unsigned int i=0; i < dim; i++) result[i] *= sinv_v;
-        result[0] += cos(norm);
-        for (unsigned int i=0; i < dim; i++) result[i] *= exp(H[0]);
+        for (unsigned int i=0; i < dim; i++) result[i] = result[i] * sinv_v;
+        result[0] = result[0] + cos(norm);
+        for (unsigned int i=0; i < dim; i++) result[i] = result[i] * exp(H[0]);
     }
     return result;
 }
