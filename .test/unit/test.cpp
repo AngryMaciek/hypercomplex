@@ -15,6 +15,7 @@
 #define CATCH_CONFIG_RUNNER
 #include "catch.hpp"
 #include "hypercomplex/Hypercomplex.hpp"
+#include <tuple>
 #include <stdexcept>
 #include <iostream>
 #include <mpfr.h>
@@ -28,14 +29,16 @@ using Hypercomplex2 = Hypercomplex<T, 2>;
 template<typename T>
 using Hypercomplex3 = Hypercomplex<T, 3>;
 
-TEST_CASE( "Class Structure", "[unit]" ) {
+using TestTypes = std::tuple<short, int, long, float, double>;
+
+TEMPLATE_LIST_TEST_CASE( "Class Structure", "[unit]", TestTypes ) {
     //
     SECTION( "Main constructor" ) {
         const unsigned int dim = 4;
-        float A[] = {1.0, 2.0, 0.0, -1.0};
-        float invalidA[] = {1.0, 2.0, 0.0};
-        Hypercomplex<float, dim> h1(A);
-        REQUIRE_THROWS_AS(Hypercomplex3<float>(invalidA), std::invalid_argument);
+        TestType A[] = {1.0, 2.0, 0.0, -1.0};
+        TestType invalidA[] = {1.0, 2.0, 0.0};
+        Hypercomplex<TestType, dim> h1(A);
+        REQUIRE_THROWS_AS(Hypercomplex3<TestType>(invalidA), std::invalid_argument);
 
         SECTION( "Getters" ) {
             REQUIRE( h1._() == dim );
