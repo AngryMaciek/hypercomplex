@@ -332,7 +332,7 @@ template <typename T, const unsigned int dim>
 Hypercomplex<T, dim>& Hypercomplex<T, dim>::operator+=(
     const Hypercomplex<T, dim> &H
 ) {
-    Hypercomplex result = (*this) + H;
+    Hypercomplex<T, dim> result = (*this) + H;
     for (unsigned int i=0; i < dim; i++) (*this)[i] = result[i];
     return *this;
 }
@@ -342,7 +342,7 @@ template <typename T, const unsigned int dim>
 Hypercomplex<T, dim>& Hypercomplex<T, dim>::operator-=(
     const Hypercomplex<T, dim> &H
 ) {
-    Hypercomplex result = (*this) - H;
+    Hypercomplex<T, dim> result = (*this) - H;
     for (unsigned int i=0; i < dim; i++) (*this)[i] = result[i];
     return *this;
 }
@@ -352,7 +352,7 @@ template <typename T, const unsigned int dim>
 Hypercomplex<T, dim>& Hypercomplex<T, dim>::operator*=(
     const Hypercomplex<T, dim> &H
 ) {
-    Hypercomplex result = (*this) * H;
+    Hypercomplex<T, dim> result = (*this) * H;
     for (unsigned int i=0; i < dim; i++) (*this)[i] = result[i];
     return *this;
 }
@@ -362,7 +362,7 @@ template <typename T, const unsigned int dim>
 Hypercomplex<T, dim>& Hypercomplex<T, dim>::operator^=(
     const unsigned int x
 ) {
-    Hypercomplex result = (*this) ^ x;
+    Hypercomplex<T, dim> result = (*this) ^ x;
     for (unsigned int i=0; i < dim; i++) (*this)[i] = result[i];
     return *this;
 }
@@ -372,7 +372,7 @@ template <typename T, const unsigned int dim>
 Hypercomplex<T, dim>& Hypercomplex<T, dim>::operator/=(
     const Hypercomplex<T, dim> &H
 ) {
-    Hypercomplex result = (*this) / H;
+    Hypercomplex<T, dim> result = (*this) / H;
     for (unsigned int i=0; i < dim; i++) (*this)[i] = result[i];
     return *this;
 }
