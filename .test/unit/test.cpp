@@ -48,7 +48,7 @@ TEST_CASE( "Class Structure", "[unit]" ) {
             REQUIRE( invh1[2] == target3 );
             REQUIRE( invh1[3] == target4 );
             float A0[] = {0.0,0.0};
-            REQUIRE_THROWS_AS(Hypercomplex<float, 2>(A0).inv(), std::invalid_argument);
+            REQUIRE_THROWS_AS(Hypercomplex<(float, 2)>(A0).inv(), std::invalid_argument);
         }
 
         SECTION( "Expansion" ) {
