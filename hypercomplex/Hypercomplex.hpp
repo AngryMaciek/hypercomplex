@@ -38,7 +38,7 @@ class Hypercomplex {
     T* arr;
  public:
     explicit Hypercomplex(const T* ARR);
-    Hypercomplex(const Hypercomplex& H);
+    Hypercomplex(const Hypercomplex &H);
     Hypercomplex() = delete;  // forbid default constructor | c++11
     ~Hypercomplex();
     T _() const { return dim; }
@@ -126,9 +126,9 @@ Hypercomplex<T, dim>::Hypercomplex(const T* ARR) {
 
 // Hypercomplex copy constructor
 template <typename T, const unsigned int dim>
-Hypercomplex<T, dim>::Hypercomplex(const Hypercomplex& H) {
-    arr = new T[H.d];
-    for (unsigned int i=0; i < H.d; i++) arr[i] = H.arr[i];
+Hypercomplex<T, dim>::Hypercomplex(const Hypercomplex<T, dim> &H) {
+    arr = new T[dim];
+    for (unsigned int i=0; i < dim; i++) arr[i] = H.arr[i];
 }
 
 // Hypercomplex destructor
