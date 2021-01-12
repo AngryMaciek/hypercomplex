@@ -140,22 +140,24 @@ Hypercomplex<T, dim>::~Hypercomplex() {
 // calculate norm of the number
 template <typename T, const unsigned int dim>
 inline T Hypercomplex<T, dim>::norm() const {
-    T result = 0.0;
-    for (unsigned int i=0; i < dim; i++) result += arr[i] * arr[i];
+    T result = T();
+    for (unsigned int i=0; i < dim; i++) result = result + arr[i] * arr[i];
     return sqrt(result);
 }
 
 // calculate inverse of the number
 template <typename T, const unsigned int dim>
 Hypercomplex<T, dim> Hypercomplex<T, dim>::inv() const {
-    if ((*this).norm() == 0) {
+    T zero = T();
+    T norm = (*this).norm();
+    if (norm == zero) {
         throw std::invalid_argument("division by zero");
     } else {
-        T norm2 = pow((*this).norm(), 2);
         T* temparr = new T[dim];
-        temparr[0] = arr[0] / norm2;
-        for (unsigned int i=1; i < dim; i++) temparr[i] = -arr[i] / norm2;
-        Hypercomplex H = Hypercomplex(dim, temparr);
+        temparr[0] = arr[0] / (norm * norm);
+        for (unsigned int i=1; i < dim; i++)
+            temparr[i] = -arr[i] / (norm * norm);
+        Hypercomplex<T, dim> H(temparr);
         delete[] temparr;
         return H;
     }
