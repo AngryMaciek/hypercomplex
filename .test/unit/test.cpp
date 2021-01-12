@@ -29,7 +29,7 @@ using Hypercomplex2 = Hypercomplex<T, 2>;
 template<typename T>
 using Hypercomplex3 = Hypercomplex<T, 3>;
 
-using TestTypes = std::tuple<short, int, long, float, double>;
+using TestTypes = std::tuple<float, double>;
 
 TEMPLATE_LIST_TEST_CASE( "Class Structure", "[unit]", TestTypes ) {
     //
@@ -52,19 +52,19 @@ TEMPLATE_LIST_TEST_CASE( "Class Structure", "[unit]", TestTypes ) {
         SECTION( "Inverse" ) {
             Approx target1 = Approx(0.166).epsilon(0.01);
             Approx target2 = Approx(-0.333).epsilon(0.01);
-            float target3 = 0.0;
+            TestType target3 = 0.0;
             Approx target4 = Approx(0.166).epsilon(0.01);
-            Hypercomplex<float, dim> invh1 = h1.inv();
+            Hypercomplex<TestType, dim> invh1 = h1.inv();
             REQUIRE( invh1[0] == target1 );
             REQUIRE( invh1[1] == target2 );
             REQUIRE( invh1[2] == target3 );
             REQUIRE( invh1[3] == target4 );
-            float A0[] = {0.0,0.0};
-            REQUIRE_THROWS_AS(Hypercomplex2<float>(A0).inv(), std::invalid_argument);
+            TestType A0[] = {0.0,0.0};
+            REQUIRE_THROWS_AS(Hypercomplex2<TestType>(A0).inv(), std::invalid_argument);
         }
 
         SECTION( "Expansion" ) {
-            Hypercomplex<float, 8> hexpanded = h1.expand<8>();
+            Hypercomplex<TestType, 8> hexpanded = h1.expand<8>();
             REQUIRE( hexpanded[0] == h1[0] );
             REQUIRE( hexpanded[1] == h1[1] );
             REQUIRE( hexpanded[2] == h1[2] );
@@ -80,7 +80,7 @@ TEMPLATE_LIST_TEST_CASE( "Class Structure", "[unit]", TestTypes ) {
         }
 
         SECTION( "Real part" ) {
-            Hypercomplex<float, dim> real_h1 = Re(h1);
+            Hypercomplex<TestType, dim> real_h1 = Re(h1);
             REQUIRE( real_h1[0] == h1[0] );
             REQUIRE( real_h1[1] == 0.0 );
             REQUIRE( real_h1[2] == 0.0 );
@@ -88,7 +88,7 @@ TEMPLATE_LIST_TEST_CASE( "Class Structure", "[unit]", TestTypes ) {
         }
 
         SECTION( "Imaginary part" ) {
-            Hypercomplex<float, dim> imaginary_h1 = Im(h1);
+            Hypercomplex<TestType, dim> imaginary_h1 = Im(h1);
             REQUIRE( imaginary_h1[0] == 0.0 );
             REQUIRE( imaginary_h1[1] == h1[1] );
             REQUIRE( imaginary_h1[2] == h1[2] );
@@ -98,16 +98,16 @@ TEMPLATE_LIST_TEST_CASE( "Class Structure", "[unit]", TestTypes ) {
         SECTION( "Hypercomplex exponentiation" ) {
             Approx target1 = Approx(-1.678).epsilon(0.01);
             Approx target2 = Approx(1.913).epsilon(0.01);
-            float target3 = 0.0;
+            TestType target3 = 0.0;
             Approx target4 = Approx(-0.956).epsilon(0.01);
-            Hypercomplex<float, dim> exp_h1 = exp(h1);
+            Hypercomplex<TestType, dim> exp_h1 = exp(h1);
             REQUIRE( exp_h1[0] == target1 );
             REQUIRE( exp_h1[1] == target2 );
             REQUIRE( exp_h1[2] == target3 );
             REQUIRE( exp_h1[3] == target4 );
-            float B[] = {5.0, 0.0, 0.0, 0.0};
-            Hypercomplex<float, dim> h2(B);
-            Hypercomplex<float, dim> exp_h2 = exp(h2);
+            TestType B[] = {5.0, 0.0, 0.0, 0.0};
+            Hypercomplex<TestType, dim> h2(B);
+            Hypercomplex<TestType, dim> exp_h2 = exp(h2);
             Approx target5 = Approx(148.413).epsilon(0.01);
             REQUIRE( exp_h2[0] == target5 );
             REQUIRE( exp_h2[1] == 0.0 );
@@ -117,18 +117,18 @@ TEMPLATE_LIST_TEST_CASE( "Class Structure", "[unit]", TestTypes ) {
     }
 
     SECTION( "Main constructor: exception" ) {
-        float A1[] = {10.10};
-        float A0[] = {};
-        REQUIRE_NOTHROW(Hypercomplex1<float>(A1));
-        REQUIRE_THROWS_AS(Hypercomplex0<float>(A0), std::invalid_argument);
+        TestType A1[] = {10.10};
+        TestType A0[] = {};
+        REQUIRE_NOTHROW(Hypercomplex1<TestType>(A1));
+        REQUIRE_THROWS_AS(Hypercomplex0<TestType>(A0), std::invalid_argument);
     }
 
     SECTION( "Copy constructor" ) {
         const unsigned int dim = 4;
-        float A[] = {1.0, 2.0, 0.0, -1.0};
-        Hypercomplex<float, dim> h1(A);
-        Hypercomplex<float, dim> h2(h1);
-        Hypercomplex<float, dim> h3 = h2;
+        TestType A[] = {1.0, 2.0, 0.0, -1.0};
+        Hypercomplex<TestType, dim> h1(A);
+        Hypercomplex<TestType, dim> h2(h1);
+        Hypercomplex<TestType, dim> h3 = h2;
         REQUIRE( &h1 != &h2 );
         REQUIRE( &h2 != &h3 );
         REQUIRE( &h3 != &h1 );
@@ -142,9 +142,9 @@ TEMPLATE_LIST_TEST_CASE( "Class Structure", "[unit]", TestTypes ) {
 
     SECTION( "Destructor" ) {
         const unsigned int dim = 4;
-        float A[] = {1.0, 2.0, 0.0, -1.0};
+        TestType A[] = {1.0, 2.0, 0.0, -1.0};
         // dynamic memory allocation for memory leak test:
-        Hypercomplex<float, dim>* h = new Hypercomplex<float, dim>(A);
+        Hypercomplex<TestType, dim>* h = new Hypercomplex<TestType, dim>(A);
         delete h;
         REQUIRE( true == true );
     }
