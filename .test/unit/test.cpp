@@ -233,7 +233,6 @@ TEST_CASE( "Overloading Operators", "[unit]" ) {
         REQUIRE( h[1] == 3.0 );
         REQUIRE( h[2] == 0.0 );
         REQUIRE( h[3] == 5.0 );
-        REQUIRE_THROWS_AS(h1 + h3, std::invalid_argument);
     }
 
     SECTION( "Subtraction operator" ) {
@@ -242,7 +241,6 @@ TEST_CASE( "Overloading Operators", "[unit]" ) {
         REQUIRE( h[1] == 1.0 );
         REQUIRE( h[2] == 0.0 );
         REQUIRE( h[3] == -7.0 );
-        REQUIRE_THROWS_AS(h1 - h3, std::invalid_argument);
     }
 
     SECTION( "Addition-Assignment operator" ) {
@@ -251,7 +249,6 @@ TEST_CASE( "Overloading Operators", "[unit]" ) {
         REQUIRE( h1[1] == 3.0 );
         REQUIRE( h1[2] == 0.0 );
         REQUIRE( h1[3] == 5.0 );
-        REQUIRE_THROWS_AS(h1 += h3, std::invalid_argument);
     }
 
     SECTION( "Subtraction-Assignment operator" ) {
@@ -260,7 +257,6 @@ TEST_CASE( "Overloading Operators", "[unit]" ) {
         REQUIRE( h1[1] == 1.0 );
         REQUIRE( h1[2] == 0.0 );
         REQUIRE( h1[3] == -7.0 );
-        REQUIRE_THROWS_AS(h1 -= h3, std::invalid_argument);
     }
 
     SECTION( "Multiplication operator" ) {
