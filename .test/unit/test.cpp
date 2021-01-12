@@ -25,7 +25,7 @@ TEST_CASE( "Class Structure", "[unit]" ) {
         unsigned int dim = 4;
         float A[] = {1.0, 2.0, 0.0, -1.0};
         float invalidA[] = {1.0, 2.0, 0.0};
-        Hypercomplex h1 = Hypercomplex(dim, A);
+        Hypercomplex<float, dim> h1(A);
         REQUIRE_THROWS_AS(Hypercomplex(3, invalidA), std::invalid_argument);
 
         SECTION( "Getters" ) {
@@ -42,7 +42,7 @@ TEST_CASE( "Class Structure", "[unit]" ) {
             Approx target2 = Approx(-0.333).epsilon(0.01);
             float target3 = 0.0;
             Approx target4 = Approx(0.166).epsilon(0.01);
-            Hypercomplex invh1 = h1.inv();
+            Hypercomplex<float, dim> invh1 = h1.inv();
             REQUIRE( invh1[0] == target1 );
             REQUIRE( invh1[1] == target2 );
             REQUIRE( invh1[2] == target3 );
@@ -52,7 +52,7 @@ TEST_CASE( "Class Structure", "[unit]" ) {
         }
 
         SECTION( "Expansion" ) {
-            Hypercomplex hexpanded = h1.expand(8);
+            Hypercomplex<float, 8> hexpanded = h1.expand<8>();
             REQUIRE( hexpanded[0] == h1[0] );
             REQUIRE( hexpanded[1] == h1[1] );
             REQUIRE( hexpanded[2] == h1[2] );
