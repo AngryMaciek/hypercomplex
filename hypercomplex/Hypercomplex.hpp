@@ -272,7 +272,8 @@ Hypercomplex<T, dim> operator*(
     // recursion base:
     if (dim == 1) {
         T temparr[] = { H1[0] * H2[0] };
-        return Hypercomplex<T, 1>(temparr);
+        Hypercomplex<T, 1> H_(temparr);
+        return H_;
     }
     // shared objects:
     const unsigned int halfd = dim / 2;
