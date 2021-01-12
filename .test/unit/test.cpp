@@ -142,8 +142,8 @@ TEST_CASE( "Class Structure", "[unit]" ) {
 
 TEST_CASE( "Overloading Operators", "[unit]" ) {
     //
-    unsigned int dim2 = 2;
-    unsigned int dim4 = 4;
+    const unsigned int dim2 = 2;
+    const unsigned int dim4 = 4;
     float A[] = {1.0, 2.0, 0.0, -1.0};
     float B[] = {-0.5, 1.0, 0.0, 6.0};
     float C[] = {10.0, -10.0};
@@ -372,9 +372,9 @@ TEST_CASE( "Special", "[usecase]" ) {
         float A[] = {1.51, -1.13, 2.28, -10.77, -2.63, -9.11, 0.01, 4.02};
         float B[] = {-7.32, -0.70, 0.91, 99.32, 8.09, -9.33, 0.84, -5.32};
         float C[] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-        Hypercomplex h1 = Hypercomplex(8, A);
-        Hypercomplex h2 = Hypercomplex(8, B);
-        Hypercomplex result = Hypercomplex(8, C);
+        Hypercomplex<float, 8> h1(A);
+        Hypercomplex<float, 8> h2(B);
+        Hypercomplex<float, 8> result(C);
         for (unsigned int i=0; i < 10000; i++) result = h1 * h2;
         REQUIRE( true == true );
     }
@@ -385,8 +385,8 @@ TEST_CASE( "Special", "[usecase]" ) {
         const unsigned int cui = 2;
         const float A[] = {1.0, 2.0, 0.0, -1.0};
         const float B[] = {-0.5, 1.0, 0.0, 6.0};
-        const Hypercomplex const_h1 = Hypercomplex(dim, A);
-        const Hypercomplex const_h2 = Hypercomplex(dim, B);
+        const Hypercomplex<float, dim> const_h1(A);
+        const Hypercomplex<float, dim> const_h2(B);
         REQUIRE_NOTHROW(const_h1._());
         REQUIRE_NOTHROW(const_h1.norm());
         REQUIRE_NOTHROW(const_h1.inv());
