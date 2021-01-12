@@ -26,10 +26,7 @@ TEST_CASE( "Class Structure", "[unit]" ) {
         float A[] = {1.0, 2.0, 0.0, -1.0};
         float invalidA[] = {1.0, 2.0, 0.0};
         Hypercomplex<float, dim> h1(A);
-        REQUIRE_THROWS_AS(
-            Hypercomplex<float, 3>(invalidA),
-            std::invalid_argument
-        );
+        REQUIRE_THROWS_AS(Hypercomplex<float, 3>(invalidA), std::invalid_argument);
 
         SECTION( "Getters" ) {
             REQUIRE( h1._() == dim );
@@ -51,10 +48,7 @@ TEST_CASE( "Class Structure", "[unit]" ) {
             REQUIRE( invh1[2] == target3 );
             REQUIRE( invh1[3] == target4 );
             float A0[] = {0.0,0.0};
-            REQUIRE_THROWS_AS(
-                Hypercomplex<float, 2>(A0).inv(),
-                std::invalid_argument
-            );
+            REQUIRE_THROWS_AS(Hypercomplex<float, 2>(A0).inv(), std::invalid_argument);
         }
 
         SECTION( "Expansion" ) {
