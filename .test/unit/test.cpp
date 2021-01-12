@@ -150,20 +150,20 @@ TEMPLATE_LIST_TEST_CASE( "Class Structure", "[unit]", TestTypes ) {
     }
 }
 
-TEST_CASE( "Overloading Operators", "[unit]" ) {
+TEMPLATE_LIST_TEST_CASE( "Overloading Operators", "[unit]", TestTypes ) {
     //
     const unsigned int dim2 = 2;
     const unsigned int dim4 = 4;
-    float A[] = {1.0, 2.0, 0.0, -1.0};
-    float B[] = {-0.5, 1.0, 0.0, 6.0};
-    float C[] = {10.0, -10.0};
+    TestType A[] = {1.0, 2.0, 0.0, -1.0};
+    TestType B[] = {-0.5, 1.0, 0.0, 6.0};
+    TestType C[] = {10.0, -10.0};
 
-    Hypercomplex<float, dim4> h1(A);
-    Hypercomplex<float, dim4> h2(B);
-    Hypercomplex<float, dim2> h3(C);
+    Hypercomplex<TestType, dim4> h1(A);
+    Hypercomplex<TestType, dim4> h2(B);
+    Hypercomplex<TestType, dim2> h3(C);
 
     SECTION( "Conjugate operator" ) {
-        Hypercomplex<float, dim4> h1_ = ~h1;
+        Hypercomplex<TestType, dim4> h1_ = ~h1;
         REQUIRE( &h1 != &h1_ );
         REQUIRE( h1_[0] == A[0] );
         REQUIRE( h1_[1] == -A[1] );
@@ -199,7 +199,7 @@ TEST_CASE( "Overloading Operators", "[unit]" ) {
     }
 
     SECTION( "Negation operator" ) {
-        Hypercomplex<float, dim4> h1_ = -h1;
+        Hypercomplex<TestType, dim4> h1_ = -h1;
         REQUIRE( &h1 != &h1_ );
         REQUIRE( h1_[0] == -A[0] );
         REQUIRE( h1_[1] == -A[1] );
@@ -210,12 +210,12 @@ TEST_CASE( "Overloading Operators", "[unit]" ) {
     }
 
     SECTION( "Assignment operator" ) {
-        float a[] = {-3.0, 5.0, 2.0, 1.0};
-        float b[] = {9.0, 0.0, -4.0, 1.0};
-        float c[] = {5.0, 8.0, 0.0, -8.0};
-        Hypercomplex<float, dim4> ha(a);
-        Hypercomplex<float, dim4> hb(b);
-        Hypercomplex<float, dim4> hc(c);
+        TestType a[] = {-3.0, 5.0, 2.0, 1.0};
+        TestType b[] = {9.0, 0.0, -4.0, 1.0};
+        TestType c[] = {5.0, 8.0, 0.0, -8.0};
+        Hypercomplex<TestType, dim4> ha(a);
+        Hypercomplex<TestType, dim4> hb(b);
+        Hypercomplex<TestType, dim4> hc(c);
         REQUIRE( &h1 != &ha );
         REQUIRE( h1[0] != ha[0] );
         ha = h1;
@@ -234,7 +234,7 @@ TEST_CASE( "Overloading Operators", "[unit]" ) {
     }
 
     SECTION( "Addition operator" ) {
-        Hypercomplex<float, dim4> h = h1 + h2;
+        Hypercomplex<TestType, dim4> h = h1 + h2;
         REQUIRE( h[0] == 0.5 );
         REQUIRE( h[1] == 3.0 );
         REQUIRE( h[2] == 0.0 );
@@ -242,7 +242,7 @@ TEST_CASE( "Overloading Operators", "[unit]" ) {
     }
 
     SECTION( "Subtraction operator" ) {
-        Hypercomplex<float, dim4> h = h1 - h2;
+        Hypercomplex<TestType, dim4> h = h1 - h2;
         REQUIRE( h[0] == 1.5 );
         REQUIRE( h[1] == 1.0 );
         REQUIRE( h[2] == 0.0 );
@@ -266,7 +266,7 @@ TEST_CASE( "Overloading Operators", "[unit]" ) {
     }
 
     SECTION( "Multiplication operator" ) {
-        Hypercomplex<float, dim4> h = h1 * h2;
+        Hypercomplex<TestType, dim4> h = h1 * h2;
         REQUIRE( h[0] == 3.5 );
         REQUIRE( h[1] == 0.0 );
         REQUIRE( h[2] == -13.0 );
@@ -284,7 +284,7 @@ TEST_CASE( "Overloading Operators", "[unit]" ) {
     SECTION( "Power operator" ) {
         REQUIRE_THROWS_AS(h1 ^ 0, std::invalid_argument);
         REQUIRE_NOTHROW(h1 ^ 1);
-        Hypercomplex<float, dim4> h = h1 ^ 2;
+        Hypercomplex<TestType, dim4> h = h1 ^ 2;
         REQUIRE( h[0] == -4.0 );
         REQUIRE( h[1] == 4.0 );
         REQUIRE( h[2] == 0.0 );
@@ -340,13 +340,13 @@ TEST_CASE( "Overloading Operators", "[unit]" ) {
         Approx target2 = Approx(-0.054).epsilon(0.01);
         Approx target3 = Approx(0.350).epsilon(0.01);
         Approx target4 = Approx(-0.148).epsilon(0.01);
-        Hypercomplex<float, dim4> h = h1 / h2;
+        Hypercomplex<TestType, dim4> h = h1 / h2;
         REQUIRE( h[0] == target1 );
         REQUIRE( h[1] == target2 );
         REQUIRE( h[2] == target3 );
         REQUIRE( h[3] == target4 );
-        float D[] = {0.0, 0.0, 0.0, 0.0};
-        Hypercomplex<float, dim4> h4(D);
+        TestType D[] = {0.0, 0.0, 0.0, 0.0};
+        Hypercomplex<TestType, dim4> h4(D);
         REQUIRE_THROWS_AS(h1 / h4, std::invalid_argument);
     }
 
@@ -360,8 +360,8 @@ TEST_CASE( "Overloading Operators", "[unit]" ) {
         REQUIRE( h1[1] == target2 );
         REQUIRE( h1[2] == target3 );
         REQUIRE( h1[3] == target4 );
-        float D[] = {0.0, 0.0, 0.0, 0.0};
-        Hypercomplex<float, dim4> h4(D);
+        TestType D[] = {0.0, 0.0, 0.0, 0.0};
+        Hypercomplex<TestType, dim4> h4(D);
         REQUIRE_THROWS_AS(h1 /= h4, std::invalid_argument);
     }
 
@@ -370,15 +370,15 @@ TEST_CASE( "Overloading Operators", "[unit]" ) {
     }
 }
 
-TEST_CASE( "Special", "[usecase]" ) {
+TEMPLATE_LIST_TEST_CASE( "Special", "[usecase]", TestTypes ) {
     //
     SECTION( "Multiplication optimization" ) {
-        float A[] = {1.51, -1.13, 2.28, -10.77, -2.63, -9.11, 0.01, 4.02};
-        float B[] = {-7.32, -0.70, 0.91, 99.32, 8.09, -9.33, 0.84, -5.32};
-        float C[] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-        Hypercomplex<float, 8> h1(A);
-        Hypercomplex<float, 8> h2(B);
-        Hypercomplex<float, 8> result(C);
+        TestType A[] = {1.51, -1.13, 2.28, -10.77, -2.63, -9.11, 0.01, 4.02};
+        TestType B[] = {-7.32, -0.70, 0.91, 99.32, 8.09, -9.33, 0.84, -5.32};
+        TestType C[] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+        Hypercomplex<TestType, 8> h1(A);
+        Hypercomplex<TestType, 8> h2(B);
+        Hypercomplex<TestType, 8> result(C);
         for (unsigned int i=0; i < 10000; i++) result = h1 * h2;
         REQUIRE( true == true );
     }
@@ -387,10 +387,10 @@ TEST_CASE( "Special", "[usecase]" ) {
         const unsigned int dim = 4;
         const unsigned int newdim = 8;
         const unsigned int cui = 2;
-        const float A[] = {1.0, 2.0, 0.0, -1.0};
-        const float B[] = {-0.5, 1.0, 0.0, 6.0};
-        const Hypercomplex<float, dim> const_h1(A);
-        const Hypercomplex<float, dim> const_h2(B);
+        const TestType A[] = {1.0, 2.0, 0.0, -1.0};
+        const TestType B[] = {-0.5, 1.0, 0.0, 6.0};
+        const Hypercomplex<TestType, dim> const_h1(A);
+        const Hypercomplex<TestType, dim> const_h2(B);
         REQUIRE_NOTHROW(const_h1._());
         REQUIRE_NOTHROW(const_h1.norm());
         REQUIRE_NOTHROW(const_h1.inv());
