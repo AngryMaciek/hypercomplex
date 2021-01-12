@@ -22,7 +22,7 @@
 TEST_CASE( "Class Structure", "[unit]" ) {
     //
     SECTION( "Main constructor" ) {
-        unsigned int dim = 4;
+        const unsigned int dim = 4;
         float A[] = {1.0, 2.0, 0.0, -1.0};
         float invalidA[] = {1.0, 2.0, 0.0};
         Hypercomplex<float, dim> h1(A);
