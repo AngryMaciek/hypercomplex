@@ -148,12 +148,12 @@ TEST_CASE( "Overloading Operators", "[unit]" ) {
     float B[] = {-0.5, 1.0, 0.0, 6.0};
     float C[] = {10.0, -10.0};
 
-    Hypercomplex h1 = Hypercomplex(dim4, A);
-    Hypercomplex h2 = Hypercomplex(dim4, B);
-    Hypercomplex h3 = Hypercomplex(dim2, C);
+    Hypercomplex<float, dim4> h1(A);
+    Hypercomplex<float, dim4> h2(B);
+    Hypercomplex<float, dim2> h3(C);
 
     SECTION( "Conjugate operator" ) {
-        Hypercomplex h1_ = ~h1;
+        Hypercomplex<float, dim4> h1_ = ~h1;
         REQUIRE( &h1 != &h1_ );
         REQUIRE( h1_[0] == A[0] );
         REQUIRE( h1_[1] == -A[1] );
@@ -193,7 +193,7 @@ TEST_CASE( "Overloading Operators", "[unit]" ) {
     }
 
     SECTION( "Negation operator" ) {
-        Hypercomplex h1_ = -h1;
+        Hypercomplex<float, dim4> h1_ = -h1;
         REQUIRE( &h1 != &h1_ );
         REQUIRE( h1_[0] == -A[0] );
         REQUIRE( h1_[1] == -A[1] );
@@ -207,9 +207,9 @@ TEST_CASE( "Overloading Operators", "[unit]" ) {
         float a[] = {-3.0, 5.0, 2.0, 1.0};
         float b[] = {9.0, 0.0, -4.0, 1.0};
         float c[] = {5.0, 8.0, 0.0, -8.0};
-        Hypercomplex ha = Hypercomplex(dim4, a);
-        Hypercomplex hb = Hypercomplex(dim4, b);
-        Hypercomplex hc = Hypercomplex(dim4, c);
+        Hypercomplex<float, dim4> ha(a);
+        Hypercomplex<float, dim4> hb(b);
+        Hypercomplex<float, dim4> hc(c);
         REQUIRE( &h1 != &ha );
         REQUIRE( h1[0] != ha[0] );
         ha = h1;
@@ -228,7 +228,7 @@ TEST_CASE( "Overloading Operators", "[unit]" ) {
     }
 
     SECTION( "Addition operator" ) {
-        Hypercomplex h = h1 + h2;
+        Hypercomplex<float, dim4> h = h1 + h2;
         REQUIRE( h[0] == 0.5 );
         REQUIRE( h[1] == 3.0 );
         REQUIRE( h[2] == 0.0 );
