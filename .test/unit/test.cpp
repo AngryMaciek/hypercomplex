@@ -38,7 +38,10 @@ TEMPLATE_LIST_TEST_CASE( "Class Structure", "[unit]", TestTypes ) {
         TestType A[] = {1.0, 2.0, 0.0, -1.0};
         TestType invalidA[] = {1.0, 2.0, 0.0};
         Hypercomplex<TestType, dim> h1(A);
-        REQUIRE_THROWS_AS(Hypercomplex3<TestType>(invalidA), std::invalid_argument);
+        REQUIRE_THROWS_AS(
+            Hypercomplex3<TestType>(invalidA),
+            std::invalid_argument
+        );
 
         SECTION( "Getters" ) {
             REQUIRE( h1._() == dim );
@@ -60,7 +63,10 @@ TEMPLATE_LIST_TEST_CASE( "Class Structure", "[unit]", TestTypes ) {
             REQUIRE( invh1[2] == target3 );
             REQUIRE( invh1[3] == target4 );
             TestType A0[] = {0.0,0.0};
-            REQUIRE_THROWS_AS(Hypercomplex2<TestType>(A0).inv(), std::invalid_argument);
+            REQUIRE_THROWS_AS(
+                Hypercomplex2<TestType>(A0).inv(),
+                std::invalid_argument
+            );
         }
 
         SECTION( "Real part" ) {
@@ -104,7 +110,10 @@ TEMPLATE_LIST_TEST_CASE( "Class Structure", "[unit]", TestTypes ) {
         TestType A1[] = {10.10};
         TestType A0[] = {};
         REQUIRE_NOTHROW(Hypercomplex1<TestType>(A1));
-        REQUIRE_THROWS_AS(Hypercomplex0<TestType>(A0), std::invalid_argument);
+        REQUIRE_THROWS_AS(
+            Hypercomplex0<TestType>(A0),
+            std::invalid_argument
+        );
     }
 
     SECTION( "Copy constructor" ) {
@@ -415,7 +424,7 @@ TEMPLATE_LIST_TEST_CASE( "Special", "[usecase]", TestTypes ) {
 
 TEST_CASE( "Expansion", "[unit]" ) {
     // expand method is a template member function of a template class
-    // as such it cannot be tested within template test case
+    // as such it cannot be tested within TEMPLATE_LIST_TEST_CASE
     // framework of Catch2
     double A[] = {1.0, 2.0, 0.0, -1.0};
     Hypercomplex<double, 4> h1(A);
