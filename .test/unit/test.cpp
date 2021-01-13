@@ -63,22 +63,6 @@ TEMPLATE_LIST_TEST_CASE( "Class Structure", "[unit]", TestTypes ) {
             REQUIRE_THROWS_AS(Hypercomplex2<TestType>(A0).inv(), std::invalid_argument);
         }
 
-        SECTION( "Expansion" ) {
-            Hypercomplex<TestType, 8> hexpanded = h1.expand<8>();
-            REQUIRE( hexpanded[0] == h1[0] );
-            REQUIRE( hexpanded[1] == h1[1] );
-            REQUIRE( hexpanded[2] == h1[2] );
-            REQUIRE( hexpanded[3] == h1[3] );
-            REQUIRE( hexpanded[4] == 0.0 );
-            REQUIRE( hexpanded[5] == 0.0 );
-            REQUIRE( hexpanded[6] == 0.0 );
-            REQUIRE( hexpanded[7] == 0.0 );
-            REQUIRE_THROWS_AS(
-                h1.expand<4>(),
-                std::invalid_argument
-            );
-        }
-
         SECTION( "Real part" ) {
             Hypercomplex<TestType, dim> real_h1 = Re(h1);
             REQUIRE( real_h1[0] == h1[0] );
@@ -428,6 +412,27 @@ TEMPLATE_LIST_TEST_CASE( "Special", "[usecase]", TestTypes ) {
         REQUIRE_NOTHROW(true);
         // remember to overload proper operators for the class!
     }
+}
+
+TEST_CASE( "Expansion", "[unit]" ) {
+    // expand method is a template member function of a template class
+    // as such it cannot be tested within template test case
+    // framework of Catch2
+    double A[] = {1.0, 2.0, 0.0, -1.0};
+    Hypercomplex<double, 4> h1(A);
+    Hypercomplex<double, 8> hexpanded = h1.expand<8>();
+    REQUIRE( hexpanded[0] == h1[0] );
+    REQUIRE( hexpanded[1] == h1[1] );
+    REQUIRE( hexpanded[2] == h1[2] );
+    REQUIRE( hexpanded[3] == h1[3] );
+    REQUIRE( hexpanded[4] == 0.0 );
+    REQUIRE( hexpanded[5] == 0.0 );
+    REQUIRE( hexpanded[6] == 0.0 );
+    REQUIRE( hexpanded[7] == 0.0 );
+    REQUIRE_THROWS_AS(
+        h1.expand<4>(),
+        std::invalid_argument
+    );
 }
 
 int main(int argc, char* const argv[]) {
