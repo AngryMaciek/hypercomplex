@@ -29,7 +29,7 @@ using Hypercomplex2 = Hypercomplex<T, 2>;
 template<typename T>
 using Hypercomplex3 = Hypercomplex<T, 3>;
 
-using TestTypes = std::tuple<float, double>;
+using TestTypes = std::tuple<float, double, int>;
 
 TEMPLATE_LIST_TEST_CASE( "Class Structure", "[unit]", TestTypes ) {
     //
