@@ -380,7 +380,6 @@ TEMPLATE_LIST_TEST_CASE( "Special", "[usecase]", TestTypes ) {
         REQUIRE_NOTHROW(const_h1.inv());
         REQUIRE_NOTHROW(~const_h1);
         REQUIRE_NOTHROW(-const_h1);
-        REQUIRE_NOTHROW(const_h1.expand<newdim>());
         REQUIRE_NOTHROW(const_h1[0]);
         REQUIRE_NOTHROW(const_h1 == const_h2);
         REQUIRE_NOTHROW(const_h1 != const_h2);
