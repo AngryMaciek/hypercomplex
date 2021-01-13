@@ -434,7 +434,7 @@ TEST_CASE( "Expansion", "[unit]" ) {
         std::invalid_argument
     );
     const Hypercomplex<double, 4> const_h1(A);
-    REQUIRE_NOTHROW(const_h1.expand<newdim>());
+    REQUIRE_NOTHROW(const_h1.expand<8>());
 }
 
 int main(int argc, char* const argv[]) {
