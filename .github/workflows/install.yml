@@ -35,7 +35,7 @@ jobs:
 
       - name: Compile Test Program
         working-directory: ${{env.test-directory}}
-        run: g++ test.cpp -o test
+        run: g++ --std=c++17 test.cpp -o test
 
       - name: Execute Test Program
         working-directory: ${{env.test-directory}}

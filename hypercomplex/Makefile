@@ -6,7 +6,7 @@
 # 22.10.2019
 #
 
-SRC = Hypercomplex.h
+SRC = Hypercomplex.hpp
 
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)

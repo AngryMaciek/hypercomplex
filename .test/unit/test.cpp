@@ -14,19 +14,34 @@
 
 #define CATCH_CONFIG_RUNNER
 #include "catch.hpp"
-#include "hypercomplex/Hypercomplex.h"
+#include "hypercomplex/Hypercomplex.hpp"
+#include <tuple>
 #include <stdexcept>
 #include <iostream>
 #include <mpfr.h>
 
-TEST_CASE( "Class Structure", "[unit]" ) {
+template<typename T>
+using Hypercomplex0 = Hypercomplex<T, 0>;
+template<typename T>
+using Hypercomplex1 = Hypercomplex<T, 1>;
+template<typename T>
+using Hypercomplex2 = Hypercomplex<T, 2>;
+template<typename T>
+using Hypercomplex3 = Hypercomplex<T, 3>;
+
+using TestTypes = std::tuple<float, double, long double>;
+
+TEMPLATE_LIST_TEST_CASE( "Class Structure", "[unit]", TestTypes ) {
     //
     SECTION( "Main constructor" ) {
-        unsigned int dim = 4;
-        float A[] = {1.0, 2.0, 0.0, -1.0};
-        float invalidA[] = {1.0, 2.0, 0.0};
-        Hypercomplex h1 = Hypercomplex(dim, A);
-        REQUIRE_THROWS_AS(Hypercomplex(3, invalidA), std::invalid_argument);
+        const unsigned int dim = 4;
+        TestType A[] = {1.0, 2.0, 0.0, -1.0};
+        TestType invalidA[] = {1.0, 2.0, 0.0};
+        Hypercomplex<TestType, dim> h1(A);
+        REQUIRE_THROWS_AS(
+            Hypercomplex3<TestType>(invalidA),
+            std::invalid_argument
+        );
 
         SECTION( "Getters" ) {
             REQUIRE( h1._() == dim );
@@ -40,41 +55,31 @@ TEST_CASE( "Class Structure", "[unit]" ) {
         SECTION( "Inverse" ) {
             Approx target1 = Approx(0.166).epsilon(0.01);
             Approx target2 = Approx(-0.333).epsilon(0.01);
-            float target3 = 0.0;
+            TestType target3 = 0.0;
             Approx target4 = Approx(0.166).epsilon(0.01);
-            Hypercomplex invh1 = h1.inv();
+            Hypercomplex<TestType, dim> invh1 = h1.inv();
             REQUIRE( invh1[0] == target1 );
             REQUIRE( invh1[1] == target2 );
             REQUIRE( invh1[2] == target3 );
             REQUIRE( invh1[3] == target4 );
-            float A0[] = {0.0,0.0};
-            REQUIRE_THROWS_AS(Hypercomplex(2, A0).inv(), std::invalid_argument);
-        }
-
-        SECTION( "Expansion" ) {
-            Hypercomplex hexpanded = h1.expand(8);
-            REQUIRE( hexpanded[0] == h1[0] );
-            REQUIRE( hexpanded[1] == h1[1] );
-            REQUIRE( hexpanded[2] == h1[2] );
-            REQUIRE( hexpanded[3] == h1[3] );
-            REQUIRE( hexpanded[4] == 0.0 );
-            REQUIRE( hexpanded[5] == 0.0 );
-            REQUIRE( hexpanded[6] == 0.0 );
-            REQUIRE( hexpanded[7] == 0.0 );
-            REQUIRE_THROWS_AS(h1.expand(4), std::invalid_argument);
+            TestType A0[] = {0.0,0.0};
+            REQUIRE_THROWS_AS(
+                Hypercomplex2<TestType>(A0).inv(),
+                std::invalid_argument
+            );
         }
 
         SECTION( "Real part" ) {
-            Hypercomplex real_h1 = Re(h1);
+            Hypercomplex<TestType, dim> real_h1 = Re(h1);
             REQUIRE( real_h1[0] == h1[0] );
-            REQUIRE( real_h1[1] == 0 );
-            REQUIRE( real_h1[2] == 0 );
-            REQUIRE( real_h1[3] == 0 );
+            REQUIRE( real_h1[1] == 0.0 );
+            REQUIRE( real_h1[2] == 0.0 );
+            REQUIRE( real_h1[3] == 0.0 );
         }
 
         SECTION( "Imaginary part" ) {
-            Hypercomplex imaginary_h1 = Im(h1);
-            REQUIRE( imaginary_h1[0] == 0 );
+            Hypercomplex<TestType, dim> imaginary_h1 = Im(h1);
+            REQUIRE( imaginary_h1[0] == 0.0 );
             REQUIRE( imaginary_h1[1] == h1[1] );
             REQUIRE( imaginary_h1[2] == h1[2] );
             REQUIRE( imaginary_h1[3] == h1[3] );
@@ -83,16 +88,16 @@ TEST_CASE( "Class Structure", "[unit]" ) {
         SECTION( "Hypercomplex exponentiation" ) {
             Approx target1 = Approx(-1.678).epsilon(0.01);
             Approx target2 = Approx(1.913).epsilon(0.01);
-            float target3 = 0.0;
+            TestType target3 = 0.0;
             Approx target4 = Approx(-0.956).epsilon(0.01);
-            Hypercomplex exp_h1 = exp(h1);
+            Hypercomplex<TestType, dim> exp_h1 = exp(h1);
             REQUIRE( exp_h1[0] == target1 );
             REQUIRE( exp_h1[1] == target2 );
             REQUIRE( exp_h1[2] == target3 );
             REQUIRE( exp_h1[3] == target4 );
-            float B[] = {5.0, 0.0, 0.0, 0.0};
-            Hypercomplex h2 = Hypercomplex(dim, B);
-            Hypercomplex exp_h2 = exp(h2);
+            TestType B[] = {5.0, 0.0, 0.0, 0.0};
+            Hypercomplex<TestType, dim> h2(B);
+            Hypercomplex<TestType, dim> exp_h2 = exp(h2);
             Approx target5 = Approx(148.413).epsilon(0.01);
             REQUIRE( exp_h2[0] == target5 );
             REQUIRE( exp_h2[1] == 0.0 );
@@ -102,18 +107,21 @@ TEST_CASE( "Class Structure", "[unit]" ) {
     }
 
     SECTION( "Main constructor: exception" ) {
-        float A1[] = {10.10};
-        float A0[] = {};
-        REQUIRE_NOTHROW(Hypercomplex(1, A1));
-        REQUIRE_THROWS_AS(Hypercomplex(0, A0), std::invalid_argument);
+        TestType A1[] = {10.10};
+        TestType A0[] = {};
+        REQUIRE_NOTHROW(Hypercomplex1<TestType>(A1));
+        REQUIRE_THROWS_AS(
+            Hypercomplex0<TestType>(A0),
+            std::invalid_argument
+        );
     }
 
     SECTION( "Copy constructor" ) {
-        unsigned int dim = 4;
-        float A[] = {1.0, 2.0, 0.0, -1.0};
-        Hypercomplex h1 = Hypercomplex(dim, A);
-        Hypercomplex h2 = Hypercomplex(h1);
-        Hypercomplex h3 = h2;
+        const unsigned int dim = 4;
+        TestType A[] = {1.0, 2.0, 0.0, -1.0};
+        Hypercomplex<TestType, dim> h1(A);
+        Hypercomplex<TestType, dim> h2(h1);
+        Hypercomplex<TestType, dim> h3 = h2;
         REQUIRE( &h1 != &h2 );
         REQUIRE( &h2 != &h3 );
         REQUIRE( &h3 != &h1 );
@@ -126,29 +134,29 @@ TEST_CASE( "Class Structure", "[unit]" ) {
     }
 
     SECTION( "Destructor" ) {
-        unsigned int dim = 4;
-        float A[] = {1.0, 2.0, 0.0, -1.0};
+        const unsigned int dim = 4;
+        TestType A[] = {1.0, 2.0, 0.0, -1.0};
         // dynamic memory allocation for memory leak test:
-        Hypercomplex* h = new Hypercomplex(dim, A);
+        Hypercomplex<TestType, dim>* h = new Hypercomplex<TestType, dim>(A);
         delete h;
         REQUIRE( true == true );
     }
 }
 
-TEST_CASE( "Overloading Operators", "[unit]" ) {
+TEMPLATE_LIST_TEST_CASE( "Overloading Operators", "[unit]", TestTypes ) {
     //
-    unsigned int dim2 = 2;
-    unsigned int dim4 = 4;
-    float A[] = {1.0, 2.0, 0.0, -1.0};
-    float B[] = {-0.5, 1.0, 0.0, 6.0};
-    float C[] = {10.0, -10.0};
+    const unsigned int dim2 = 2;
+    const unsigned int dim4 = 4;
+    TestType A[] = {1.0, 2.0, 0.0, -1.0};
+    TestType B[] = {-0.5, 1.0, 0.0, 6.0};
+    TestType C[] = {10.0, -10.0};
 
-    Hypercomplex h1 = Hypercomplex(dim4, A);
-    Hypercomplex h2 = Hypercomplex(dim4, B);
-    Hypercomplex h3 = Hypercomplex(dim2, C);
+    Hypercomplex<TestType, dim4> h1(A);
+    Hypercomplex<TestType, dim4> h2(B);
+    Hypercomplex<TestType, dim2> h3(C);
 
     SECTION( "Conjugate operator" ) {
-        Hypercomplex h1_ = ~h1;
+        Hypercomplex<TestType, dim4> h1_ = ~h1;
         REQUIRE( &h1 != &h1_ );
         REQUIRE( h1_[0] == A[0] );
         REQUIRE( h1_[1] == -A[1] );
@@ -171,8 +179,6 @@ TEST_CASE( "Overloading Operators", "[unit]" ) {
         bool result;
         result = h1 == h2;
         REQUIRE( result == false );
-        result = h1 == h3;
-        REQUIRE( result == false );
         result = h1 == h1;
         REQUIRE( result == true );
     }
@@ -181,14 +187,12 @@ TEST_CASE( "Overloading Operators", "[unit]" ) {
         bool result;
         result = h1 != h2;
         REQUIRE( result == true );
-        result = h1 != h3;
-        REQUIRE( result == true );
         result = h1 != h1;
         REQUIRE( result == false );
     }
 
     SECTION( "Negation operator" ) {
-        Hypercomplex h1_ = -h1;
+        Hypercomplex<TestType, dim4> h1_ = -h1;
         REQUIRE( &h1 != &h1_ );
         REQUIRE( h1_[0] == -A[0] );
         REQUIRE( h1_[1] == -A[1] );
@@ -199,12 +203,12 @@ TEST_CASE( "Overloading Operators", "[unit]" ) {
     }
 
     SECTION( "Assignment operator" ) {
-        float a[] = {-3.0, 5.0, 2.0, 1.0};
-        float b[] = {9.0, 0.0, -4.0, 1.0};
-        float c[] = {5.0, 8.0, 0.0, -8.0};
-        Hypercomplex ha = Hypercomplex(dim4, a);
-        Hypercomplex hb = Hypercomplex(dim4, b);
-        Hypercomplex hc = Hypercomplex(dim4, c);
+        TestType a[] = {-3.0, 5.0, 2.0, 1.0};
+        TestType b[] = {9.0, 0.0, -4.0, 1.0};
+        TestType c[] = {5.0, 8.0, 0.0, -8.0};
+        Hypercomplex<TestType, dim4> ha(a);
+        Hypercomplex<TestType, dim4> hb(b);
+        Hypercomplex<TestType, dim4> hc(c);
         REQUIRE( &h1 != &ha );
         REQUIRE( h1[0] != ha[0] );
         ha = h1;
@@ -223,21 +227,19 @@ TEST_CASE( "Overloading Operators", "[unit]" ) {
     }
 
     SECTION( "Addition operator" ) {
-        Hypercomplex h = h1 + h2;
+        Hypercomplex<TestType, dim4> h = h1 + h2;
         REQUIRE( h[0] == 0.5 );
         REQUIRE( h[1] == 3.0 );
         REQUIRE( h[2] == 0.0 );
         REQUIRE( h[3] == 5.0 );
-        REQUIRE_THROWS_AS(h1 + h3, std::invalid_argument);
     }
 
     SECTION( "Subtraction operator" ) {
-        Hypercomplex h = h1 - h2;
+        Hypercomplex<TestType, dim4> h = h1 - h2;
         REQUIRE( h[0] == 1.5 );
         REQUIRE( h[1] == 1.0 );
         REQUIRE( h[2] == 0.0 );
         REQUIRE( h[3] == -7.0 );
-        REQUIRE_THROWS_AS(h1 - h3, std::invalid_argument);
     }
 
     SECTION( "Addition-Assignment operator" ) {
@@ -246,7 +248,6 @@ TEST_CASE( "Overloading Operators", "[unit]" ) {
         REQUIRE( h1[1] == 3.0 );
         REQUIRE( h1[2] == 0.0 );
         REQUIRE( h1[3] == 5.0 );
-        REQUIRE_THROWS_AS(h1 += h3, std::invalid_argument);
     }
 
     SECTION( "Subtraction-Assignment operator" ) {
@@ -255,16 +256,14 @@ TEST_CASE( "Overloading Operators", "[unit]" ) {
         REQUIRE( h1[1] == 1.0 );
         REQUIRE( h1[2] == 0.0 );
         REQUIRE( h1[3] == -7.0 );
-        REQUIRE_THROWS_AS(h1 -= h3, std::invalid_argument);
     }
 
     SECTION( "Multiplication operator" ) {
-        Hypercomplex h = h1 * h2;
+        Hypercomplex<TestType, dim4> h = h1 * h2;
         REQUIRE( h[0] == 3.5 );
         REQUIRE( h[1] == 0.0 );
         REQUIRE( h[2] == -13.0 );
         REQUIRE( h[3] == 6.5 );
-        REQUIRE_THROWS_AS(h1 * h3, std::invalid_argument);
     }
 
     SECTION( "Multiplication-Assignment operator" ) {
@@ -273,13 +272,12 @@ TEST_CASE( "Overloading Operators", "[unit]" ) {
         REQUIRE( h1[1] == 0.0 );
         REQUIRE( h1[2] == -13.0 );
         REQUIRE( h1[3] == 6.5 );
-        REQUIRE_THROWS_AS(h1 *= h3, std::invalid_argument);
     }
 
     SECTION( "Power operator" ) {
         REQUIRE_THROWS_AS(h1 ^ 0, std::invalid_argument);
         REQUIRE_NOTHROW(h1 ^ 1);
-        Hypercomplex h = h1 ^ 2;
+        Hypercomplex<TestType, dim4> h = h1 ^ 2;
         REQUIRE( h[0] == -4.0 );
         REQUIRE( h[1] == 4.0 );
         REQUIRE( h[2] == 0.0 );
@@ -335,14 +333,13 @@ TEST_CASE( "Overloading Operators", "[unit]" ) {
         Approx target2 = Approx(-0.054).epsilon(0.01);
         Approx target3 = Approx(0.350).epsilon(0.01);
         Approx target4 = Approx(-0.148).epsilon(0.01);
-        Hypercomplex h = h1 / h2;
+        Hypercomplex<TestType, dim4> h = h1 / h2;
         REQUIRE( h[0] == target1 );
         REQUIRE( h[1] == target2 );
         REQUIRE( h[2] == target3 );
         REQUIRE( h[3] == target4 );
-        REQUIRE_THROWS_AS(h1 / h3, std::invalid_argument);
-        float D[] = {0.0, 0.0, 0.0, 0.0};
-        Hypercomplex h4 = Hypercomplex(dim4, D);
+        TestType D[] = {0.0, 0.0, 0.0, 0.0};
+        Hypercomplex<TestType, dim4> h4(D);
         REQUIRE_THROWS_AS(h1 / h4, std::invalid_argument);
     }
 
@@ -356,9 +353,8 @@ TEST_CASE( "Overloading Operators", "[unit]" ) {
         REQUIRE( h1[1] == target2 );
         REQUIRE( h1[2] == target3 );
         REQUIRE( h1[3] == target4 );
-        REQUIRE_THROWS_AS(h1 /= h3, std::invalid_argument);
-        float D[] = {0.0, 0.0, 0.0, 0.0};
-        Hypercomplex h4 = Hypercomplex(dim4, D);
+        TestType D[] = {0.0, 0.0, 0.0, 0.0};
+        Hypercomplex<TestType, dim4> h4(D);
         REQUIRE_THROWS_AS(h1 /= h4, std::invalid_argument);
     }
 
@@ -367,15 +363,15 @@ TEST_CASE( "Overloading Operators", "[unit]" ) {
     }
 }
 
-TEST_CASE( "Special", "[usecase]" ) {
+TEMPLATE_LIST_TEST_CASE( "Special", "[usecase]", TestTypes ) {
     //
     SECTION( "Multiplication optimization" ) {
-        float A[] = {1.51, -1.13, 2.28, -10.77, -2.63, -9.11, 0.01, 4.02};
-        float B[] = {-7.32, -0.70, 0.91, 99.32, 8.09, -9.33, 0.84, -5.32};
-        float C[] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-        Hypercomplex h1 = Hypercomplex(8, A);
-        Hypercomplex h2 = Hypercomplex(8, B);
-        Hypercomplex result = Hypercomplex(8, C);
+        TestType A[] = {1.51, -1.13, 2.28, -10.77, -2.63, -9.11, 0.01, 4.02};
+        TestType B[] = {-7.32, -0.70, 0.91, 99.32, 8.09, -9.33, 0.84, -5.32};
+        TestType C[] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+        Hypercomplex<TestType, 8> h1(A);
+        Hypercomplex<TestType, 8> h2(B);
+        Hypercomplex<TestType, 8> result(C);
         for (unsigned int i=0; i < 10000; i++) result = h1 * h2;
         REQUIRE( true == true );
     }
@@ -384,16 +380,15 @@ TEST_CASE( "Special", "[usecase]" ) {
         const unsigned int dim = 4;
         const unsigned int newdim = 8;
         const unsigned int cui = 2;
-        const float A[] = {1.0, 2.0, 0.0, -1.0};
-        const float B[] = {-0.5, 1.0, 0.0, 6.0};
-        const Hypercomplex const_h1 = Hypercomplex(dim, A);
-        const Hypercomplex const_h2 = Hypercomplex(dim, B);
+        const TestType A[] = {1.0, 2.0, 0.0, -1.0};
+        const TestType B[] = {-0.5, 1.0, 0.0, 6.0};
+        const Hypercomplex<TestType, dim> const_h1(A);
+        const Hypercomplex<TestType, dim> const_h2(B);
         REQUIRE_NOTHROW(const_h1._());
         REQUIRE_NOTHROW(const_h1.norm());
         REQUIRE_NOTHROW(const_h1.inv());
         REQUIRE_NOTHROW(~const_h1);
         REQUIRE_NOTHROW(-const_h1);
-        REQUIRE_NOTHROW(const_h1.expand(newdim));
         REQUIRE_NOTHROW(const_h1[0]);
         REQUIRE_NOTHROW(const_h1 == const_h2);
         REQUIRE_NOTHROW(const_h1 != const_h2);
@@ -425,6 +420,29 @@ TEST_CASE( "Special", "[usecase]" ) {
         REQUIRE_NOTHROW(true);
         // remember to overload proper operators for the class!
     }
+}
+
+TEST_CASE( "Expansion", "[unit]" ) {
+    // expand method is a template member function of a template class
+    // as such it cannot be tested within TEMPLATE_LIST_TEST_CASE
+    // framework of Catch2
+    double A[] = {1.0, 2.0, 0.0, -1.0};
+    Hypercomplex<double, 4> h1(A);
+    Hypercomplex<double, 8> hexpanded = h1.expand<8>();
+    REQUIRE( hexpanded[0] == h1[0] );
+    REQUIRE( hexpanded[1] == h1[1] );
+    REQUIRE( hexpanded[2] == h1[2] );
+    REQUIRE( hexpanded[3] == h1[3] );
+    REQUIRE( hexpanded[4] == 0.0 );
+    REQUIRE( hexpanded[5] == 0.0 );
+    REQUIRE( hexpanded[6] == 0.0 );
+    REQUIRE( hexpanded[7] == 0.0 );
+    REQUIRE_THROWS_AS(
+        h1.expand<4>(),
+        std::invalid_argument
+    );
+    const Hypercomplex<double, 4> const_h1(A);
+    REQUIRE_NOTHROW(const_h1.expand<8>());
 }
 
 int main(int argc, char* const argv[]) {
