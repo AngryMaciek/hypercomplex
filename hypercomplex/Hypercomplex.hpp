@@ -17,11 +17,11 @@
 #ifndef HYPERCOMPLEX_HYPERCOMPLEX_HPP_
 #define HYPERCOMPLEX_HYPERCOMPLEX_HPP_
 
+#include <mpfr.h>
 #include <cassert>
 #include <cmath>
 #include <cstdlib>
 #include <iostream>
-#include <mpfr.h>
 #include <stdexcept>
 
 /*
