@@ -42,7 +42,7 @@ class Hypercomplex {
     Hypercomplex(const Hypercomplex &H);
     Hypercomplex() = delete;  // forbid default constructor | c++11
     ~Hypercomplex();
-    T _() const { return dim; }
+    unsigned int _() const { return dim; }
     T norm() const;
     Hypercomplex inv() const;
     template <const unsigned int newdim>
