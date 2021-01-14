@@ -21,6 +21,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <iostream>
+#include <mpfr.h>
 #include <stdexcept>
 
 /*
@@ -421,5 +422,15 @@ Hypercomplex<T, dim> exp(const Hypercomplex<T, dim> &H) {
     }
     return result;
 }
+
+/*
+###############################################################################
+#
+#   Explicit template specialisation for mpfr_t type
+#
+###############################################################################
+*/
+
+// global variable for precision?
 
 #endif  // HYPERCOMPLEX_HYPERCOMPLEX_HPP_
