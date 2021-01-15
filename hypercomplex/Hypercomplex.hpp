@@ -432,5 +432,7 @@ Hypercomplex<T, dim> exp(const Hypercomplex<T, dim> &H) {
 */
 
 // global variable for precision?
+// https://stackoverflow.com/questions/36314426/do-you-define-global-variables-in-a-c-library
+// include at the end, check docs why
 
 #endif  // HYPERCOMPLEX_HYPERCOMPLEX_HPP_
