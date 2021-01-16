@@ -574,20 +574,39 @@ class Hypercomplex<mpfr_t, dim> {
         return arr[i];
     }
 
+    Hypercomplex& operator+= (const Hypercomplex &H) {
+        Hypercomplex<mpfr_t, dim> result = (*this) + H;
+        for (unsigned int i=0; i < dim; i++) (*this)[i] = result[i];
+        return *this;
+    }
+
+    Hypercomplex& operator-= (const Hypercomplex &H) {
+        Hypercomplex<mpfr_t, dim> result = (*this) - H;
+        for (unsigned int i=0; i < dim; i++) (*this)[i] = result[i];
+        return *this;
+    }
+
+    Hypercomplex& operator*= (const Hypercomplex &H) {
+        Hypercomplex<mpfr_t, dim> result = (*this) * H;
+        for (unsigned int i=0; i < dim; i++) (*this)[i] = result[i];
+        return *this;
+    }
+
+    Hypercomplex& operator^= (const unsigned int x) {
+        Hypercomplex<mpfr_t, dim> result = (*this) ^ x;
+        for (unsigned int i=0; i < dim; i++) (*this)[i] = result[i];
+        return *this;
+    }
+
+    Hypercomplex& operator/= (const Hypercomplex &H) {
+        Hypercomplex<mpfr_t, dim> result = (*this) / H;
+        for (unsigned int i=0; i < dim; i++) (*this)[i] = result[i];
+        return *this;
+    }
+
 };
 
-
-
-
 /*
-
-    Hypercomplex& operator+= (const Hypercomplex &H);
-    Hypercomplex& operator-= (const Hypercomplex &H);
-    Hypercomplex& operator*= (const Hypercomplex &H);
-    Hypercomplex& operator^= (const unsigned int x);
-    Hypercomplex& operator/= (const Hypercomplex &H);
-
-
 
 // Operators
 template <typename T, const unsigned int dim>
