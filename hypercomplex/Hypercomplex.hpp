@@ -606,6 +606,7 @@ class Hypercomplex<mpfr_t, dim> {
 
 };
 
+template <const unsigned int dim>
 bool operator==(
     const Hypercomplex<mpfr_t, dim> &H1,
     const Hypercomplex<mpfr_t, dim> &H2
@@ -616,6 +617,7 @@ bool operator==(
     return true;
 }
 
+template <const unsigned int dim>
 bool operator!=(
     const Hypercomplex<mpfr_t, dim> &H1,
     const Hypercomplex<mpfr_t, dim> &H2
@@ -623,6 +625,7 @@ bool operator!=(
     return !(H1 == H2);
 }
 
+template <const unsigned int dim>
 Hypercomplex<mpfr_t, dim> operator+(
     const Hypercomplex<mpfr_t, dim> &H1,
     const Hypercomplex<mpfr_t, dim> &H2
@@ -636,6 +639,7 @@ Hypercomplex<mpfr_t, dim> operator+(
     return H;
 }
 
+template <const unsigned int dim>
 Hypercomplex<mpfr_t, dim> operator-(
     const Hypercomplex<mpfr_t, dim> &H1,
     const Hypercomplex<mpfr_t, dim> &H2
@@ -649,6 +653,7 @@ Hypercomplex<mpfr_t, dim> operator-(
     return H;
 }
 
+template <const unsigned int dim>
 Hypercomplex<mpfr_t, dim> operator*(
     const Hypercomplex<mpfr_t, dim> &H1,
     const Hypercomplex<mpfr_t, dim> &H2
@@ -693,6 +698,7 @@ Hypercomplex<mpfr_t, dim> operator*(
     }
 }
 
+template <const unsigned int dim>
 Hypercomplex<mpfr_t, dim> operator^(
     const Hypercomplex<mpfr_t, dim> &H,
     const unsigned int x
@@ -706,6 +712,7 @@ Hypercomplex<mpfr_t, dim> operator^(
     }
 }
 
+template <const unsigned int dim>
 Hypercomplex<mpfr_t, dim> operator/(
     const Hypercomplex<mpfr_t, dim> &H1,
     const Hypercomplex<mpfr_t, dim> &H2
@@ -714,6 +721,7 @@ Hypercomplex<mpfr_t, dim> operator/(
     return(H);
 }
 
+template <const unsigned int dim>
 std::ostream& operator<<(
     std::ostream &os,
     const Hypercomplex<mpfr_t, dim> &H
@@ -726,18 +734,21 @@ std::ostream& operator<<(
     return os;
 }
 
+template <const unsigned int dim>
 Hypercomplex<mpfr_t, dim> Re(const Hypercomplex<mpfr_t, dim> &H) {
     Hypercomplex<mpfr_t, dim> result = H;
     for (unsigned int i=1; i < dim; i++) mpfr_set_zero(result[i], 0);
     return result;
 }
 
+template <const unsigned int dim>
 Hypercomplex<mpfr_t, dim> Im(const Hypercomplex<mpfr_t, dim> &H) {
     Hypercomplex<mpfr_t, dim> result = H;
     mpfr_set_zero(result[0], 0);
     return result;
 }
 
+template <const unsigned int dim>
 Hypercomplex<mpfr_t, dim> exp(const Hypercomplex<mpfr_t, dim> &H) {
     Hypercomplex<mpfr_t, dim> result = Im(H);
     mpfr_t zero, norm, expreal;
