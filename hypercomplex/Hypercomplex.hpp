@@ -606,48 +606,120 @@ class Hypercomplex<mpfr_t, dim> {
 
 };
 
-/*
+bool operator==(
+    const Hypercomplex<mpfr_t, dim> &H1,
+    const Hypercomplex<mpfr_t, dim> &H2
+) {
+    for (unsigned int i=0; i < dim; i++) {
+        if (!mpfr_equal_p(H1[i], H2[i])) return false;
+    }
+    return true;
+}
 
-// Operators
-template <typename T, const unsigned int dim>
-bool operator== (
-    const Hypercomplex<T, dim> &H1,
-    const Hypercomplex<T, dim> &H2
-);
-template <typename T, const unsigned int dim>
-bool operator!= (
-    const Hypercomplex<T, dim> &H1,
-    const Hypercomplex<T, dim> &H2
-);
-template <typename T, const unsigned int dim>
-Hypercomplex<T, dim> operator+ (
-    const Hypercomplex<T, dim> &H1,
-    const Hypercomplex<T, dim> &H2
-);
-template <typename T, const unsigned int dim>
-Hypercomplex<T, dim> operator- (
-    const Hypercomplex<T, dim> &H1,
-    const Hypercomplex<T, dim> &H2
-);
-template <typename T, const unsigned int dim>
-Hypercomplex<T, dim> operator* (
-    const Hypercomplex<T, dim> &H1,
-    const Hypercomplex<T, dim> &H2
-);
-template <typename T, const unsigned int dim>
-Hypercomplex<T, dim> operator^ (
-    const Hypercomplex<T, dim> &H,
+bool operator!=(
+    const Hypercomplex<mpfr_t, dim> &H1,
+    const Hypercomplex<mpfr_t, dim> &H2
+) {
+    return !(H1 == H2);
+}
+
+Hypercomplex<mpfr_t, dim> operator+(
+    const Hypercomplex<mpfr_t, dim> &H1,
+    const Hypercomplex<mpfr_t, dim> &H2
+) {
+    mpfr_ptr temparr = new mpfr_t[dim];
+    for (unsigned int i=0; i < dim; i++)
+        mpfr_add(temparr[i], H1[i], H2[i], MPFR_RNDN);
+    Hypercomplex<mpfr_t, dim> H(temparr);
+    for (unsigned int i=0; i < dim; i++) mpfr_clear(temparr[i]);
+    delete[] temparr;
+    return H;
+}
+
+Hypercomplex<mpfr_t, dim> operator-(
+    const Hypercomplex<mpfr_t, dim> &H1,
+    const Hypercomplex<mpfr_t, dim> &H2
+) {
+    mpfr_ptr temparr = new mpfr_t[dim];
+    for (unsigned int i=0; i < dim; i++)
+        mpfr_sub(temparr[i], H1[i], H2[i], MPFR_RNDN);
+    Hypercomplex<mpfr_t, dim> H(temparr);
+    for (unsigned int i=0; i < dim; i++) mpfr_clear(temparr[i]);
+    delete[] temparr;
+    return H;
+}
+
+Hypercomplex<mpfr_t, dim> operator*(
+    const Hypercomplex<mpfr_t, dim> &H1,
+    const Hypercomplex<mpfr_t, dim> &H2
+) {
+    // recursion base:
+    if constexpr (dim == 1) {
+        mpfr_t temparr[] = { H1[0] * H2[0] };
+        Hypercomplex<T, 1> H_(temparr);
+        return H_;
+    // recursion step:
+    } else {
+        // shared objects:
+        const unsigned int halfd = dim / 2;
+        T* temparr = new T[dim];
+        // construct helper objects:
+        for (unsigned int i=0; i < halfd; i++) temparr[i] = H1[i];
+        Hypercomplex<T, halfd> H1a(temparr);
+        for (unsigned int i=0; i < halfd; i++) temparr[i] = H1[i+halfd];
+        Hypercomplex<T, halfd> H1b(temparr);
+        for (unsigned int i=0; i < halfd; i++) temparr[i] = H2[i];
+        Hypercomplex<T, halfd> H2a(temparr);
+        for (unsigned int i=0; i < halfd; i++) temparr[i] = H2[i+halfd];
+        Hypercomplex<T, halfd> H2b(temparr);
+        // multiply recursively:
+        Hypercomplex<T, halfd> H1a2a = H1a * H2a;
+        Hypercomplex<T, halfd> H2b_1b = ~H2b * H1b;
+        Hypercomplex<T, halfd> H2b1a = H2b * H1a;
+        Hypercomplex<T, halfd> H1b2a_ = H1b * ~H2a;
+        // construct the final object
+        Hypercomplex<T, halfd> Ha = H1a2a - H2b_1b;
+        Hypercomplex<T, halfd> Hb = H2b1a + H1b2a_;
+        for (unsigned int i=0; i < halfd; i++) temparr[i] = Ha[i];
+        for (unsigned int i=0; i < halfd; i++) temparr[i+halfd] = Hb[i];
+        Hypercomplex<T, dim> H(temparr);
+        delete[] temparr;
+        return H;
+    }
+}
+
+Hypercomplex<mpfr_t, dim> operator^(
+    const Hypercomplex<mpfr_t, dim> &H,
     const unsigned int x
-);
-template <typename T, const unsigned int dim>
-Hypercomplex<T, dim> operator/ (
-    const Hypercomplex<T, dim> &H1,
-    const Hypercomplex<T, dim> &H2
-);
-template <typename T, const unsigned int dim>
-std::ostream& operator<< (std::ostream &os, const Hypercomplex<T, dim> &H);
+) {
+    if (!(x)) {
+        throw std::invalid_argument("zero is not a valid argument");
+    } else {
+        Hypercomplex<mpfr_t, dim> Hx(H);
+        for (unsigned int i=0; i < x-1; i++) Hx = Hx * H;
+        return Hx;
+    }
+}
 
-*/
+Hypercomplex<mpfr_t, dim> operator/(
+    const Hypercomplex<mpfr_t, dim> &H1,
+    const Hypercomplex<mpfr_t, dim> &H2
+) {
+    Hypercomplex<mpfr_t, dim> H = H1 * H2.inv();
+    return(H);
+}
+
+std::ostream& operator<<(
+    std::ostream &os,
+    const Hypercomplex<mpfr_t, dim> &H
+) {
+    for (unsigned int i=0; i < dim - 1; i++) {
+        mpfr_out_str(os, 10, 0, H[i], MPFR_RNDN);
+        os << " ";
+    }
+    mpfr_out_str(os, 10, 0, H[dim - 1]], MPFR_RNDN);
+    return os;
+}
 
 Hypercomplex<mpfr_t, dim> Re(const Hypercomplex<mpfr_t, dim> &H) {
     Hypercomplex<mpfr_t, dim> result = H;
