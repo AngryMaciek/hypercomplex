@@ -169,7 +169,7 @@ template <typename T, const unsigned int dim>
 template <const unsigned int newdim>
 Hypercomplex<T, newdim> Hypercomplex<T, dim>::expand() const {
     if (newdim <= dim) throw std::invalid_argument("invalid dimension");
-    T* temparr = new T[newdim];  // zero-init
+    T* temparr = new T[newdim]();  // zero-init
     for (unsigned int i=0; i < dim; i++) temparr[i] = arr[i];
     Hypercomplex<T, newdim> H(temparr);
     delete[] temparr;
@@ -429,7 +429,7 @@ Hypercomplex<T, dim> exp(const Hypercomplex<T, dim> &H) {
 #   Explicit template specialisation & function overloading for mpfr_t type
 #
 ###############################################################################
-
+*/
 
 static unsigned int MPFR_global_precision;
 
@@ -782,13 +782,10 @@ Hypercomplex<mpfr_t, dim> exp(const Hypercomplex<mpfr_t, dim> &H) {
     return result;
 }
 
-*/
-
-// https://stackoverflow.com/questions/40136973/error-declared-as-function-returning-an-array-in-c-mpfr-libary
-// expand: () after array
-// init2 for all temparr[i]
 // assignment operator between mpfr_t?
+// https://stackoverflow.com/questions/40136973/error-declared-as-function-returning-an-array-in-c-mpfr-libary
 // mpfr_t dynamical array, t vs ptr - SO
+// init2 for all temparr[i] | and set zero?
 
 // include at the end, check docs why
 // last paragraph 4.7
