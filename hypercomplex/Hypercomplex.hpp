@@ -655,34 +655,39 @@ Hypercomplex<mpfr_t, dim> operator*(
 ) {
     // recursion base:
     if constexpr (dim == 1) {
-        mpfr_t temparr[] = { H1[0] * H2[0] };
-        Hypercomplex<T, 1> H_(temparr);
+        mpfr_t result;
+        mpfr_init2(result, MPFR_global_precision);
+        mpfr_mul(result, H1[0], H2[0], MPFR_RNDN);
+        mpfr_t temparr[] = { result };
+        Hypercomplex<mpfr_t, 1> H_(temparr);
+        mpfr_clear(result);
         return H_;
     // recursion step:
     } else {
         // shared objects:
         const unsigned int halfd = dim / 2;
-        T* temparr = new T[dim];
+        mpfr_ptr temparr = new mpfr_t[dim];
         // construct helper objects:
         for (unsigned int i=0; i < halfd; i++) temparr[i] = H1[i];
-        Hypercomplex<T, halfd> H1a(temparr);
+        Hypercomplex<mpfr_t, halfd> H1a(temparr);
         for (unsigned int i=0; i < halfd; i++) temparr[i] = H1[i+halfd];
-        Hypercomplex<T, halfd> H1b(temparr);
+        Hypercomplex<mpfr_t, halfd> H1b(temparr);
         for (unsigned int i=0; i < halfd; i++) temparr[i] = H2[i];
-        Hypercomplex<T, halfd> H2a(temparr);
+        Hypercomplex<mpfr_t, halfd> H2a(temparr);
         for (unsigned int i=0; i < halfd; i++) temparr[i] = H2[i+halfd];
-        Hypercomplex<T, halfd> H2b(temparr);
+        Hypercomplex<mpfr_t, halfd> H2b(temparr);
         // multiply recursively:
-        Hypercomplex<T, halfd> H1a2a = H1a * H2a;
-        Hypercomplex<T, halfd> H2b_1b = ~H2b * H1b;
-        Hypercomplex<T, halfd> H2b1a = H2b * H1a;
-        Hypercomplex<T, halfd> H1b2a_ = H1b * ~H2a;
+        Hypercomplex<mpfr_t, halfd> H1a2a = H1a * H2a;
+        Hypercomplex<mpfr_t, halfd> H2b_1b = ~H2b * H1b;
+        Hypercomplex<mpfr_t, halfd> H2b1a = H2b * H1a;
+        Hypercomplex<mpfr_t, halfd> H1b2a_ = H1b * ~H2a;
         // construct the final object
-        Hypercomplex<T, halfd> Ha = H1a2a - H2b_1b;
-        Hypercomplex<T, halfd> Hb = H2b1a + H1b2a_;
+        Hypercomplex<mpfr_t, halfd> Ha = H1a2a - H2b_1b;
+        Hypercomplex<mpfr_t, halfd> Hb = H2b1a + H1b2a_;
         for (unsigned int i=0; i < halfd; i++) temparr[i] = Ha[i];
         for (unsigned int i=0; i < halfd; i++) temparr[i+halfd] = Hb[i];
-        Hypercomplex<T, dim> H(temparr);
+        Hypercomplex<mpfr_t, dim> H(temparr);
+        for (unsigned int i=0; i < dim; i++) mpfr_clear(temparr[i]);
         delete[] temparr;
         return H;
     }
