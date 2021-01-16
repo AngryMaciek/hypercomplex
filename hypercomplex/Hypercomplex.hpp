@@ -534,15 +534,52 @@ class Hypercomplex<mpfr_t, dim> {
         return H;
     }
 
+    Hypercomplex operator~ () const {
+        mpfr_t zero;
+        mpfr_init2(zero, MPFR_global_precision);
+        mpfr_set_zero(zero, 0);
+        mpfr_ptr temparr = new mpfr_t[dim];
+        temparr[0] = arr[0];
+        for (unsigned int i=1; i < dim; i++)
+            mpfr_sub(temparr[i], zero, arr[i], MPFR_RNDN);
+        Hypercomplex<mpfr_t, dim> H(temparr);
+        for (unsigned int i=0; i < newdim; i++) mpfr_clear(temparr[i]);
+        delete[] temparr;
+        mpfr_clear(zero);
+        return H;
+    }
+
+    Hypercomplex operator- () const {
+        mpfr_t zero;
+        mpfr_init2(zero, MPFR_global_precision);
+        mpfr_set_zero(zero, 0);
+        mpfr_ptr temparr = new mpfr_t[dim];
+        for (unsigned int i=0; i < dim; i++)
+            mpfr_sub(temparr[i], zero, arr[i], MPFR_RNDN);
+        Hypercomplex<mpfr_t, dim> H(temparr);
+        for (unsigned int i=0; i < newdim; i++) mpfr_clear(temparr[i]);
+        delete[] temparr;
+        mpfr_clear(zero);
+        return H;
+    }
+
+    Hypercomplex& operator= (const Hypercomplex &H) {
+        if (this == &H) return *this;
+        for (unsigned int i=0; i < dim; i++) arr[i] = H[i];
+        return *this;
+    }
+
+    mpfr_t& operator[] (const unsigned int i) const {
+        assert(0 <= i && i < dim);
+        return arr[i];
+    }
+
 };
 
 
-/*
 
-    Hypercomplex operator~ () const;
-    Hypercomplex operator- () const;
-    Hypercomplex& operator= (const Hypercomplex &H);
-    T& operator[] (const unsigned int i) const;
+
+/*
 
     Hypercomplex& operator+= (const Hypercomplex &H);
     Hypercomplex& operator-= (const Hypercomplex &H);
@@ -645,6 +682,7 @@ Hypercomplex<mpfr_t, dim> exp(const Hypercomplex<mpfr_t, dim> &H) {
 // delete arr from constrctor?
 // expand: () after array
 // init2 for all temparr[i]
+// assignment operator between mpfr_t?
 
 // include at the end, check docs why
 // last paragraph 4.7
