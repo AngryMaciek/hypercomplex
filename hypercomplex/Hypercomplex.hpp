@@ -783,13 +783,11 @@ Hypercomplex<mpfr_t, dim> exp(const Hypercomplex<mpfr_t, dim> &H) {
 }
 
 
-// function partial specialisation
-// https://stackoverflow.com/questions/3768862/c-single-template-specialisation-with-multiple-template-parameters/3769025
-
 // delete arr from constrctor?
 // expand: () after array
 // init2 for all temparr[i]
 // assignment operator between mpfr_t?
+// returning mpfr from a function - clean? / dynamical array -  SO
 
 // include at the end, check docs why
 // last paragraph 4.7
