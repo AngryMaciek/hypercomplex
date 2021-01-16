@@ -495,23 +495,28 @@ class Hypercomplex<mpfr_t, dim> {
         return result;
     }
 
-
-
-
-
-
-
     Hypercomplex inv() const {
-        T zero = T();
-        T norm = (*this).norm();
-        if (norm == zero) {
+        mpfr_t zero, norm;
+        mpfr_init2(zero, MPFR_global_precision);
+        mpfr_init2(norm, MPFR_global_precision);
+        mpfr_set_zero(zero, 0);
+        norm = (*this).norm();
+        if (mpfr_equal_p(norm, zero)) {
+            mpfr_clear(zero);
+            mpfr_clear(norm);
             throw std::invalid_argument("division by zero");
         } else {
-            T* temparr = new T[dim];
-            temparr[0] = arr[0] / (norm * norm);
-            for (unsigned int i=1; i < dim; i++)
-                temparr[i] = -arr[i] / (norm * norm);
-            Hypercomplex<T, dim> H(temparr);
+            mpfr_ptr temparr = new mpfr_t[dim];
+            mpfr_mul(norm, norm, norm, MPFR_RNDN);
+            mpfr_div(temparr[0], arr[0], norm, MPFR_RNDN);
+            for (unsigned int i=1; i < dim; i++) {
+                mpfr_div(temparr[i], arr[i], norm, MPFR_RNDN);
+                mpfr_sub(temparr[i], zero, temparr[i], MPFR_RNDN);
+            }
+            Hypercomplex<mpfr_t, dim> H(temparr);
+            mpfr_clear(zero);
+            mpfr_clear(norm);
+            for (unsigned int i=0; i < dim; i++) mpfr_clear(temparr[i]);
             delete[] temparr;
             return H;
         }
@@ -520,9 +525,11 @@ class Hypercomplex<mpfr_t, dim> {
     template <const unsigned int newdim>
     Hypercomplex<mpfr_t, newdim> expand() const {
         if (newdim <= dim) throw std::invalid_argument("invalid dimension");
-        T* temparr = new T[newdim]();
+        mpfr_ptr temparr = new mpfr_t[newdim];
         for (unsigned int i=0; i < dim; i++) temparr[i] = arr[i];
-        Hypercomplex<T, newdim> H(temparr);
+        for (unsigned int i=dim; i < newdim; i++) mpfr_set_zero(temparr[i], 0);
+        Hypercomplex<mpfr_t, newdim> H(temparr);
+        for (unsigned int i=0; i < newdim; i++) mpfr_clear(temparr[i]);
         delete[] temparr;
         return H;
     }
@@ -634,6 +641,10 @@ Hypercomplex<mpfr_t, dim> exp(const Hypercomplex<mpfr_t, dim> &H) {
 
 // function partial specialisation
 // https://stackoverflow.com/questions/3768862/c-single-template-specialisation-with-multiple-template-parameters/3769025
+
+// delete arr from constrctor?
+// expand: () after array
+// init2 for all temparr[i]
 
 // include at the end, check docs why
 // last paragraph 4.7
