@@ -433,7 +433,7 @@ Hypercomplex<T, dim> exp(const Hypercomplex<T, dim> &H) {
 
 static unsigned int MPFR_global_precision;
 
-void get_mpfr_precision() {
+unsigned int get_mpfr_precision() {
     return MPFR_global_precision;
 }
 
@@ -448,51 +448,6 @@ void set_mpfr_precision(unsigned int n) {
 void clear_mpfr_memory() {
     mpfr_free_cache();
     assert(!mpfr_mp_memory_cleanup());
-}
-
-Hypercomplex<mpfr_t, dim> Re(const Hypercomplex<mpfr_t, dim> &H) {
-    Hypercomplex<mpfr_t, dim> result = H;
-    for (unsigned int i=1; i < dim; i++) mpfr_set_zero(result[i], 0);
-    return result;
-}
-
-Hypercomplex<mpfr_t, dim> Im(const Hypercomplex<mpfr_t, dim> &H) {
-    Hypercomplex<mpfr_t, dim> result = H;
-    mpfr_set_zero(result[0], 0);
-    return result;
-}
-
-Hypercomplex<mpfr_t, dim> exp(const Hypercomplex<mpfr_t, dim> &H) {
-    Hypercomplex<mpfr_t, dim> result = Im(H);
-    mpfr_t zero, norm, expreal;
-    mpfr_init2(zero, MPFR_global_precision);
-    mpfr_init2(norm, MPFR_global_precision);
-    mpfr_init2(expreal, MPFR_global_precision);
-    mpfr_set_zero(zero, 0);
-    norm = result.norm();
-    mpfr_exp(expreal, H[0], MPFR_RNDN);
-
-    if (mpfr_equal_p(norm, zero)) {
-        result[0] = expreal;
-        for (unsigned int i=1; i < dim; i++) mpfr_set_zero(result[i], 0);
-    } else {
-        mpfr_t sinv_v;
-        mpfr_init2(sinv_v, MPFR_global_precision);
-        mpfr_sin(sinv_v, norm, MPFR_RNDN);
-        mpfr_div(sinv_v, sinv_v, norm, MPFR_RNDN);
-        for (unsigned int i=0; i < dim; i++) {
-            mpfr_mul(result[i], result[i], sinv_v, MPFR_RNDN)
-        }
-        mpfr_cos(norm, norm, MPFR_RNDN);
-        mpfr_add(result[0], result[0], norm, MPFR_RNDN);
-        for (unsigned int i=0; i < dim; i++) {
-            mpfr_mul(result[i], result[i], expreal, MPFR_RNDN);
-        }
-    }
-    mpfr_clear(zero);
-    mpfr_clear(norm);
-    mpfr_clear(expreal);
-    return result;
 }
 
 template <const unsigned int dim>
@@ -546,9 +501,6 @@ class Hypercomplex<mpfr_t, dim> {
 
 
 
-
-
-
     Hypercomplex inv() const {
         T zero = T();
         T norm = (*this).norm();
@@ -578,7 +530,6 @@ class Hypercomplex<mpfr_t, dim> {
 };
 
 
-
 /*
 
     Hypercomplex operator~ () const;
@@ -591,8 +542,6 @@ class Hypercomplex<mpfr_t, dim> {
     Hypercomplex& operator*= (const Hypercomplex &H);
     Hypercomplex& operator^= (const unsigned int x);
     Hypercomplex& operator/= (const Hypercomplex &H);
-
-
 
 
 
@@ -637,8 +586,50 @@ std::ostream& operator<< (std::ostream &os, const Hypercomplex<T, dim> &H);
 
 */
 
+Hypercomplex<mpfr_t, dim> Re(const Hypercomplex<mpfr_t, dim> &H) {
+    Hypercomplex<mpfr_t, dim> result = H;
+    for (unsigned int i=1; i < dim; i++) mpfr_set_zero(result[i], 0);
+    return result;
+}
 
+Hypercomplex<mpfr_t, dim> Im(const Hypercomplex<mpfr_t, dim> &H) {
+    Hypercomplex<mpfr_t, dim> result = H;
+    mpfr_set_zero(result[0], 0);
+    return result;
+}
 
+Hypercomplex<mpfr_t, dim> exp(const Hypercomplex<mpfr_t, dim> &H) {
+    Hypercomplex<mpfr_t, dim> result = Im(H);
+    mpfr_t zero, norm, expreal;
+    mpfr_init2(zero, MPFR_global_precision);
+    mpfr_init2(norm, MPFR_global_precision);
+    mpfr_init2(expreal, MPFR_global_precision);
+    mpfr_set_zero(zero, 0);
+    norm = result.norm();
+    mpfr_exp(expreal, H[0], MPFR_RNDN);
+
+    if (mpfr_equal_p(norm, zero)) {
+        result[0] = expreal;
+        for (unsigned int i=1; i < dim; i++) mpfr_set_zero(result[i], 0);
+    } else {
+        mpfr_t sinv_v;
+        mpfr_init2(sinv_v, MPFR_global_precision);
+        mpfr_sin(sinv_v, norm, MPFR_RNDN);
+        mpfr_div(sinv_v, sinv_v, norm, MPFR_RNDN);
+        for (unsigned int i=0; i < dim; i++) {
+            mpfr_mul(result[i], result[i], sinv_v, MPFR_RNDN)
+        }
+        mpfr_cos(norm, norm, MPFR_RNDN);
+        mpfr_add(result[0], result[0], norm, MPFR_RNDN);
+        for (unsigned int i=0; i < dim; i++) {
+            mpfr_mul(result[i], result[i], expreal, MPFR_RNDN);
+        }
+    }
+    mpfr_clear(zero);
+    mpfr_clear(norm);
+    mpfr_clear(expreal);
+    return result;
+}
 
 
 // function partial specialisation
