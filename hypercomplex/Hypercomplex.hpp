@@ -426,13 +426,228 @@ Hypercomplex<T, dim> exp(const Hypercomplex<T, dim> &H) {
 /*
 ###############################################################################
 #
-#   Explicit template specialisation for mpfr_t type
+#   Explicit template specialisation & function overloading for mpfr_t type
 #
 ###############################################################################
 */
 
-// global variable for precision?
-// https://stackoverflow.com/questions/36314426/do-you-define-global-variables-in-a-c-library
+static unsigned int MPFR_global_precision;
+
+void get_mpfr_precision() {
+    return MPFR_global_precision;
+}
+
+void set_mpfr_precision(unsigned int n) {
+    if (n>0) {
+        MPFR_global_precision = n;
+    } else {
+        throw std::invalid_argument("invalid argument");
+    }
+}
+
+void clear_mpfr_memory() {
+    mpfr_free_cache();
+    assert(!mpfr_mp_memory_cleanup());
+}
+
+Hypercomplex<mpfr_t, dim> Re(const Hypercomplex<mpfr_t, dim> &H) {
+    Hypercomplex<mpfr_t, dim> result = H;
+    for (unsigned int i=1; i < dim; i++) mpfr_set_zero(result[i], 0);
+    return result;
+}
+
+Hypercomplex<mpfr_t, dim> Im(const Hypercomplex<mpfr_t, dim> &H) {
+    Hypercomplex<mpfr_t, dim> result = H;
+    mpfr_set_zero(result[0], 0);
+    return result;
+}
+
+Hypercomplex<mpfr_t, dim> exp(const Hypercomplex<mpfr_t, dim> &H) {
+    Hypercomplex<mpfr_t, dim> result = Im(H);
+    mpfr_t zero, norm, expreal;
+    mpfr_init2(zero, MPFR_global_precision);
+    mpfr_init2(norm, MPFR_global_precision);
+    mpfr_init2(expreal, MPFR_global_precision);
+    mpfr_set_zero(zero, 0);
+    norm = result.norm();
+    mpfr_exp(expreal, H[0], MPFR_RNDN);
+
+    if (mpfr_equal_p(norm, zero)) {
+        result[0] = expreal;
+        for (unsigned int i=1; i < dim; i++) mpfr_set_zero(result[i], 0);
+    } else {
+        mpfr_t sinv_v;
+        mpfr_init2(sinv_v, MPFR_global_precision);
+        mpfr_sin(sinv_v, norm, MPFR_RNDN);
+        mpfr_div(sinv_v, sinv_v, norm, MPFR_RNDN);
+        for (unsigned int i=0; i < dim; i++) {
+            mpfr_mul(result[i], result[i], sinv_v, MPFR_RNDN)
+        }
+        mpfr_cos(norm, norm, MPFR_RNDN);
+        mpfr_add(result[0], result[0], norm, MPFR_RNDN);
+        for (unsigned int i=0; i < dim; i++) {
+            mpfr_mul(result[i], result[i], expreal, MPFR_RNDN);
+        }
+    }
+    mpfr_clear(zero);
+    mpfr_clear(norm);
+    mpfr_clear(expreal);
+    return result;
+}
+
+template <const unsigned int dim>
+class Hypercomplex<mpfr_t, dim> {
+
+ private:
+    mpfr_ptr arr;
+
+ public:
+
+    explicit Hypercomplex(const mpfr_ptr ARR) {
+        if (dim == 0) throw std::invalid_argument("invalid dimension");
+        if ((dim & (dim - 1)) != 0) {
+            throw std::invalid_argument("invalid dimension");
+        }
+        arr = new mpfr_t[dim];
+        for (unsigned int i=0; i < dim; i++) arr[i] = ARR[i];
+    }
+
+    Hypercomplex(const Hypercomplex &H) {
+        arr = new mpfr_t[dim];
+        for (unsigned int i=0; i < dim; i++) arr[i] = H[i];
+    }
+
+    Hypercomplex() = delete;
+
+    ~Hypercomplex() {
+        for (unsigned int i=0; i < dim; i++) mpfr_clear(arr[i]);
+        delete[] arr;
+    }
+
+    unsigned int _() const { return dim; }
+
+    mpfr_t norm() const {
+        mpfr_t result, temp;
+        mpfr_init2(result, MPFR_global_precision);
+        mpfr_init2(temp, MPFR_global_precision);
+        mpfr_set_zero(result, 0);
+        for (unsigned int i=0; i < dim; i++) {
+            mpfr_mul(temp, arr[i], arr[i], MPFR_RNDN);
+            mpfr_add(result, result, temp, MPFR_RNDN);
+        }
+        mpfr_sqrt(result, result, MPFR_RNDN);
+        mpfr_clear(temp);
+        return result;
+    }
+
+
+
+
+
+
+
+
+
+
+    Hypercomplex inv() const {
+        T zero = T();
+        T norm = (*this).norm();
+        if (norm == zero) {
+            throw std::invalid_argument("division by zero");
+        } else {
+            T* temparr = new T[dim];
+            temparr[0] = arr[0] / (norm * norm);
+            for (unsigned int i=1; i < dim; i++)
+                temparr[i] = -arr[i] / (norm * norm);
+            Hypercomplex<T, dim> H(temparr);
+            delete[] temparr;
+            return H;
+        }
+    }
+
+    template <const unsigned int newdim>
+    Hypercomplex<mpfr_t, newdim> expand() const {
+        if (newdim <= dim) throw std::invalid_argument("invalid dimension");
+        T* temparr = new T[newdim]();
+        for (unsigned int i=0; i < dim; i++) temparr[i] = arr[i];
+        Hypercomplex<T, newdim> H(temparr);
+        delete[] temparr;
+        return H;
+    }
+
+};
+
+
+
+/*
+
+    Hypercomplex operator~ () const;
+    Hypercomplex operator- () const;
+    Hypercomplex& operator= (const Hypercomplex &H);
+    T& operator[] (const unsigned int i) const;
+
+    Hypercomplex& operator+= (const Hypercomplex &H);
+    Hypercomplex& operator-= (const Hypercomplex &H);
+    Hypercomplex& operator*= (const Hypercomplex &H);
+    Hypercomplex& operator^= (const unsigned int x);
+    Hypercomplex& operator/= (const Hypercomplex &H);
+
+
+
+
+
+// Operators
+template <typename T, const unsigned int dim>
+bool operator== (
+    const Hypercomplex<T, dim> &H1,
+    const Hypercomplex<T, dim> &H2
+);
+template <typename T, const unsigned int dim>
+bool operator!= (
+    const Hypercomplex<T, dim> &H1,
+    const Hypercomplex<T, dim> &H2
+);
+template <typename T, const unsigned int dim>
+Hypercomplex<T, dim> operator+ (
+    const Hypercomplex<T, dim> &H1,
+    const Hypercomplex<T, dim> &H2
+);
+template <typename T, const unsigned int dim>
+Hypercomplex<T, dim> operator- (
+    const Hypercomplex<T, dim> &H1,
+    const Hypercomplex<T, dim> &H2
+);
+template <typename T, const unsigned int dim>
+Hypercomplex<T, dim> operator* (
+    const Hypercomplex<T, dim> &H1,
+    const Hypercomplex<T, dim> &H2
+);
+template <typename T, const unsigned int dim>
+Hypercomplex<T, dim> operator^ (
+    const Hypercomplex<T, dim> &H,
+    const unsigned int x
+);
+template <typename T, const unsigned int dim>
+Hypercomplex<T, dim> operator/ (
+    const Hypercomplex<T, dim> &H1,
+    const Hypercomplex<T, dim> &H2
+);
+template <typename T, const unsigned int dim>
+std::ostream& operator<< (std::ostream &os, const Hypercomplex<T, dim> &H);
+
+*/
+
+
+
+
+
+// function partial specialisation
+// https://stackoverflow.com/questions/3768862/c-single-template-specialisation-with-multiple-template-parameters/3769025
+
 // include at the end, check docs why
+// last paragraph 4.7
+// https://www.mpfr.org/mpfr-current/mpfr.pdf
+// 1 function to set global precision at the start
+// 1 function to clear all cache annd mem at the end
 
 #endif  // HYPERCOMPLEX_HYPERCOMPLEX_HPP_
