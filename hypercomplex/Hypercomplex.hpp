@@ -730,7 +730,7 @@ std::ostream& operator<<(
         mpfr_out_str(os, 10, 0, H[i], MPFR_RNDN);
         os << " ";
     }
-    mpfr_out_str(os, 10, 0, H[dim - 1]], MPFR_RNDN);
+    mpfr_out_str(os, 10, 0, H[dim - 1], MPFR_RNDN);
     return os;
 }
 
@@ -768,7 +768,7 @@ Hypercomplex<mpfr_t, dim> exp(const Hypercomplex<mpfr_t, dim> &H) {
         mpfr_sin(sinv_v, norm, MPFR_RNDN);
         mpfr_div(sinv_v, sinv_v, norm, MPFR_RNDN);
         for (unsigned int i=0; i < dim; i++) {
-            mpfr_mul(result[i], result[i], sinv_v, MPFR_RNDN)
+            mpfr_mul(result[i], result[i], sinv_v, MPFR_RNDN);
         }
         mpfr_cos(norm, norm, MPFR_RNDN);
         mpfr_add(result[0], result[0], norm, MPFR_RNDN);
