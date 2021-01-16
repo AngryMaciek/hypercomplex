@@ -543,7 +543,7 @@ class Hypercomplex<mpfr_t, dim> {
         for (unsigned int i=1; i < dim; i++)
             mpfr_sub(temparr[i], zero, arr[i], MPFR_RNDN);
         Hypercomplex<mpfr_t, dim> H(temparr);
-        for (unsigned int i=0; i < newdim; i++) mpfr_clear(temparr[i]);
+        for (unsigned int i=0; i < dim; i++) mpfr_clear(temparr[i]);
         delete[] temparr;
         mpfr_clear(zero);
         return H;
@@ -557,7 +557,7 @@ class Hypercomplex<mpfr_t, dim> {
         for (unsigned int i=0; i < dim; i++)
             mpfr_sub(temparr[i], zero, arr[i], MPFR_RNDN);
         Hypercomplex<mpfr_t, dim> H(temparr);
-        for (unsigned int i=0; i < newdim; i++) mpfr_clear(temparr[i]);
+        for (unsigned int i=0; i < dim; i++) mpfr_clear(temparr[i]);
         delete[] temparr;
         mpfr_clear(zero);
         return H;
@@ -783,6 +783,7 @@ Hypercomplex<mpfr_t, dim> exp(const Hypercomplex<mpfr_t, dim> &H) {
 }
 
 
+// https://stackoverflow.com/questions/40136973/error-declared-as-function-returning-an-array-in-c-mpfr-libary
 // delete arr from constrctor?
 // expand: () after array
 // init2 for all temparr[i]
