@@ -378,7 +378,6 @@ TEMPLATE_LIST_TEST_CASE( "Special", "[usecase]", TestTypes ) {
 
     SECTION( "Const objects" ) {
         const unsigned int dim = 4;
-        const unsigned int newdim = 8;
         const unsigned int cui = 2;
         const TestType A[] = {1.0, 2.0, 0.0, -1.0};
         const TestType B[] = {-0.5, 1.0, 0.0, 6.0};
