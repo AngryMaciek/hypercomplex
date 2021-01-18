@@ -438,7 +438,7 @@ unsigned int get_mpfr_precision() {
 }
 
 void set_mpfr_precision(unsigned int n) {
-    if (n>0) {
+    if (n > 0) {
         MPFR_global_precision = n;
     } else {
         throw std::invalid_argument("invalid argument");
@@ -452,12 +452,10 @@ void clear_mpfr_memory() {
 
 template <const unsigned int dim>
 class Hypercomplex<mpfr_t, dim> {
-
  private:
     mpfr_t* arr;
 
  public:
-
     explicit Hypercomplex(const mpfr_t* ARR) {
         if (dim == 0) throw std::invalid_argument("invalid dimension");
         if ((dim & (dim - 1)) != 0) {
