@@ -600,7 +600,6 @@ class Hypercomplex<mpfr_t, dim> {
         for (unsigned int i=0; i < dim; i++) (*this)[i] = result[i];
         return *this;
     }
-
 };
 
 template <const unsigned int dim>
@@ -782,16 +781,5 @@ Hypercomplex<mpfr_t, dim> exp(const Hypercomplex<mpfr_t, dim> &H) {
 // assignment operator between mpfr_t?
 // mpfr_t dynamical array, t vs ptr - SO
 // init2 for all temparr[i] | and set zero?
-
-
-
-
-// --- docs ---
-
-// include at the end, check docs why
-// last paragraph 4.7
-// https://www.mpfr.org/mpfr-current/mpfr.pdf
-// 1 function to set global precision at the start
-// 1 function to clear all cache and mem at the end
 
 #endif  // HYPERCOMPLEX_HYPERCOMPLEX_HPP_
