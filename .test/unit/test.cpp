@@ -403,6 +403,9 @@ TEMPLATE_LIST_TEST_CASE( "Special", "[usecase]", TestTypes ) {
     }
 
     SECTION( "MPFR lib test" ) {
+        set_mpfr_precision(200);
+        cout << get_mpfr_precision() << std::endl;
+        clear_mpfr_memory();
         REQUIRE_NOTHROW(true);
     }
 }
