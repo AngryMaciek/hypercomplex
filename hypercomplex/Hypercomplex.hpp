@@ -499,7 +499,7 @@ class Hypercomplex<mpfr_t, dim> {
         mpfr_init2(zero, MPFR_global_precision);
         mpfr_init2(norm, MPFR_global_precision);
         mpfr_set_zero(zero, 0);
-        norm = (*this).norm();
+        (*this).norm(norm);
         if (mpfr_equal_p(norm, zero)) {
             mpfr_clear(zero);
             mpfr_clear(norm);
@@ -755,7 +755,7 @@ Hypercomplex<mpfr_t, dim> exp(const Hypercomplex<mpfr_t, dim> &H) {
     mpfr_init2(norm, MPFR_global_precision);
     mpfr_init2(expreal, MPFR_global_precision);
     mpfr_set_zero(zero, 0);
-    norm = result.norm();
+    result.norm(norm);
     mpfr_exp(expreal, H[0], MPFR_RNDN);
 
     if (mpfr_equal_p(norm, zero)) {
