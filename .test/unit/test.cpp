@@ -458,6 +458,10 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
             h1.norm(norm);
             std::cout << norm << std::endl;
             mpfr_clear(norm);
+            mpfr_clear(A[0]);
+            mpfr_clear(A[1]);
+            mpfr_clear(A[2]);
+            mpfr_clear(A[3]);
             clear_mpfr_memory();
             REQUIRE( true );
         }
