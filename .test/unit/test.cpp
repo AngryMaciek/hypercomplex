@@ -573,10 +573,10 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
             std::cout << std::endl;
             */
             mpfr_clear(target);
-            mpfr_clear(B[0]);
-            mpfr_clear(B[1]);
-            mpfr_clear(B[2]);
-            mpfr_clear(B[3]);
+            //mpfr_clear(B[0]);
+            //mpfr_clear(B[1]);
+            //mpfr_clear(B[2]);
+            //mpfr_clear(B[3]);
             mpfr_clear(A[0]);
             mpfr_clear(A[1]);
             mpfr_clear(A[2]);
