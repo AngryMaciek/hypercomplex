@@ -1012,18 +1012,34 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
             clear_mpfr_memory();
             REQUIRE( true );
         }
+
+        SECTION( "Multiplication operator" ) {
+            Hypercomplex<mpfr_t, dim4> h = h1 * h2;
+            mpfr_out_str(stdout, 10, 0, h[0], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h[1], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h[2], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h[3], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_clear(A[0]);
+            mpfr_clear(A[1]);
+            mpfr_clear(A[2]);
+            mpfr_clear(A[3]);
+            mpfr_clear(B[0]);
+            mpfr_clear(B[1]);
+            mpfr_clear(B[2]);
+            mpfr_clear(B[3]);
+            mpfr_clear(C[0]);
+            mpfr_clear(C[1]);
+            clear_mpfr_memory();
+            REQUIRE( true );
+        }
     }
 }
 
 /*
-
-    SECTION( "Multiplication operator" ) {
-        Hypercomplex<TestType, dim4> h = h1 * h2;
-        REQUIRE( h[0] == 3.5 );
-        REQUIRE( h[1] == 0.0 );
-        REQUIRE( h[2] == -13.0 );
-        REQUIRE( h[3] == 6.5 );
-    }
 
     SECTION( "Multiplication-Assignment operator" ) {
         h1 *= h2;
