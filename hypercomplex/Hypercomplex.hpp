@@ -745,19 +745,6 @@ Hypercomplex<mpfr_t, dim> operator/(
 }
 
 template <const unsigned int dim>
-std::ostream& operator<<(
-    std::ostream &os,
-    const Hypercomplex<mpfr_t, dim> &H
-) {
-    for (unsigned int i=0; i < dim - 1; i++) {
-        mpfr_out_str(os.tie(), 10, 0, H[i], MPFR_RNDN);
-        os << " ";
-    }
-    mpfr_out_str(os, 10, 0, H[dim - 1], MPFR_RNDN);
-    return os;
-}
-
-template <const unsigned int dim>
 Hypercomplex<mpfr_t, dim> Re(const Hypercomplex<mpfr_t, dim> &H) {
     Hypercomplex<mpfr_t, dim> result = H;
     for (unsigned int i=1; i < dim; i++) mpfr_set_zero(result[i], 0);
