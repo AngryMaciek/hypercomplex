@@ -830,20 +830,30 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
             mpfr_clear(C[1]);
             clear_mpfr_memory();
         }
+
+        SECTION( "Inequality operator" ) {
+            bool result;
+            result = h1 == h2;
+            REQUIRE( result == true );
+            result = h1 == h1;
+            REQUIRE( result == false );
+            mpfr_clear(A[0]);
+            mpfr_clear(A[1]);
+            mpfr_clear(A[2]);
+            mpfr_clear(A[3]);
+            mpfr_clear(B[0]);
+            mpfr_clear(B[1]);
+            mpfr_clear(B[2]);
+            mpfr_clear(B[3]);
+            mpfr_clear(C[0]);
+            mpfr_clear(C[1]);
+            clear_mpfr_memory();
+        }
     }
 }
 
 /*
 
-
-
-    SECTION( "Inequality operator" ) {
-        bool result;
-        result = h1 != h2;
-        REQUIRE( result == true );
-        result = h1 != h1;
-        REQUIRE( result == false );
-    }
 
     SECTION( "Assignment operator" ) {
         TestType a[] = {-3.0, 5.0, 2.0, 1.0};
