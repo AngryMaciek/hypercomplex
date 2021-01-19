@@ -686,6 +686,59 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
     }
 }
 
+TEST_CASE( "MPFR: const objects", "[unit]" ) {
+    const unsigned int dim = 4;
+    const unsigned int cui = 2;    
+    set_mpfr_precision(200);
+    mpfr_t A[4], B[4];
+    mpfr_init2(A[0], MPFR_global_precision);
+    mpfr_init2(A[1], MPFR_global_precision);
+    mpfr_init2(A[2], MPFR_global_precision);
+    mpfr_init2(A[3], MPFR_global_precision);
+    mpfr_init2(B[0], MPFR_global_precision);
+    mpfr_init2(B[1], MPFR_global_precision);
+    mpfr_init2(B[2], MPFR_global_precision);
+    mpfr_init2(B[3], MPFR_global_precision);
+    mpfr_set_d(A[0], 1.0, MPFR_RNDN);
+    mpfr_set_d(A[1], 2.0, MPFR_RNDN);
+    mpfr_set_d(A[2], 0.0, MPFR_RNDN);
+    mpfr_set_d(A[3], -1.0, MPFR_RNDN);
+    mpfr_set_d(B[0], -0.5, MPFR_RNDN);
+    mpfr_set_d(B[1], 1.0, MPFR_RNDN);
+    mpfr_set_d(B[2], 0.0, MPFR_RNDN);
+    mpfr_set_d(B[3], 6.0, MPFR_RNDN);
+    const Hypercomplex<mpfr_t, dim> const_h1(A);
+    const Hypercomplex<mpfr_t, dim> const_h2(B);
+    /*
+    REQUIRE_NOTHROW(const_h1._());
+    REQUIRE_NOTHROW(const_h1.norm());
+    REQUIRE_NOTHROW(const_h1.inv());
+    REQUIRE_NOTHROW(~const_h1);
+    REQUIRE_NOTHROW(-const_h1);
+    REQUIRE_NOTHROW(const_h1[0]);
+    REQUIRE_NOTHROW(const_h1 == const_h2);
+    REQUIRE_NOTHROW(const_h1 != const_h2);
+    REQUIRE_NOTHROW(const_h1 + const_h2);
+    REQUIRE_NOTHROW(const_h1 - const_h2);
+    REQUIRE_NOTHROW(const_h1 * const_h2);
+    REQUIRE_NOTHROW(const_h1 / const_h2);
+    REQUIRE_NOTHROW(const_h1 ^ cui);
+    REQUIRE_NOTHROW(std::cout << const_h1 << std::endl);
+    REQUIRE_NOTHROW(Re(const_h1));
+    REQUIRE_NOTHROW(Im(const_h1));
+    REQUIRE_NOTHROW(exp(const_h1));
+    */
+    mpfr_clear(A[0]);
+    mpfr_clear(A[1]);
+    mpfr_clear(A[2]);
+    mpfr_clear(A[3]);
+    mpfr_clear(B[0]);
+    mpfr_clear(B[1]);
+    mpfr_clear(B[2]);
+    mpfr_clear(B[3]);
+    clear_mpfr_memory();
+}
+
 int main(int argc, char* const argv[]) {
     return Catch::Session().run(argc, argv);
 }
