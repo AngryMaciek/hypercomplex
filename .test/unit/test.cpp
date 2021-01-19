@@ -456,7 +456,7 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
             mpfr_init2(norm, MPFR_global_precision);
             std::cout << 2.45 << std::endl;
             h1.norm(norm);
-            mpfr_out_str(std::cout, 10, 0, norm, MPFR_RNDN);
+            mpfr_out_str(stdout, 10, 0, norm, MPFR_RNDN);
             mpfr_clear(norm);
             mpfr_clear(A[0]);
             mpfr_clear(A[1]);
