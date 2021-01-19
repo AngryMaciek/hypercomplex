@@ -798,6 +798,7 @@ Hypercomplex<mpfr_t, dim> exp(const Hypercomplex<mpfr_t, dim> &H) {
         for (unsigned int i=0; i < dim; i++) {
             mpfr_mul(result[i], result[i], expreal, MPFR_RNDN);
         }
+        mpfr_clear(sinv_v);
     }
     mpfr_clear(zero);
     mpfr_clear(norm);
