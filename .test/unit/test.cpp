@@ -465,6 +465,7 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
             std::cout << 2.45 << std::endl;
             h1.norm(norm);
             mpfr_out_str(stdout, 10, 0, norm, MPFR_RNDN);
+            std::cout << std::endl;
             mpfr_clear(norm);
             mpfr_clear(A[0]);
             mpfr_clear(A[1]);
@@ -481,6 +482,7 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
             Hypercomplex<mpfr_t, 4> invh1 = h1.inv();
             std::cout << 0.166 << std::endl;
             mpfr_out_str(stdout, 10, 0, invh1[0], MPFR_RNDN);
+            std::cout << std::endl;
             mpfr_t A0[2];
             mpfr_init2(A0[0], MPFR_global_precision);
             mpfr_init2(A0[1], MPFR_global_precision);
@@ -503,9 +505,13 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
         SECTION( "Real part" ) {
             Hypercomplex<mpfr_t, 4> real_h1 = Re(h1);
             mpfr_out_str(stdout, 10, 0, real_h1[0], MPFR_RNDN);
+            std::cout << std::endl;
             mpfr_out_str(stdout, 10, 0, real_h1[1], MPFR_RNDN);
+            std::cout << std::endl;
             mpfr_out_str(stdout, 10, 0, real_h1[2], MPFR_RNDN);
+            std::cout << std::endl;
             mpfr_out_str(stdout, 10, 0, real_h1[3], MPFR_RNDN);
+            std::cout << std::endl;
             mpfr_clear(A[0]);
             mpfr_clear(A[1]);
             mpfr_clear(A[2]);
@@ -515,17 +521,9 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
         }
 
 
+
+
 /*
-
-
-
-        SECTION( "Imaginary part" ) {
-            Hypercomplex<TestType, dim> imaginary_h1 = Im(h1);
-            REQUIRE( imaginary_h1[0] == 0.0 );
-            REQUIRE( imaginary_h1[1] == h1[1] );
-            REQUIRE( imaginary_h1[2] == h1[2] );
-            REQUIRE( imaginary_h1[3] == h1[3] );
-        }
 
         SECTION( "Hypercomplex exponentiation" ) {
             Approx target1 = Approx(-1.678).epsilon(0.01);
