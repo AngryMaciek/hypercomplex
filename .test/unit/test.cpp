@@ -549,6 +549,7 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
             mpfr_out_str(stdout, 10, 0, exp_h1[0], MPFR_RNDN);
             std::cout << std::endl;
             std::cout << "-----" << std::endl;
+            /*
             mpfr_t B[4];
             mpfr_init2(B[0], MPFR_global_precision);
             mpfr_init2(B[1], MPFR_global_precision);
@@ -570,6 +571,7 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
             std::cout << std::endl;
             mpfr_out_str(stdout, 10, 0, exp_h2[3], MPFR_RNDN);
             std::cout << std::endl;
+            */
             mpfr_clear(target);
             mpfr_clear(B[0]);
             mpfr_clear(B[1]);
