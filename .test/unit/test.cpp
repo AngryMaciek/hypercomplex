@@ -623,6 +623,28 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
         mpfr_clear(A[3]);
         clear_mpfr_memory();
     }
+
+    SECTION( "Destructor" ) {
+        const unsigned int dim = 4;
+        set_mpfr_precision(200);
+        mpfr_t A[4];
+        mpfr_init2(A[0], MPFR_global_precision);
+        mpfr_init2(A[1], MPFR_global_precision);
+        mpfr_init2(A[2], MPFR_global_precision);
+        mpfr_init2(A[3], MPFR_global_precision);
+        mpfr_set_d(A[0], 1.0, MPFR_RNDN);
+        mpfr_set_d(A[1], 2.0, MPFR_RNDN);
+        mpfr_set_d(A[2], 0.0, MPFR_RNDN);
+        mpfr_set_d(A[3], -1.0, MPFR_RNDN);
+        // Hypercomplex<TestType, dim>* h = new Hypercomplex<TestType, dim>(A);
+        // delete h;
+        mpfr_clear(A[0]);
+        mpfr_clear(A[1]);
+        mpfr_clear(A[2]);
+        mpfr_clear(A[3]);
+        clear_mpfr_memory();
+        REQUIRE( true );
+    }
 }
 
 int main(int argc, char* const argv[]) {
@@ -631,18 +653,6 @@ int main(int argc, char* const argv[]) {
 
 
 /*
-
-    SECTION( "Destructor" ) {
-        const unsigned int dim = 4;
-        TestType A[] = {1.0, 2.0, 0.0, -1.0};
-        // dynamic memory allocation for memory leak test:
-        Hypercomplex<TestType, dim>* h = new Hypercomplex<TestType, dim>(A);
-        delete h;
-        REQUIRE( true == true );
-    }
-}
-
 //const
 //expansion
-
 */
