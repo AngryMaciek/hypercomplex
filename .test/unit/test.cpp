@@ -15,6 +15,7 @@
 #define CATCH_CONFIG_RUNNER
 #include "catch.hpp"
 #include "hypercomplex/Hypercomplex.hpp"
+#include <cassert>
 #include <tuple>
 #include <stdexcept>
 #include <iostream>
@@ -425,49 +426,46 @@ TEST_CASE( "Expansion", "[unit]" ) {
     REQUIRE_NOTHROW(const_h1.expand<8>());
 }
 
-/*
-
 void TEST_MPFR() {
+    // Catch2 framework of tree-like test structure w/ test cases & sections
+    // does not comply with the special memory management of MPFR.
+    // Therefore we cannot prepare unit tests as for the general template.
+    // We will have one void function which tries out all operations
+    // on mpfr_t objects sequentially.
 
+    set_mpfr_precision(200);
+    std::cout << "Precision: | " << get_mpfr_precision() << std::endl;
 
-        set_mpfr_precision(200);
-        std::cout << get_mpfr_precision() << std::endl;
-        mpfr_t A[4];
-        mpfr_init2(A[0], MPFR_global_precision);
-        mpfr_init2(A[1], MPFR_global_precision);
-        mpfr_init2(A[2], MPFR_global_precision);
-        mpfr_init2(A[3], MPFR_global_precision);
-        mpfr_set_d(A[0], 1.0, MPFR_RNDN);
-        mpfr_set_d(A[1], 2.0, MPFR_RNDN);
-        mpfr_set_d(A[2], 0.0, MPFR_RNDN);
-        mpfr_set_d(A[3], -1.0, MPFR_RNDN);
-        Hypercomplex<mpfr_t, 4> h1(A);
-        // Hypercomplex<mpfr_t, n> cannot be under REQUIRE_THROWS_AS()
+    // Main constructor
+    mpfr_t A[4];
+    mpfr_init2(A[0], MPFR_global_precision);
+    mpfr_init2(A[1], MPFR_global_precision);
+    mpfr_init2(A[2], MPFR_global_precision);
+    mpfr_init2(A[3], MPFR_global_precision);
+    mpfr_set_d(A[0], 1.0, MPFR_RNDN);
+    mpfr_set_d(A[1], 2.0, MPFR_RNDN);
+    mpfr_set_d(A[2], 0.0, MPFR_RNDN);
+    mpfr_set_d(A[3], -1.0, MPFR_RNDN);
+    Hypercomplex<mpfr_t, 4> h1(A);
 
-        SECTION( "Getters" ) {
-            REQUIRE( h1._() == 4 );
-            mpfr_clear(A[0]);
-            mpfr_clear(A[1]);
-            mpfr_clear(A[2]);
-            mpfr_clear(A[3]);
-            clear_mpfr_memory();
-        }
+    // Getters
+    assert(h1._() == 4);
 
-        SECTION( "Norm" ) {
-            mpfr_t norm;
-            // mpfr_init2(norm, MPFR_RNDN);
-            std::cout << 2.45 << std::endl;
-            // h1.norm(norm);
-            // std::cout << norm << std::endl;
-            // mpfr_clear(norm);
-            // clear_mpfr_memory();
-            REQUIRE( true );
-        }
+    // Norm
+    mpfr_t norm;
+    mpfr_init2(norm, MPFR_RNDN);
+    std::cout << 2.45 << std::endl;
+    h1.norm(norm);
+    std::cout << norm << std::endl;
 
-
+    // Free memory
+    mpfr_clear(A[0]);
+    mpfr_clear(A[1]);
+    mpfr_clear(A[2]);
+    mpfr_clear(A[3]);
+    mpfr_clear(norm);
+    clear_mpfr_memory();
 }
-
-*/
 
 /*
 
