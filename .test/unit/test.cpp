@@ -887,10 +887,10 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
             hc = hb = ha;
             REQUIRE( &ha != &hb );
             REQUIRE( &hb != &hc );
-            REQUIRE( &hc != &ha );    
-            //REQUIRE( ha[0] == hb[0] );
-            //REQUIRE( hb[0] == hc[0] );
-            //REQUIRE( hc[0] == ha[0] );    
+            REQUIRE( &hc != &ha );
+            REQUIRE( !mpfr_cmp(ha[0], hb[0]) );
+            REQUIRE( !mpfr_cmp(hb[0], hc[0]) );
+            REQUIRE( !mpfr_cmp(hc[0], ha[0]) );
             h1 = h1;
             mpfr_clear(A[0]);
             mpfr_clear(A[1]);
