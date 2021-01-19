@@ -724,7 +724,7 @@ TEST_CASE( "MPFR: const objects", "[unit]" ) {
     REQUIRE_NOTHROW(const_h1 * const_h2);
     REQUIRE_NOTHROW(const_h1 / const_h2);
     REQUIRE_NOTHROW(const_h1 ^ cui);
-    // REQUIRE_NOTHROW(std::cout << const_h1 << std::endl);
+    REQUIRE_NOTHROW(std::cout << const_h1 << std::endl);
     REQUIRE_NOTHROW(Re(const_h1));
     REQUIRE_NOTHROW(Im(const_h1));
     REQUIRE_NOTHROW(exp(const_h1));
@@ -738,7 +738,6 @@ TEST_CASE( "MPFR: const objects", "[unit]" ) {
     mpfr_clear(B[2]);
     mpfr_clear(B[3]);
     clear_mpfr_memory();
-    REQUIRE( true );
 }
 
 int main(int argc, char* const argv[]) {
