@@ -527,7 +527,7 @@ void TEST_MPFR() {
 */
 
 
-
 int main(int argc, char* const argv[]) {
-    return Catch::Session().run(argc, argv);
+    Catch::Session().run(argc, argv);
+    return 0;
 }
