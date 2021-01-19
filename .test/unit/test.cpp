@@ -474,24 +474,29 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
             REQUIRE( true );
         }
 
-/*
-
         SECTION( "Inverse" ) {
-            Approx target1 = Approx(0.166).epsilon(0.01);
-            Approx target2 = Approx(-0.333).epsilon(0.01);
-            TestType target3 = 0.0;
-            Approx target4 = Approx(0.166).epsilon(0.01);
-            Hypercomplex<TestType, dim> invh1 = h1.inv();
-            REQUIRE( invh1[0] == target1 );
-            REQUIRE( invh1[1] == target2 );
-            REQUIRE( invh1[2] == target3 );
-            REQUIRE( invh1[3] == target4 );
-            TestType A0[] = {0.0,0.0};
-            REQUIRE_THROWS_AS(
-                Hypercomplex2<TestType>(A0).inv(),
-                std::invalid_argument
-            );
+            mpfr_t target;
+            mpfr_init2(target, MPFR_global_precision);
+            mpfr_set_d(A[0], 0.166, MPFR_RNDN);
+            Hypercomplex<mpfr_t, 4> invh1 = h1.inv();
+            std::cout << 0.166 << std::endl;
+            std::cout << invh1[0] << std::endl;
+            //TestType A0[] = {0.0,0.0};
+            //REQUIRE_THROWS_AS(
+            //    Hypercomplex2<TestType>(A0).inv(),
+            //    std::invalid_argument
+            //);
+            mpfr_clear(target);
+            mpfr_clear(A[0]);
+            mpfr_clear(A[1]);
+            mpfr_clear(A[2]);
+            mpfr_clear(A[3]);
+            clear_mpfr_memory();
+            REQUIRE( true );
         }
+
+
+/*
 
         SECTION( "Real part" ) {
             Hypercomplex<TestType, dim> real_h1 = Re(h1);
