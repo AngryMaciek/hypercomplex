@@ -686,6 +686,224 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
     }
 }
 
+/*
+TEMPLATE_LIST_TEST_CASE( "Overloading Operators", "[unit]", TestTypes ) {
+    //
+    const unsigned int dim2 = 2;
+    const unsigned int dim4 = 4;
+    TestType A[] = {1.0, 2.0, 0.0, -1.0};
+    TestType B[] = {-0.5, 1.0, 0.0, 6.0};
+    TestType C[] = {10.0, -10.0};
+
+    Hypercomplex<TestType, dim4> h1(A);
+    Hypercomplex<TestType, dim4> h2(B);
+    Hypercomplex<TestType, dim2> h3(C);
+
+    SECTION( "Conjugate operator" ) {
+        Hypercomplex<TestType, dim4> h1_ = ~h1;
+        REQUIRE( &h1 != &h1_ );
+        REQUIRE( h1_[0] == A[0] );
+        REQUIRE( h1_[1] == -A[1] );
+        REQUIRE( h1_[2] == -A[2] );
+        REQUIRE( h1_[3] == -A[3] );
+        unsigned int dim = (~h1)._();
+        REQUIRE( dim == dim4 );
+    }
+
+    SECTION( "Access operator" ) {
+        REQUIRE( h1[0] == A[0] );
+        REQUIRE( h1[1] == A[1] );
+        REQUIRE( h1[2] == A[2] );
+        REQUIRE( h1[3] == A[3] );
+        h1[0] = 100;
+        REQUIRE( h1[0] == 100 );
+    }
+
+    SECTION( "Equality operator" ) {
+        bool result;
+        result = h1 == h2;
+        REQUIRE( result == false );
+        result = h1 == h1;
+        REQUIRE( result == true );
+    }
+
+    SECTION( "Inequality operator" ) {
+        bool result;
+        result = h1 != h2;
+        REQUIRE( result == true );
+        result = h1 != h1;
+        REQUIRE( result == false );
+    }
+
+    SECTION( "Negation operator" ) {
+        Hypercomplex<TestType, dim4> h1_ = -h1;
+        REQUIRE( &h1 != &h1_ );
+        REQUIRE( h1_[0] == -A[0] );
+        REQUIRE( h1_[1] == -A[1] );
+        REQUIRE( h1_[2] == -A[2] );
+        REQUIRE( h1_[3] == -A[3] );
+        unsigned int dim = (-h1)._();
+        REQUIRE( dim == dim4 );
+    }
+
+    SECTION( "Assignment operator" ) {
+        TestType a[] = {-3.0, 5.0, 2.0, 1.0};
+        TestType b[] = {9.0, 0.0, -4.0, 1.0};
+        TestType c[] = {5.0, 8.0, 0.0, -8.0};
+        Hypercomplex<TestType, dim4> ha(a);
+        Hypercomplex<TestType, dim4> hb(b);
+        Hypercomplex<TestType, dim4> hc(c);
+        REQUIRE( &h1 != &ha );
+        REQUIRE( h1[0] != ha[0] );
+        ha = h1;
+        REQUIRE( &h1 != &ha );
+        REQUIRE( h1[0] == ha[0] );
+        // chain assignment:
+        hc = hb = ha;
+        REQUIRE( &ha != &hb );
+        REQUIRE( &hb != &hc );
+        REQUIRE( &hc != &ha );    
+        REQUIRE( ha[0] == hb[0] );
+        REQUIRE( hb[0] == hc[0] );
+        REQUIRE( hc[0] == ha[0] );    
+        // test self-assignment:
+        h1 = h1;
+    }
+
+    SECTION( "Addition operator" ) {
+        Hypercomplex<TestType, dim4> h = h1 + h2;
+        REQUIRE( h[0] == 0.5 );
+        REQUIRE( h[1] == 3.0 );
+        REQUIRE( h[2] == 0.0 );
+        REQUIRE( h[3] == 5.0 );
+    }
+
+    SECTION( "Subtraction operator" ) {
+        Hypercomplex<TestType, dim4> h = h1 - h2;
+        REQUIRE( h[0] == 1.5 );
+        REQUIRE( h[1] == 1.0 );
+        REQUIRE( h[2] == 0.0 );
+        REQUIRE( h[3] == -7.0 );
+    }
+
+    SECTION( "Addition-Assignment operator" ) {
+        h1 += h2;
+        REQUIRE( h1[0] == 0.5 );
+        REQUIRE( h1[1] == 3.0 );
+        REQUIRE( h1[2] == 0.0 );
+        REQUIRE( h1[3] == 5.0 );
+    }
+
+    SECTION( "Subtraction-Assignment operator" ) {
+        h1 -= h2;
+        REQUIRE( h1[0] == 1.5 );
+        REQUIRE( h1[1] == 1.0 );
+        REQUIRE( h1[2] == 0.0 );
+        REQUIRE( h1[3] == -7.0 );
+    }
+
+    SECTION( "Multiplication operator" ) {
+        Hypercomplex<TestType, dim4> h = h1 * h2;
+        REQUIRE( h[0] == 3.5 );
+        REQUIRE( h[1] == 0.0 );
+        REQUIRE( h[2] == -13.0 );
+        REQUIRE( h[3] == 6.5 );
+    }
+
+    SECTION( "Multiplication-Assignment operator" ) {
+        h1 *= h2;
+        REQUIRE( h1[0] == 3.5 );
+        REQUIRE( h1[1] == 0.0 );
+        REQUIRE( h1[2] == -13.0 );
+        REQUIRE( h1[3] == 6.5 );
+    }
+
+    SECTION( "Power operator" ) {
+        REQUIRE_THROWS_AS(h1 ^ 0, std::invalid_argument);
+        REQUIRE_NOTHROW(h1 ^ 1);
+        Hypercomplex<TestType, dim4> h = h1 ^ 2;
+        REQUIRE( h[0] == -4.0 );
+        REQUIRE( h[1] == 4.0 );
+        REQUIRE( h[2] == 0.0 );
+        REQUIRE( h[3] == -2.0 );
+        // test implicit type conversion
+        short int si = 2;
+        unsigned short int usi = 2;
+        int i = 2;
+        unsigned int ui = 2;
+        long int li = 2;
+        unsigned long int uli = 2;
+        long long int lli = 2;
+        unsigned long long int ulli = 2;
+        REQUIRE_NOTHROW(h1 ^ si);
+        REQUIRE_NOTHROW(h1 ^ usi);
+        REQUIRE_NOTHROW(h1 ^ i);
+        REQUIRE_NOTHROW(h1 ^ ui);
+        REQUIRE_NOTHROW(h1 ^ li);
+        REQUIRE_NOTHROW(h1 ^ uli);
+        REQUIRE_NOTHROW(h1 ^ lli);
+        REQUIRE_NOTHROW(h1 ^ ulli);
+    }
+
+    SECTION( "Power-Assignment operator" ) {
+        REQUIRE_THROWS_AS(h1 ^= 0, std::invalid_argument);
+        REQUIRE_NOTHROW(h1 ^= 1);
+        h1 ^= 2;
+        REQUIRE( h1[0] == -4.0 );
+        REQUIRE( h1[1] == 4.0 );
+        REQUIRE( h1[2] == 0.0 );
+        REQUIRE( h1[3] == -2.0 );
+        // test implicit type conversion
+        short int si = 2;
+        unsigned short int usi = 2;
+        int i = 2;
+        unsigned int ui = 2;
+        long int li = 2;
+        unsigned long int uli = 2;
+        long long int lli = 2;
+        unsigned long long int ulli = 2;
+        REQUIRE_NOTHROW(h1 ^= si);
+        REQUIRE_NOTHROW(h1 ^= usi);
+        REQUIRE_NOTHROW(h1 ^= i);
+        REQUIRE_NOTHROW(h1 ^= ui);
+        REQUIRE_NOTHROW(h1 ^= li);
+        REQUIRE_NOTHROW(h1 ^= uli);
+        REQUIRE_NOTHROW(h1 ^= lli);
+        REQUIRE_NOTHROW(h1 ^= ulli);
+    }
+
+    SECTION( "Division operator" ) {
+        Approx target1 = Approx(-0.121).epsilon(0.01);
+        Approx target2 = Approx(-0.054).epsilon(0.01);
+        Approx target3 = Approx(0.350).epsilon(0.01);
+        Approx target4 = Approx(-0.148).epsilon(0.01);
+        Hypercomplex<TestType, dim4> h = h1 / h2;
+        REQUIRE( h[0] == target1 );
+        REQUIRE( h[1] == target2 );
+        REQUIRE( h[2] == target3 );
+        REQUIRE( h[3] == target4 );
+        TestType D[] = {0.0, 0.0, 0.0, 0.0};
+        Hypercomplex<TestType, dim4> h4(D);
+        REQUIRE_THROWS_AS(h1 / h4, std::invalid_argument);
+    }
+
+    SECTION( "Division-Assignment operator" ) {
+        Approx target1 = Approx(-0.121).epsilon(0.01);
+        Approx target2 = Approx(-0.054).epsilon(0.01);
+        Approx target3 = Approx(0.350).epsilon(0.01);
+        Approx target4 = Approx(-0.148).epsilon(0.01);
+        h1 /= h2;
+        REQUIRE( h1[0] == target1 );
+        REQUIRE( h1[1] == target2 );
+        REQUIRE( h1[2] == target3 );
+        REQUIRE( h1[3] == target4 );
+        TestType D[] = {0.0, 0.0, 0.0, 0.0};
+        Hypercomplex<TestType, dim4> h4(D);
+        REQUIRE_THROWS_AS(h1 /= h4, std::invalid_argument);
+    }
+}
+*/
+
 TEST_CASE( "MPFR: const objects", "[unit]" ) {
     const unsigned int dim = 4;
     const unsigned int cui = 2;    
