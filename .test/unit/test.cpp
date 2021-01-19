@@ -833,9 +833,9 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
 
         SECTION( "Inequality operator" ) {
             bool result;
-            result = h1 == h2;
+            result = h1 != h2;
             REQUIRE( result == true );
-            result = h1 == h1;
+            result = h1 != h1;
             REQUIRE( result == false );
             mpfr_clear(A[0]);
             mpfr_clear(A[1]);
