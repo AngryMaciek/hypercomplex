@@ -481,18 +481,23 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
             Hypercomplex<mpfr_t, 4> invh1 = h1.inv();
             std::cout << 0.166 << std::endl;
             std::cout << invh1[0] << std::endl;
-            //TestType A0[] = {0.0,0.0};
-            //REQUIRE_THROWS_AS(
-            //    Hypercomplex2<TestType>(A0).inv(),
-            //    std::invalid_argument
-            //);
+            mpfr_t A0[2];
+            mpfr_init2(A0[0], MPFR_global_precision);
+            mpfr_init2(A0[1], MPFR_global_precision);
+            mpfr_set_zero(A0[0], 0);
+            mpfr_set_zero(A1[0], 0);
+            REQUIRE_THROWS_AS(
+                MPFR_Hypercomplex2(A0).inv(),
+                std::invalid_argument
+            );
             mpfr_clear(target);
+            mpfr_clear(A0[0]);
+            mpfr_clear(A0[1]);
             mpfr_clear(A[0]);
             mpfr_clear(A[1]);
             mpfr_clear(A[2]);
             mpfr_clear(A[3]);
             clear_mpfr_memory();
-            REQUIRE( true );
         }
 
 
