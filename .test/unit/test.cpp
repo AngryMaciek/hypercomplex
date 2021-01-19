@@ -711,8 +711,8 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
         mpfr_set_d(C[0], 10.0, MPFR_RNDN);
         mpfr_set_d(C[1], -10.0, MPFR_RNDN);
         Hypercomplex<mpfr_t, dim4> h1(A);
-        Hypercomplex<mpfr_t, dim4> h2(A);
-        Hypercomplex<mpfr_t, dim2> h3(A);
+        Hypercomplex<mpfr_t, dim4> h2(B);
+        Hypercomplex<mpfr_t, dim2> h3(C);
 
         SECTION( "Conjugate operator" ) {
             Hypercomplex<mpfr_t, dim4> h1_ = ~h1;
