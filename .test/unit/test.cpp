@@ -737,6 +737,7 @@ TEST_CASE( "MPFR: const objects", "[unit]" ) {
     mpfr_clear(B[2]);
     mpfr_clear(B[3]);
     clear_mpfr_memory();
+    REQUIRE( true );
 }
 
 int main(int argc, char* const argv[]) {
