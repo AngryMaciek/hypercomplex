@@ -404,6 +404,7 @@ TEMPLATE_LIST_TEST_CASE( "Special", "[usecase]", TestTypes ) {
         REQUIRE_NOTHROW(Re(const_h1));
         REQUIRE_NOTHROW(Im(const_h1));
         REQUIRE_NOTHROW(exp(const_h1));
+        // const MPFR
     }
 }
 
@@ -428,6 +429,7 @@ TEST_CASE( "Expansion", "[unit]" ) {
     );
     const Hypercomplex<double, 4> const_h1(A);
     REQUIRE_NOTHROW(const_h1.expand<8>());
+    // expansion MPFR
 }
 
 TEST_CASE( "MPFR lib test", "[unit]" ) {
@@ -538,34 +540,79 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
             REQUIRE( true );
         }
 
-
-/*
-
         SECTION( "Hypercomplex exponentiation" ) {
-            Approx target1 = Approx(-1.678).epsilon(0.01);
-            Approx target2 = Approx(1.913).epsilon(0.01);
-            TestType target3 = 0.0;
-            Approx target4 = Approx(-0.956).epsilon(0.01);
-            Hypercomplex<TestType, dim> exp_h1 = exp(h1);
-            REQUIRE( exp_h1[0] == target1 );
-            REQUIRE( exp_h1[1] == target2 );
-            REQUIRE( exp_h1[2] == target3 );
-            REQUIRE( exp_h1[3] == target4 );
-            TestType B[] = {5.0, 0.0, 0.0, 0.0};
-            Hypercomplex<TestType, dim> h2(B);
-            Hypercomplex<TestType, dim> exp_h2 = exp(h2);
-            Approx target5 = Approx(148.413).epsilon(0.01);
-            REQUIRE( exp_h2[0] == target5 );
-            REQUIRE( exp_h2[1] == 0.0 );
-            REQUIRE( exp_h2[2] == 0.0 );
-            REQUIRE( exp_h2[3] == 0.0 );
+            mpfr_t target;
+            mpfr_init2(target, MPFR_global_precision);
+            mpfr_set_d(A[0], -1.678, MPFR_RNDN);
+            Hypercomplex<mpfr_t, 4> exp_h1 = exp(h1);
+            std::cout << -1.678 << std::endl;
+            mpfr_out_str(stdout, 10, 0, exp_h1[0], MPFR_RNDN);
+            std::cout << std::endl;
+            std::cout << "-----" << std::endl;
+            //TestType B[] = {5.0, 0.0, 0.0, 0.0};
+            //Hypercomplex<TestType, dim> h2(B);
+            //Hypercomplex<TestType, dim> exp_h2 = exp(h2);
+            //Approx target5 = Approx(148.413).epsilon(0.01);
+            //REQUIRE( exp_h2[0] == target5 );
+            //REQUIRE( exp_h2[1] == 0.0 );
+            //REQUIRE( exp_h2[2] == 0.0 );
+            //REQUIRE( exp_h2[3] == 0.0 );
+            mpfr_clear(target);
+            mpfr_clear(A[0]);
+            mpfr_clear(A[1]);
+            mpfr_clear(A[2]);
+            mpfr_clear(A[3]);
+            clear_mpfr_memory();
         }
-
-*/
-
     }
 }
 
 int main(int argc, char* const argv[]) {
     return Catch::Session().run(argc, argv);
 }
+
+
+/*
+
+
+    SECTION( "Main constructor: exception" ) {
+        TestType A1[] = {10.10};
+        TestType A0[] = {};
+        REQUIRE_NOTHROW(Hypercomplex1<TestType>(A1));
+        REQUIRE_THROWS_AS(
+            Hypercomplex0<TestType>(A0),
+            std::invalid_argument
+        );
+    }
+
+    SECTION( "Copy constructor" ) {
+        const unsigned int dim = 4;
+        TestType A[] = {1.0, 2.0, 0.0, -1.0};
+        Hypercomplex<TestType, dim> h1(A);
+        Hypercomplex<TestType, dim> h2(h1);
+        Hypercomplex<TestType, dim> h3 = h2;
+        REQUIRE( &h1 != &h2 );
+        REQUIRE( &h2 != &h3 );
+        REQUIRE( &h3 != &h1 );
+        REQUIRE( h1._() == h2._() );
+        REQUIRE( h2._() == h3._() );
+        REQUIRE( h3._() == h1._() );
+        REQUIRE( h1[0] == h2[0] );
+        REQUIRE( h2[0] == h3[0] );
+        REQUIRE( h3[0] == h1[0] );
+    }
+
+    SECTION( "Destructor" ) {
+        const unsigned int dim = 4;
+        TestType A[] = {1.0, 2.0, 0.0, -1.0};
+        // dynamic memory allocation for memory leak test:
+        Hypercomplex<TestType, dim>* h = new Hypercomplex<TestType, dim>(A);
+        delete h;
+        REQUIRE( true == true );
+    }
+}
+
+//const
+//expansion
+
+*/
