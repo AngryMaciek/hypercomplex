@@ -1094,25 +1094,49 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
             mpfr_clear(C[1]);
             clear_mpfr_memory();
         }
+
+        SECTION( "Division operator" ) {
+            Hypercomplex<mpfr_t, dim4> h = h1 / h2;
+            mpfr_out_str(stdout, 10, 0, h[0], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h[1], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h[2], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h[3], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_t D[4];
+            mpfr_init2(D[0], MPFR_global_precision);
+            mpfr_init2(D[1], MPFR_global_precision);
+            mpfr_init2(D[2], MPFR_global_precision);
+            mpfr_init2(D[3], MPFR_global_precision);
+            mpfr_set_zero(D[0], 0);
+            mpfr_set_zero(D[1], 0);
+            mpfr_set_zero(D[2], 0);
+            mpfr_set_zero(D[3], 0);
+            Hypercomplex<mpfr_t, dim4> h4(D);
+            REQUIRE_THROWS_AS(h1 / h4, std::invalid_argument);
+            mpfr_clear(A[0]);
+            mpfr_clear(A[1]);
+            mpfr_clear(A[2]);
+            mpfr_clear(A[3]);
+            mpfr_clear(B[0]);
+            mpfr_clear(B[1]);
+            mpfr_clear(B[2]);
+            mpfr_clear(B[3]);
+            mpfr_clear(C[0]);
+            mpfr_clear(C[1]);
+            mpfr_clear(D[0]);
+            mpfr_clear(D[1]);
+            mpfr_clear(D[2]);
+            mpfr_clear(D[3]);
+            clear_mpfr_memory();
+            REQUIRE( true );
+        }
     }
 }
 
 /*
-
-    SECTION( "Division operator" ) {
-        Approx target1 = Approx(-0.121).epsilon(0.01);
-        Approx target2 = Approx(-0.054).epsilon(0.01);
-        Approx target3 = Approx(0.350).epsilon(0.01);
-        Approx target4 = Approx(-0.148).epsilon(0.01);
-        Hypercomplex<TestType, dim4> h = h1 / h2;
-        REQUIRE( h[0] == target1 );
-        REQUIRE( h[1] == target2 );
-        REQUIRE( h[2] == target3 );
-        REQUIRE( h[3] == target4 );
-        TestType D[] = {0.0, 0.0, 0.0, 0.0};
-        Hypercomplex<TestType, dim4> h4(D);
-        REQUIRE_THROWS_AS(h1 / h4, std::invalid_argument);
-    }
 
     SECTION( "Division-Assignment operator" ) {
         Approx target1 = Approx(-0.121).epsilon(0.01);
