@@ -458,11 +458,15 @@ class Hypercomplex<mpfr_t, dim> {
             throw std::invalid_argument("invalid dimension");
         }
         arr = new mpfr_t[dim];
+        for (unsigned int i=0; i < dim; i++)
+            mpfr_init2(arr[i], MPFR_global_precision);
         for (unsigned int i=0; i < dim; i++) arr[i] = ARR[i];
     }
 
     Hypercomplex(const Hypercomplex &H) {
         arr = new mpfr_t[dim];
+        for (unsigned int i=0; i < dim; i++)
+            mpfr_init2(arr[i], MPFR_global_precision);
         for (unsigned int i=0; i < dim; i++) arr[i] = H[i];
     }
 
@@ -500,6 +504,8 @@ class Hypercomplex<mpfr_t, dim> {
             throw std::invalid_argument("division by zero");
         } else {
             mpfr_t* temparr = new mpfr_t[dim];
+            for (unsigned int i=0; i < dim; i++)
+                mpfr_init2(temparr[i], MPFR_global_precision);
             mpfr_mul(norm, norm, norm, MPFR_RNDN);
             mpfr_div(temparr[0], arr[0], norm, MPFR_RNDN);
             for (unsigned int i=1; i < dim; i++) {
@@ -519,6 +525,8 @@ class Hypercomplex<mpfr_t, dim> {
     Hypercomplex<mpfr_t, newdim> expand() const {
         if (newdim <= dim) throw std::invalid_argument("invalid dimension");
         mpfr_t* temparr = new mpfr_t[newdim];
+        for (unsigned int i=0; i < newdim; i++)
+            mpfr_init2(temparr[i], MPFR_global_precision);
         for (unsigned int i=0; i < dim; i++) temparr[i] = arr[i];
         for (unsigned int i=dim; i < newdim; i++) mpfr_set_zero(temparr[i], 0);
         Hypercomplex<mpfr_t, newdim> H(temparr);
@@ -532,6 +540,8 @@ class Hypercomplex<mpfr_t, dim> {
         mpfr_init2(zero, MPFR_global_precision);
         mpfr_set_zero(zero, 0);
         mpfr_t* temparr = new mpfr_t[dim];
+        for (unsigned int i=0; i < dim; i++)
+            mpfr_init2(temparr[i], MPFR_global_precision);
         temparr[0] = arr[0];
         for (unsigned int i=1; i < dim; i++)
             mpfr_sub(temparr[i], zero, arr[i], MPFR_RNDN);
@@ -547,6 +557,8 @@ class Hypercomplex<mpfr_t, dim> {
         mpfr_init2(zero, MPFR_global_precision);
         mpfr_set_zero(zero, 0);
         mpfr_t* temparr = new mpfr_t[dim];
+        for (unsigned int i=0; i < dim; i++)
+            mpfr_init2(temparr[i], MPFR_global_precision);
         for (unsigned int i=0; i < dim; i++)
             mpfr_sub(temparr[i], zero, arr[i], MPFR_RNDN);
         Hypercomplex<mpfr_t, dim> H(temparr);
@@ -624,6 +636,8 @@ Hypercomplex<mpfr_t, dim> operator+(
 ) {
     mpfr_t* temparr = new mpfr_t[dim];
     for (unsigned int i=0; i < dim; i++)
+        mpfr_init2(temparr[i], MPFR_global_precision);
+    for (unsigned int i=0; i < dim; i++)
         mpfr_add(temparr[i], H1[i], H2[i], MPFR_RNDN);
     Hypercomplex<mpfr_t, dim> H(temparr);
     for (unsigned int i=0; i < dim; i++) mpfr_clear(temparr[i]);
@@ -637,6 +651,8 @@ Hypercomplex<mpfr_t, dim> operator-(
     const Hypercomplex<mpfr_t, dim> &H2
 ) {
     mpfr_t* temparr = new mpfr_t[dim];
+    for (unsigned int i=0; i < dim; i++)
+        mpfr_init2(temparr[i], MPFR_global_precision);
     for (unsigned int i=0; i < dim; i++)
         mpfr_sub(temparr[i], H1[i], H2[i], MPFR_RNDN);
     Hypercomplex<mpfr_t, dim> H(temparr);
@@ -667,6 +683,8 @@ Hypercomplex<mpfr_t, dim> operator*(
         // shared objects:
         const unsigned int halfd = dim / 2;
         mpfr_t* temparr = new mpfr_t[dim];
+        for (unsigned int i=0; i < dim; i++)
+            mpfr_init2(temparr[i], MPFR_global_precision);
         // construct helper objects:
         for (unsigned int i=0; i < halfd; i++) temparr[i] = H1[i];
         Hypercomplex<mpfr_t, halfd> H1a(temparr);
@@ -776,9 +794,5 @@ Hypercomplex<mpfr_t, dim> exp(const Hypercomplex<mpfr_t, dim> &H) {
     mpfr_clear(expreal);
     return result;
 }
-
-// assignment operator between mpfr_t?
-// mpfr_t dynamical array, t vs ptr - SO
-// init2 for all temparr[i] | and set zero?
 
 #endif  // HYPERCOMPLEX_HYPERCOMPLEX_HPP_
