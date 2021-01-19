@@ -879,21 +879,19 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
             Hypercomplex<mpfr_t, dim4> ha(a);
             Hypercomplex<mpfr_t, dim4> hb(b);
             Hypercomplex<mpfr_t, dim4> hc(c);
-            /*
             REQUIRE( &h1 != &ha );
-            REQUIRE( h1[0] != ha[0] );
+            //REQUIRE( h1[0] != ha[0] );
             ha = h1;
             REQUIRE( &h1 != &ha );
-            REQUIRE( h1[0] == ha[0] );
+            //REQUIRE( h1[0] == ha[0] );
             hc = hb = ha;
             REQUIRE( &ha != &hb );
             REQUIRE( &hb != &hc );
             REQUIRE( &hc != &ha );    
-            REQUIRE( ha[0] == hb[0] );
-            REQUIRE( hb[0] == hc[0] );
-            REQUIRE( hc[0] == ha[0] );    
+            //REQUIRE( ha[0] == hb[0] );
+            //REQUIRE( hb[0] == hc[0] );
+            //REQUIRE( hc[0] == ha[0] );    
             h1 = h1;
-            */
             mpfr_clear(A[0]);
             mpfr_clear(A[1]);
             mpfr_clear(A[2]);
