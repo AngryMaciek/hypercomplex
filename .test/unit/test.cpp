@@ -849,34 +849,79 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
             mpfr_clear(C[1]);
             clear_mpfr_memory();
         }
+
+        SECTION( "Assignment operator" ) {
+            mpfr_t a[4], b[4], c[4];
+            mpfr_init2(a[0], MPFR_global_precision);
+            mpfr_init2(a[1], MPFR_global_precision);
+            mpfr_init2(a[2], MPFR_global_precision);
+            mpfr_init2(a[3], MPFR_global_precision);
+            mpfr_init2(b[0], MPFR_global_precision);
+            mpfr_init2(b[1], MPFR_global_precision);
+            mpfr_init2(b[2], MPFR_global_precision);
+            mpfr_init2(b[3], MPFR_global_precision);
+            mpfr_init2(c[0], MPFR_global_precision);
+            mpfr_init2(c[1], MPFR_global_precision);
+            mpfr_init2(c[2], MPFR_global_precision);
+            mpfr_init2(c[3], MPFR_global_precision);
+            mpfr_set_d(a[0], -3.0, MPFR_RNDN);
+            mpfr_set_d(a[1], 5.0, MPFR_RNDN);
+            mpfr_set_d(a[2], 2.0, MPFR_RNDN);
+            mpfr_set_d(a[3], 1.0, MPFR_RNDN);
+            mpfr_set_d(b[0], 9.0, MPFR_RNDN);
+            mpfr_set_d(b[1], 0.0, MPFR_RNDN);
+            mpfr_set_d(b[2], -4.0, MPFR_RNDN);
+            mpfr_set_d(b[3], 1.0, MPFR_RNDN);
+            mpfr_set_d(c[0], 5.0, MPFR_RNDN);
+            mpfr_set_d(c[1], 8.0, MPFR_RNDN);
+            mpfr_set_d(c[2], 0.0, MPFR_RNDN);
+            mpfr_set_d(c[3], -8.0, MPFR_RNDN);
+            Hypercomplex<mpfr_t, dim4> ha(a);
+            Hypercomplex<mpfr_t, dim4> hb(b);
+            Hypercomplex<mpfr_t, dim4> hc(c);
+            /*
+            REQUIRE( &h1 != &ha );
+            REQUIRE( h1[0] != ha[0] );
+            ha = h1;
+            REQUIRE( &h1 != &ha );
+            REQUIRE( h1[0] == ha[0] );
+            hc = hb = ha;
+            REQUIRE( &ha != &hb );
+            REQUIRE( &hb != &hc );
+            REQUIRE( &hc != &ha );    
+            REQUIRE( ha[0] == hb[0] );
+            REQUIRE( hb[0] == hc[0] );
+            REQUIRE( hc[0] == ha[0] );    
+            h1 = h1;
+            */
+            mpfr_clear(A[0]);
+            mpfr_clear(A[1]);
+            mpfr_clear(A[2]);
+            mpfr_clear(A[3]);
+            mpfr_clear(B[0]);
+            mpfr_clear(B[1]);
+            mpfr_clear(B[2]);
+            mpfr_clear(B[3]);
+            mpfr_clear(C[0]);
+            mpfr_clear(C[1]);
+            mpfr_clear(a[0]);
+            mpfr_clear(a[1]);
+            mpfr_clear(a[2]);
+            mpfr_clear(a[3]);
+            mpfr_clear(b[0]);
+            mpfr_clear(b[1]);
+            mpfr_clear(b[2]);
+            mpfr_clear(b[3]);
+            mpfr_clear(c[0]);
+            mpfr_clear(c[1]);
+            mpfr_clear(c[2]);
+            mpfr_clear(c[3]);
+            clear_mpfr_memory();
+        }
     }
 }
 
 /*
-
-    SECTION( "Assignment operator" ) {
-        TestType a[] = {-3.0, 5.0, 2.0, 1.0};
-        TestType b[] = {9.0, 0.0, -4.0, 1.0};
-        TestType c[] = {5.0, 8.0, 0.0, -8.0};
-        Hypercomplex<TestType, dim4> ha(a);
-        Hypercomplex<TestType, dim4> hb(b);
-        Hypercomplex<TestType, dim4> hc(c);
-        REQUIRE( &h1 != &ha );
-        REQUIRE( h1[0] != ha[0] );
-        ha = h1;
-        REQUIRE( &h1 != &ha );
-        REQUIRE( h1[0] == ha[0] );
-        // chain assignment:
-        hc = hb = ha;
-        REQUIRE( &ha != &hb );
-        REQUIRE( &hb != &hc );
-        REQUIRE( &hc != &ha );    
-        REQUIRE( ha[0] == hb[0] );
-        REQUIRE( hb[0] == hc[0] );
-        REQUIRE( hc[0] == ha[0] );    
-        // test self-assignment:
-        h1 = h1;
-    }
 
     SECTION( "Addition operator" ) {
         Hypercomplex<TestType, dim4> h = h1 + h2;
