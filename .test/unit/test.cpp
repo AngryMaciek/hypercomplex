@@ -454,12 +454,12 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
             clear_mpfr_memory();
         }
 
-/*
-
         SECTION( "Norm" ) {
-            Approx target = Approx(2.45).epsilon(0.01);
-            REQUIRE( h1.norm() == target );
+            //Approx target = Approx(2.45).epsilon(0.01);
+            //REQUIRE( h1.norm() == target );
         }
+
+/*
 
         SECTION( "Inverse" ) {
             Approx target1 = Approx(0.166).epsilon(0.01);
