@@ -660,9 +660,11 @@ Hypercomplex<mpfr_t, dim> operator*(
         mpfr_init2(result, MPFR_global_precision);
         mpfr_mul(result, H1[0], H2[0], MPFR_RNDN);
         mpfr_t temparr[1];
-        temparr[0] = result;
+        mpfr_init2(temparr[0], MPFR_global_precision);
+        mpfr_set(temparr[0], result, MPFR_RNDN);
         Hypercomplex<mpfr_t, 1> H_(temparr);
         mpfr_clear(result);
+        mpfr_clear(temparr[0]);
         return H_;
     // recursion step:
     } else {
