@@ -441,7 +441,7 @@ TEST_CASE( "Expansion", "[unit]" ) {
     mpfr_set_d(mpfrA[2], 0.0, MPFR_RNDN);
     mpfr_set_d(mpfrA[3], -1.0, MPFR_RNDN);
     Hypercomplex<mpfr_t, 4> mpfrh1(mpfrA);
-    Hypercomplex<mpfr_t, 8> mpfrhexpanded = h1.expand<8>();
+    Hypercomplex<mpfr_t, 8> mpfrhexpanded = mpfrh1.expand<8>();
     mpfr_out_str(stdout, 10, 0, mpfrhexpanded[0], MPFR_RNDN);
     std::cout << std::endl;
     mpfr_out_str(stdout, 10, 0, mpfrhexpanded[1], MPFR_RNDN);
