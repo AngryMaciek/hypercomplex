@@ -480,7 +480,7 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
             mpfr_set_d(A[0], 0.166, MPFR_RNDN);
             Hypercomplex<mpfr_t, 4> invh1 = h1.inv();
             std::cout << 0.166 << std::endl;
-            std::cout << invh1[0] << std::endl;
+            mpfr_out_str(stdout, 10, 0, invh1[0], MPFR_RNDN);
             mpfr_t A0[2];
             mpfr_init2(A0[0], MPFR_global_precision);
             mpfr_init2(A0[1], MPFR_global_precision);
