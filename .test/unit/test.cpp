@@ -429,7 +429,7 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
     //
     SECTION( "Main constructor & functions" ) {
         set_mpfr_precision(200);
-        std::cout << get_mpfr_precision() << std::endl;
+        std::cout << "Precision: | " << get_mpfr_precision() << std::endl;
         mpfr_t A[4];
         mpfr_init2(A[0], MPFR_global_precision);
         mpfr_init2(A[1], MPFR_global_precision);
@@ -456,7 +456,7 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
             mpfr_init2(norm, MPFR_global_precision);
             std::cout << 2.45 << std::endl;
             h1.norm(norm);
-            std::cout << norm << std::endl;
+            mpfr_out_str(std::ostream, 10, 0, norm, MPFR_RNDN);
             mpfr_clear(norm);
             mpfr_clear(A[0]);
             mpfr_clear(A[1]);
