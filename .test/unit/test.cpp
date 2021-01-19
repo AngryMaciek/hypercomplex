@@ -425,9 +425,11 @@ TEST_CASE( "Expansion", "[unit]" ) {
     REQUIRE_NOTHROW(const_h1.expand<8>());
 }
 
-TEST_CASE( "MPFR lib test", "[unit]" ) {
-    //
-    SECTION( "Main constructor & functions" ) {
+/*
+
+void TEST_MPFR() {
+
+
         set_mpfr_precision(200);
         std::cout << get_mpfr_precision() << std::endl;
         mpfr_t A[4];
@@ -461,6 +463,11 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
             // clear_mpfr_memory();
             REQUIRE( true );
         }
+
+
+}
+
+*/
 
 /*
 
@@ -519,8 +526,7 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
 
 */
 
-    }
-}
+
 
 int main(int argc, char* const argv[]) {
     return Catch::Session().run(argc, argv);
