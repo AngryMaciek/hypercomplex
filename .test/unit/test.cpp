@@ -527,5 +527,6 @@ void TEST_MPFR() {
 
 int main(int argc, char* const argv[]) {
     Catch::Session().run(argc, argv);
+    TEST_MPFR();
     return 0;
 }
