@@ -469,7 +469,7 @@ class Hypercomplex<mpfr_t, dim> {
         for (unsigned int i=0; i < dim; i++)
             mpfr_init2(arr[i], MPFR_global_precision);
         for (unsigned int i=0; i < dim; i++)
-            mpfr_set(arr[i], ARR[i], MPFR_RNDN);
+            mpfr_set(arr[i], H[i], MPFR_RNDN);
     }
 
     Hypercomplex() = delete;
@@ -530,7 +530,7 @@ class Hypercomplex<mpfr_t, dim> {
         for (unsigned int i=0; i < newdim; i++)
             mpfr_init2(temparr[i], MPFR_global_precision);
         for (unsigned int i=0; i < dim; i++)
-            mpfr_set(temparr[i], ARR[i], MPFR_RNDN);
+            mpfr_set(temparr[i], arr[i], MPFR_RNDN);
         for (unsigned int i=dim; i < newdim; i++) mpfr_set_zero(temparr[i], 0);
         Hypercomplex<mpfr_t, newdim> H(temparr);
         for (unsigned int i=0; i < newdim; i++) mpfr_clear(temparr[i]);
