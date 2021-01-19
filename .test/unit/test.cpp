@@ -964,18 +964,34 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
             clear_mpfr_memory();
             REQUIRE( true );
         }
+
+        SECTION( "Addition-Assignment operator" ) {
+            h1 += h2;
+            mpfr_out_str(stdout, 10, 0, h1[0], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1[1], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1[2], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1[3], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_clear(A[0]);
+            mpfr_clear(A[1]);
+            mpfr_clear(A[2]);
+            mpfr_clear(A[3]);
+            mpfr_clear(B[0]);
+            mpfr_clear(B[1]);
+            mpfr_clear(B[2]);
+            mpfr_clear(B[3]);
+            mpfr_clear(C[0]);
+            mpfr_clear(C[1]);
+            clear_mpfr_memory();
+            REQUIRE( true );
+        }
     }
 }
 
 /*
-
-    SECTION( "Addition-Assignment operator" ) {
-        h1 += h2;
-        REQUIRE( h1[0] == 0.5 );
-        REQUIRE( h1[1] == 3.0 );
-        REQUIRE( h1[2] == 0.0 );
-        REQUIRE( h1[3] == 5.0 );
-    }
 
     SECTION( "Subtraction-Assignment operator" ) {
         h1 -= h2;
