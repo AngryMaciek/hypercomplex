@@ -563,6 +563,7 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
             mpfr_clear(A[2]);
             mpfr_clear(A[3]);
             clear_mpfr_memory();
+            REQUIRE( true );
         }
     }
 }
