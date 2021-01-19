@@ -485,7 +485,7 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
             mpfr_init2(A0[0], MPFR_global_precision);
             mpfr_init2(A0[1], MPFR_global_precision);
             mpfr_set_zero(A0[0], 0);
-            mpfr_set_zero(A1[0], 0);
+            mpfr_set_zero(A0[1], 0);
             REQUIRE_THROWS_AS(
                 MPFR_Hypercomplex2(A0).inv(),
                 std::invalid_argument
