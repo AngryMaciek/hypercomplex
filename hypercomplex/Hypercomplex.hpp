@@ -460,14 +460,16 @@ class Hypercomplex<mpfr_t, dim> {
         arr = new mpfr_t[dim];
         for (unsigned int i=0; i < dim; i++)
             mpfr_init2(arr[i], MPFR_global_precision);
-        for (unsigned int i=0; i < dim; i++) arr[i] = ARR[i];
+        for (unsigned int i=0; i < dim; i++)
+            mpfr_set(arr[i], ARR[i], MPFR_RNDN);
     }
 
     Hypercomplex(const Hypercomplex &H) {
         arr = new mpfr_t[dim];
         for (unsigned int i=0; i < dim; i++)
             mpfr_init2(arr[i], MPFR_global_precision);
-        for (unsigned int i=0; i < dim; i++) arr[i] = H[i];
+        for (unsigned int i=0; i < dim; i++)
+            mpfr_set(arr[i], ARR[i], MPFR_RNDN);
     }
 
     Hypercomplex() = delete;
@@ -527,7 +529,8 @@ class Hypercomplex<mpfr_t, dim> {
         mpfr_t* temparr = new mpfr_t[newdim];
         for (unsigned int i=0; i < newdim; i++)
             mpfr_init2(temparr[i], MPFR_global_precision);
-        for (unsigned int i=0; i < dim; i++) temparr[i] = arr[i];
+        for (unsigned int i=0; i < dim; i++)
+            mpfr_set(temparr[i], ARR[i], MPFR_RNDN);
         for (unsigned int i=dim; i < newdim; i++) mpfr_set_zero(temparr[i], 0);
         Hypercomplex<mpfr_t, newdim> H(temparr);
         for (unsigned int i=0; i < newdim; i++) mpfr_clear(temparr[i]);
@@ -542,7 +545,7 @@ class Hypercomplex<mpfr_t, dim> {
         mpfr_t* temparr = new mpfr_t[dim];
         for (unsigned int i=0; i < dim; i++)
             mpfr_init2(temparr[i], MPFR_global_precision);
-        temparr[0] = arr[0];
+        mpfr_set(temparr[0], arr[0], MPFR_RNDN);
         for (unsigned int i=1; i < dim; i++)
             mpfr_sub(temparr[i], zero, arr[i], MPFR_RNDN);
         Hypercomplex<mpfr_t, dim> H(temparr);
@@ -570,7 +573,8 @@ class Hypercomplex<mpfr_t, dim> {
 
     Hypercomplex& operator= (const Hypercomplex &H) {
         if (this == &H) return *this;
-        for (unsigned int i=0; i < dim; i++) arr[i] = H[i];
+        for (unsigned int i=0; i < dim; i++)
+            mpfr_set(arr[i], H[i], MPFR_RNDN);
         return *this;
     }
 
@@ -686,13 +690,17 @@ Hypercomplex<mpfr_t, dim> operator*(
         for (unsigned int i=0; i < dim; i++)
             mpfr_init2(temparr[i], MPFR_global_precision);
         // construct helper objects:
-        for (unsigned int i=0; i < halfd; i++) temparr[i] = H1[i];
+        for (unsigned int i=0; i < halfd; i++)
+            mpfr_set(temparr[i], H1[i], MPFR_RNDN);
         Hypercomplex<mpfr_t, halfd> H1a(temparr);
-        for (unsigned int i=0; i < halfd; i++) temparr[i] = H1[i+halfd];
+        for (unsigned int i=0; i < halfd; i++)
+            mpfr_set(temparr[i], H1[i+halfd], MPFR_RNDN);
         Hypercomplex<mpfr_t, halfd> H1b(temparr);
-        for (unsigned int i=0; i < halfd; i++) temparr[i] = H2[i];
+        for (unsigned int i=0; i < halfd; i++)
+            mpfr_set(temparr[i], H2[i], MPFR_RNDN);
         Hypercomplex<mpfr_t, halfd> H2a(temparr);
-        for (unsigned int i=0; i < halfd; i++) temparr[i] = H2[i+halfd];
+        for (unsigned int i=0; i < halfd; i++)
+            mpfr_set(temparr[i], H2[i+halfd], MPFR_RNDN);
         Hypercomplex<mpfr_t, halfd> H2b(temparr);
         // multiply recursively:
         Hypercomplex<mpfr_t, halfd> H1a2a = H1a * H2a;
@@ -702,8 +710,10 @@ Hypercomplex<mpfr_t, dim> operator*(
         // construct the final object
         Hypercomplex<mpfr_t, halfd> Ha = H1a2a - H2b_1b;
         Hypercomplex<mpfr_t, halfd> Hb = H2b1a + H1b2a_;
-        for (unsigned int i=0; i < halfd; i++) temparr[i] = Ha[i];
-        for (unsigned int i=0; i < halfd; i++) temparr[i+halfd] = Hb[i];
+        for (unsigned int i=0; i < halfd; i++)
+            mpfr_set(temparr[i], Ha[i], MPFR_RNDN);
+        for (unsigned int i=0; i < halfd; i++)
+            mpfr_set(temparr[i+halfd], Hb[i], MPFR_RNDN);
         Hypercomplex<mpfr_t, dim> H(temparr);
         for (unsigned int i=0; i < dim; i++) mpfr_clear(temparr[i]);
         delete[] temparr;
@@ -773,7 +783,7 @@ Hypercomplex<mpfr_t, dim> exp(const Hypercomplex<mpfr_t, dim> &H) {
     mpfr_exp(expreal, H[0], MPFR_RNDN);
 
     if (mpfr_equal_p(norm, zero)) {
-        result[0] = expreal;
+        mpfr_set(result[0], expreal, MPFR_RNDN);
         for (unsigned int i=1; i < dim; i++) mpfr_set_zero(result[i], 0);
     } else {
         mpfr_t sinv_v;
