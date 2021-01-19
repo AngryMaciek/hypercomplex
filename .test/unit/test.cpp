@@ -143,7 +143,7 @@ TEMPLATE_LIST_TEST_CASE( "Class Structure", "[unit]", TestTypes ) {
         // dynamic memory allocation for memory leak test:
         Hypercomplex<TestType, dim>* h = new Hypercomplex<TestType, dim>(A);
         delete h;
-        REQUIRE( true == true );
+        REQUIRE( true );
     }
 }
 
@@ -404,7 +404,6 @@ TEMPLATE_LIST_TEST_CASE( "Special", "[usecase]", TestTypes ) {
         REQUIRE_NOTHROW(Re(const_h1));
         REQUIRE_NOTHROW(Im(const_h1));
         REQUIRE_NOTHROW(exp(const_h1));
-        // const MPFR
     }
 }
 
