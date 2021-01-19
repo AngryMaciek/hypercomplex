@@ -709,9 +709,8 @@ TEST_CASE( "MPFR: const objects", "[unit]" ) {
     mpfr_set_d(B[3], 6.0, MPFR_RNDN);
     const Hypercomplex<mpfr_t, dim> const_h1(A);
     const Hypercomplex<mpfr_t, dim> const_h2(B);
-    /*
     REQUIRE_NOTHROW(const_h1._());
-    REQUIRE_NOTHROW(const_h1.norm());
+    // REQUIRE_NOTHROW(const_h1.norm());
     REQUIRE_NOTHROW(const_h1.inv());
     REQUIRE_NOTHROW(~const_h1);
     REQUIRE_NOTHROW(-const_h1);
@@ -723,11 +722,10 @@ TEST_CASE( "MPFR: const objects", "[unit]" ) {
     REQUIRE_NOTHROW(const_h1 * const_h2);
     REQUIRE_NOTHROW(const_h1 / const_h2);
     REQUIRE_NOTHROW(const_h1 ^ cui);
-    REQUIRE_NOTHROW(std::cout << const_h1 << std::endl);
+    // REQUIRE_NOTHROW(std::cout << const_h1 << std::endl);
     REQUIRE_NOTHROW(Re(const_h1));
     REQUIRE_NOTHROW(Im(const_h1));
     REQUIRE_NOTHROW(exp(const_h1));
-    */
     mpfr_clear(A[0]);
     mpfr_clear(A[1]);
     mpfr_clear(A[2]);
