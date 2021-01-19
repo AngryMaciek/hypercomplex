@@ -438,11 +438,7 @@ unsigned int get_mpfr_precision() {
 }
 
 void set_mpfr_precision(unsigned int n) {
-    if (n > 0) {
-        MPFR_global_precision = n;
-    } else {
-        throw std::invalid_argument("invalid argument");
-    }
+    MPFR_global_precision = n;
 }
 
 void clear_mpfr_memory() {

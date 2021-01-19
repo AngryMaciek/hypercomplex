@@ -403,7 +403,6 @@ TEMPLATE_LIST_TEST_CASE( "Special", "[usecase]", TestTypes ) {
     }
 
     SECTION( "MPFR lib test" ) {
-        REQUIRE_THROWS_AS(set_mpfr_precision(-200), std::invalid_argument);
         set_mpfr_precision(200);
         std::cout << get_mpfr_precision() << std::endl;
         clear_mpfr_memory();
