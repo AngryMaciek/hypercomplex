@@ -690,6 +690,8 @@ TEST_CASE( "MPFR: const objects", "[unit]" ) {
     const unsigned int dim = 4;
     const unsigned int cui = 2;    
     set_mpfr_precision(200);
+    mpfr_t norm;
+    mpfr_init2(norm, MPFR_global_precision);
     mpfr_t A[4], B[4];
     mpfr_init2(A[0], MPFR_global_precision);
     mpfr_init2(A[1], MPFR_global_precision);
@@ -710,7 +712,7 @@ TEST_CASE( "MPFR: const objects", "[unit]" ) {
     const Hypercomplex<mpfr_t, dim> const_h1(A);
     const Hypercomplex<mpfr_t, dim> const_h2(B);
     REQUIRE_NOTHROW(const_h1._());
-    // REQUIRE_NOTHROW(const_h1.norm());
+    REQUIRE_NOTHROW(const_h1.norm(norm));
     REQUIRE_NOTHROW(const_h1.inv());
     REQUIRE_NOTHROW(~const_h1);
     REQUIRE_NOTHROW(-const_h1);
