@@ -28,6 +28,11 @@ using Hypercomplex2 = Hypercomplex<T, 2>;
 template<typename T>
 using Hypercomplex3 = Hypercomplex<T, 3>;
 
+using MPFR_Hypercomplex0 = Hypercomplex<mpfr_t, 0>;
+using MPFR_Hypercomplex1 = Hypercomplex<mpfr_t, 1>;
+using MPFR_Hypercomplex2 = Hypercomplex<mpfr_t, 2>;
+using MPFR_Hypercomplex3 = Hypercomplex<mpfr_t, 3>;
+
 using TestTypes = std::tuple<float, double, long double>;
 
 TEMPLATE_LIST_TEST_CASE( "Class Structure", "[unit]", TestTypes ) {
@@ -440,7 +445,10 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
         mpfr_set_d(A[2], 0.0, MPFR_RNDN);
         mpfr_set_d(A[3], -1.0, MPFR_RNDN);
         Hypercomplex<mpfr_t, 4> h1(A);
-        // Hypercomplex<mpfr_t, n> cannot be under REQUIRE_THROWS_AS()
+        REQUIRE_THROWS_AS(
+            MPFR_Hypercomplex3(A),
+            std::invalid_argument
+        );
 
         SECTION( "Getters" ) {
             REQUIRE( h1._() == 4 );
