@@ -636,8 +636,8 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
         mpfr_set_d(A[1], 2.0, MPFR_RNDN);
         mpfr_set_d(A[2], 0.0, MPFR_RNDN);
         mpfr_set_d(A[3], -1.0, MPFR_RNDN);
-        // Hypercomplex<TestType, dim>* h = new Hypercomplex<TestType, dim>(A);
-        // delete h;
+        Hypercomplex<mpfr_t, dim>* h = new Hypercomplex<mpfr_t, dim>(A);
+        delete h;
         mpfr_clear(A[0]);
         mpfr_clear(A[1]);
         mpfr_clear(A[2]);
@@ -650,9 +650,3 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
 int main(int argc, char* const argv[]) {
     return Catch::Session().run(argc, argv);
 }
-
-
-/*
-//const
-//expansion
-*/
