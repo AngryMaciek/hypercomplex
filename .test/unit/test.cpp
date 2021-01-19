@@ -33,7 +33,7 @@ using TestTypes = std::tuple<float, double, long double>;
 
 TEMPLATE_LIST_TEST_CASE( "Class Structure", "[unit]", TestTypes ) {
     //
-    SECTION( "Main constructor" ) {
+    SECTION( "Main constructor & functions" ) {
         const unsigned int dim = 4;
         TestType A[] = {1.0, 2.0, 0.0, -1.0};
         TestType invalidA[] = {1.0, 2.0, 0.0};
@@ -401,13 +401,6 @@ TEMPLATE_LIST_TEST_CASE( "Special", "[usecase]", TestTypes ) {
         REQUIRE_NOTHROW(Im(const_h1));
         REQUIRE_NOTHROW(exp(const_h1));
     }
-
-    SECTION( "MPFR lib test" ) {
-        set_mpfr_precision(200);
-        std::cout << get_mpfr_precision() << std::endl;
-        clear_mpfr_memory();
-        REQUIRE_NOTHROW(true);
-    }
 }
 
 TEST_CASE( "Expansion", "[unit]" ) {
@@ -431,6 +424,15 @@ TEST_CASE( "Expansion", "[unit]" ) {
     );
     const Hypercomplex<double, 4> const_h1(A);
     REQUIRE_NOTHROW(const_h1.expand<8>());
+}
+
+TEST_CASE( "MPFR lib test", "[unit]" ) {
+    SECTION( "MPFR lib test" ) {
+        set_mpfr_precision(200);
+        std::cout << get_mpfr_precision() << std::endl;
+        clear_mpfr_memory();
+        REQUIRE_NOTHROW(true);
+    }
 }
 
 int main(int argc, char* const argv[]) {
