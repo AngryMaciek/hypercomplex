@@ -684,31 +684,74 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
         clear_mpfr_memory();
         REQUIRE( true );
     }
+
+    SECTION( "Overloading Operators" ) {
+        set_mpfr_precision(200);
+        const unsigned int dim2 = 2;
+        const unsigned int dim4 = 4;
+        mpfr_t A[4], B[4], C[2];
+        mpfr_init2(A[0], MPFR_global_precision);
+        mpfr_init2(A[1], MPFR_global_precision);
+        mpfr_init2(A[2], MPFR_global_precision);
+        mpfr_init2(A[3], MPFR_global_precision);
+        mpfr_init2(B[0], MPFR_global_precision);
+        mpfr_init2(B[1], MPFR_global_precision);
+        mpfr_init2(B[2], MPFR_global_precision);
+        mpfr_init2(B[3], MPFR_global_precision);
+        mpfr_init2(C[0], MPFR_global_precision);
+        mpfr_init2(C[1], MPFR_global_precision);
+        mpfr_set_d(A[0], 1.0, MPFR_RNDN);
+        mpfr_set_d(A[1], 2.0, MPFR_RNDN);
+        mpfr_set_d(A[2], 0.0, MPFR_RNDN);
+        mpfr_set_d(A[3], -1.0, MPFR_RNDN);
+        mpfr_set_d(B[0], -0.5, MPFR_RNDN);
+        mpfr_set_d(B[1], 1.0, MPFR_RNDN);
+        mpfr_set_d(B[2], 0.0, MPFR_RNDN);
+        mpfr_set_d(B[3], 6.0, MPFR_RNDN);
+        mpfr_set_d(C[0], 10.0, MPFR_RNDN);
+        mpfr_set_d(C[1], -10.0, MPFR_RNDN);
+        Hypercomplex<mpfr_t, dim4> h1(A);
+        Hypercomplex<mpfr_t, dim4> h2(A);
+        Hypercomplex<mpfr_t, dim2> h3(A);
+
+        SECTION( "Conjugate operator" ) {
+            Hypercomplex<mpfr_t, dim4> h1_ = ~h1;
+            REQUIRE( &h1 != &h1_ );
+            mpfr_out_str(stdout, 10, 0, h1[0], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1[1], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1[2], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1[3], MPFR_RNDN);
+            std::cout << std::endl;
+            std::cout << "-----" << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1_[0], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1_[1], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1_[2], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1_[3], MPFR_RNDN);
+            std::cout << std::endl;
+            unsigned int dim = (~h1)._();
+            REQUIRE( dim == dim4 );
+            mpfr_clear(A[0]);
+            mpfr_clear(A[1]);
+            mpfr_clear(A[2]);
+            mpfr_clear(A[3]);
+            mpfr_clear(B[0]);
+            mpfr_clear(B[1]);
+            mpfr_clear(B[2]);
+            mpfr_clear(B[3]);
+            mpfr_clear(C[0]);
+            mpfr_clear(C[1]);
+            clear_mpfr_memory();
+        }
+    }
 }
 
 /*
-TEMPLATE_LIST_TEST_CASE( "Overloading Operators", "[unit]", TestTypes ) {
-    //
-    const unsigned int dim2 = 2;
-    const unsigned int dim4 = 4;
-    TestType A[] = {1.0, 2.0, 0.0, -1.0};
-    TestType B[] = {-0.5, 1.0, 0.0, 6.0};
-    TestType C[] = {10.0, -10.0};
-
-    Hypercomplex<TestType, dim4> h1(A);
-    Hypercomplex<TestType, dim4> h2(B);
-    Hypercomplex<TestType, dim2> h3(C);
-
-    SECTION( "Conjugate operator" ) {
-        Hypercomplex<TestType, dim4> h1_ = ~h1;
-        REQUIRE( &h1 != &h1_ );
-        REQUIRE( h1_[0] == A[0] );
-        REQUIRE( h1_[1] == -A[1] );
-        REQUIRE( h1_[2] == -A[2] );
-        REQUIRE( h1_[3] == -A[3] );
-        unsigned int dim = (~h1)._();
-        REQUIRE( dim == dim4 );
-    }
 
     SECTION( "Access operator" ) {
         REQUIRE( h1[0] == A[0] );
@@ -901,7 +944,7 @@ TEMPLATE_LIST_TEST_CASE( "Overloading Operators", "[unit]", TestTypes ) {
         Hypercomplex<TestType, dim4> h4(D);
         REQUIRE_THROWS_AS(h1 /= h4, std::invalid_argument);
     }
-}
+
 */
 
 TEST_CASE( "MPFR: const objects", "[unit]" ) {
