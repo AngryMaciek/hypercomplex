@@ -659,7 +659,9 @@ Hypercomplex<mpfr_t, dim> operator*(
         mpfr_t result;
         mpfr_init2(result, MPFR_global_precision);
         mpfr_mul(result, H1[0], H2[0], MPFR_RNDN);
-        Hypercomplex<mpfr_t, 1> H_(result);
+        mpfr_t temparr[1];
+        temparr[0] = result;
+        Hypercomplex<mpfr_t, 1> H_(temparr);
         mpfr_clear(result);
         return H_;
     // recursion step:
