@@ -440,10 +440,7 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
         mpfr_set_d(A[2], 0.0, MPFR_RNDN);
         mpfr_set_d(A[3], -1.0, MPFR_RNDN);
         Hypercomplex<mpfr_t, 4> h1(A);
-        //REQUIRE_THROWS_AS(
-        //    Hypercomplex<mpfr_t, 3> invalid_h1(A);
-        //    std::invalid_argument
-        //);
+        // Hypercomplex<mpfr_t, n> cannot be under REQUIRE_THROWS_AS()
 
         SECTION( "Getters" ) {
             REQUIRE( h1._() == 4 );
@@ -455,8 +452,13 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
         }
 
         SECTION( "Norm" ) {
-            //Approx target = Approx(2.45).epsilon(0.01);
-            //REQUIRE( h1.norm() == target );
+            mpfr_t norm;
+            std::cout << 2.45 << std::endl;
+            h1.norm(norm);
+            std::cout << norm << std::endl;
+            mpfr_clear(norm);
+            clear_mpfr_memory();
+            REQUIRE( true );
         }
 
 /*
