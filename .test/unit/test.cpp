@@ -545,7 +545,6 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
             mpfr_init2(target, MPFR_global_precision);
             mpfr_set_d(target, -1.678, MPFR_RNDN);
             Hypercomplex<mpfr_t, 4> exp_h1 = exp(h1);
-            /*
             std::cout << -1.678 << std::endl;
             mpfr_out_str(stdout, 10, 0, exp_h1[0], MPFR_RNDN);
             std::cout << std::endl;
@@ -571,12 +570,11 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
             std::cout << std::endl;
             mpfr_out_str(stdout, 10, 0, exp_h2[3], MPFR_RNDN);
             std::cout << std::endl;
-            */
             mpfr_clear(target);
-            //mpfr_clear(B[0]);
-            //mpfr_clear(B[1]);
-            //mpfr_clear(B[2]);
-            //mpfr_clear(B[3]);
+            mpfr_clear(B[0]);
+            mpfr_clear(B[1]);
+            mpfr_clear(B[2]);
+            mpfr_clear(B[3]);
             mpfr_clear(A[0]);
             mpfr_clear(A[1]);
             mpfr_clear(A[2]);
