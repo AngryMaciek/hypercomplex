@@ -18,7 +18,6 @@
 #include <tuple>
 #include <stdexcept>
 #include <iostream>
-#include <mpfr.h>
 
 template<typename T>
 using Hypercomplex0 = Hypercomplex<T, 0>;
