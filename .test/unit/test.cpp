@@ -783,19 +783,38 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
             mpfr_clear(C[1]);
             clear_mpfr_memory();
         }
+
+        SECTION( "Access operator" ) {
+            mpfr_t v;
+            mpfr_init2(v, MPFR_global_precision);
+            mpfr_set_d(v, 100.0, MPFR_RNDN);
+            mpfr_set(h1[0], v, MPFR_RNDN);
+            mpfr_out_str(stdout, 10, 0, h1[0], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1[1], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1[2], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1[3], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_clear(v);
+            mpfr_clear(A[0]);
+            mpfr_clear(A[1]);
+            mpfr_clear(A[2]);
+            mpfr_clear(A[3]);
+            mpfr_clear(B[0]);
+            mpfr_clear(B[1]);
+            mpfr_clear(B[2]);
+            mpfr_clear(B[3]);
+            mpfr_clear(C[0]);
+            mpfr_clear(C[1]);
+            clear_mpfr_memory();
+            REQUIRE( true );
+        }
     }
 }
 
 /*
-
-    SECTION( "Access operator" ) {
-        REQUIRE( h1[0] == A[0] );
-        REQUIRE( h1[1] == A[1] );
-        REQUIRE( h1[2] == A[2] );
-        REQUIRE( h1[3] == A[3] );
-        h1[0] = 100;
-        REQUIRE( h1[0] == 100 );
-    }
 
     SECTION( "Equality operator" ) {
         bool result;
@@ -836,6 +855,13 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
         // test self-assignment:
         h1 = h1;
     }
+
+
+
+
+
+
+
 
     SECTION( "Addition operator" ) {
         Hypercomplex<TestType, dim4> h = h1 + h2;
