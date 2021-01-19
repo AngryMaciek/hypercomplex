@@ -449,6 +449,10 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
 
         SECTION( "Getters" ) {
             REQUIRE( h1._() == 4 );
+            mpfr_clear(A[0]);
+            mpfr_clear(A[1]);
+            mpfr_clear(A[2]);
+            mpfr_clear(A[3]);
             clear_mpfr_memory();
         }
 
