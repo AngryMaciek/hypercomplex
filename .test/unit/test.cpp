@@ -583,6 +583,14 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
             REQUIRE( true );
         }
     }
+
+    //SECTION( "Main constructor: exception" ) {
+    //    mpfr_t A0[] = {};
+    //    REQUIRE_THROWS_AS(
+    //        MPFR_Hypercomplex0<TestType>(A0),
+    //        std::invalid_argument
+    //    );
+    //}
 }
 
 int main(int argc, char* const argv[]) {
@@ -591,17 +599,6 @@ int main(int argc, char* const argv[]) {
 
 
 /*
-
-
-    SECTION( "Main constructor: exception" ) {
-        TestType A1[] = {10.10};
-        TestType A0[] = {};
-        REQUIRE_NOTHROW(Hypercomplex1<TestType>(A1));
-        REQUIRE_THROWS_AS(
-            Hypercomplex0<TestType>(A0),
-            std::invalid_argument
-        );
-    }
 
     SECTION( "Copy constructor" ) {
         const unsigned int dim = 4;
