@@ -428,7 +428,47 @@ TEST_CASE( "Expansion", "[unit]" ) {
     );
     const Hypercomplex<double, 4> const_h1(A);
     REQUIRE_NOTHROW(const_h1.expand<8>());
-    // expansion MPFR
+    // MPFR:
+    set_mpfr_precision(200);
+    std::cout << "Precision: | " << get_mpfr_precision() << std::endl;
+    mpfr_t mpfrA[4];
+    mpfr_init2(mpfrA[0], MPFR_global_precision);
+    mpfr_init2(mpfrA[1], MPFR_global_precision);
+    mpfr_init2(mpfrA[2], MPFR_global_precision);
+    mpfr_init2(mpfrA[3], MPFR_global_precision);
+    mpfr_set_d(mpfrA[0], 1.0, MPFR_RNDN);
+    mpfr_set_d(mpfrA[1], 2.0, MPFR_RNDN);
+    mpfr_set_d(mpfrA[2], 0.0, MPFR_RNDN);
+    mpfr_set_d(mpfrA[3], -1.0, MPFR_RNDN);
+    Hypercomplex<mpfr_t, 4> mpfrh1(mpfrA);
+    Hypercomplex<mpfr_t, 8> mpfrhexpanded = h1.expand<8>();
+    mpfr_out_str(stdout, 10, 0, mpfrhexpanded[0], MPFR_RNDN);
+    std::cout << std::endl;
+    mpfr_out_str(stdout, 10, 0, mpfrhexpanded[1], MPFR_RNDN);
+    std::cout << std::endl;
+    mpfr_out_str(stdout, 10, 0, mpfrhexpanded[2], MPFR_RNDN);
+    std::cout << std::endl;
+    mpfr_out_str(stdout, 10, 0, mpfrhexpanded[3], MPFR_RNDN);
+    std::cout << std::endl;
+    mpfr_out_str(stdout, 10, 0, mpfrhexpanded[4], MPFR_RNDN);
+    std::cout << std::endl;
+    mpfr_out_str(stdout, 10, 0, mpfrhexpanded[5], MPFR_RNDN);
+    std::cout << std::endl;
+    mpfr_out_str(stdout, 10, 0, mpfrhexpanded[6], MPFR_RNDN);
+    std::cout << std::endl;
+    mpfr_out_str(stdout, 10, 0, mpfrhexpanded[7], MPFR_RNDN);
+    std::cout << std::endl;
+    REQUIRE_THROWS_AS(
+        mpfrh1.expand<4>(),
+        std::invalid_argument
+    );
+    const Hypercomplex<mpfr_t, 4> const_mpfrh1(A);
+    REQUIRE_NOTHROW(const_mpfrh1.expand<8>());
+    mpfr_clear(mpfrA[0]);
+    mpfr_clear(mpfrA[1]);
+    mpfr_clear(mpfrA[2]);
+    mpfr_clear(mpfrA[3]);
+    clear_mpfr_memory();
 }
 
 TEST_CASE( "MPFR lib test", "[unit]" ) {
