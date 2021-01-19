@@ -585,11 +585,43 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
     }
 
     SECTION( "Main constructor: exception" ) {
+        set_mpfr_precision(200);
         mpfr_t A0[] = {};
         REQUIRE_THROWS_AS(
             MPFR_Hypercomplex0(A0),
             std::invalid_argument
         );
+        clear_mpfr_memory();
+    }
+
+    SECTION( "Copy constructor" ) {
+        set_mpfr_precision(200);
+        mpfr_t A[4];
+        mpfr_init2(A[0], MPFR_global_precision);
+        mpfr_init2(A[1], MPFR_global_precision);
+        mpfr_init2(A[2], MPFR_global_precision);
+        mpfr_init2(A[3], MPFR_global_precision);
+        mpfr_set_d(A[0], 1.0, MPFR_RNDN);
+        mpfr_set_d(A[1], 2.0, MPFR_RNDN);
+        mpfr_set_d(A[2], 0.0, MPFR_RNDN);
+        mpfr_set_d(A[3], -1.0, MPFR_RNDN);
+        Hypercomplex<mpfr_t, 4> h1(A);
+        Hypercomplex<mpfr_t, 4> h2(h1);
+        Hypercomplex<mpfr_t, 4> h3 = h2;
+        REQUIRE( &h1 != &h2 );
+        REQUIRE( &h2 != &h3 );
+        REQUIRE( &h3 != &h1 );
+        REQUIRE( h1._() == h2._() );
+        REQUIRE( h2._() == h3._() );
+        REQUIRE( h3._() == h1._() );
+        //REQUIRE( h1[0] == h2[0] );
+        //REQUIRE( h2[0] == h3[0] );
+        //REQUIRE( h3[0] == h1[0] );
+        mpfr_clear(A[0]);
+        mpfr_clear(A[1]);
+        mpfr_clear(A[2]);
+        mpfr_clear(A[3]);
+        clear_mpfr_memory();
     }
 }
 
@@ -599,23 +631,6 @@ int main(int argc, char* const argv[]) {
 
 
 /*
-
-    SECTION( "Copy constructor" ) {
-        const unsigned int dim = 4;
-        TestType A[] = {1.0, 2.0, 0.0, -1.0};
-        Hypercomplex<TestType, dim> h1(A);
-        Hypercomplex<TestType, dim> h2(h1);
-        Hypercomplex<TestType, dim> h3 = h2;
-        REQUIRE( &h1 != &h2 );
-        REQUIRE( &h2 != &h3 );
-        REQUIRE( &h3 != &h1 );
-        REQUIRE( h1._() == h2._() );
-        REQUIRE( h2._() == h3._() );
-        REQUIRE( h3._() == h1._() );
-        REQUIRE( h1[0] == h2[0] );
-        REQUIRE( h2[0] == h3[0] );
-        REQUIRE( h3[0] == h1[0] );
-    }
 
     SECTION( "Destructor" ) {
         const unsigned int dim = 4;
