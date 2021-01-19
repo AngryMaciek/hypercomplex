@@ -452,12 +452,12 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
         }
 
         SECTION( "Norm" ) {
-            // mpfr_t norm;
-            // mpfr_init2(norm, MPFR_RNDN);
+            mpfr_t norm;
+            mpfr_init2(norm, MPFR_RNDN);
             std::cout << 2.45 << std::endl;
             // h1.norm(norm);
             // std::cout << norm << std::endl;
-            // mpfr_clear(norm);
+            mpfr_clear(norm);
             // clear_mpfr_memory();
             REQUIRE( true );
         }
