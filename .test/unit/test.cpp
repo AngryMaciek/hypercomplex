@@ -854,7 +854,6 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
 
 /*
 
-
     SECTION( "Assignment operator" ) {
         TestType a[] = {-3.0, 5.0, 2.0, 1.0};
         TestType b[] = {9.0, 0.0, -4.0, 1.0};
@@ -878,13 +877,6 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
         // test self-assignment:
         h1 = h1;
     }
-
-
-
-
-
-
-
 
     SECTION( "Addition operator" ) {
         Hypercomplex<TestType, dim4> h = h1 + h2;
