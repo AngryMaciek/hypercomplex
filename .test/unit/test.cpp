@@ -500,16 +500,24 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
             clear_mpfr_memory();
         }
 
+        SECTION( "Real part" ) {
+            Hypercomplex<mpfr_t, 4> real_h1 = Re(h1);
+            mpfr_out_str(stdout, 10, 0, real_h1[0], MPFR_RNDN);
+            mpfr_out_str(stdout, 10, 0, real_h1[1], MPFR_RNDN);
+            mpfr_out_str(stdout, 10, 0, real_h1[2], MPFR_RNDN);
+            mpfr_out_str(stdout, 10, 0, real_h1[3], MPFR_RNDN);
+            mpfr_clear(A[0]);
+            mpfr_clear(A[1]);
+            mpfr_clear(A[2]);
+            mpfr_clear(A[3]);
+            clear_mpfr_memory();
+            REQUIRE( true );
+        }
+
 
 /*
 
-        SECTION( "Real part" ) {
-            Hypercomplex<TestType, dim> real_h1 = Re(h1);
-            REQUIRE( real_h1[0] == h1[0] );
-            REQUIRE( real_h1[1] == 0.0 );
-            REQUIRE( real_h1[2] == 0.0 );
-            REQUIRE( real_h1[3] == 0.0 );
-        }
+
 
         SECTION( "Imaginary part" ) {
             Hypercomplex<TestType, dim> imaginary_h1 = Im(h1);
