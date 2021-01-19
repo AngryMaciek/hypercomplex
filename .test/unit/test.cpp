@@ -614,9 +614,9 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
         REQUIRE( h1._() == h2._() );
         REQUIRE( h2._() == h3._() );
         REQUIRE( h3._() == h1._() );
-        //REQUIRE( h1[0] == h2[0] );
-        //REQUIRE( h2[0] == h3[0] );
-        //REQUIRE( h3[0] == h1[0] );
+        REQUIRE( !mpfr_cmp(h1[0], h2[0]) );
+        REQUIRE( !mpfr_cmp(h2[0], h3[0]) );
+        REQUIRE( !mpfr_cmp(h3[0], h1[0]) );
         mpfr_clear(A[0]);
         mpfr_clear(A[1]);
         mpfr_clear(A[2]);
