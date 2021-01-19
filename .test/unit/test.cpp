@@ -427,11 +427,93 @@ TEST_CASE( "Expansion", "[unit]" ) {
 }
 
 TEST_CASE( "MPFR lib test", "[unit]" ) {
-    SECTION( "MPFR lib test" ) {
+    //
+    SECTION( "Main constructor & functions" ) {
         set_mpfr_precision(200);
         std::cout << get_mpfr_precision() << std::endl;
-        clear_mpfr_memory();
-        REQUIRE_NOTHROW(true);
+        mpfr_t A[4];
+        mpfr_init2(A[0], MPFR_global_precision);
+        mpfr_init2(A[1], MPFR_global_precision);
+        mpfr_init2(A[2], MPFR_global_precision);
+        mpfr_init2(A[3], MPFR_global_precision);
+        mpfr_set_d(A[0], 1.0, MPFR_RNDN);
+        mpfr_set_d(A[1], 2.0, MPFR_RNDN);
+        mpfr_set_d(A[2], 0.0, MPFR_RNDN);
+        mpfr_set_d(A[3], -1.0, MPFR_RNDN);
+        Hypercomplex<mpfr_t, 4> h1(A);
+        //TestType invalidA[] = {1.0, 2.0, 0.0};
+        //REQUIRE_THROWS_AS(
+        //    Hypercomplex3<TestType>(invalidA),
+        //    std::invalid_argument
+        //);
+
+        SECTION( "Getters" ) {
+            REQUIRE( h1._() == 4 );
+            clear_mpfr_memory();
+        }
+
+/*
+
+        SECTION( "Norm" ) {
+            Approx target = Approx(2.45).epsilon(0.01);
+            REQUIRE( h1.norm() == target );
+        }
+
+        SECTION( "Inverse" ) {
+            Approx target1 = Approx(0.166).epsilon(0.01);
+            Approx target2 = Approx(-0.333).epsilon(0.01);
+            TestType target3 = 0.0;
+            Approx target4 = Approx(0.166).epsilon(0.01);
+            Hypercomplex<TestType, dim> invh1 = h1.inv();
+            REQUIRE( invh1[0] == target1 );
+            REQUIRE( invh1[1] == target2 );
+            REQUIRE( invh1[2] == target3 );
+            REQUIRE( invh1[3] == target4 );
+            TestType A0[] = {0.0,0.0};
+            REQUIRE_THROWS_AS(
+                Hypercomplex2<TestType>(A0).inv(),
+                std::invalid_argument
+            );
+        }
+
+        SECTION( "Real part" ) {
+            Hypercomplex<TestType, dim> real_h1 = Re(h1);
+            REQUIRE( real_h1[0] == h1[0] );
+            REQUIRE( real_h1[1] == 0.0 );
+            REQUIRE( real_h1[2] == 0.0 );
+            REQUIRE( real_h1[3] == 0.0 );
+        }
+
+        SECTION( "Imaginary part" ) {
+            Hypercomplex<TestType, dim> imaginary_h1 = Im(h1);
+            REQUIRE( imaginary_h1[0] == 0.0 );
+            REQUIRE( imaginary_h1[1] == h1[1] );
+            REQUIRE( imaginary_h1[2] == h1[2] );
+            REQUIRE( imaginary_h1[3] == h1[3] );
+        }
+
+        SECTION( "Hypercomplex exponentiation" ) {
+            Approx target1 = Approx(-1.678).epsilon(0.01);
+            Approx target2 = Approx(1.913).epsilon(0.01);
+            TestType target3 = 0.0;
+            Approx target4 = Approx(-0.956).epsilon(0.01);
+            Hypercomplex<TestType, dim> exp_h1 = exp(h1);
+            REQUIRE( exp_h1[0] == target1 );
+            REQUIRE( exp_h1[1] == target2 );
+            REQUIRE( exp_h1[2] == target3 );
+            REQUIRE( exp_h1[3] == target4 );
+            TestType B[] = {5.0, 0.0, 0.0, 0.0};
+            Hypercomplex<TestType, dim> h2(B);
+            Hypercomplex<TestType, dim> exp_h2 = exp(h2);
+            Approx target5 = Approx(148.413).epsilon(0.01);
+            REQUIRE( exp_h2[0] == target5 );
+            REQUIRE( exp_h2[1] == 0.0 );
+            REQUIRE( exp_h2[2] == 0.0 );
+            REQUIRE( exp_h2[3] == 0.0 );
+        }
+
+*/
+
     }
 }
 
