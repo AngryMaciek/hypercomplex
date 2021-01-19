@@ -482,15 +482,15 @@ class Hypercomplex<mpfr_t, dim> {
     unsigned int _() const { return dim; }
 
     int norm(mpfr_t norm) const {
-        //mpfr_t temp;
-        //mpfr_init2(temp, MPFR_global_precision);
+        mpfr_t temp;
+        mpfr_init2(temp, MPFR_global_precision);
         mpfr_set_zero(norm, 0);
-        //for (unsigned int i=0; i < dim; i++) {
-        //    mpfr_mul(temp, arr[i], arr[i], MPFR_RNDN);
-        //    mpfr_add(norm, norm, temp, MPFR_RNDN);
-        //}
-        //mpfr_sqrt(norm, norm, MPFR_RNDN);
-        //mpfr_clear(temp);
+        for (unsigned int i=0; i < dim; i++) {
+            mpfr_mul(temp, arr[i], arr[i], MPFR_RNDN);
+            mpfr_add(norm, norm, temp, MPFR_RNDN);
+        }
+        mpfr_sqrt(norm, norm, MPFR_RNDN);
+        mpfr_clear(temp);
         return 0;
     }
 
