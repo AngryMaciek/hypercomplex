@@ -462,7 +462,7 @@ TEST_CASE( "Expansion", "[unit]" ) {
         mpfrh1.expand<4>(),
         std::invalid_argument
     );
-    const Hypercomplex<mpfr_t, 4> const_mpfrh1(A);
+    const Hypercomplex<mpfr_t, 4> const_mpfrh1(mpfrA);
     REQUIRE_NOTHROW(const_mpfrh1.expand<8>());
     mpfr_clear(mpfrA[0]);
     mpfr_clear(mpfrA[1]);
