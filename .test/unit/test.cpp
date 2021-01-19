@@ -728,6 +728,7 @@ TEST_CASE( "MPFR: const objects", "[unit]" ) {
     REQUIRE_NOTHROW(Re(const_h1));
     REQUIRE_NOTHROW(Im(const_h1));
     REQUIRE_NOTHROW(exp(const_h1));
+    mpfr_clear(norm);
     mpfr_clear(A[0]);
     mpfr_clear(A[1]);
     mpfr_clear(A[2]);
