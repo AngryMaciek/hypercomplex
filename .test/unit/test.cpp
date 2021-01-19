@@ -748,6 +748,41 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
             mpfr_clear(C[1]);
             clear_mpfr_memory();
         }
+
+        SECTION( "Negation operator" ) {
+            Hypercomplex<mpfr_t, dim4> h1_ = -h1;
+            REQUIRE( &h1 != &h1_ );
+            mpfr_out_str(stdout, 10, 0, h1[0], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1[1], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1[2], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1[3], MPFR_RNDN);
+            std::cout << std::endl;
+            std::cout << "-----" << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1_[0], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1_[1], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1_[2], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1_[3], MPFR_RNDN);
+            std::cout << std::endl;
+            unsigned int dim = (-h1)._();
+            REQUIRE( dim == dim4 );
+            mpfr_clear(A[0]);
+            mpfr_clear(A[1]);
+            mpfr_clear(A[2]);
+            mpfr_clear(A[3]);
+            mpfr_clear(B[0]);
+            mpfr_clear(B[1]);
+            mpfr_clear(B[2]);
+            mpfr_clear(B[3]);
+            mpfr_clear(C[0]);
+            mpfr_clear(C[1]);
+            clear_mpfr_memory();
+        }
     }
 }
 
@@ -776,17 +811,6 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
         REQUIRE( result == true );
         result = h1 != h1;
         REQUIRE( result == false );
-    }
-
-    SECTION( "Negation operator" ) {
-        Hypercomplex<TestType, dim4> h1_ = -h1;
-        REQUIRE( &h1 != &h1_ );
-        REQUIRE( h1_[0] == -A[0] );
-        REQUIRE( h1_[1] == -A[1] );
-        REQUIRE( h1_[2] == -A[2] );
-        REQUIRE( h1_[3] == -A[3] );
-        unsigned int dim = (-h1)._();
-        REQUIRE( dim == dim4 );
     }
 
     SECTION( "Assignment operator" ) {
