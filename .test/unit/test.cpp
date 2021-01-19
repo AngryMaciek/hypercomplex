@@ -1060,37 +1060,27 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
             clear_mpfr_memory();
             REQUIRE( true );
         }
+
+        SECTION( "Power operator" ) {
+            REQUIRE_THROWS_AS(h1 ^ 0, std::invalid_argument);
+            REQUIRE_NOTHROW(h1 ^ 1);
+            REQUIRE_NOTHROW(h1 ^ 2);
+            mpfr_clear(A[0]);
+            mpfr_clear(A[1]);
+            mpfr_clear(A[2]);
+            mpfr_clear(A[3]);
+            mpfr_clear(B[0]);
+            mpfr_clear(B[1]);
+            mpfr_clear(B[2]);
+            mpfr_clear(B[3]);
+            mpfr_clear(C[0]);
+            mpfr_clear(C[1]);
+            clear_mpfr_memory();
+        }
     }
 }
 
 /*
-
-    SECTION( "Power operator" ) {
-        REQUIRE_THROWS_AS(h1 ^ 0, std::invalid_argument);
-        REQUIRE_NOTHROW(h1 ^ 1);
-        Hypercomplex<TestType, dim4> h = h1 ^ 2;
-        REQUIRE( h[0] == -4.0 );
-        REQUIRE( h[1] == 4.0 );
-        REQUIRE( h[2] == 0.0 );
-        REQUIRE( h[3] == -2.0 );
-        // test implicit type conversion
-        short int si = 2;
-        unsigned short int usi = 2;
-        int i = 2;
-        unsigned int ui = 2;
-        long int li = 2;
-        unsigned long int uli = 2;
-        long long int lli = 2;
-        unsigned long long int ulli = 2;
-        REQUIRE_NOTHROW(h1 ^ si);
-        REQUIRE_NOTHROW(h1 ^ usi);
-        REQUIRE_NOTHROW(h1 ^ i);
-        REQUIRE_NOTHROW(h1 ^ ui);
-        REQUIRE_NOTHROW(h1 ^ li);
-        REQUIRE_NOTHROW(h1 ^ uli);
-        REQUIRE_NOTHROW(h1 ^ lli);
-        REQUIRE_NOTHROW(h1 ^ ulli);
-    }
 
     SECTION( "Power-Assignment operator" ) {
         REQUIRE_THROWS_AS(h1 ^= 0, std::invalid_argument);
