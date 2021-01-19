@@ -916,18 +916,34 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
             mpfr_clear(c[3]);
             clear_mpfr_memory();
         }
+
+        SECTION( "Addition operator" ) {
+            Hypercomplex<mpfr_t, dim4> h = h1 + h2;
+            mpfr_out_str(stdout, 10, 0, h[0], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h[1], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h[2], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h[3], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_clear(A[0]);
+            mpfr_clear(A[1]);
+            mpfr_clear(A[2]);
+            mpfr_clear(A[3]);
+            mpfr_clear(B[0]);
+            mpfr_clear(B[1]);
+            mpfr_clear(B[2]);
+            mpfr_clear(B[3]);
+            mpfr_clear(C[0]);
+            mpfr_clear(C[1]);
+            clear_mpfr_memory();
+            REQUIRE( true );
+        }
     }
 }
 
 /*
-
-    SECTION( "Addition operator" ) {
-        Hypercomplex<TestType, dim4> h = h1 + h2;
-        REQUIRE( h[0] == 0.5 );
-        REQUIRE( h[1] == 3.0 );
-        REQUIRE( h[2] == 0.0 );
-        REQUIRE( h[3] == 5.0 );
-    }
 
     SECTION( "Subtraction operator" ) {
         Hypercomplex<TestType, dim4> h = h1 - h2;
