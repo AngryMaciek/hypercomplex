@@ -584,13 +584,13 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
         }
     }
 
-    //SECTION( "Main constructor: exception" ) {
-    //    mpfr_t A0[] = {};
-    //    REQUIRE_THROWS_AS(
-    //        MPFR_Hypercomplex0<TestType>(A0),
-    //        std::invalid_argument
-    //    );
-    //}
+    SECTION( "Main constructor: exception" ) {
+        mpfr_t A0[] = {};
+        REQUIRE_THROWS_AS(
+            MPFR_Hypercomplex0(A0),
+            std::invalid_argument
+        );
+    }
 }
 
 int main(int argc, char* const argv[]) {
