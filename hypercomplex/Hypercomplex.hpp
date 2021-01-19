@@ -750,7 +750,7 @@ std::ostream& operator<<(
     const Hypercomplex<mpfr_t, dim> &H
 ) {
     for (unsigned int i=0; i < dim - 1; i++) {
-        mpfr_out_str(os, 10, 0, H[i], MPFR_RNDN);
+        mpfr_out_str(os.tie(), 10, 0, H[i], MPFR_RNDN);
         os << " ";
     }
     mpfr_out_str(os, 10, 0, H[dim - 1], MPFR_RNDN);
