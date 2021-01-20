@@ -1,0 +1,23 @@
+name: docs
+
+on:
+  push:
+    branches:
+      - "*"
+
+jobs:
+
+  documentation:
+    runs-on: ubuntu-20.04
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: BuildTheDocs
+        uses: mattnotmitt/doxygen-action@v1
+        with:
+            working-directory: '.'
+            doxyfile-path: './Doxyfile'
+            enable-latex: true
