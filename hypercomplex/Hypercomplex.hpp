@@ -754,7 +754,7 @@ std::ostream& operator<<(
     std::ostream &os,
     const Hypercomplex<mpfr_t, dim> &H
 ) {
-    long int* exponent;
+    long int* exponent; // NOLINT
     char* outstr = NULL;
     for (unsigned int i=0; i < dim - 1; i++) {
         outstr = mpfr_get_str(NULL, exponent, 10, 0, H[i], MPFR_RNDN);
