@@ -13,11 +13,21 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-10.15, ubuntu-20.04, windows-2019]
+        os: [macos-10.15, ubuntu-20.04]
     env:
       working-directory: .test/include
 
     steps:
+
+      - name: Install MPFR
+        run: |
+          if [ "$RUNNER_OS" == "Linux" ]; then
+            sudo apt-get update -y
+            sudo apt-get install -y libmpfr-dev
+          elif [ "$RUNNER_OS" == "macOS" ]; then
+            brew update
+            brew install mpfr
+          fi
 
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -31,7 +41,7 @@ jobs:
 
       - name: Compile Test Program
         working-directory: ${{env.working-directory}}
-        run: g++ --std=c++17 test.cpp -o test
+        run: g++ --std=c++17 test.cpp -o test -lmpfr -lgmp
 
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}

@@ -20,6 +20,16 @@ jobs:
 
     steps:
 
+      - name: Install MPFR
+        run: |
+          if [ "$RUNNER_OS" == "Linux" ]; then
+            sudo apt-get update -y
+            sudo apt-get install -y libmpfr-dev
+          elif [ "$RUNNER_OS" == "macOS" ]; then
+            brew update
+            brew install mpfr
+          fi
+
       - name: Checkout Repository
         uses: actions/checkout@v2
 
@@ -35,7 +45,7 @@ jobs:
 
       - name: Compile Test Program
         working-directory: ${{env.test-directory}}
-        run: g++ --std=c++17 test.cpp -o test
+        run: g++ --std=c++17 test.cpp -o test -lmpfr -lgmp
 
       - name: Execute Test Program
         working-directory: ${{env.test-directory}}

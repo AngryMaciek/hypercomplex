@@ -18,7 +18,6 @@
 #include <tuple>
 #include <stdexcept>
 #include <iostream>
-#include <mpfr.h>
 
 template<typename T>
 using Hypercomplex0 = Hypercomplex<T, 0>;
@@ -29,11 +28,16 @@ using Hypercomplex2 = Hypercomplex<T, 2>;
 template<typename T>
 using Hypercomplex3 = Hypercomplex<T, 3>;
 
+using MPFR_Hypercomplex0 = Hypercomplex<mpfr_t, 0>;
+using MPFR_Hypercomplex1 = Hypercomplex<mpfr_t, 1>;
+using MPFR_Hypercomplex2 = Hypercomplex<mpfr_t, 2>;
+using MPFR_Hypercomplex3 = Hypercomplex<mpfr_t, 3>;
+
 using TestTypes = std::tuple<float, double, long double>;
 
 TEMPLATE_LIST_TEST_CASE( "Class Structure", "[unit]", TestTypes ) {
     //
-    SECTION( "Main constructor" ) {
+    SECTION( "Main constructor & functions" ) {
         const unsigned int dim = 4;
         TestType A[] = {1.0, 2.0, 0.0, -1.0};
         TestType invalidA[] = {1.0, 2.0, 0.0};
@@ -139,7 +143,7 @@ TEMPLATE_LIST_TEST_CASE( "Class Structure", "[unit]", TestTypes ) {
         // dynamic memory allocation for memory leak test:
         Hypercomplex<TestType, dim>* h = new Hypercomplex<TestType, dim>(A);
         delete h;
-        REQUIRE( true == true );
+        REQUIRE( true );
     }
 }
 
@@ -378,7 +382,6 @@ TEMPLATE_LIST_TEST_CASE( "Special", "[usecase]", TestTypes ) {
 
     SECTION( "Const objects" ) {
         const unsigned int dim = 4;
-        const unsigned int newdim = 8;
         const unsigned int cui = 2;
         const TestType A[] = {1.0, 2.0, 0.0, -1.0};
         const TestType B[] = {-0.5, 1.0, 0.0, 6.0};
@@ -401,24 +404,6 @@ TEMPLATE_LIST_TEST_CASE( "Special", "[usecase]", TestTypes ) {
         REQUIRE_NOTHROW(Re(const_h1));
         REQUIRE_NOTHROW(Im(const_h1));
         REQUIRE_NOTHROW(exp(const_h1));
-    }
-
-    SECTION( "MPFR lib test" ) {
-        // clean:
-        mpfr_t s, t;
-        mpfr_init2(s, 2000);
-        mpfr_set_d(s, 22, MPFR_RNDD);
-        mpfr_init2(t, 2000);
-        mpfr_set_d(t, 7, MPFR_RNDD);
-        mpfr_div(s, s, t, MPFR_RNDD);
-        mpfr_out_str(stdout, 10, 0, s, MPFR_RNDD);
-        std::cout << std::endl;
-        // possible memory leaks at the multiplication? destructor overload?
-        mpfr_clear(s);
-        mpfr_clear(t);
-        mpfr_free_cache();
-        REQUIRE_NOTHROW(true);
-        // remember to overload proper operators for the class!
     }
 }
 
@@ -443,6 +428,845 @@ TEST_CASE( "Expansion", "[unit]" ) {
     );
     const Hypercomplex<double, 4> const_h1(A);
     REQUIRE_NOTHROW(const_h1.expand<8>());
+    // MPFR:
+    set_mpfr_precision(200);
+    std::cout << "Precision: | " << get_mpfr_precision() << std::endl;
+    mpfr_t mpfrA[4];
+    mpfr_init2(mpfrA[0], MPFR_global_precision);
+    mpfr_init2(mpfrA[1], MPFR_global_precision);
+    mpfr_init2(mpfrA[2], MPFR_global_precision);
+    mpfr_init2(mpfrA[3], MPFR_global_precision);
+    mpfr_set_d(mpfrA[0], 1.0, MPFR_RNDN);
+    mpfr_set_d(mpfrA[1], 2.0, MPFR_RNDN);
+    mpfr_set_d(mpfrA[2], 0.0, MPFR_RNDN);
+    mpfr_set_d(mpfrA[3], -1.0, MPFR_RNDN);
+    Hypercomplex<mpfr_t, 4> mpfrh1(mpfrA);
+    Hypercomplex<mpfr_t, 8> mpfrhexpanded = mpfrh1.expand<8>();
+    mpfr_out_str(stdout, 10, 0, mpfrhexpanded[0], MPFR_RNDN);
+    std::cout << std::endl;
+    mpfr_out_str(stdout, 10, 0, mpfrhexpanded[1], MPFR_RNDN);
+    std::cout << std::endl;
+    mpfr_out_str(stdout, 10, 0, mpfrhexpanded[2], MPFR_RNDN);
+    std::cout << std::endl;
+    mpfr_out_str(stdout, 10, 0, mpfrhexpanded[3], MPFR_RNDN);
+    std::cout << std::endl;
+    mpfr_out_str(stdout, 10, 0, mpfrhexpanded[4], MPFR_RNDN);
+    std::cout << std::endl;
+    mpfr_out_str(stdout, 10, 0, mpfrhexpanded[5], MPFR_RNDN);
+    std::cout << std::endl;
+    mpfr_out_str(stdout, 10, 0, mpfrhexpanded[6], MPFR_RNDN);
+    std::cout << std::endl;
+    mpfr_out_str(stdout, 10, 0, mpfrhexpanded[7], MPFR_RNDN);
+    std::cout << std::endl;
+    REQUIRE_THROWS_AS(
+        mpfrh1.expand<4>(),
+        std::invalid_argument
+    );
+    const Hypercomplex<mpfr_t, 4> const_mpfrh1(mpfrA);
+    REQUIRE_NOTHROW(const_mpfrh1.expand<8>());
+    mpfr_clear(mpfrA[0]);
+    mpfr_clear(mpfrA[1]);
+    mpfr_clear(mpfrA[2]);
+    mpfr_clear(mpfrA[3]);
+    clear_mpfr_memory();
+}
+
+TEST_CASE( "MPFR lib test", "[unit]" ) {
+    //
+    SECTION( "Main constructor & functions" ) {
+        set_mpfr_precision(200);
+        std::cout << "Precision: | " << get_mpfr_precision() << std::endl;
+        mpfr_t A[4];
+        mpfr_init2(A[0], MPFR_global_precision);
+        mpfr_init2(A[1], MPFR_global_precision);
+        mpfr_init2(A[2], MPFR_global_precision);
+        mpfr_init2(A[3], MPFR_global_precision);
+        mpfr_set_d(A[0], 1.0, MPFR_RNDN);
+        mpfr_set_d(A[1], 2.0, MPFR_RNDN);
+        mpfr_set_d(A[2], 0.0, MPFR_RNDN);
+        mpfr_set_d(A[3], -1.0, MPFR_RNDN);
+        Hypercomplex<mpfr_t, 4> h1(A);
+        REQUIRE_THROWS_AS(
+            MPFR_Hypercomplex3(A),
+            std::invalid_argument
+        );
+
+        SECTION( "Getters" ) {
+            REQUIRE( h1._() == 4 );
+            mpfr_clear(A[0]);
+            mpfr_clear(A[1]);
+            mpfr_clear(A[2]);
+            mpfr_clear(A[3]);
+            clear_mpfr_memory();
+        }
+
+        SECTION( "Norm" ) {
+            mpfr_t norm;
+            mpfr_init2(norm, MPFR_global_precision);
+            std::cout << 2.45 << std::endl;
+            h1.norm(norm);
+            mpfr_out_str(stdout, 10, 0, norm, MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_clear(norm);
+            mpfr_clear(A[0]);
+            mpfr_clear(A[1]);
+            mpfr_clear(A[2]);
+            mpfr_clear(A[3]);
+            clear_mpfr_memory();
+            REQUIRE( true );
+        }
+
+        SECTION( "Inverse" ) {
+            mpfr_t target;
+            mpfr_init2(target, MPFR_global_precision);
+            mpfr_set_d(target, 0.166, MPFR_RNDN);
+            Hypercomplex<mpfr_t, 4> invh1 = h1.inv();
+            std::cout << 0.166 << std::endl;
+            mpfr_out_str(stdout, 10, 0, invh1[0], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_t A0[2];
+            mpfr_init2(A0[0], MPFR_global_precision);
+            mpfr_init2(A0[1], MPFR_global_precision);
+            mpfr_set_zero(A0[0], 0);
+            mpfr_set_zero(A0[1], 0);
+            REQUIRE_THROWS_AS(
+                MPFR_Hypercomplex2(A0).inv(),
+                std::invalid_argument
+            );
+            mpfr_clear(target);
+            mpfr_clear(A0[0]);
+            mpfr_clear(A0[1]);
+            mpfr_clear(A[0]);
+            mpfr_clear(A[1]);
+            mpfr_clear(A[2]);
+            mpfr_clear(A[3]);
+            clear_mpfr_memory();
+        }
+
+        SECTION( "Real part" ) {
+            Hypercomplex<mpfr_t, 4> real_h1 = Re(h1);
+            mpfr_out_str(stdout, 10, 0, real_h1[0], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, real_h1[1], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, real_h1[2], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, real_h1[3], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_clear(A[0]);
+            mpfr_clear(A[1]);
+            mpfr_clear(A[2]);
+            mpfr_clear(A[3]);
+            clear_mpfr_memory();
+            REQUIRE( true );
+        }
+
+        SECTION( "Imaginary part" ) {
+            Hypercomplex<mpfr_t, 4> imaginary_h1 = Im(h1);
+            mpfr_out_str(stdout, 10, 0, imaginary_h1[0], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, imaginary_h1[1], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, imaginary_h1[2], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, imaginary_h1[3], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_clear(A[0]);
+            mpfr_clear(A[1]);
+            mpfr_clear(A[2]);
+            mpfr_clear(A[3]);
+            clear_mpfr_memory();
+            REQUIRE( true );
+        }
+
+        SECTION( "Hypercomplex exponentiation" ) {
+            mpfr_t target;
+            mpfr_init2(target, MPFR_global_precision);
+            mpfr_set_d(target, -1.678, MPFR_RNDN);
+            Hypercomplex<mpfr_t, 4> exp_h1 = exp(h1);
+            std::cout << -1.678 << std::endl;
+            mpfr_out_str(stdout, 10, 0, exp_h1[0], MPFR_RNDN);
+            std::cout << std::endl;
+            std::cout << "-----" << std::endl;
+            mpfr_t B[4];
+            mpfr_init2(B[0], MPFR_global_precision);
+            mpfr_init2(B[1], MPFR_global_precision);
+            mpfr_init2(B[2], MPFR_global_precision);
+            mpfr_init2(B[3], MPFR_global_precision);
+            mpfr_set_d(B[0], 5.0, MPFR_RNDN);
+            mpfr_set_d(B[1], 0.0, MPFR_RNDN);
+            mpfr_set_d(B[2], 0.0, MPFR_RNDN);
+            mpfr_set_d(B[3], 0.0, MPFR_RNDN);
+            Hypercomplex<mpfr_t, 4> h2(B);
+            Hypercomplex<mpfr_t, 4> exp_h2 = exp(h2);
+            mpfr_set_d(target, 148.413, MPFR_RNDN);
+            std::cout << 148.413 << std::endl;
+            mpfr_out_str(stdout, 10, 0, exp_h2[0], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, exp_h2[1], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, exp_h2[2], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, exp_h2[3], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_clear(target);
+            mpfr_clear(B[0]);
+            mpfr_clear(B[1]);
+            mpfr_clear(B[2]);
+            mpfr_clear(B[3]);
+            mpfr_clear(A[0]);
+            mpfr_clear(A[1]);
+            mpfr_clear(A[2]);
+            mpfr_clear(A[3]);
+            clear_mpfr_memory();
+            REQUIRE( true );
+        }
+    }
+
+    SECTION( "Main constructor: exception" ) {
+        set_mpfr_precision(200);
+        mpfr_t A0[] = {};
+        REQUIRE_THROWS_AS(
+            MPFR_Hypercomplex0(A0),
+            std::invalid_argument
+        );
+        clear_mpfr_memory();
+    }
+
+    SECTION( "Copy constructor" ) {
+        set_mpfr_precision(200);
+        mpfr_t A[4];
+        mpfr_init2(A[0], MPFR_global_precision);
+        mpfr_init2(A[1], MPFR_global_precision);
+        mpfr_init2(A[2], MPFR_global_precision);
+        mpfr_init2(A[3], MPFR_global_precision);
+        mpfr_set_d(A[0], 1.0, MPFR_RNDN);
+        mpfr_set_d(A[1], 2.0, MPFR_RNDN);
+        mpfr_set_d(A[2], 0.0, MPFR_RNDN);
+        mpfr_set_d(A[3], -1.0, MPFR_RNDN);
+        Hypercomplex<mpfr_t, 4> h1(A);
+        Hypercomplex<mpfr_t, 4> h2(h1);
+        Hypercomplex<mpfr_t, 4> h3 = h2;
+        REQUIRE( &h1 != &h2 );
+        REQUIRE( &h2 != &h3 );
+        REQUIRE( &h3 != &h1 );
+        REQUIRE( h1._() == h2._() );
+        REQUIRE( h2._() == h3._() );
+        REQUIRE( h3._() == h1._() );
+        REQUIRE( !mpfr_cmp(h1[0], h2[0]) );
+        REQUIRE( !mpfr_cmp(h2[0], h3[0]) );
+        REQUIRE( !mpfr_cmp(h3[0], h1[0]) );
+        mpfr_clear(A[0]);
+        mpfr_clear(A[1]);
+        mpfr_clear(A[2]);
+        mpfr_clear(A[3]);
+        clear_mpfr_memory();
+    }
+
+    SECTION( "Destructor" ) {
+        const unsigned int dim = 4;
+        set_mpfr_precision(200);
+        mpfr_t A[4];
+        mpfr_init2(A[0], MPFR_global_precision);
+        mpfr_init2(A[1], MPFR_global_precision);
+        mpfr_init2(A[2], MPFR_global_precision);
+        mpfr_init2(A[3], MPFR_global_precision);
+        mpfr_set_d(A[0], 1.0, MPFR_RNDN);
+        mpfr_set_d(A[1], 2.0, MPFR_RNDN);
+        mpfr_set_d(A[2], 0.0, MPFR_RNDN);
+        mpfr_set_d(A[3], -1.0, MPFR_RNDN);
+        Hypercomplex<mpfr_t, dim>* h = new Hypercomplex<mpfr_t, dim>(A);
+        delete h;
+        mpfr_clear(A[0]);
+        mpfr_clear(A[1]);
+        mpfr_clear(A[2]);
+        mpfr_clear(A[3]);
+        clear_mpfr_memory();
+        REQUIRE( true );
+    }
+
+    SECTION( "Overloading Operators" ) {
+        set_mpfr_precision(200);
+        const unsigned int dim2 = 2;
+        const unsigned int dim4 = 4;
+        mpfr_t A[4], B[4], C[2];
+        mpfr_init2(A[0], MPFR_global_precision);
+        mpfr_init2(A[1], MPFR_global_precision);
+        mpfr_init2(A[2], MPFR_global_precision);
+        mpfr_init2(A[3], MPFR_global_precision);
+        mpfr_init2(B[0], MPFR_global_precision);
+        mpfr_init2(B[1], MPFR_global_precision);
+        mpfr_init2(B[2], MPFR_global_precision);
+        mpfr_init2(B[3], MPFR_global_precision);
+        mpfr_init2(C[0], MPFR_global_precision);
+        mpfr_init2(C[1], MPFR_global_precision);
+        mpfr_set_d(A[0], 1.0, MPFR_RNDN);
+        mpfr_set_d(A[1], 2.0, MPFR_RNDN);
+        mpfr_set_d(A[2], 0.0, MPFR_RNDN);
+        mpfr_set_d(A[3], -1.0, MPFR_RNDN);
+        mpfr_set_d(B[0], -0.5, MPFR_RNDN);
+        mpfr_set_d(B[1], 1.0, MPFR_RNDN);
+        mpfr_set_d(B[2], 0.0, MPFR_RNDN);
+        mpfr_set_d(B[3], 6.0, MPFR_RNDN);
+        mpfr_set_d(C[0], 10.0, MPFR_RNDN);
+        mpfr_set_d(C[1], -10.0, MPFR_RNDN);
+        Hypercomplex<mpfr_t, dim4> h1(A);
+        Hypercomplex<mpfr_t, dim4> h2(B);
+        Hypercomplex<mpfr_t, dim2> h3(C);
+
+        SECTION( "Conjugate operator" ) {
+            Hypercomplex<mpfr_t, dim4> h1_ = ~h1;
+            REQUIRE( &h1 != &h1_ );
+            mpfr_out_str(stdout, 10, 0, h1[0], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1[1], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1[2], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1[3], MPFR_RNDN);
+            std::cout << std::endl;
+            std::cout << "-----" << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1_[0], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1_[1], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1_[2], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1_[3], MPFR_RNDN);
+            std::cout << std::endl;
+            unsigned int dim = (~h1)._();
+            REQUIRE( dim == dim4 );
+            mpfr_clear(A[0]);
+            mpfr_clear(A[1]);
+            mpfr_clear(A[2]);
+            mpfr_clear(A[3]);
+            mpfr_clear(B[0]);
+            mpfr_clear(B[1]);
+            mpfr_clear(B[2]);
+            mpfr_clear(B[3]);
+            mpfr_clear(C[0]);
+            mpfr_clear(C[1]);
+            clear_mpfr_memory();
+        }
+
+        SECTION( "Negation operator" ) {
+            Hypercomplex<mpfr_t, dim4> h1_ = -h1;
+            REQUIRE( &h1 != &h1_ );
+            mpfr_out_str(stdout, 10, 0, h1[0], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1[1], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1[2], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1[3], MPFR_RNDN);
+            std::cout << std::endl;
+            std::cout << "-----" << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1_[0], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1_[1], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1_[2], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1_[3], MPFR_RNDN);
+            std::cout << std::endl;
+            unsigned int dim = (-h1)._();
+            REQUIRE( dim == dim4 );
+            mpfr_clear(A[0]);
+            mpfr_clear(A[1]);
+            mpfr_clear(A[2]);
+            mpfr_clear(A[3]);
+            mpfr_clear(B[0]);
+            mpfr_clear(B[1]);
+            mpfr_clear(B[2]);
+            mpfr_clear(B[3]);
+            mpfr_clear(C[0]);
+            mpfr_clear(C[1]);
+            clear_mpfr_memory();
+        }
+
+        SECTION( "Access operator" ) {
+            mpfr_t v;
+            mpfr_init2(v, MPFR_global_precision);
+            mpfr_set_d(v, 100.0, MPFR_RNDN);
+            mpfr_set(h1[0], v, MPFR_RNDN);
+            mpfr_out_str(stdout, 10, 0, h1[0], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1[1], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1[2], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1[3], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_clear(v);
+            mpfr_clear(A[0]);
+            mpfr_clear(A[1]);
+            mpfr_clear(A[2]);
+            mpfr_clear(A[3]);
+            mpfr_clear(B[0]);
+            mpfr_clear(B[1]);
+            mpfr_clear(B[2]);
+            mpfr_clear(B[3]);
+            mpfr_clear(C[0]);
+            mpfr_clear(C[1]);
+            clear_mpfr_memory();
+            REQUIRE( true );
+        }
+
+        SECTION( "Equality operator" ) {
+            bool result;
+            result = h1 == h2;
+            REQUIRE( result == false );
+            result = h1 == h1;
+            REQUIRE( result == true );
+            mpfr_clear(A[0]);
+            mpfr_clear(A[1]);
+            mpfr_clear(A[2]);
+            mpfr_clear(A[3]);
+            mpfr_clear(B[0]);
+            mpfr_clear(B[1]);
+            mpfr_clear(B[2]);
+            mpfr_clear(B[3]);
+            mpfr_clear(C[0]);
+            mpfr_clear(C[1]);
+            clear_mpfr_memory();
+        }
+
+        SECTION( "Inequality operator" ) {
+            bool result;
+            result = h1 != h2;
+            REQUIRE( result == true );
+            result = h1 != h1;
+            REQUIRE( result == false );
+            mpfr_clear(A[0]);
+            mpfr_clear(A[1]);
+            mpfr_clear(A[2]);
+            mpfr_clear(A[3]);
+            mpfr_clear(B[0]);
+            mpfr_clear(B[1]);
+            mpfr_clear(B[2]);
+            mpfr_clear(B[3]);
+            mpfr_clear(C[0]);
+            mpfr_clear(C[1]);
+            clear_mpfr_memory();
+        }
+
+        SECTION( "Assignment operator" ) {
+            mpfr_t a[4], b[4], c[4];
+            mpfr_init2(a[0], MPFR_global_precision);
+            mpfr_init2(a[1], MPFR_global_precision);
+            mpfr_init2(a[2], MPFR_global_precision);
+            mpfr_init2(a[3], MPFR_global_precision);
+            mpfr_init2(b[0], MPFR_global_precision);
+            mpfr_init2(b[1], MPFR_global_precision);
+            mpfr_init2(b[2], MPFR_global_precision);
+            mpfr_init2(b[3], MPFR_global_precision);
+            mpfr_init2(c[0], MPFR_global_precision);
+            mpfr_init2(c[1], MPFR_global_precision);
+            mpfr_init2(c[2], MPFR_global_precision);
+            mpfr_init2(c[3], MPFR_global_precision);
+            mpfr_set_d(a[0], -3.0, MPFR_RNDN);
+            mpfr_set_d(a[1], 5.0, MPFR_RNDN);
+            mpfr_set_d(a[2], 2.0, MPFR_RNDN);
+            mpfr_set_d(a[3], 1.0, MPFR_RNDN);
+            mpfr_set_d(b[0], 9.0, MPFR_RNDN);
+            mpfr_set_d(b[1], 0.0, MPFR_RNDN);
+            mpfr_set_d(b[2], -4.0, MPFR_RNDN);
+            mpfr_set_d(b[3], 1.0, MPFR_RNDN);
+            mpfr_set_d(c[0], 5.0, MPFR_RNDN);
+            mpfr_set_d(c[1], 8.0, MPFR_RNDN);
+            mpfr_set_d(c[2], 0.0, MPFR_RNDN);
+            mpfr_set_d(c[3], -8.0, MPFR_RNDN);
+            Hypercomplex<mpfr_t, dim4> ha(a);
+            Hypercomplex<mpfr_t, dim4> hb(b);
+            Hypercomplex<mpfr_t, dim4> hc(c);
+            REQUIRE( &h1 != &ha );
+            REQUIRE( mpfr_cmp(h1[0], ha[0]) );
+            ha = h1;
+            REQUIRE( &h1 != &ha );
+            REQUIRE( !mpfr_cmp(h1[0], ha[0]) );
+            hc = hb = ha;
+            REQUIRE( &ha != &hb );
+            REQUIRE( &hb != &hc );
+            REQUIRE( &hc != &ha );
+            REQUIRE( !mpfr_cmp(ha[0], hb[0]) );
+            REQUIRE( !mpfr_cmp(hb[0], hc[0]) );
+            REQUIRE( !mpfr_cmp(hc[0], ha[0]) );
+            h1 = h1;
+            mpfr_clear(A[0]);
+            mpfr_clear(A[1]);
+            mpfr_clear(A[2]);
+            mpfr_clear(A[3]);
+            mpfr_clear(B[0]);
+            mpfr_clear(B[1]);
+            mpfr_clear(B[2]);
+            mpfr_clear(B[3]);
+            mpfr_clear(C[0]);
+            mpfr_clear(C[1]);
+            mpfr_clear(a[0]);
+            mpfr_clear(a[1]);
+            mpfr_clear(a[2]);
+            mpfr_clear(a[3]);
+            mpfr_clear(b[0]);
+            mpfr_clear(b[1]);
+            mpfr_clear(b[2]);
+            mpfr_clear(b[3]);
+            mpfr_clear(c[0]);
+            mpfr_clear(c[1]);
+            mpfr_clear(c[2]);
+            mpfr_clear(c[3]);
+            clear_mpfr_memory();
+        }
+
+        SECTION( "Addition operator" ) {
+            Hypercomplex<mpfr_t, dim4> h = h1 + h2;
+            mpfr_out_str(stdout, 10, 0, h[0], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h[1], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h[2], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h[3], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_clear(A[0]);
+            mpfr_clear(A[1]);
+            mpfr_clear(A[2]);
+            mpfr_clear(A[3]);
+            mpfr_clear(B[0]);
+            mpfr_clear(B[1]);
+            mpfr_clear(B[2]);
+            mpfr_clear(B[3]);
+            mpfr_clear(C[0]);
+            mpfr_clear(C[1]);
+            clear_mpfr_memory();
+            REQUIRE( true );
+        }
+
+        SECTION( "Subtraction operator" ) {
+            Hypercomplex<mpfr_t, dim4> h = h1 - h2;
+            mpfr_out_str(stdout, 10, 0, h[0], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h[1], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h[2], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h[3], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_clear(A[0]);
+            mpfr_clear(A[1]);
+            mpfr_clear(A[2]);
+            mpfr_clear(A[3]);
+            mpfr_clear(B[0]);
+            mpfr_clear(B[1]);
+            mpfr_clear(B[2]);
+            mpfr_clear(B[3]);
+            mpfr_clear(C[0]);
+            mpfr_clear(C[1]);
+            clear_mpfr_memory();
+            REQUIRE( true );
+        }
+
+        SECTION( "Addition-Assignment operator" ) {
+            h1 += h2;
+            mpfr_out_str(stdout, 10, 0, h1[0], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1[1], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1[2], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1[3], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_clear(A[0]);
+            mpfr_clear(A[1]);
+            mpfr_clear(A[2]);
+            mpfr_clear(A[3]);
+            mpfr_clear(B[0]);
+            mpfr_clear(B[1]);
+            mpfr_clear(B[2]);
+            mpfr_clear(B[3]);
+            mpfr_clear(C[0]);
+            mpfr_clear(C[1]);
+            clear_mpfr_memory();
+            REQUIRE( true );
+        }
+
+        SECTION( "Subtraction-Assignment operator" ) {
+            h1 -= h2;
+            mpfr_out_str(stdout, 10, 0, h1[0], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1[1], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1[2], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1[3], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_clear(A[0]);
+            mpfr_clear(A[1]);
+            mpfr_clear(A[2]);
+            mpfr_clear(A[3]);
+            mpfr_clear(B[0]);
+            mpfr_clear(B[1]);
+            mpfr_clear(B[2]);
+            mpfr_clear(B[3]);
+            mpfr_clear(C[0]);
+            mpfr_clear(C[1]);
+            clear_mpfr_memory();
+            REQUIRE( true );
+        }
+
+        SECTION( "Multiplication operator" ) {
+            Hypercomplex<mpfr_t, dim4> h = h1 * h2;
+            mpfr_out_str(stdout, 10, 0, h[0], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h[1], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h[2], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h[3], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_clear(A[0]);
+            mpfr_clear(A[1]);
+            mpfr_clear(A[2]);
+            mpfr_clear(A[3]);
+            mpfr_clear(B[0]);
+            mpfr_clear(B[1]);
+            mpfr_clear(B[2]);
+            mpfr_clear(B[3]);
+            mpfr_clear(C[0]);
+            mpfr_clear(C[1]);
+            clear_mpfr_memory();
+            REQUIRE( true );
+        }
+
+        SECTION( "Multiplication-Assignment operator" ) {
+            h1 *= h2;
+            mpfr_out_str(stdout, 10, 0, h1[0], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1[1], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1[2], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1[3], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_clear(A[0]);
+            mpfr_clear(A[1]);
+            mpfr_clear(A[2]);
+            mpfr_clear(A[3]);
+            mpfr_clear(B[0]);
+            mpfr_clear(B[1]);
+            mpfr_clear(B[2]);
+            mpfr_clear(B[3]);
+            mpfr_clear(C[0]);
+            mpfr_clear(C[1]);
+            clear_mpfr_memory();
+            REQUIRE( true );
+        }
+
+        SECTION( "Power operator" ) {
+            REQUIRE_THROWS_AS(h1 ^ 0, std::invalid_argument);
+            REQUIRE_NOTHROW(h1 ^ 1);
+            REQUIRE_NOTHROW(h1 ^ 2);
+            mpfr_clear(A[0]);
+            mpfr_clear(A[1]);
+            mpfr_clear(A[2]);
+            mpfr_clear(A[3]);
+            mpfr_clear(B[0]);
+            mpfr_clear(B[1]);
+            mpfr_clear(B[2]);
+            mpfr_clear(B[3]);
+            mpfr_clear(C[0]);
+            mpfr_clear(C[1]);
+            clear_mpfr_memory();
+        }
+
+        SECTION( "Power-Assignment operator" ) {
+            REQUIRE_THROWS_AS(h1 ^= 0, std::invalid_argument);
+            REQUIRE_NOTHROW(h1 ^= 1);
+            REQUIRE_NOTHROW(h1 ^= 2);
+            mpfr_clear(A[0]);
+            mpfr_clear(A[1]);
+            mpfr_clear(A[2]);
+            mpfr_clear(A[3]);
+            mpfr_clear(B[0]);
+            mpfr_clear(B[1]);
+            mpfr_clear(B[2]);
+            mpfr_clear(B[3]);
+            mpfr_clear(C[0]);
+            mpfr_clear(C[1]);
+            clear_mpfr_memory();
+        }
+
+        SECTION( "Division operator" ) {
+            Hypercomplex<mpfr_t, dim4> h = h1 / h2;
+            mpfr_out_str(stdout, 10, 0, h[0], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h[1], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h[2], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h[3], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_t D[4];
+            mpfr_init2(D[0], MPFR_global_precision);
+            mpfr_init2(D[1], MPFR_global_precision);
+            mpfr_init2(D[2], MPFR_global_precision);
+            mpfr_init2(D[3], MPFR_global_precision);
+            mpfr_set_zero(D[0], 0);
+            mpfr_set_zero(D[1], 0);
+            mpfr_set_zero(D[2], 0);
+            mpfr_set_zero(D[3], 0);
+            Hypercomplex<mpfr_t, dim4> h4(D);
+            REQUIRE_THROWS_AS(h1 / h4, std::invalid_argument);
+            mpfr_clear(A[0]);
+            mpfr_clear(A[1]);
+            mpfr_clear(A[2]);
+            mpfr_clear(A[3]);
+            mpfr_clear(B[0]);
+            mpfr_clear(B[1]);
+            mpfr_clear(B[2]);
+            mpfr_clear(B[3]);
+            mpfr_clear(C[0]);
+            mpfr_clear(C[1]);
+            mpfr_clear(D[0]);
+            mpfr_clear(D[1]);
+            mpfr_clear(D[2]);
+            mpfr_clear(D[3]);
+            clear_mpfr_memory();
+            REQUIRE( true );
+        }
+
+        SECTION( "Division-Assignment operator" ) {
+            h1 /= h2;
+            mpfr_out_str(stdout, 10, 0, h1[0], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1[1], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1[2], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_out_str(stdout, 10, 0, h1[3], MPFR_RNDN);
+            std::cout << std::endl;
+            mpfr_t D[4];
+            mpfr_init2(D[0], MPFR_global_precision);
+            mpfr_init2(D[1], MPFR_global_precision);
+            mpfr_init2(D[2], MPFR_global_precision);
+            mpfr_init2(D[3], MPFR_global_precision);
+            mpfr_set_zero(D[0], 0);
+            mpfr_set_zero(D[1], 0);
+            mpfr_set_zero(D[2], 0);
+            mpfr_set_zero(D[3], 0);
+            Hypercomplex<mpfr_t, dim4> h4(D);
+            REQUIRE_THROWS_AS(h1 / h4, std::invalid_argument);
+            mpfr_clear(A[0]);
+            mpfr_clear(A[1]);
+            mpfr_clear(A[2]);
+            mpfr_clear(A[3]);
+            mpfr_clear(B[0]);
+            mpfr_clear(B[1]);
+            mpfr_clear(B[2]);
+            mpfr_clear(B[3]);
+            mpfr_clear(C[0]);
+            mpfr_clear(C[1]);
+            mpfr_clear(D[0]);
+            mpfr_clear(D[1]);
+            mpfr_clear(D[2]);
+            mpfr_clear(D[3]);
+            clear_mpfr_memory();
+            REQUIRE( true );
+        }
+
+        SECTION( "Output stream operator" ) {
+            mpfr_t X[8];
+            mpfr_init2(X[0], MPFR_global_precision);
+            mpfr_init2(X[1], MPFR_global_precision);
+            mpfr_init2(X[2], MPFR_global_precision);
+            mpfr_init2(X[3], MPFR_global_precision);
+            mpfr_init2(X[4], MPFR_global_precision);
+            mpfr_init2(X[5], MPFR_global_precision);
+            mpfr_init2(X[6], MPFR_global_precision);
+            mpfr_init2(X[7], MPFR_global_precision);
+            mpfr_set_d(X[0], 0.0, MPFR_RNDN);
+            mpfr_set_d(X[1], 1.0, MPFR_RNDN);
+            mpfr_set_d(X[2], -1.0, MPFR_RNDN);
+            mpfr_set_d(X[3], 123.456, MPFR_RNDN);
+            mpfr_set_d(X[4], -99.9, MPFR_RNDN);
+            mpfr_set_d(X[5], 0.0000000001, MPFR_RNDN);
+            mpfr_set_d(X[6], -1.0000000001, MPFR_RNDN);
+            mpfr_set_d(X[7], 123456789.123456789, MPFR_RNDN);
+            Hypercomplex<mpfr_t, 8> hx(X);
+            REQUIRE_NOTHROW(std::cout << hx << std::endl);
+            mpfr_clear(X[0]);
+            mpfr_clear(X[1]);
+            mpfr_clear(X[2]);
+            mpfr_clear(X[3]);
+            mpfr_clear(X[4]);
+            mpfr_clear(X[5]);
+            mpfr_clear(X[6]);
+            mpfr_clear(X[7]);
+            mpfr_clear(A[0]);
+            mpfr_clear(A[1]);
+            mpfr_clear(A[2]);
+            mpfr_clear(A[3]);
+            mpfr_clear(B[0]);
+            mpfr_clear(B[1]);
+            mpfr_clear(B[2]);
+            mpfr_clear(B[3]);
+            mpfr_clear(C[0]);
+            mpfr_clear(C[1]);
+            clear_mpfr_memory();
+        }
+    }
+}
+
+TEST_CASE( "MPFR: const objects", "[unit]" ) {
+    const unsigned int dim = 4;
+    const unsigned int cui = 2;    
+    set_mpfr_precision(200);
+    mpfr_t norm;
+    mpfr_init2(norm, MPFR_global_precision);
+    mpfr_t A[4], B[4];
+    mpfr_init2(A[0], MPFR_global_precision);
+    mpfr_init2(A[1], MPFR_global_precision);
+    mpfr_init2(A[2], MPFR_global_precision);
+    mpfr_init2(A[3], MPFR_global_precision);
+    mpfr_init2(B[0], MPFR_global_precision);
+    mpfr_init2(B[1], MPFR_global_precision);
+    mpfr_init2(B[2], MPFR_global_precision);
+    mpfr_init2(B[3], MPFR_global_precision);
+    mpfr_set_d(A[0], 1.0, MPFR_RNDN);
+    mpfr_set_d(A[1], 2.0, MPFR_RNDN);
+    mpfr_set_d(A[2], 0.0, MPFR_RNDN);
+    mpfr_set_d(A[3], -1.0, MPFR_RNDN);
+    mpfr_set_d(B[0], -0.5, MPFR_RNDN);
+    mpfr_set_d(B[1], 1.0, MPFR_RNDN);
+    mpfr_set_d(B[2], 0.0, MPFR_RNDN);
+    mpfr_set_d(B[3], 6.0, MPFR_RNDN);
+    const Hypercomplex<mpfr_t, dim> const_h1(A);
+    const Hypercomplex<mpfr_t, dim> const_h2(B);
+    REQUIRE_NOTHROW(const_h1._());
+    REQUIRE_NOTHROW(const_h1.norm(norm));
+    REQUIRE_NOTHROW(const_h1.inv());
+    REQUIRE_NOTHROW(~const_h1);
+    REQUIRE_NOTHROW(-const_h1);
+    REQUIRE_NOTHROW(const_h1[0]);
+    REQUIRE_NOTHROW(const_h1 == const_h2);
+    REQUIRE_NOTHROW(const_h1 != const_h2);
+    REQUIRE_NOTHROW(const_h1 + const_h2);
+    REQUIRE_NOTHROW(const_h1 - const_h2);
+    REQUIRE_NOTHROW(const_h1 * const_h2);
+    REQUIRE_NOTHROW(const_h1 / const_h2);
+    REQUIRE_NOTHROW(const_h1 ^ cui);
+    REQUIRE_NOTHROW(Re(const_h1));
+    REQUIRE_NOTHROW(Im(const_h1));
+    REQUIRE_NOTHROW(exp(const_h1));
+    mpfr_clear(norm);
+    mpfr_clear(A[0]);
+    mpfr_clear(A[1]);
+    mpfr_clear(A[2]);
+    mpfr_clear(A[3]);
+    mpfr_clear(B[0]);
+    mpfr_clear(B[1]);
+    mpfr_clear(B[2]);
+    mpfr_clear(B[3]);
+    clear_mpfr_memory();
 }
 
 int main(int argc, char* const argv[]) {

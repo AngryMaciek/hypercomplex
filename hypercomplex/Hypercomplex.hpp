@@ -17,6 +17,7 @@
 #ifndef HYPERCOMPLEX_HYPERCOMPLEX_HPP_
 #define HYPERCOMPLEX_HYPERCOMPLEX_HPP_
 
+#include <mpfr.h>
 #include <cassert>
 #include <cmath>
 #include <cstdlib>
@@ -41,7 +42,7 @@ class Hypercomplex {
     Hypercomplex(const Hypercomplex &H);
     Hypercomplex() = delete;  // forbid default constructor | c++11
     ~Hypercomplex();
-    T _() const { return dim; }
+    unsigned int _() const { return dim; }
     T norm() const;
     Hypercomplex inv() const;
     template <const unsigned int newdim>
@@ -419,6 +420,399 @@ Hypercomplex<T, dim> exp(const Hypercomplex<T, dim> &H) {
         result[0] = result[0] + cos(norm);
         for (unsigned int i=0; i < dim; i++) result[i] = result[i] * exp(H[0]);
     }
+    return result;
+}
+
+/*
+###############################################################################
+#
+#   Explicit template specialisation & function overloading for mpfr_t type
+#
+###############################################################################
+*/
+
+static unsigned int MPFR_global_precision;
+
+unsigned int get_mpfr_precision() {
+    return MPFR_global_precision;
+}
+
+void set_mpfr_precision(unsigned int n) {
+    MPFR_global_precision = n;
+}
+
+void clear_mpfr_memory() {
+    mpfr_free_cache();
+    assert(!mpfr_mp_memory_cleanup());
+}
+
+template <const unsigned int dim>
+class Hypercomplex<mpfr_t, dim> {
+ private:
+    mpfr_t* arr;
+
+ public:
+    explicit Hypercomplex(const mpfr_t* ARR) {
+        if (dim == 0) throw std::invalid_argument("invalid dimension");
+        if ((dim & (dim - 1)) != 0) {
+            throw std::invalid_argument("invalid dimension");
+        }
+        arr = new mpfr_t[dim];
+        for (unsigned int i=0; i < dim; i++)
+            mpfr_init2(arr[i], MPFR_global_precision);
+        for (unsigned int i=0; i < dim; i++)
+            mpfr_set(arr[i], ARR[i], MPFR_RNDN);
+    }
+
+    Hypercomplex(const Hypercomplex &H) {
+        arr = new mpfr_t[dim];
+        for (unsigned int i=0; i < dim; i++)
+            mpfr_init2(arr[i], MPFR_global_precision);
+        for (unsigned int i=0; i < dim; i++)
+            mpfr_set(arr[i], H[i], MPFR_RNDN);
+    }
+
+    Hypercomplex() = delete;
+
+    ~Hypercomplex() {
+        for (unsigned int i=0; i < dim; i++) mpfr_clear(arr[i]);
+        delete[] arr;
+    }
+
+    unsigned int _() const { return dim; }
+
+    int norm(mpfr_t norm) const {
+        mpfr_t temp;
+        mpfr_init2(temp, MPFR_global_precision);
+        mpfr_set_zero(norm, 0);
+        for (unsigned int i=0; i < dim; i++) {
+            mpfr_mul(temp, arr[i], arr[i], MPFR_RNDN);
+            mpfr_add(norm, norm, temp, MPFR_RNDN);
+        }
+        mpfr_sqrt(norm, norm, MPFR_RNDN);
+        mpfr_clear(temp);
+        return 0;
+    }
+
+    Hypercomplex inv() const {
+        mpfr_t zero, norm;
+        mpfr_init2(zero, MPFR_global_precision);
+        mpfr_init2(norm, MPFR_global_precision);
+        mpfr_set_zero(zero, 0);
+        (*this).norm(norm);
+        if (mpfr_equal_p(norm, zero)) {
+            mpfr_clear(zero);
+            mpfr_clear(norm);
+            throw std::invalid_argument("division by zero");
+        } else {
+            mpfr_t* temparr = new mpfr_t[dim];
+            for (unsigned int i=0; i < dim; i++)
+                mpfr_init2(temparr[i], MPFR_global_precision);
+            mpfr_mul(norm, norm, norm, MPFR_RNDN);
+            mpfr_div(temparr[0], arr[0], norm, MPFR_RNDN);
+            for (unsigned int i=1; i < dim; i++) {
+                mpfr_div(temparr[i], arr[i], norm, MPFR_RNDN);
+                mpfr_sub(temparr[i], zero, temparr[i], MPFR_RNDN);
+            }
+            Hypercomplex<mpfr_t, dim> H(temparr);
+            mpfr_clear(zero);
+            mpfr_clear(norm);
+            for (unsigned int i=0; i < dim; i++) mpfr_clear(temparr[i]);
+            delete[] temparr;
+            return H;
+        }
+    }
+
+    template <const unsigned int newdim>
+    Hypercomplex<mpfr_t, newdim> expand() const {
+        if (newdim <= dim) throw std::invalid_argument("invalid dimension");
+        mpfr_t* temparr = new mpfr_t[newdim];
+        for (unsigned int i=0; i < newdim; i++)
+            mpfr_init2(temparr[i], MPFR_global_precision);
+        for (unsigned int i=0; i < dim; i++)
+            mpfr_set(temparr[i], arr[i], MPFR_RNDN);
+        for (unsigned int i=dim; i < newdim; i++) mpfr_set_zero(temparr[i], 0);
+        Hypercomplex<mpfr_t, newdim> H(temparr);
+        for (unsigned int i=0; i < newdim; i++) mpfr_clear(temparr[i]);
+        delete[] temparr;
+        return H;
+    }
+
+    Hypercomplex operator~ () const {
+        mpfr_t zero;
+        mpfr_init2(zero, MPFR_global_precision);
+        mpfr_set_zero(zero, 0);
+        mpfr_t* temparr = new mpfr_t[dim];
+        for (unsigned int i=0; i < dim; i++)
+            mpfr_init2(temparr[i], MPFR_global_precision);
+        mpfr_set(temparr[0], arr[0], MPFR_RNDN);
+        for (unsigned int i=1; i < dim; i++)
+            mpfr_sub(temparr[i], zero, arr[i], MPFR_RNDN);
+        Hypercomplex<mpfr_t, dim> H(temparr);
+        for (unsigned int i=0; i < dim; i++) mpfr_clear(temparr[i]);
+        delete[] temparr;
+        mpfr_clear(zero);
+        return H;
+    }
+
+    Hypercomplex operator- () const {
+        mpfr_t zero;
+        mpfr_init2(zero, MPFR_global_precision);
+        mpfr_set_zero(zero, 0);
+        mpfr_t* temparr = new mpfr_t[dim];
+        for (unsigned int i=0; i < dim; i++)
+            mpfr_init2(temparr[i], MPFR_global_precision);
+        for (unsigned int i=0; i < dim; i++)
+            mpfr_sub(temparr[i], zero, arr[i], MPFR_RNDN);
+        Hypercomplex<mpfr_t, dim> H(temparr);
+        for (unsigned int i=0; i < dim; i++) mpfr_clear(temparr[i]);
+        delete[] temparr;
+        mpfr_clear(zero);
+        return H;
+    }
+
+    Hypercomplex& operator= (const Hypercomplex &H) {
+        if (this == &H) return *this;
+        for (unsigned int i=0; i < dim; i++)
+            mpfr_set(arr[i], H[i], MPFR_RNDN);
+        return *this;
+    }
+
+    mpfr_t& operator[] (const unsigned int i) const {
+        assert(0 <= i && i < dim);
+        return arr[i];
+    }
+
+    Hypercomplex& operator+= (const Hypercomplex &H) {
+        Hypercomplex<mpfr_t, dim> result = (*this) + H;
+        for (unsigned int i=0; i < dim; i++)
+            mpfr_set((*this)[i], result[i], MPFR_RNDN);
+        return *this;
+    }
+
+    Hypercomplex& operator-= (const Hypercomplex &H) {
+        Hypercomplex<mpfr_t, dim> result = (*this) - H;
+        for (unsigned int i=0; i < dim; i++)
+            mpfr_set((*this)[i], result[i], MPFR_RNDN);
+        return *this;
+    }
+
+    Hypercomplex& operator*= (const Hypercomplex &H) {
+        Hypercomplex<mpfr_t, dim> result = (*this) * H;
+        for (unsigned int i=0; i < dim; i++)
+            mpfr_set((*this)[i], result[i], MPFR_RNDN);
+        return *this;
+    }
+
+    Hypercomplex& operator^= (const unsigned int x) {
+        Hypercomplex<mpfr_t, dim> result = (*this) ^ x;
+        for (unsigned int i=0; i < dim; i++)
+            mpfr_set((*this)[i], result[i], MPFR_RNDN);
+        return *this;
+    }
+
+    Hypercomplex& operator/= (const Hypercomplex &H) {
+        Hypercomplex<mpfr_t, dim> result = (*this) / H;
+        for (unsigned int i=0; i < dim; i++)
+            mpfr_set((*this)[i], result[i], MPFR_RNDN);
+        return *this;
+    }
+};
+
+template <const unsigned int dim>
+bool operator==(
+    const Hypercomplex<mpfr_t, dim> &H1,
+    const Hypercomplex<mpfr_t, dim> &H2
+) {
+    for (unsigned int i=0; i < dim; i++) {
+        if (!mpfr_equal_p(H1[i], H2[i])) return false;
+    }
+    return true;
+}
+
+template <const unsigned int dim>
+bool operator!=(
+    const Hypercomplex<mpfr_t, dim> &H1,
+    const Hypercomplex<mpfr_t, dim> &H2
+) {
+    return !(H1 == H2);
+}
+
+template <const unsigned int dim>
+Hypercomplex<mpfr_t, dim> operator+(
+    const Hypercomplex<mpfr_t, dim> &H1,
+    const Hypercomplex<mpfr_t, dim> &H2
+) {
+    mpfr_t* temparr = new mpfr_t[dim];
+    for (unsigned int i=0; i < dim; i++)
+        mpfr_init2(temparr[i], MPFR_global_precision);
+    for (unsigned int i=0; i < dim; i++)
+        mpfr_add(temparr[i], H1[i], H2[i], MPFR_RNDN);
+    Hypercomplex<mpfr_t, dim> H(temparr);
+    for (unsigned int i=0; i < dim; i++) mpfr_clear(temparr[i]);
+    delete[] temparr;
+    return H;
+}
+
+template <const unsigned int dim>
+Hypercomplex<mpfr_t, dim> operator-(
+    const Hypercomplex<mpfr_t, dim> &H1,
+    const Hypercomplex<mpfr_t, dim> &H2
+) {
+    mpfr_t* temparr = new mpfr_t[dim];
+    for (unsigned int i=0; i < dim; i++)
+        mpfr_init2(temparr[i], MPFR_global_precision);
+    for (unsigned int i=0; i < dim; i++)
+        mpfr_sub(temparr[i], H1[i], H2[i], MPFR_RNDN);
+    Hypercomplex<mpfr_t, dim> H(temparr);
+    for (unsigned int i=0; i < dim; i++) mpfr_clear(temparr[i]);
+    delete[] temparr;
+    return H;
+}
+
+template <const unsigned int dim>
+Hypercomplex<mpfr_t, dim> operator*(
+    const Hypercomplex<mpfr_t, dim> &H1,
+    const Hypercomplex<mpfr_t, dim> &H2
+) {
+    // recursion base:
+    if constexpr (dim == 1) {
+        mpfr_t result;
+        mpfr_init2(result, MPFR_global_precision);
+        mpfr_mul(result, H1[0], H2[0], MPFR_RNDN);
+        mpfr_t temparr[1];
+        mpfr_init2(temparr[0], MPFR_global_precision);
+        mpfr_set(temparr[0], result, MPFR_RNDN);
+        Hypercomplex<mpfr_t, 1> H_(temparr);
+        mpfr_clear(result);
+        mpfr_clear(temparr[0]);
+        return H_;
+    // recursion step:
+    } else {
+        // shared objects:
+        const unsigned int halfd = dim / 2;
+        mpfr_t* temparr = new mpfr_t[dim];
+        for (unsigned int i=0; i < dim; i++)
+            mpfr_init2(temparr[i], MPFR_global_precision);
+        // construct helper objects:
+        for (unsigned int i=0; i < halfd; i++)
+            mpfr_set(temparr[i], H1[i], MPFR_RNDN);
+        Hypercomplex<mpfr_t, halfd> H1a(temparr);
+        for (unsigned int i=0; i < halfd; i++)
+            mpfr_set(temparr[i], H1[i+halfd], MPFR_RNDN);
+        Hypercomplex<mpfr_t, halfd> H1b(temparr);
+        for (unsigned int i=0; i < halfd; i++)
+            mpfr_set(temparr[i], H2[i], MPFR_RNDN);
+        Hypercomplex<mpfr_t, halfd> H2a(temparr);
+        for (unsigned int i=0; i < halfd; i++)
+            mpfr_set(temparr[i], H2[i+halfd], MPFR_RNDN);
+        Hypercomplex<mpfr_t, halfd> H2b(temparr);
+        // multiply recursively:
+        Hypercomplex<mpfr_t, halfd> H1a2a = H1a * H2a;
+        Hypercomplex<mpfr_t, halfd> H2b_1b = ~H2b * H1b;
+        Hypercomplex<mpfr_t, halfd> H2b1a = H2b * H1a;
+        Hypercomplex<mpfr_t, halfd> H1b2a_ = H1b * ~H2a;
+        // construct the final object
+        Hypercomplex<mpfr_t, halfd> Ha = H1a2a - H2b_1b;
+        Hypercomplex<mpfr_t, halfd> Hb = H2b1a + H1b2a_;
+        for (unsigned int i=0; i < halfd; i++)
+            mpfr_set(temparr[i], Ha[i], MPFR_RNDN);
+        for (unsigned int i=0; i < halfd; i++)
+            mpfr_set(temparr[i+halfd], Hb[i], MPFR_RNDN);
+        Hypercomplex<mpfr_t, dim> H(temparr);
+        for (unsigned int i=0; i < dim; i++) mpfr_clear(temparr[i]);
+        delete[] temparr;
+        return H;
+    }
+}
+
+template <const unsigned int dim>
+Hypercomplex<mpfr_t, dim> operator^(
+    const Hypercomplex<mpfr_t, dim> &H,
+    const unsigned int x
+) {
+    if (!(x)) {
+        throw std::invalid_argument("zero is not a valid argument");
+    } else {
+        Hypercomplex<mpfr_t, dim> Hx(H);
+        for (unsigned int i=0; i < x-1; i++) Hx = Hx * H;
+        return Hx;
+    }
+}
+
+template <const unsigned int dim>
+Hypercomplex<mpfr_t, dim> operator/(
+    const Hypercomplex<mpfr_t, dim> &H1,
+    const Hypercomplex<mpfr_t, dim> &H2
+) {
+    Hypercomplex<mpfr_t, dim> H = H1 * H2.inv();
+    return(H);
+}
+
+template <const unsigned int dim>
+std::ostream& operator<<(
+    std::ostream &os,
+    const Hypercomplex<mpfr_t, dim> &H
+) {
+    long int* exponent; // NOLINT
+    char* outstr;
+    for (unsigned int i=0; i < dim - 1; i++) {
+        outstr = mpfr_get_str(NULL, exponent, 10, 0, H[i], MPFR_RNDN);
+        os << outstr << "E" << *exponent << " ";
+        mpfr_free_str(outstr);
+    }
+    outstr = mpfr_get_str(NULL, exponent, 10, 0, H[dim - 1], MPFR_RNDN);
+    os << outstr << "E" << *exponent;
+    mpfr_free_str(outstr);
+    return os;
+}
+
+template <const unsigned int dim>
+Hypercomplex<mpfr_t, dim> Re(const Hypercomplex<mpfr_t, dim> &H) {
+    Hypercomplex<mpfr_t, dim> result = H;
+    for (unsigned int i=1; i < dim; i++) mpfr_set_zero(result[i], 0);
+    return result;
+}
+
+template <const unsigned int dim>
+Hypercomplex<mpfr_t, dim> Im(const Hypercomplex<mpfr_t, dim> &H) {
+    Hypercomplex<mpfr_t, dim> result = H;
+    mpfr_set_zero(result[0], 0);
+    return result;
+}
+
+template <const unsigned int dim>
+Hypercomplex<mpfr_t, dim> exp(const Hypercomplex<mpfr_t, dim> &H) {
+    Hypercomplex<mpfr_t, dim> result = Im(H);
+    mpfr_t zero, norm, expreal;
+    mpfr_init2(zero, MPFR_global_precision);
+    mpfr_init2(norm, MPFR_global_precision);
+    mpfr_init2(expreal, MPFR_global_precision);
+    mpfr_set_zero(zero, 0);
+    result.norm(norm);
+    mpfr_exp(expreal, H[0], MPFR_RNDN);
+
+    if (mpfr_equal_p(norm, zero)) {
+        mpfr_set(result[0], expreal, MPFR_RNDN);
+        for (unsigned int i=1; i < dim; i++) mpfr_set_zero(result[i], 0);
+    } else {
+        mpfr_t sinv_v;
+        mpfr_init2(sinv_v, MPFR_global_precision);
+        mpfr_sin(sinv_v, norm, MPFR_RNDN);
+        mpfr_div(sinv_v, sinv_v, norm, MPFR_RNDN);
+        for (unsigned int i=0; i < dim; i++) {
+            mpfr_mul(result[i], result[i], sinv_v, MPFR_RNDN);
+        }
+        mpfr_cos(norm, norm, MPFR_RNDN);
+        mpfr_add(result[0], result[0], norm, MPFR_RNDN);
+        for (unsigned int i=0; i < dim; i++) {
+            mpfr_mul(result[i], result[i], expreal, MPFR_RNDN);
+        }
+        mpfr_clear(sinv_v);
+    }
+    mpfr_clear(zero);
+    mpfr_clear(norm);
+    mpfr_clear(expreal);
     return result;
 }
 

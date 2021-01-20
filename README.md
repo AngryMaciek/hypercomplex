@@ -5,7 +5,6 @@
 [![Cpp17](https://img.shields.io/badge/C%2B%2B-17-blue)](https://en.wikipedia.org/wiki/C%2B%2B17)
 [![build](https://github.com/AngryMaciek/hypercomplex/workflows/cpplint/badge.svg?branch=master)](https://github.com/AngryMaciek/hypercomplex/actions?query=workflow%3Acpplint)
 [![CodeFactor](https://www.codefactor.io/repository/github/angrymaciek/hypercomplex/badge)](https://www.codefactor.io/repository/github/angrymaciek/hypercomplex)
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/AngryMaciek/hypercomplex/master?filepath=example%2Fexample.ipynb)
 [![GitHub issues](https://img.shields.io/github/issues/AngryMaciek/hypercomplex)](https://github.com/AngryMaciek/hypercomplex/issues)
 [![GitHub license](https://img.shields.io/github/license/AngryMaciek/hypercomplex)](https://github.com/AngryMaciek/hypercomplex/blob/master/LICENSE)
 
@@ -18,10 +17,9 @@ The library is relatively small, it is recommended to include the header file in
 Compilation process is specified explicitly in the [YAML recipe](./.github/workflows/include.yml) for the CI workflow.  
 Another [workflow recipe](./.github/workflows/install.yml) provides instructions for a global installation of the library (Unix-based operating systems).
 
-For a brief overwiev of the library's functionality please inspect the following [notebook](./example/example.ipynb) (or its [interactive version](https://mybinder.org/v2/gh/AngryMaciek/hypercomplex/master?filepath=example%2Fexample.ipynb)).  
 Full API Documentation is available at [this link](https://www.youtube.com/watch?v=dQw4w9WgXcQ).  
 Please refer to the [contributing guidelines](CONTRIBUTING.md) if you are interested to contribute to this repository.  
 Please mind the [code of conduct](CODE_OF_CONDUCT.md) for all interactions with the community.  
 For questions or suggestions regarding the code, please use the [issue tracker](https://github.com/AngryMaciek/hypercomplex/issues).  
 
-© 2020 Maciej Bak
+_© 2020 Maciej Bak_
