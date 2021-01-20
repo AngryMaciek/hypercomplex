@@ -1188,8 +1188,8 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
             mpfr_set_d(X[2], -1.0, MPFR_RNDN);
             mpfr_set_d(X[3], 123.456, MPFR_RNDN);
             mpfr_set_d(X[4], -99.9, MPFR_RNDN);
-            mpfr_set_d(X[5], 0.00000000000000000001, MPFR_RNDN);
-            mpfr_set_d(X[6], -1.00000000000000000001, MPFR_RNDN);
+            mpfr_set_d(X[5], 0.0000000001, MPFR_RNDN);
+            mpfr_set_d(X[6], -1.0000000001, MPFR_RNDN);
             mpfr_set_d(X[7], 123456789.123456789, MPFR_RNDN);
             Hypercomplex<mpfr_t, 8> hx(X);
             REQUIRE_NOTHROW(std::cout << hx << std::endl);
