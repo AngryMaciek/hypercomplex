@@ -755,12 +755,12 @@ std::ostream& operator<<(
     const Hypercomplex<mpfr_t, dim> &H
 ) {
     long int* exponent; // NOLINT
-    char* outstr = NULL;
-    //for (unsigned int i=0; i < dim - 1; i++) {
-    //    outstr = mpfr_get_str(NULL, exponent, 10, 0, H[i], MPFR_RNDN);
-    //    os << outstr << " ";
-    //    mpfr_free_str(outstr);
-    //}
+    char* outstr;
+    for (unsigned int i=0; i < dim - 1; i++) {
+        outstr = mpfr_get_str(NULL, exponent, 10, 0, H[i], MPFR_RNDN);
+        os << outstr << " ";
+        mpfr_free_str(outstr);
+    }
     outstr = mpfr_get_str(NULL, exponent, 10, 0, H[dim - 1], MPFR_RNDN);
     os << outstr;
     mpfr_free_str(outstr);
