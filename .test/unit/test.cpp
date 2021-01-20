@@ -1174,7 +1174,33 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
         }
 
         SECTION( "Output stream operator" ) {
-            REQUIRE_NOTHROW(std::cout << h1 << std::endl);
+            mpfr_t X[8];
+            mpfr_init2(X[0], MPFR_global_precision);
+            mpfr_init2(X[1], MPFR_global_precision);
+            mpfr_init2(X[2], MPFR_global_precision);
+            mpfr_init2(X[3], MPFR_global_precision);
+            mpfr_init2(X[4], MPFR_global_precision);
+            mpfr_init2(X[5], MPFR_global_precision);
+            mpfr_init2(X[6], MPFR_global_precision);
+            mpfr_init2(X[7], MPFR_global_precision);
+            mpfr_set_d(X[0], 0.0, MPFR_RNDN);
+            mpfr_set_d(X[1], 1.0, MPFR_RNDN);
+            mpfr_set_d(X[2], -1.0, MPFR_RNDN);
+            mpfr_set_d(X[3], 123.456, MPFR_RNDN);
+            mpfr_set_d(X[4], -99.9, MPFR_RNDN);
+            mpfr_set_d(X[5], 0.00000000000000000001, MPFR_RNDN);
+            mpfr_set_d(X[6], -1.00000000000000000001, MPFR_RNDN);
+            mpfr_set_d(X[7], 123456789.123456789, MPFR_RNDN);
+            Hypercomplex<mpfr_t, 8> hx(X);
+            REQUIRE_NOTHROW(std::cout << hx << std::endl);
+            mpfr_clear(X[0]);
+            mpfr_clear(X[1]);
+            mpfr_clear(X[2]);
+            mpfr_clear(X[3]);
+            mpfr_clear(X[4]);
+            mpfr_clear(X[5]);
+            mpfr_clear(X[6]);
+            mpfr_clear(X[7]);
             mpfr_clear(A[0]);
             mpfr_clear(A[1]);
             mpfr_clear(A[2]);
