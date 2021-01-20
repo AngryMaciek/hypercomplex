@@ -1172,6 +1172,10 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
             clear_mpfr_memory();
             REQUIRE( true );
         }
+
+        SECTION( "Output stream operator" ) {
+            REQUIRE_NOTHROW(std::cout << h1 << std::endl);
+        }
     }
 }
 
