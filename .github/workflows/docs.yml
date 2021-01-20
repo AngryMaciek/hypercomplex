@@ -20,4 +20,4 @@ jobs:
         with:
             working-directory: '.'
             doxyfile-path: './Doxyfile'
-            enable-latex: true
+            enable-latex: false
