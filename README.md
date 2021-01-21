@@ -18,7 +18,7 @@ The library is relatively small, it is recommended to include the header file in
 Compilation process is specified explicitly in the [YAML recipe](./.github/workflows/include.yml) for the CI workflow.  
 Another [workflow recipe](./.github/workflows/install.yml) provides instructions for a global installation of the library (Unix-based operating systems).
 
-Full API Documentation is available at [this link](https://www.youtube.com/watch?v=dQw4w9WgXcQ).  
+Full API Documentation is available at [this link](https://angrymaciek.github.io/hypercomplex/html/index.html).  
 Please refer to the [contributing guidelines](CONTRIBUTING.md) if you are interested to contribute to this repository.  
 Please mind the [code of conduct](CODE_OF_CONDUCT.md) for all interactions with the community.  
 For questions or suggestions regarding the code, please use the [issue tracker](https://github.com/AngryMaciek/hypercomplex/issues).  
