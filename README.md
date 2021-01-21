@@ -5,6 +5,7 @@
 [![Cpp17](https://img.shields.io/badge/C%2B%2B-17-blue)](https://en.wikipedia.org/wiki/C%2B%2B17)
 [![build](https://github.com/AngryMaciek/hypercomplex/workflows/cpplint/badge.svg?branch=master)](https://github.com/AngryMaciek/hypercomplex/actions?query=workflow%3Acpplint)
 [![CodeFactor](https://www.codefactor.io/repository/github/angrymaciek/hypercomplex/badge)](https://www.codefactor.io/repository/github/angrymaciek/hypercomplex)
+[![docs](https://github.com/AngryMaciek/hypercomplex/workflows/docs/badge.svg?branch=master)](https://github.com/AngryMaciek/hypercomplex/actions?query=workflow%3Adocs)
 [![GitHub issues](https://img.shields.io/github/issues/AngryMaciek/hypercomplex)](https://github.com/AngryMaciek/hypercomplex/issues)
 [![GitHub license](https://img.shields.io/github/license/AngryMaciek/hypercomplex)](https://github.com/AngryMaciek/hypercomplex/blob/master/LICENSE)
 
