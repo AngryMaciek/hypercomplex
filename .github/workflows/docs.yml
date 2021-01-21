@@ -30,3 +30,4 @@ jobs:
           publish_dir: 'docs'
           destination_dir: 'docs'
           keep_files: true
+
