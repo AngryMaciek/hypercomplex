@@ -1,3 +1,6 @@
 # Mac directory config
 .DS_Store
 
+# local documentation
+docs/html
+docs/latex
