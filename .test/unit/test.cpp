@@ -175,6 +175,7 @@ TEMPLATE_LIST_TEST_CASE( "Overloading Operators", "[unit]", TestTypes ) {
         REQUIRE( h1[1] == A[1] );
         REQUIRE( h1[2] == A[2] );
         REQUIRE( h1[3] == A[3] );
+        std::cout << h1[0] << std::endl;
         h1[0] = 100;
         REQUIRE( h1[0] == 100 );
     }
