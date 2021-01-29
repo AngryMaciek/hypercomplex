@@ -33,7 +33,8 @@
 ###############################################################################
 */
 
-// Main class of the library
+/** Main class of the library
+  */
 template <typename T, const unsigned int dim>
 class Hypercomplex {
  private:
@@ -60,7 +61,6 @@ class Hypercomplex {
       */
     Hypercomplex(const Hypercomplex &H);
 
-    /// Default constructor is forbidden (C++11).
     Hypercomplex() = delete;
 
     ~Hypercomplex();
@@ -605,6 +605,8 @@ void clear_mpfr_memory() {
     assert(!mpfr_mp_memory_cleanup());
 }
 
+/** Partial specialisation of the main class for high precision
+  */
 template <const unsigned int dim>
 class Hypercomplex<mpfr_t, dim> {
  private:
@@ -646,7 +648,6 @@ class Hypercomplex<mpfr_t, dim> {
             mpfr_set(arr[i], H[i], MPFR_RNDN);
     }
 
-    /// Default constructor is forbidden (C++11).
     Hypercomplex() = delete;
 
     ~Hypercomplex() {
