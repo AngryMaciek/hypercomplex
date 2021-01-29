@@ -39,8 +39,8 @@ template <typename T, const unsigned int dim>
 class Hypercomplex {
  private:
     T* arr;
- public:
 
+ public:
     /** \brief This is the main constructor
       * \param ARR array of numbers
       * \return new class instance
@@ -613,7 +613,6 @@ class Hypercomplex<mpfr_t, dim> {
     mpfr_t* arr;
 
  public:
-
     /** \brief This is the main constructor
       * \param ARR array of MPFR numbers
       * \return new class instance

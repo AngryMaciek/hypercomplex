@@ -16,7 +16,7 @@
 #include "Hypercomplex.hpp"
 
 int main(void){
-
+    //
     double arr1[4] = {1.0,0.0,-0.5,5.0};
     Hypercomplex<double, 4> H1(arr1);
     std::cout << "H1 = " << H1 << std::endl;
