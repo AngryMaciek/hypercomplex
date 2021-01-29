@@ -9,11 +9,30 @@ jobs:
 
   gh-pages:
     runs-on: ubuntu-20.04
+    env:
+      test-directory: .test/docs
 
     steps:
 
+      - name: Install MPFR
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y libmpfr-dev
+
       - name: Checkout Repository
         uses: actions/checkout@v2
+
+      - name: Copy Library File
+        working-directory: ${{env.test-directory}}
+        run: cp ../../hypercomplex/Hypercomplex.hpp Hypercomplex.hpp
+
+      - name: Compile Test Program
+        working-directory: ${{env.test-directory}}
+        run: g++ --std=c++17 test.cpp -o test -lmpfr -lgmp
+
+      - name: Execute Test Program
+        working-directory: ${{env.test-directory}}
+        run: ./test
 
       - name: BuildTheDocs
         uses: mattnotmitt/doxygen-action@v1
