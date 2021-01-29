@@ -151,51 +151,109 @@ class Hypercomplex {
     Hypercomplex& operator/= (const Hypercomplex &H);
 };
 
-// Operators
+/** \brief Equality operator
+  * \param H1 LHS operand
+  * \param H2 RHS operand
+  * \return boolean value after the comparison
+  */
 template <typename T, const unsigned int dim>
 bool operator== (
     const Hypercomplex<T, dim> &H1,
     const Hypercomplex<T, dim> &H2
 );
+
+/** \brief Inequality operator
+  * \param H1 LHS operand
+  * \param H2 RHS operand
+  * \return boolean value after the comparison
+  */
 template <typename T, const unsigned int dim>
 bool operator!= (
     const Hypercomplex<T, dim> &H1,
     const Hypercomplex<T, dim> &H2
 );
+
+/** \brief Addition operator
+  * \param H1 LHS operand
+  * \param H2 RHS operand
+  * \return new class instance
+  */
 template <typename T, const unsigned int dim>
 Hypercomplex<T, dim> operator+ (
     const Hypercomplex<T, dim> &H1,
     const Hypercomplex<T, dim> &H2
 );
+
+/** \brief Subtraction operator
+  * \param H1 LHS operand
+  * \param H2 RHS operand
+  * \return new class instance
+  */
 template <typename T, const unsigned int dim>
 Hypercomplex<T, dim> operator- (
     const Hypercomplex<T, dim> &H1,
     const Hypercomplex<T, dim> &H2
 );
+
+/** \brief Multiplication operator
+  * \param H1 LHS operand
+  * \param H2 RHS operand
+  * \return new class instance
+  */
 template <typename T, const unsigned int dim>
 Hypercomplex<T, dim> operator* (
     const Hypercomplex<T, dim> &H1,
     const Hypercomplex<T, dim> &H2
 );
+
+/** \brief Power operator
+  * \param H LHS operand
+  * \param x RHS operand
+  * \return new class instance
+  */
 template <typename T, const unsigned int dim>
 Hypercomplex<T, dim> operator^ (
     const Hypercomplex<T, dim> &H,
     const unsigned int x
 );
+
+/** \brief Division operator
+  * \param H1 LHS operand
+  * \param H2 RHS operand
+  * \return new class instance
+  */
 template <typename T, const unsigned int dim>
 Hypercomplex<T, dim> operator/ (
     const Hypercomplex<T, dim> &H1,
     const Hypercomplex<T, dim> &H2
 );
+
+/** \brief Print operator
+  * \param os output stream
+  * \param H existing class instance
+  * \return output stream
+  */
 template <typename T, const unsigned int dim>
 std::ostream& operator<< (std::ostream &os, const Hypercomplex<T, dim> &H);
 
-
-// Global functions
+/** \brief Real part of a hypercomplex number
+  * \param H existing class instance
+  * \return new class instance
+  */
 template <typename T, const unsigned int dim>
 Hypercomplex<T, dim> Re(const Hypercomplex<T, dim> &H);
+
+/** \brief Imaginary part of a hypercomplex number
+  * \param H existing class instance
+  * \return new class instance
+  */
 template <typename T, const unsigned int dim>
 Hypercomplex<T, dim> Im(const Hypercomplex<T, dim> &H);
+
+/** \brief Exponentiation operation on a hypercomplex number
+  * \param H existing class instance
+  * \return new class instance
+  */
 template <typename T, const unsigned int dim>
 Hypercomplex<T, dim> exp(const Hypercomplex<T, dim> &H);
 
@@ -526,14 +584,22 @@ Hypercomplex<T, dim> exp(const Hypercomplex<T, dim> &H) {
 
 static unsigned int MPFR_global_precision;
 
+/** \brief Getter for the global precision of the MPFR variables
+  * \return precision in bits
+  */
 unsigned int get_mpfr_precision() {
     return MPFR_global_precision;
 }
 
+/** \brief Setter for the global precision of the MPFR variables
+  * \param n precision in bits
+  */
 void set_mpfr_precision(unsigned int n) {
     MPFR_global_precision = n;
 }
 
+/** \brief Wrapper for MPFR memory cleanup
+  */
 void clear_mpfr_memory() {
     mpfr_free_cache();
     assert(!mpfr_mp_memory_cleanup());
@@ -783,6 +849,11 @@ class Hypercomplex<mpfr_t, dim> {
     }
 };
 
+/** \brief Equality operator
+  * \param H1 LHS operand
+  * \param H2 RHS operand
+  * \return boolean value after the comparison
+  */
 template <const unsigned int dim>
 bool operator==(
     const Hypercomplex<mpfr_t, dim> &H1,
@@ -794,6 +865,11 @@ bool operator==(
     return true;
 }
 
+/** \brief Inequality operator
+  * \param H1 LHS operand
+  * \param H2 RHS operand
+  * \return boolean value after the comparison
+  */
 template <const unsigned int dim>
 bool operator!=(
     const Hypercomplex<mpfr_t, dim> &H1,
@@ -802,6 +878,11 @@ bool operator!=(
     return !(H1 == H2);
 }
 
+/** \brief Addition operator
+  * \param H1 LHS operand
+  * \param H2 RHS operand
+  * \return new class instance
+  */
 template <const unsigned int dim>
 Hypercomplex<mpfr_t, dim> operator+(
     const Hypercomplex<mpfr_t, dim> &H1,
@@ -818,6 +899,11 @@ Hypercomplex<mpfr_t, dim> operator+(
     return H;
 }
 
+/** \brief Subtraction operator
+  * \param H1 LHS operand
+  * \param H2 RHS operand
+  * \return new class instance
+  */
 template <const unsigned int dim>
 Hypercomplex<mpfr_t, dim> operator-(
     const Hypercomplex<mpfr_t, dim> &H1,
@@ -834,6 +920,11 @@ Hypercomplex<mpfr_t, dim> operator-(
     return H;
 }
 
+/** \brief Multiplication operator
+  * \param H1 LHS operand
+  * \param H2 RHS operand
+  * \return new class instance
+  */
 template <const unsigned int dim>
 Hypercomplex<mpfr_t, dim> operator*(
     const Hypercomplex<mpfr_t, dim> &H1,
@@ -890,6 +981,11 @@ Hypercomplex<mpfr_t, dim> operator*(
     }
 }
 
+/** \brief Power operator
+  * \param H LHS operand
+  * \param x RHS operand
+  * \return new class instance
+  */
 template <const unsigned int dim>
 Hypercomplex<mpfr_t, dim> operator^(
     const Hypercomplex<mpfr_t, dim> &H,
@@ -904,6 +1000,11 @@ Hypercomplex<mpfr_t, dim> operator^(
     }
 }
 
+/** \brief Division operator
+  * \param H1 LHS operand
+  * \param H2 RHS operand
+  * \return new class instance
+  */
 template <const unsigned int dim>
 Hypercomplex<mpfr_t, dim> operator/(
     const Hypercomplex<mpfr_t, dim> &H1,
@@ -913,6 +1014,11 @@ Hypercomplex<mpfr_t, dim> operator/(
     return(H);
 }
 
+/** \brief Print operator
+  * \param os output stream
+  * \param H existing class instance
+  * \return output stream
+  */
 template <const unsigned int dim>
 std::ostream& operator<<(
     std::ostream &os,
@@ -931,6 +1037,10 @@ std::ostream& operator<<(
     return os;
 }
 
+/** \brief Real part of a hypercomplex number
+  * \param H existing class instance
+  * \return new class instance
+  */
 template <const unsigned int dim>
 Hypercomplex<mpfr_t, dim> Re(const Hypercomplex<mpfr_t, dim> &H) {
     Hypercomplex<mpfr_t, dim> result = H;
@@ -938,6 +1048,10 @@ Hypercomplex<mpfr_t, dim> Re(const Hypercomplex<mpfr_t, dim> &H) {
     return result;
 }
 
+/** \brief Imaginary part of a hypercomplex number
+  * \param H existing class instance
+  * \return new class instance
+  */
 template <const unsigned int dim>
 Hypercomplex<mpfr_t, dim> Im(const Hypercomplex<mpfr_t, dim> &H) {
     Hypercomplex<mpfr_t, dim> result = H;
@@ -945,6 +1059,10 @@ Hypercomplex<mpfr_t, dim> Im(const Hypercomplex<mpfr_t, dim> &H) {
     return result;
 }
 
+/** \brief Exponentiation operation on a hypercomplex number
+  * \param H existing class instance
+  * \return new class instance
+  */
 template <const unsigned int dim>
 Hypercomplex<mpfr_t, dim> exp(const Hypercomplex<mpfr_t, dim> &H) {
     Hypercomplex<mpfr_t, dim> result = Im(H);
