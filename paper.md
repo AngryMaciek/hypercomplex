@@ -29,15 +29,13 @@ This is a reference [@Tadelis:2012]. This is another one [@axelrodproject]. And 
 
 # Key features
 
-- template mechanism for built-in types, open for specialisation with custom classes, umbrella to gather the rest
-- Header-only C++ library, easy to use
-- arbitrary high precision of calculations (mpfr)
-- As a header-only C++ template code it's greatest advantage is the combination of speed, generic programming and convenience for the end user.
+- As a header-only C++ template code it's greatest advantage is the combination of speed, generic programming and convenience for the end user. Open Source license together with template specialisation mechanism allows contributors to add-in support for custom objects, define specific functions and extend the scope of the library.
+- One of such specialisation is already included in the library itself - a support for arbitrary high precision of calculations via GNU MPFR library(c)...
 - State of the art technology for software engineering:
-  - CI/CD mechanism set up with GitHub Actions: automatic tests for library installation, source code inclusion, compilation and execution
-  - unit tests
-  - code coverage
-  - Automatic documentation generation and hosting on GitHub Pages (via Doxygen and Actions)
+  - CI/CD mechanism set up with GitHub Actions: automatic tests for library installation, source code inclusion, compilation and execution,
+  - extensive unit testing with Catch2 framework(c) and code coverage measurement uploaded to Codecov(c); current coverage: 100%,
+  - source code linting with cpplint(c),
+  - automatic documentation generation and hosting on GitHub Pages (generation via Doxygen(c), publishing via Actions).
 
 # State of the field
 
