@@ -1,9 +1,9 @@
 ---
 title: 'Precise calculations on hypercomplex numbers in C++'
 tags:
-- C++
 - Algebra
 - Arbitrary-precision arithmetic
+- C++
 authors:
 - name: Maciej Bak
   orcid: 0000-0003-1361-7301
@@ -13,13 +13,13 @@ affiliations:
    index: 1
  - name: Swiss Institute of Bioinformatics
    index: 2
-date: 25 August 2020
+date: 4 February 2021
 bibliography: paper.bib
 ---
 
 # Summary
 
-The following repository contains a C++ library which is dedicated to performing arbitrary-precise calculations on hypercomplex numbers from the Cayley-Dickson algebras. Basic arithmetical operations as well as a few miscellaneous functions are implemented. Its focus is to aid other developers in computational research.
+The following repository contains a *C++* library which is dedicated to performing arbitrary-precise calculations on hypercomplex numbers from the Cayley-Dickson algebras. Basic arithmetical operations as well as a few miscellaneous functions are implemented. Its focus is to aid other developers in computational research.
 
 # Statement of need
 
@@ -29,7 +29,7 @@ This is a reference [@Tadelis:2012]. This is another one [@axelrodproject]. And 
 
 # Key features
 
-- As a header-only C++ template code it's greatest advantage is the combination of speed, generic programming and convenience for the end user. Open Source license together with template specialisation mechanism allows contributors to add-in support for custom objects, define specific functions and extend the scope of the library.
+- As a header-only *C++* template code it's greatest advantage is the combination of speed, generic programming and convenience for the end user. Open Source license together with template specialisation mechanism allows contributors to add-in support for custom objects, define specific functions and extend the scope of the library.
 - One of such specialisation is already included in the library itself - a support for arbitrary high precision of calculations via GNU MPFR library(c)...
 - State of the art technology for software engineering:
   - CI/CD mechanism set up with GitHub Actions: automatic tests for library installation, source code inclusion, compilation and execution,
