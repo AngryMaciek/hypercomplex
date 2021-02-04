@@ -19,10 +19,12 @@ bibliography: paper.bib
 
 # Summary
 
-The following repository contains a C++ library which is dedicated to performing arbitrary-precise computations on hypercomplex numbers from the Cayley-Dickson algebras. Basic arithmetical operations as well as a few miscellaneous functions are implemented. It aims to aid other developers in computational research.
+The following repository contains a C++ library which is dedicated to performing arbitrary-precise calculations on hypercomplex numbers from the Cayley-Dickson algebras. Basic arithmetical operations as well as a few miscellaneous functions are implemented. Its focus is to aid other developers in computational research.
 
-# Statement of need 
+# Statement of need
 
+This is a highly specialised software aimed mostly for computational mathematicians and computational scientists who use high-dimensional numbers and/or need to carry out highly-precise calculations.
+(generality, fills in gap in the open source community?)
 This is a reference [@Tadelis:2012]. This is another one [@axelrodproject]. And another one [@Macnamara:2020].
 
 # Key features
@@ -30,9 +32,12 @@ This is a reference [@Tadelis:2012]. This is another one [@axelrodproject]. And 
 - template mechanism for built-in types, open for specialisation with custom classes, umbrella to gather the rest
 - Header-only C++ library, easy to use
 - arbitrary high precision of calculations (mpfr)
-- high-quality software engineering
-
-The following library aims to deliver a simple method to construct hypercomplex numbers from any of the Cayley-Dickson algebras and later perform calculations in a arbitrary-precise arithmetic. It is dedicated mostly to computational mathematicians and computational scientists who use high-dimensional numbers and/or need to carry out highly-precise calculations. As a header-only C++ template code it's greatest advantage is the combination of speed, generic programming and convenience for the end user.
+- As a header-only C++ template code it's greatest advantage is the combination of speed, generic programming and convenience for the end user.
+- State of the art technology for software engineering:
+  - CI/CD mechanism set up with GitHub Actions: automatic tests for library installation, source code inclusion, compilation and execution
+  - unit tests
+  - code coverage
+  - Automatic documentation generation and hosting on GitHub Pages (via Doxygen and Actions)
 
 # State of the field
 
