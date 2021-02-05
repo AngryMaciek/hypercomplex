@@ -32,9 +32,9 @@ This is a highly specialised software aimed mostly for computational mathematici
 - One of such specialisation is already included in the library itself - a support for arbitrary high precision of calculations via GNU MPFR library [@fousse:inria-00070266]...
 - State of the art technology for software engineering:
   - CI/CD mechanism set up with GitHub Actions: automatic tests for library installation, source code inclusion, compilation and execution,
-  - extensive unit testing with Catch2 framework(c) and code coverage measurement uploaded to Codecov(c); current coverage: 100%,
-  - source code linting with cpplint(c),
-  - automatic documentation generation and hosting on GitHub Pages (generation via Doxygen(c), publishing via Actions).
+  - extensive unit testing with Catch2 framework [@catch2] and code coverage measurement uploaded to Codecov; current coverage: 100%,
+  - source code linting with cpplint [@cpplint],
+  - automatic documentation generation and hosting on GitHub Pages (generation via Doxygen [@doxygen], publishing via Actions).
 
 # State of the field
 
