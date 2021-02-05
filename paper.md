@@ -25,7 +25,7 @@ The following repository contains a *C++* library which is dedicated to performi
 
 This is a highly specialised software aimed mostly for computational mathematicians and computational scientists who use high-dimensional numbers and/or need to carry out highly-precise calculations.
 (generality, fills in gap in the open source community?)
-This is a reference [@Tadelis:2012]. This is another one [@axelrodproject]. And another one [@Macnamara:2020] [@waterloo].
+This is a reference [@Tadelis:2012]. This is another one [@axelrodproject]. And another one [@Macnamara:2020].
 
 # Key features
 
@@ -39,8 +39,8 @@ This is a reference [@Tadelis:2012]. This is another one [@axelrodproject]. And 
 
 # State of the field
 
-- https://www.boost.org/doc/libs/1_34_1/doc/html/boost_math/
-- https://ece.uwaterloo.ca/~dwharder/C++/CQOST/Sedenion/
+abc [@boost]
+
 - https://github.com/ferd36/quaternions
 - https://github.com/thoppe/Cayley-Dickson
 
