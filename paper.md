@@ -42,6 +42,7 @@ This is a reference [@Tadelis:2012]. This is another one [@axelrodproject]. And 
 - https://www.boost.org/doc/libs/1_34_1/doc/html/boost_math/
 - https://ece.uwaterloo.ca/~dwharder/C++/CQOST/Sedenion/
 - https://github.com/ferd36/quaternions
+- https://github.com/thoppe/Cayley-Dickson
 
 # References
 
