@@ -30,16 +30,16 @@ This is a highly specialised software aimed mostly for computational mathematici
 # Key features
 
 - As a header-only *C++* template code it's greatest advantage is the combination of speed, generic programming and convenience for the end user. Open Source license together with template specialisation mechanism allows contributors to add-in support for custom objects, define specific functions and extend the scope of the library.
-- One of such specialisation is already included in the library itself - a support for arbitrary high precision of calculations via GNU MPFR library [@fousse:inria-00070266], for which the operators have been overloaded such that all the operations are carried out on specific data structures.
+- One of such specialisation is already included in the library itself - a support for arbitrary high precision of calculations via _GNU MPFR_ library [@fousse:inria-00070266], for which the operators have been overloaded such that the operations are carried out on specific data structures.
 - State of the art technology for software engineering:
   - CI/CD mechanism set up with GitHub Actions: automatic tests for library installation, source code inclusion, compilation and execution,
   - extensive unit testing with Catch2 framework [@catch2] and code coverage measurement uploaded to Codecov; current coverage: 100%,
-  - source code linting with cpplint [@cpplint],
-  - automatic documentation generation and hosting on GitHub Pages (generation via Doxygen [@doxygen], publishing via Actions).
+  - source code linting with cpplint [@cpplint] - Google code style enforced,
+  - automatic documentation generation and hosting on GitHub Pages (build via Doxygen [@doxygen], publishing via Actions).
 
 # State of the field
 
-A well-known boost _C++_ libraries deserve the most notable mention [@boost]. Unfortunately they only provide quaterionns and octonions (however as an upside of that specialisation all the operations are well optimised). These libraries do not support operations on MPFR types natively. It is also worth to mention the existence of smaller repositories like: [@quaternions] or [@cd], but, unlike our work, they often lack proper test suites and are also significantly limmited in scope.
+The well-known _boost C++_ libraries deserve the most notable mention [@boost]. Unfortunately the scope is limitted as they only provide quaterions and octonions classes (however as an upside of that specialisation all the operations are well optimised). Moreover, these libraries do not support operations on _MPFR_ types natively. At this point it is also worth to mention the existence of smaller repositories like: [@quaternions] or [@cd], but, unlike our work, they often lack proper test suites and are also significantly restricted.
 
 # References
 
