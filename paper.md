@@ -25,7 +25,7 @@ The following repository contains a *C++* library which is dedicated to performi
 
 This is a highly specialised software aimed mostly for computational mathematicians and computational scientists who use high-dimensional numbers and/or need to carry out highly-precise calculations.
 (generality, fills in gap in the open source community?)
-This is a reference [@Tadelis:2012]. This is another one [@axelrodproject]. And another one [@Macnamara:2020].
+This is a reference [@Tadelis:2012]. This is another one [@axelrodproject]. And another one [@Macnamara:2020] [@waterloo].
 
 # Key features
 
