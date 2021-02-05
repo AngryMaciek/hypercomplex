@@ -25,7 +25,6 @@ The following repository contains a *C++* library which is dedicated to performi
 
 This is a highly specialised software aimed mostly for computational mathematicians and computational scientists who use high-dimensional numbers and/or need to carry out highly-precise calculations.
 (generality, fills in gap in the open source community?)
-This is a reference [@Tadelis:2012]. This is another one [@axelrodproject]. And another one [@Macnamara:2020].
 
 # Key features
 
@@ -39,7 +38,7 @@ This is a reference [@Tadelis:2012]. This is another one [@axelrodproject]. And 
 
 # State of the field
 
-abc [@boost] [@quaternions] [@cd]
+abc [@boost] [@quaternions] [@cd][fousse:inria-00070266] [schafer2017introduction]
 
 Neither of the available repositories provide both 
 
