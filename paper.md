@@ -38,9 +38,7 @@ This is a highly specialised software aimed mostly for computational mathematici
 
 # State of the field
 
-abc [@boost] [@quaternions] [@cd]
-
-Neither of the available repositories provide both 
+A well-known boost _C++_ libraries deserve the most notable mention [@boost]. Unfortunately they only provide quaterionns and octonions (however as an upside of that specialisation all the operations are well optimised). These libraries do not support operations on MPFR types natively. It is also worth to mention the existence of smaller repositories like: [@quaternions] or [@cd], but, unlike our work, they often lack proper test suites and are also limmited in scope.
 
 # References
 
