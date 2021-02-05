@@ -39,10 +39,9 @@ This is a reference [@Tadelis:2012]. This is another one [@axelrodproject]. And 
 
 # State of the field
 
-abc [@boost]
+abc [@boost] [@quaternions] [@cd]
 
-- https://github.com/ferd36/quaternions
-- https://github.com/thoppe/Cayley-Dickson
+Neither of the available repositories provide both 
 
 # References
 
