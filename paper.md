@@ -38,7 +38,7 @@ This is a highly specialised software aimed mostly for computational mathematici
 
 # State of the field
 
-abc [@boost] [@quaternions] [@cd][fousse:inria-00070266] [schafer2017introduction]
+abc [@boost] [@quaternions] [@cd][@fousse:inria-00070266] [@schafer2017introduction]
 
 Neither of the available repositories provide both 
 
