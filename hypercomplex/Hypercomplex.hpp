@@ -9,7 +9,7 @@
 #   AFFILIATION: Swiss_Institute_of_Bioinformatics
 #   CONTACT: wsciekly.maciek@gmail.com
 #   CREATED: 22-10-2020
-#   LICENSE: MIT
+#   LICENSE: Apache 2.0
 #
 ###############################################################################
 */
