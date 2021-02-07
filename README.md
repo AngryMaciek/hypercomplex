@@ -13,9 +13,9 @@
 
 Header-only *C++* template library for precise operations on hypercomplex numbers from the [Cayley-Dickson algebras](https://en.wikipedia.org/wiki/Cayley%E2%80%93Dickson_construction).
 
-Full Documentation (including API) is available at [this link](https://angrymaciek.github.io/hypercomplex).  
-Please refer to the [contributing guidelines](CONTRIBUTING.md) if you are interested to contribute to this repository.  
+Full documentation & API are available at [this link](https://angrymaciek.github.io/hypercomplex).  
+Please refer to the [contributing guidelines](CONTRIBUTING.md) if you are interested in contributing to this repository.  
 Please mind the [code of conduct](CODE_OF_CONDUCT.md) for all interactions with the community.  
-For questions or suggestions regarding the code, please use the [issue tracker](https://github.com/AngryMaciek/hypercomplex/issues).  
+For suggestions regarding the code please use the [issue tracker](https://github.com/AngryMaciek/hypercomplex/issues).  
 
 _© 2020 Maciej Bak_
