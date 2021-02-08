@@ -9,7 +9,7 @@
 #   AFFILIATION: Swiss_Institute_of_Bioinformatics
 #   CONTACT: wsciekly.maciek@gmail.com
 #   CREATED: 22-10-2020
-#   LICENSE: MIT
+#   LICENSE: Apache 2.0
 #
 ###############################################################################
 */
@@ -42,7 +42,7 @@ class Hypercomplex {
 
  public:
     /** \brief This is the main constructor
-      * \param ARR array of numbers
+      * \param [in] ARR array of numbers
       * \return new class instance
       * 
       * Template parameters are:
@@ -52,7 +52,7 @@ class Hypercomplex {
     explicit Hypercomplex(const T* ARR);
 
     /** \brief This is the copy constructor
-      * \param H existing class instance
+      * \param [in] H existing class instance
       * \return new class instance
       * 
       * Template parameters are:
@@ -106,13 +106,13 @@ class Hypercomplex {
     Hypercomplex operator- () const;
 
     /** \brief Assignment operator
-      * \param H existing class instance
+      * \param [in] H existing class instance
       * \return Reference to the caller (for chained assignments)
       */
     Hypercomplex& operator= (const Hypercomplex &H);
 
     /** \brief Access operator
-      * \param i index for the element to access
+      * \param [in] i index for the element to access
       * \return i-th element of the number
       * 
       * Note that the return type is the same as
@@ -121,39 +121,39 @@ class Hypercomplex {
     T& operator[] (const unsigned int i) const;
 
     /** \brief Addition-Assignment operator
-      * \param H existing class instance
+      * \param [in] H existing class instance
       * \return Reference to the caller
       */
     Hypercomplex& operator+= (const Hypercomplex &H);
 
     /** \brief Subtraction-Assignment operator
-      * \param H existing class instance
+      * \param [in] H existing class instance
       * \return Reference to the caller
       */
     Hypercomplex& operator-= (const Hypercomplex &H);
 
     /** \brief Multiplication-Assignment operator
-      * \param H existing class instance
+      * \param [in] H existing class instance
       * \return Reference to the caller
       */
     Hypercomplex& operator*= (const Hypercomplex &H);
 
     /** \brief Power-Assignment operator
-      * \param x power
+      * \param [in] x power
       * \return Reference to the caller
       */
     Hypercomplex& operator^= (const unsigned int x);
 
     /** \brief Division-Assignment operator
-      * \param H existing class instance
+      * \param [in] H existing class instance
       * \return Reference to the caller
       */
     Hypercomplex& operator/= (const Hypercomplex &H);
 };
 
 /** \brief Equality operator
-  * \param H1 LHS operand
-  * \param H2 RHS operand
+  * \param [in] H1 LHS operand
+  * \param [in] H2 RHS operand
   * \return boolean value after the comparison
   */
 template <typename T, const unsigned int dim>
@@ -163,8 +163,8 @@ bool operator== (
 );
 
 /** \brief Inequality operator
-  * \param H1 LHS operand
-  * \param H2 RHS operand
+  * \param [in] H1 LHS operand
+  * \param [in] H2 RHS operand
   * \return boolean value after the comparison
   */
 template <typename T, const unsigned int dim>
@@ -174,8 +174,8 @@ bool operator!= (
 );
 
 /** \brief Addition operator
-  * \param H1 LHS operand
-  * \param H2 RHS operand
+  * \param [in] H1 LHS operand
+  * \param [in] H2 RHS operand
   * \return new class instance
   */
 template <typename T, const unsigned int dim>
@@ -185,8 +185,8 @@ Hypercomplex<T, dim> operator+ (
 );
 
 /** \brief Subtraction operator
-  * \param H1 LHS operand
-  * \param H2 RHS operand
+  * \param [in] H1 LHS operand
+  * \param [in] H2 RHS operand
   * \return new class instance
   */
 template <typename T, const unsigned int dim>
@@ -196,8 +196,8 @@ Hypercomplex<T, dim> operator- (
 );
 
 /** \brief Multiplication operator
-  * \param H1 LHS operand
-  * \param H2 RHS operand
+  * \param [in] H1 LHS operand
+  * \param [in] H2 RHS operand
   * \return new class instance
   */
 template <typename T, const unsigned int dim>
@@ -207,8 +207,8 @@ Hypercomplex<T, dim> operator* (
 );
 
 /** \brief Power operator
-  * \param H LHS operand
-  * \param x RHS operand
+  * \param [in] H LHS operand
+  * \param [in] x RHS operand
   * \return new class instance
   */
 template <typename T, const unsigned int dim>
@@ -218,8 +218,8 @@ Hypercomplex<T, dim> operator^ (
 );
 
 /** \brief Division operator
-  * \param H1 LHS operand
-  * \param H2 RHS operand
+  * \param [in] H1 LHS operand
+  * \param [in] H2 RHS operand
   * \return new class instance
   */
 template <typename T, const unsigned int dim>
@@ -229,29 +229,29 @@ Hypercomplex<T, dim> operator/ (
 );
 
 /** \brief Print operator
-  * \param os output stream
-  * \param H existing class instance
+  * \param [in,out] os output stream
+  * \param [in] H existing class instance
   * \return output stream
   */
 template <typename T, const unsigned int dim>
 std::ostream& operator<< (std::ostream &os, const Hypercomplex<T, dim> &H);
 
 /** \brief Real part of a hypercomplex number
-  * \param H existing class instance
+  * \param [in] H existing class instance
   * \return new class instance
   */
 template <typename T, const unsigned int dim>
 Hypercomplex<T, dim> Re(const Hypercomplex<T, dim> &H);
 
 /** \brief Imaginary part of a hypercomplex number
-  * \param H existing class instance
+  * \param [in] H existing class instance
   * \return new class instance
   */
 template <typename T, const unsigned int dim>
 Hypercomplex<T, dim> Im(const Hypercomplex<T, dim> &H);
 
 /** \brief Exponentiation operation on a hypercomplex number
-  * \param H existing class instance
+  * \param [in] H existing class instance
   * \return new class instance
   */
 template <typename T, const unsigned int dim>
@@ -592,7 +592,7 @@ unsigned int get_mpfr_precision() {
 }
 
 /** \brief Setter for the global precision of the MPFR variables
-  * \param n precision in bits
+  * \param [in] n precision in bits
   */
 void set_mpfr_precision(unsigned int n) {
     MPFR_global_precision = n;
@@ -614,7 +614,7 @@ class Hypercomplex<mpfr_t, dim> {
 
  public:
     /** \brief This is the main constructor
-      * \param ARR array of MPFR numbers
+      * \param [in] ARR array of MPFR numbers
       * \return new class instance
       * 
       * Template parameters are:
@@ -633,7 +633,7 @@ class Hypercomplex<mpfr_t, dim> {
     }
 
     /** \brief This is the copy constructor
-      * \param H existing class instance
+      * \param [in] H existing class instance
       * \return new class instance
       * 
       * Template parameters are:
@@ -660,7 +660,7 @@ class Hypercomplex<mpfr_t, dim> {
     unsigned int _() const { return dim; }
 
     /** \brief Calculate Euclidean norm of a number
-      * \param norm MPFR variable for the calculated norm
+      * \param [in,out] norm MPFR variable for the calculated norm
       * \return exit status
       * 
       * Note that the interface of this method is different
@@ -774,7 +774,7 @@ class Hypercomplex<mpfr_t, dim> {
     }
 
     /** \brief Assignment operator
-      * \param H existing class instance
+      * \param [in] H existing class instance
       * \return Reference to the caller (for chained assignments)
       */
     Hypercomplex& operator= (const Hypercomplex &H) {
@@ -785,7 +785,7 @@ class Hypercomplex<mpfr_t, dim> {
     }
 
     /** \brief Access operator
-      * \param i index for the element to access
+      * \param [in] i index for the element to access
       * \return i-th element of the number
       */
     mpfr_t& operator[] (const unsigned int i) const {
@@ -794,7 +794,7 @@ class Hypercomplex<mpfr_t, dim> {
     }
 
     /** \brief Addition-Assignment operator
-      * \param H existing class instance
+      * \param [in] H existing class instance
       * \return Reference to the caller
       */
     Hypercomplex& operator+= (const Hypercomplex &H) {
@@ -805,7 +805,7 @@ class Hypercomplex<mpfr_t, dim> {
     }
 
     /** \brief Subtraction-Assignment operator
-      * \param H existing class instance
+      * \param [in] H existing class instance
       * \return Reference to the caller
       */
     Hypercomplex& operator-= (const Hypercomplex &H) {
@@ -816,7 +816,7 @@ class Hypercomplex<mpfr_t, dim> {
     }
 
     /** \brief Multiplication-Assignment operator
-      * \param H existing class instance
+      * \param [in] H existing class instance
       * \return Reference to the caller
       */
     Hypercomplex& operator*= (const Hypercomplex &H) {
@@ -827,7 +827,7 @@ class Hypercomplex<mpfr_t, dim> {
     }
 
     /** \brief Power-Assignment operator
-      * \param x power
+      * \param [in] x power
       * \return Reference to the caller
       */
     Hypercomplex& operator^= (const unsigned int x) {
@@ -838,7 +838,7 @@ class Hypercomplex<mpfr_t, dim> {
     }
 
     /** \brief Division-Assignment operator
-      * \param H existing class instance
+      * \param [in] H existing class instance
       * \return Reference to the caller
       */
     Hypercomplex& operator/= (const Hypercomplex &H) {
@@ -850,8 +850,8 @@ class Hypercomplex<mpfr_t, dim> {
 };
 
 /** \brief Equality operator
-  * \param H1 LHS operand
-  * \param H2 RHS operand
+  * \param [in] H1 LHS operand
+  * \param [in] H2 RHS operand
   * \return boolean value after the comparison
   */
 template <const unsigned int dim>
@@ -866,8 +866,8 @@ bool operator==(
 }
 
 /** \brief Inequality operator
-  * \param H1 LHS operand
-  * \param H2 RHS operand
+  * \param [in] H1 LHS operand
+  * \param [in] H2 RHS operand
   * \return boolean value after the comparison
   */
 template <const unsigned int dim>
@@ -879,8 +879,8 @@ bool operator!=(
 }
 
 /** \brief Addition operator
-  * \param H1 LHS operand
-  * \param H2 RHS operand
+  * \param [in] H1 LHS operand
+  * \param [in] H2 RHS operand
   * \return new class instance
   */
 template <const unsigned int dim>
@@ -900,8 +900,8 @@ Hypercomplex<mpfr_t, dim> operator+(
 }
 
 /** \brief Subtraction operator
-  * \param H1 LHS operand
-  * \param H2 RHS operand
+  * \param [in] H1 LHS operand
+  * \param [in] H2 RHS operand
   * \return new class instance
   */
 template <const unsigned int dim>
@@ -921,8 +921,8 @@ Hypercomplex<mpfr_t, dim> operator-(
 }
 
 /** \brief Multiplication operator
-  * \param H1 LHS operand
-  * \param H2 RHS operand
+  * \param [in] H1 LHS operand
+  * \param [in] H2 RHS operand
   * \return new class instance
   */
 template <const unsigned int dim>
@@ -982,8 +982,8 @@ Hypercomplex<mpfr_t, dim> operator*(
 }
 
 /** \brief Power operator
-  * \param H LHS operand
-  * \param x RHS operand
+  * \param [in] H LHS operand
+  * \param [in] x RHS operand
   * \return new class instance
   */
 template <const unsigned int dim>
@@ -1001,8 +1001,8 @@ Hypercomplex<mpfr_t, dim> operator^(
 }
 
 /** \brief Division operator
-  * \param H1 LHS operand
-  * \param H2 RHS operand
+  * \param [in] H1 LHS operand
+  * \param [in] H2 RHS operand
   * \return new class instance
   */
 template <const unsigned int dim>
@@ -1015,8 +1015,8 @@ Hypercomplex<mpfr_t, dim> operator/(
 }
 
 /** \brief Print operator
-  * \param os output stream
-  * \param H existing class instance
+  * \param [in,out] os output stream
+  * \param [in] H existing class instance
   * \return output stream
   */
 template <const unsigned int dim>
@@ -1038,7 +1038,7 @@ std::ostream& operator<<(
 }
 
 /** \brief Real part of a hypercomplex number
-  * \param H existing class instance
+  * \param [in] H existing class instance
   * \return new class instance
   */
 template <const unsigned int dim>
@@ -1049,7 +1049,7 @@ Hypercomplex<mpfr_t, dim> Re(const Hypercomplex<mpfr_t, dim> &H) {
 }
 
 /** \brief Imaginary part of a hypercomplex number
-  * \param H existing class instance
+  * \param [in] H existing class instance
   * \return new class instance
   */
 template <const unsigned int dim>
@@ -1060,7 +1060,7 @@ Hypercomplex<mpfr_t, dim> Im(const Hypercomplex<mpfr_t, dim> &H) {
 }
 
 /** \brief Exponentiation operation on a hypercomplex number
-  * \param H existing class instance
+  * \param [in] H existing class instance
   * \return new class instance
   */
 template <const unsigned int dim>
