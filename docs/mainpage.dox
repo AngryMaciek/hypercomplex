@@ -6,7 +6,10 @@
  * hypercomplex numbers from any of the Cayley-Dickson algebras and later
  * perform calculations in a arbitrary-precise arithmetic.
  * It is dedicated mostly to computational mathematicians and computational scientists
- * who use high-dimensional numbers and/or need to carry out highly-precise calculations.
+ * who operate on high-dimensional numbers and/or need to carry out arbitrary-precise calculations.
+ * The library is well suited for wide range of computationally challenging projects:
+ * from studying general algebraic properties per se to applied research
+ * where hypercomplex framework serves merely as a mean to an end.
  * As a header-only C++ template code it's greatest advantage is the combination of
  * speed, generic programming and convenience for the end user.
  * 
@@ -45,6 +48,12 @@
  * The following section demonstrates basic functionality and behaviour of the library.
  * For the full unit test suite please refer to 
  * <a href="https://github.com/AngryMaciek/hypercomplex/blob/master/.test/unit/test.cpp">this file</a>.
+ *
+ * Please note that throughout this whole documentation many links may point
+ * to _Hypercomplex_ class instead of its _MPFR_-compliant specialisation.
+ * This is because the doxygen engine unfortunately cannot distinguish
+ * between template classes of the same name properly. Always check the description carefully while accessing
+ * links at this page.
  *
  * Let us construct two hypercomplex numbers from an algebra obtained with the Cayley-Dickson process.
  * For simplicity of the presentation we will focus on quaternions.
