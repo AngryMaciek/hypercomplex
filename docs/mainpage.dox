@@ -46,6 +46,12 @@
  * For the full unit test suite please refer to 
  * <a href="https://github.com/AngryMaciek/hypercomplex/blob/master/.test/unit/test.cpp">this file</a>.
  *
+ * Please note that throughout this whole documentation many links may point
+ * to _Hypercomplex_ class instead of its _MPFR_-compliant specialisation.
+ * This is because the doxygen engine unfortunately cannot distinguish
+ * between template classes of the same name properly. Always check the description carefully while accessing
+ * links at this page.
+ *
  * Let us construct two hypercomplex numbers from an algebra obtained with the Cayley-Dickson process.
  * For simplicity of the presentation we will focus on quaternions.
  *
