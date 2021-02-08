@@ -6,7 +6,10 @@
  * hypercomplex numbers from any of the Cayley-Dickson algebras and later
  * perform calculations in a arbitrary-precise arithmetic.
  * It is dedicated mostly to computational mathematicians and computational scientists
- * who use high-dimensional numbers and/or need to carry out highly-precise calculations.
+ * who operate on high-dimensional numbers and/or need to carry out arbitrary-precise calculations.
+ * The library is well suited for wide range of computationally challenging projects:
+ * from studying general algebraic properties per se to applied research
+ * where hypercomplex framework serves merely as a mean to an end.
  * As a header-only C++ template code it's greatest advantage is the combination of
  * speed, generic programming and convenience for the end user.
  * 
