@@ -1,5 +1,5 @@
 ---
-title: 'Precise calculations on hypercomplex numbers in C++'
+title: 'Hypercomplex: precise calculations on hypercomplex numbers in C++'
 tags:
 - Algebra
 - Arbitrary-precision arithmetic
@@ -19,7 +19,7 @@ bibliography: paper.bib
 
 # Summary
 
-The following repository contains a *C++* library which is dedicated to performing arbitrary-precise calculations on hypercomplex numbers from the Cayley-Dickson algebras [@schafer2017introduction]. Basic arithmetical operations as well as a few miscellaneous functions are implemented. Its focus is to aid other developers in computational research.
+The following work presents a *C++* library which is dedicated to performing arbitrary-precise calculations on hypercomplex numbers from the Cayley-Dickson algebras [@schafer2017introduction]. Basic arithmetical operations as well as a few miscellaneous functions are implemented. Its focus is to aid other developers in computational research.
 
 # Statement of need
 
