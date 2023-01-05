@@ -6,7 +6,8 @@
 # 22.10.2019
 #
 
-SRC = Hypercomplex.hpp
+SRC1 = Hypercomplex.hpp
+SRC2 = Polynomial.hpp
 
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
@@ -34,14 +35,18 @@ help:
 # Install
 # =========================================================
 
-install: $(INCLUDE_PREFIX)/Hypercomplex/$(SRC)
+install: $(INCLUDE_PREFIX)/Hypercomplex/$(SRC1) $(INCLUDE_PREFIX)/Hypercomplex/$(SRC2)
 
 # Create a separate directory for the header-only library
 $(INCLUDE_PREFIX)/Hypercomplex:
 	mkdir -p $@;
 
 # Copy the header-only library file into the right directory
-$(INCLUDE_PREFIX)/Hypercomplex/$(SRC): $(SRC) $(INCLUDE_PREFIX)/Hypercomplex
+$(INCLUDE_PREFIX)/Hypercomplex/$(SRC1): $(SRC1) $(INCLUDE_PREFIX)/Hypercomplex
+	cp $< $@
+
+# Copy the helper library file into the right directory
+$(INCLUDE_PREFIX)/Hypercomplex/$(SRC2): $(SRC2) $(INCLUDE_PREFIX)/Hypercomplex
 	cp $< $@
 
 # =========================================================
@@ -60,6 +65,7 @@ uninstall:
 test:
 	mkdir ../.test/unit/hypercomplex; \
 	cp Hypercomplex.hpp ../.test/unit/hypercomplex/Hypercomplex.hpp; \
+	cp Polynomial.hpp ../.test/unit/hypercomplex/Polynomial.hpp; \
 	cd ../.test/unit; \
 	g++ -O0 -Wall --std=c++17 -o test test.cpp -lmpfr -lgmp; \
 	./test -d yes -w NoAssertions --use-colour yes --benchmark-samples 100 --benchmark-resamples 100000; \
@@ -72,6 +78,7 @@ test:
 # Run static code analysis
 lint:
 	cpplint Hypercomplex.hpp
+	cpplint Polynomial.hpp
 
 # =========================================================
 # Docs

@@ -1,7 +1,7 @@
 /*
 ###############################################################################
 #
-#   Test: raw library include
+#   Test: code presented in the documentation
 #
 #   AUTHOR: Maciej_Bak
 #   AFFILIATION: Swiss_Institute_of_Bioinformatics
