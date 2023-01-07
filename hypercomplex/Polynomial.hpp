@@ -25,24 +25,24 @@
 template <const unsigned int MaxDeg>
 class Polynomial {
  private:
-    int *coefficients;
+    long int *coefficients;
 
  public:
     // Polynomial main constructor
-    explicit Polynomial(const int* arr) {
-        coefficients = new int[MaxDeg+1];
+    explicit Polynomial(const long int* arr) {
+        coefficients = new long int[MaxDeg+1];
         for (unsigned int i=0; i <= MaxDeg; i++) coefficients[i] = arr[i];
     }
 
     // Polynomial copy constructor
     Polynomial(const Polynomial &P) {
-        coefficients = new int[MaxDeg+1];
+        coefficients = new long int[MaxDeg+1];
         for (unsigned int i=0; i <= MaxDeg; i++) coefficients[i] = P[i];
     }
 
     // Polynomial default constructor
     Polynomial() {
-        coefficients = new int[MaxDeg+1];
+        coefficients = new long int[MaxDeg+1];
         for (unsigned int i=0; i <= MaxDeg; i++) coefficients[i] = 0;
     }
 
@@ -63,7 +63,7 @@ class Polynomial {
 
     // overloaded - unary operator
     Polynomial operator-() const {
-        int* temparr = new int[MaxDeg+1];
+        long int* temparr = new long int[MaxDeg+1];
         for (unsigned int i=0; i <= MaxDeg; i++) temparr[i] = -coefficients[i];
         Polynomial<MaxDeg> P(temparr);
         delete[] temparr;
@@ -71,7 +71,7 @@ class Polynomial {
     }
 
     // overloaded [] operator
-    int& operator[](const unsigned int i) const {
+    long int& operator[](const unsigned int i) const {
         assert(0 <= i && i <= MaxDeg);
         return coefficients[i];
     }

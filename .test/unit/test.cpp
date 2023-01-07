@@ -1282,14 +1282,14 @@ TEST_CASE( "Polynomial: Class Structure", "[unit]" ) {
     //
     SECTION( "Main constructor" ) {
         const unsigned int deg = 4;
-        int coefficients[] = {100, -1, 2, 0, 0};
+        long int coefficients[] = {100, -1, 2, 0, 0};
         Polynomial<deg> P(coefficients);
         REQUIRE( true );
     }
 
     SECTION( "Copy constructor" ) {
         const unsigned int deg = 4;
-        int coefficients[] = {100, -1, 2, 0, 0};
+        long int coefficients[] = {100, -1, 2, 0, 0};
         Polynomial<deg> P1(coefficients);
         Polynomial<deg> P2(P1);
         Polynomial<deg> P3 = P2;
@@ -1311,7 +1311,7 @@ TEST_CASE( "Polynomial: Class Structure", "[unit]" ) {
 
     SECTION( "Destructor" ) {
         const unsigned int deg = 4;
-        int coefficients[] = {100, -1, 2, 0, 0};
+        long int coefficients[] = {100, -1, 2, 0, 0};
         // dynamic memory allocation for memory leak test:
         Polynomial<deg>* P = new Polynomial<deg>(coefficients);
         delete P;
@@ -1322,9 +1322,9 @@ TEST_CASE( "Polynomial: Class Structure", "[unit]" ) {
 TEST_CASE( "Polynomial: Overloading Operators", "[unit]" ) {
     //
     const unsigned int deg = 4;
-    int coefficients1[] = {100, -1, 2, 0, 0};
-    int coefficients2[] = {-2, 0, 6, 9, -4};
-    int coefficients3[] = {-20, 4, 1, -4, 10};
+    long int coefficients1[] = {100, -1, 2, 0, 0};
+    long int coefficients2[] = {-2, 0, 6, 9, -4};
+    long int coefficients3[] = {-20, 4, 1, -4, 10};
     Polynomial<deg> P1(coefficients1);
     Polynomial<deg> P2(coefficients2);
     Polynomial<deg> P3(coefficients3);
@@ -1366,9 +1366,9 @@ TEST_CASE( "Polynomial: Overloading Operators", "[unit]" ) {
     }
 
     SECTION( "Assignment operator" ) {
-        int coefficientsA[] = {1, 2, 0, 1, -4};
-        int coefficientsB[] = {2, 20, 200, 2000, 20000};
-        int coefficientsC[] = {-5, -23, -43, -662, -2934};
+        long int coefficientsA[] = {1, 2, 0, 1, -4};
+        long int coefficientsB[] = {2, 20, 200, 2000, 20000};
+        long int coefficientsC[] = {-5, -23, -43, -662, -2934};
         Polynomial<deg> PA(coefficientsA);
         Polynomial<deg> PB(coefficientsB);
         Polynomial<deg> PC(coefficientsC);
