@@ -50,6 +50,52 @@ class Polynomial {
     ~Polynomial() {
         delete[] coefficients;
     }
+
+    // overloaded = operator
+    Polynomial& operator= (const Polynomial &P) {
+        // self-assignment guard
+        if (this == &P) return *this;
+        // reassign
+        for (unsigned int i=0; i <= MaxDeg; i++) coefficients[i] = P[i];
+        // return the existing object so we can chain this operator
+        return *this;
+    }
+
+    // overloaded - unary operator
+    Polynomial operator-() const {
+        int* temparr = new int[MaxDeg+1];
+        for (unsigned int i=0; i <= MaxDeg; i++) temparr[i] = -coefficients[i];
+        Polynomial<MaxDeg> P(temparr);
+        delete[] temparr;
+        return P;
+    }
+
+    // overloaded [] operator
+    int& operator[](const unsigned int i) const {
+        assert(0 <= i && i <= MaxDeg);
+        return coefficients[i];
+    }
 };
+
+// overloaded == operator
+template <const unsigned int MaxDeg>
+bool operator==(
+    const Polynomial<MaxDeg> &P1,
+    const Polynomial<MaxDeg> &P2
+) {
+    for (unsigned int i=0; i <= MaxDeg; i++) {
+        if (P1[i] != P2[i]) return false;
+    }
+    return true;
+}
+
+// overloaded != operator
+template <const unsigned int MaxDeg>
+bool operator!=(
+    const Polynomial<MaxDeg> &P1,
+    const Polynomial<MaxDeg> &P2
+) {
+    return !(P1 == P2);
+}
 
 #endif  // HYPERCOMPLEX_POLYNOMIAL_HPP_

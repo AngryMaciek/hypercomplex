@@ -15,6 +15,7 @@
 #define CATCH_CONFIG_RUNNER
 #include "catch.hpp"
 #include "hypercomplex/Hypercomplex.hpp"
+#include "hypercomplex/Polynomial.hpp"
 #include <tuple>
 #include <stdexcept>
 #include <iostream>
@@ -35,7 +36,11 @@ using MPFR_Hypercomplex3 = Hypercomplex<mpfr_t, 3>;
 
 using TestTypes = std::tuple<float, double, long double>;
 
-TEMPLATE_LIST_TEST_CASE( "Class Structure", "[unit]", TestTypes ) {
+TEMPLATE_LIST_TEST_CASE(
+    "Hypercomplex: Class Structure",
+    "[unit]",
+    TestTypes
+) {
     //
     SECTION( "Main constructor & functions" ) {
         const unsigned int dim = 4;
@@ -147,7 +152,11 @@ TEMPLATE_LIST_TEST_CASE( "Class Structure", "[unit]", TestTypes ) {
     }
 }
 
-TEMPLATE_LIST_TEST_CASE( "Overloading Operators", "[unit]", TestTypes ) {
+TEMPLATE_LIST_TEST_CASE(
+    "Hypercomplex: Overloading Operators",
+    "[unit]",
+    TestTypes
+) {
     //
     const unsigned int dim2 = 2;
     const unsigned int dim4 = 4;
@@ -367,7 +376,7 @@ TEMPLATE_LIST_TEST_CASE( "Overloading Operators", "[unit]", TestTypes ) {
     }
 }
 
-TEMPLATE_LIST_TEST_CASE( "Special", "[usecase]", TestTypes ) {
+TEMPLATE_LIST_TEST_CASE( "Hypercomplex: Special", "[usecase]", TestTypes ) {
     //
     SECTION( "Multiplication optimization" ) {
         TestType A[] = {1.51, -1.13, 2.28, -10.77, -2.63, -9.11, 0.01, 4.02};
@@ -407,7 +416,7 @@ TEMPLATE_LIST_TEST_CASE( "Special", "[usecase]", TestTypes ) {
     }
 }
 
-TEST_CASE( "Expansion", "[unit]" ) {
+TEST_CASE( "Hypercomplex: Expansion", "[unit]" ) {
     // expand method is a template member function of a template class
     // as such it cannot be tested within TEMPLATE_LIST_TEST_CASE
     // framework of Catch2
@@ -471,7 +480,7 @@ TEST_CASE( "Expansion", "[unit]" ) {
     clear_mpfr_memory();
 }
 
-TEST_CASE( "MPFR lib test", "[unit]" ) {
+TEST_CASE( "Hypercomplex: MPFR lib test", "[unit]" ) {
     //
     SECTION( "Main constructor & functions" ) {
         set_mpfr_precision(200);
@@ -1216,7 +1225,7 @@ TEST_CASE( "MPFR lib test", "[unit]" ) {
     }
 }
 
-TEST_CASE( "MPFR: const objects", "[unit]" ) {
+TEST_CASE( "Hypercomplex: MPFR: const objects", "[unit]" ) {
     const unsigned int dim = 4;
     const unsigned int cui = 2;    
     set_mpfr_precision(200);
@@ -1267,6 +1276,118 @@ TEST_CASE( "MPFR: const objects", "[unit]" ) {
     mpfr_clear(B[2]);
     mpfr_clear(B[3]);
     clear_mpfr_memory();
+}
+
+TEST_CASE( "Polynomial: Class Structure", "[unit]" ) {
+    //
+    SECTION( "Main constructor" ) {
+        const unsigned int deg = 4;
+        int coefficients[] = {100, -1, 2, 0, 0};
+        Polynomial<deg> P(coefficients);
+        REQUIRE( true );
+    }
+
+    SECTION( "Copy constructor" ) {
+        const unsigned int deg = 4;
+        int coefficients[] = {100, -1, 2, 0, 0};
+        Polynomial<deg> P1(coefficients);
+        Polynomial<deg> P2(P1);
+        Polynomial<deg> P3 = P2;
+        REQUIRE( &P1 != &P2 );
+        REQUIRE( &P2 != &P3 );
+        REQUIRE( &P3 != &P1 );
+        REQUIRE( P1[4] == P2[4] );
+        REQUIRE( P2[4] == P3[4] );
+        REQUIRE( P3[4] == P1[4] );
+    }
+
+    SECTION( "Default constructor" ) {
+        const unsigned int deg = 2;
+        Polynomial<deg> P;
+        REQUIRE( P[0] == 0 );
+        REQUIRE( P[1] == 0 );
+        REQUIRE( P[2] == 0 );
+    }
+
+    SECTION( "Destructor" ) {
+        const unsigned int deg = 4;
+        int coefficients[] = {100, -1, 2, 0, 0};
+        // dynamic memory allocation for memory leak test:
+        Polynomial<deg>* P = new Polynomial<deg>(coefficients);
+        delete P;
+        REQUIRE( true );
+    }
+}
+
+TEST_CASE( "Polynomial: Overloading Operators", "[unit]" ) {
+    //
+    const unsigned int deg = 4;
+    int coefficients1[] = {100, -1, 2, 0, 0};
+    int coefficients2[] = {-2, 0, 6, 9, -4};
+    int coefficients3[] = {-20, 4, 1, -4, 10};
+    Polynomial<deg> P1(coefficients1);
+    Polynomial<deg> P2(coefficients2);
+    Polynomial<deg> P3(coefficients3);
+
+    SECTION( "Access operator" ) {
+        REQUIRE( P1[0] == coefficients1[0] );
+        REQUIRE( P1[1] == coefficients1[1] );
+        REQUIRE( P1[2] == coefficients1[2] );
+        REQUIRE( P1[3] == coefficients1[3] );
+        REQUIRE( P1[4] == coefficients1[4] );
+        P1[0] = 10000;
+        REQUIRE( P1[0] == 10000 );
+    }
+
+    SECTION( "Equality operator" ) {
+        bool result;
+        result = P1 == P2;
+        REQUIRE( result == false );
+        result = P1 == P1;
+        REQUIRE( result == true );
+    }
+
+    SECTION( "Inequality operator" ) {
+        bool result;
+        result = P1 != P2;
+        REQUIRE( result == true );
+        result = P1 != P1;
+        REQUIRE( result == false );
+    }
+
+    SECTION( "Negation operator" ) {
+        Polynomial<deg> P1_ = -P1;
+        REQUIRE( &P1 != &P1_ );
+        REQUIRE( P1_[0] == -coefficients1[0] );
+        REQUIRE( P1_[1] == -coefficients1[1] );
+        REQUIRE( P1_[2] == -coefficients1[2] );
+        REQUIRE( P1_[3] == -coefficients1[3] );
+        REQUIRE( P1_[4] == -coefficients1[4] );
+    }
+
+    SECTION( "Assignment operator" ) {
+        int coefficientsA[] = {1, 2, 0, 1, -4};
+        int coefficientsB[] = {2, 20, 200, 2000, 20000};
+        int coefficientsC[] = {-5, -23, -43, -662, -2934};
+        Polynomial<deg> PA(coefficientsA);
+        Polynomial<deg> PB(coefficientsB);
+        Polynomial<deg> PC(coefficientsC);
+        REQUIRE( &P1 != &PA );
+        REQUIRE( P1[0] != PA[0] );
+        PA = P1;
+        REQUIRE( &P1 != &PA );
+        REQUIRE( P1[0] == PA[0] );
+        // chain assignment:
+        PC = PB = PA;
+        REQUIRE( &PA != &PB );
+        REQUIRE( &PB != &PC );
+        REQUIRE( &PC != &PA );
+        REQUIRE( PA[0] == PB[0] );
+        REQUIRE( PB[0] == PC[0] );
+        REQUIRE( PC[0] == PA[0] );
+        // test self-assignment:
+        P1 = P1;
+    }
 }
 
 int main(int argc, char* const argv[]) {
