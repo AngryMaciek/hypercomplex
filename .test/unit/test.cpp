@@ -1544,6 +1544,58 @@ TEST_CASE( "Polynomial: CenteredLift function", "[unit]" ) {
     REQUIRE( P2[9] == -3 );
 }
 
+TEST_CASE( "Polynomial: RingInverse function", "[unit]" ) {
+    //
+    SECTION( "Test 0: x^5-1 | mod5" ) {
+        long int coefficients[] = {0, 3, 0, 0, 2};
+        Polynomial<4> P(coefficients);
+        REQUIRE_THROWS_AS(
+            RingInverse(P, 5, 5),
+            std::invalid_argument
+        );
+    }
+
+    SECTION( "Test 1: x^11-1 | mod3" ) {
+        long int coefficients[] = {2, 1, 1, 0, 2, 0, 1, 0, 0, 1, 2};
+        Polynomial<10> P(coefficients);
+        long int coefficients_inv[] = {1, 2, 0, 2, 2, 1, 0, 2, 1, 2, 0};
+        Polynomial<10> Pinv(coefficients_inv);
+        REQUIRE( RingInverse(P, 11, 3) == Pinv );
+    }
+
+    SECTION( "Test 2: x^11-1 | mod37" ) {
+        long int coefficients[] = {36, 1, 1, 0, 36, 0, 1, 0, 0, 1, 36};
+        Polynomial<10> P(coefficients);
+        long int coefficients_inv[] = {13, 0, 8, 34, 36, 14, 9, 5, 33, 12, 22};
+        Polynomial<10> Pinv(coefficients_inv);
+        REQUIRE( RingInverse(P, 11, 37) == Pinv );
+    }
+
+    SECTION( "Test 3: x^5-1 | mod5" ) {
+        long int coefficients[] = {1, 1, 1, 0, 0};
+        const Polynomial<4> P(coefficients);
+        long int coefficients_inv[] = {4, 3, 3, 4, 3};
+        const Polynomial<4> Pinv(coefficients_inv);
+        REQUIRE( RingInverse(P, 5, 5) == Pinv );
+    }
+
+    SECTION( "Test 4: x^5-1 | mod5" ) {
+        long int coefficients[] = {0, 0, 2, 0, 2};
+        const Polynomial<4> P(coefficients);
+        long int coefficients_inv[] = {1, 4, 4, 4, 1};
+        const Polynomial<4> Pinv(coefficients_inv);
+        REQUIRE( RingInverse(P, 5, 5) == Pinv );
+    }
+
+    SECTION( "Test 5: x^5-1 | mod5" ) {
+        long int coefficients[] = {1, 0, 0, 2, 0};
+        const Polynomial<4> P(coefficients);
+        long int coefficients_inv[] = {2, 3, 2, 1, 4};
+        const Polynomial<4> Pinv(coefficients_inv);
+        REQUIRE( RingInverse(P, 5, 5) == Pinv );
+    }
+}
+
 int main(int argc, char* const argv[]) {
     return Catch::Session().run(argc, argv);
 }
