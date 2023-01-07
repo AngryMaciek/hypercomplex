@@ -98,4 +98,68 @@ bool operator!=(
     return !(P1 == P2);
 }
 
+// overloaded << operator
+template <const unsigned int MaxDeg>
+std::ostream& operator<< (std::ostream &os, const Polynomial<MaxDeg> &P) {
+    for (unsigned int i=0; i < MaxDeg; i++) os << P[i] << ",";
+    os << P[MaxDeg];
+    return os;
+}
+
+// overloaded * operator: multiplication by a scalar
+template <const unsigned int MaxDeg>
+Polynomial<MaxDeg> operator*(const long int &x, const Polynomial<MaxDeg> &P) {
+    long int *temparr = new long int[MaxDeg+1];
+    for (unsigned int i=0; i <= MaxDeg; i++) temparr[i] = P[i] * x;
+    Polynomial<MaxDeg> p(temparr);
+    delete[] temparr;
+    return p;
+}
+
+// overloaded + binary operator
+template <const unsigned int MaxDeg>
+Polynomial<MaxDeg> operator+(
+    const Polynomial<MaxDeg> &P1,
+    const Polynomial<MaxDeg> &P2
+) {
+    long int *temparr = new long int[MaxDeg+1];
+    for (unsigned int i=0; i <= MaxDeg; i++) temparr[i] = P1[i] + P2[i];
+    Polynomial<MaxDeg> p(temparr);
+    delete[] temparr;
+    return p;
+}
+
+// overloaded - binary operator
+template <const unsigned int MaxDeg>
+Polynomial<MaxDeg> operator-(
+    const Polynomial<MaxDeg> &P1,
+    const Polynomial<MaxDeg> &P2
+) {
+    long int *temparr = new long int[MaxDeg+1];
+    for (unsigned int i=0; i <= MaxDeg; i++) temparr[i] = P1[i] - P2[i];
+    Polynomial<MaxDeg> p(temparr);
+    delete[] temparr;
+    return p;
+}
+
+// overloaded * binary operator:
+// convolution multiplication in a polynomial quotient ring Z/(x^N-1)
+template <const unsigned int MaxDeg>
+Polynomial<MaxDeg> operator*(
+    const Polynomial<MaxDeg> &P1,
+    const Polynomial<MaxDeg> &P2
+) {
+    long int *prod = new long int[2*MaxDeg+1]();
+    long int *conv = new long int[MaxDeg+1]();
+    for (unsigned int i=0; i <= MaxDeg; i++) {
+        for (unsigned int j=0; j <= MaxDeg; j++)
+            prod[i+j] += P1[i]*P2[j];
+    }
+    for (unsigned int i=0; i < 2*MaxDeg+1; i++) conv[i%(MaxDeg+1)] += prod[i];
+    Polynomial<MaxDeg> p(conv);
+    delete[] prod;
+    delete[] conv;
+    return p;
+}
+
 #endif  // HYPERCOMPLEX_POLYNOMIAL_HPP_

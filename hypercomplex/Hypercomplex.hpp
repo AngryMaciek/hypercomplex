@@ -1099,3 +1099,315 @@ Hypercomplex<mpfr_t, dim> exp(const Hypercomplex<mpfr_t, dim> &H) {
 }
 
 #endif  // HYPERCOMPLEX_HYPERCOMPLEX_HPP_
+
+
+
+/*
+###############################################################################
+#
+#   Explicit template specialisation for Polynomial class
+#
+###############################################################################
+*/
+
+/** Partial specialisation of the main class for polynomial operations
+  */
+
+/*
+template <const unsigned int MaxDeg, const unsigned int dim>
+class Hypercomplex<Polynomial<MaxDeg>, dim> {
+ private:
+    Polynomial<MaxDeg>* arr;
+
+ public:
+    explicit Hypercomplex(const Polynomial<MaxDeg>* ARR) {
+        if (dim == 0) throw std::invalid_argument("invalid dimension");
+        if ((dim & (dim - 1)) != 0) {
+            throw std::invalid_argument("invalid dimension");
+        }
+        arr = new Polynomial<MaxDeg>[dim];
+        for (unsigned int i=0; i < dim; i++) arr[i] = ARR[i];
+    }
+
+    Hypercomplex(const Hypercomplex &H) {
+        arr = new Polynomial<MaxDeg>[dim];
+        for (unsigned int i=0; i < dim; i++) arr[i] = H[i];
+    }
+
+    Hypercomplex() = delete;
+
+    ~Hypercomplex() {
+        delete[] arr;
+    }
+
+    unsigned int _() const { return dim; }
+
+    Polynomial<MaxDeg> norm() const {
+        Polynomial<MaxDeg> norm;
+        for (unsigned int i=0; i < dim; i++) {
+            norm = norm + arr[i] * arr[i];
+        }
+        return norm;
+    }
+
+    template <const unsigned int newdim>
+    Hypercomplex<Polynomial<MaxDeg>, newdim> expand() const {
+        if (newdim <= dim) throw std::invalid_argument("invalid dimension");
+        Polynomial<MaxDeg>* temparr = new Polynomial<MaxDeg>[newdim];
+        for (unsigned int i=0; i < dim; i++) temparr[i] = arr[i];
+        Hypercomplex<Polynomial<MaxDeg>, newdim> H(temparr);
+        delete[] temparr;
+        return H;
+    }
+
+    Polynomial<MaxDeg>& operator[] (const unsigned int i) const {
+        assert(0 <= i && i < dim);
+        return arr[i];
+    }
+
+    Hypercomplex operator~ () const {
+        Polynomial<MaxDeg>* temparr = new Polynomial<MaxDeg>[dim];
+        temparr[0] = arr[0];
+        for (unsigned int i=1; i < dim; i++) temparr[i] = -arr[i];
+        Hypercomplex<Polynomial<MaxDeg>, dim> H(temparr);
+        delete[] temparr;
+        return H;
+    }
+
+    Hypercomplex operator- () const {
+        Polynomial<MaxDeg>* temparr = new Polynomial<MaxDeg>[dim];
+        for (unsigned int i=0; i < dim; i++) temparr[i] = -arr[i];
+        Hypercomplex<Polynomial<MaxDeg>, dim> H(temparr);
+        delete[] temparr;
+        return H;
+    }
+
+    Hypercomplex& operator= (const Hypercomplex &H) {
+        if (this == &H) return *this;
+        for (unsigned int i=0; i < dim; i++) arr[i] = H[i];
+        return *this;
+    }
+
+    Hypercomplex& operator+= (const Hypercomplex &H) {
+        Hypercomplex<Polynomial<MaxDeg>, dim> result = (*this) + H;
+        for (unsigned int i=0; i < dim; i++) (*this)[i] = result[i];
+        return *this;
+    }
+
+    Hypercomplex& operator-= (const Hypercomplex &H) {
+        Hypercomplex<Polynomial<MaxDeg>, dim> result = (*this) - H;
+        for (unsigned int i=0; i < dim; i++) (*this)[i] = result[i];
+        return *this;
+    }
+
+    Hypercomplex& operator*= (const Hypercomplex &H) {
+        Hypercomplex<Polynomial<MaxDeg>, dim> result = (*this) * H;
+        for (unsigned int i=0; i < dim; i++) (*this)[i] = result[i];
+        return *this;
+    }
+
+    Hypercomplex& operator^= (const unsigned int x) {
+        Hypercomplex<Polynomial<MaxDeg>, dim> result = (*this) ^ x;
+        for (unsigned int i=0; i < dim; i++) (*this)[i] = result[i];
+        return *this;
+    }
+};
+
+// overloaded == operator
+template <const unsigned int MaxDeg, const unsigned int dim>
+bool operator==(
+    const Hypercomplex<Polynomial<MaxDeg>, dim> &H1,
+    const Hypercomplex<Polynomial<MaxDeg>, dim> &H2
+) {
+    for (unsigned int i=0; i < dim; i++) {
+        if (H1[i] != H2[i]) return false;
+    }
+    return true;
+}
+
+// overloaded != operator
+template <const unsigned int MaxDeg, const unsigned int dim>
+bool operator!=(
+    const Hypercomplex<Polynomial<MaxDeg>, dim> &H1,
+    const Hypercomplex<Polynomial<MaxDeg>, dim> &H2
+) {
+    return !(H1 == H2);
+}
+
+// overloaded * operator: multiplication by a scalar
+template <const unsigned int MaxDeg, const unsigned int dim>
+Hypercomplex<Polynomial<MaxDeg>, dim> operator*(
+    const int &x,
+    const Hypercomplex<Polynomial<MaxDeg>, dim> &H
+) {
+    Polynomial<MaxDeg> *temparr = new Polynomial<MaxDeg>[dim];
+    for (unsigned int i=0; i < dim; i++) temparr[i] = x * H[i];
+    Hypercomplex<Polynomial<MaxDeg>, dim> h(temparr);
+    delete[] temparr;
+    return h;
+}
+
+// overloaded % operator: reduce coefficients modulo a scalar
+template <const unsigned int MaxDeg, const unsigned int dim>
+Hypercomplex<Polynomial<MaxDeg>, dim> operator%(
+    const Hypercomplex<Polynomial<MaxDeg>, dim> &H,
+    const int &x
+) {
+    Polynomial<MaxDeg> *temparr = new Polynomial<MaxDeg>[dim];
+    for (unsigned int i=0; i < dim; i++) temparr[i] = H[i] % x;
+    Hypercomplex<Polynomial<MaxDeg>, dim> h(temparr);
+    delete[] temparr;
+    return h;
+}
+
+// overloaded + binary operator
+template <const unsigned int MaxDeg, const unsigned int dim>
+Hypercomplex<Polynomial<MaxDeg>, dim> operator+(
+    const Hypercomplex<Polynomial<MaxDeg>, dim> &H1,
+    const Hypercomplex<Polynomial<MaxDeg>, dim> &H2
+) {
+    Polynomial<MaxDeg> *temparr = new Polynomial<MaxDeg>[dim];
+    for (unsigned int i=0; i < dim; i++) temparr[i] = H1[i] + H2[i];
+    Hypercomplex<Polynomial<MaxDeg>, dim> H(temparr);
+    delete[] temparr;
+    return H;
+}
+
+// overloaded - binary operator
+template <const unsigned int MaxDeg, const unsigned int dim>
+Hypercomplex<Polynomial<MaxDeg>, dim> operator-(
+    const Hypercomplex<Polynomial<MaxDeg>, dim> &H1,
+    const Hypercomplex<Polynomial<MaxDeg>, dim> &H2
+) {
+    Polynomial<MaxDeg> *temparr = new Polynomial<MaxDeg>[dim];
+    for (unsigned int i=0; i < dim; i++) temparr[i] = H1[i] - H2[i];
+    Hypercomplex<Polynomial<MaxDeg>, dim> H(temparr);
+    delete[] temparr;
+    return H;
+}
+
+// overloaded * binary operator
+template <const unsigned int MaxDeg, const unsigned int dim>
+Hypercomplex<Polynomial<MaxDeg>, dim> operator*(
+    const Hypercomplex<Polynomial<MaxDeg>, dim> &H1,
+    const Hypercomplex<Polynomial<MaxDeg>, dim> &H2
+) {
+    // recursion base:
+    if constexpr (dim == 1) {
+        Polynomial<MaxDeg> temparr[] = { H1[0] * H2[0] };
+        Hypercomplex<Polynomial<MaxDeg>, 1> H_(temparr);
+        return H_;
+    // recursion step:
+    } else {
+        // shared objects:
+        const unsigned int halfd = dim / 2;
+        Polynomial<MaxDeg>* temparr = new Polynomial<MaxDeg>[dim];
+        // construct helper objects:
+        for (unsigned int i=0; i < halfd; i++) temparr[i] = H1[i];
+        Hypercomplex<Polynomial<MaxDeg>, halfd> H1a(temparr);
+        for (unsigned int i=0; i < halfd; i++) temparr[i] = H1[i+halfd];
+        Hypercomplex<Polynomial<MaxDeg>, halfd> H1b(temparr);
+        for (unsigned int i=0; i < halfd; i++) temparr[i] = H2[i];
+        Hypercomplex<Polynomial<MaxDeg>, halfd> H2a(temparr);
+        for (unsigned int i=0; i < halfd; i++) temparr[i] = H2[i+halfd];
+        Hypercomplex<Polynomial<MaxDeg>, halfd> H2b(temparr);
+        // multiply recursively:
+        Hypercomplex<Polynomial<MaxDeg>, halfd> H1a2a = H1a * H2a;
+        Hypercomplex<Polynomial<MaxDeg>, halfd> H2b_1b = ~H2b * H1b;
+        Hypercomplex<Polynomial<MaxDeg>, halfd> H2b1a = H2b * H1a;
+        Hypercomplex<Polynomial<MaxDeg>, halfd> H1b2a_ = H1b * ~H2a;
+        // construct the final object
+        Hypercomplex<Polynomial<MaxDeg>, halfd> Ha = H1a2a - H2b_1b;
+        Hypercomplex<Polynomial<MaxDeg>, halfd> Hb = H2b1a + H1b2a_;
+        for (unsigned int i=0; i < halfd; i++) temparr[i] = Ha[i];
+        for (unsigned int i=0; i < halfd; i++) temparr[i+halfd] = Hb[i];
+        Hypercomplex<Polynomial<MaxDeg>, dim> H(temparr);
+        delete[] temparr;
+        return H;
+    }
+}
+
+// overloaded ^ operator
+template <const unsigned int MaxDeg, const unsigned int dim>
+Hypercomplex<Polynomial<MaxDeg>, dim> operator^(
+    const Hypercomplex<Polynomial<MaxDeg>, dim> &H,
+    const unsigned int x
+) {
+    if (!(x)) {
+        throw std::invalid_argument("zero is not a valid argument");
+    } else {
+        Hypercomplex<Polynomial<MaxDeg>, dim> Hx(H);
+        for (unsigned int i=0; i < x-1; i++) Hx = Hx * H;
+        return Hx;
+    }
+}
+
+// overloaded << operator
+template <const unsigned int MaxDeg, const unsigned int dim>
+std::ostream& operator<<(
+    std::ostream &os,
+    const Hypercomplex<Polynomial<MaxDeg>, dim> &H
+) {
+    for (unsigned int i=0; i < dim - 1; i++) os << H[i] << " ";
+    os << H[dim - 1];
+    return os;
+}
+
+// return the real part of the number
+template <const unsigned int MaxDeg, const unsigned int dim>
+Hypercomplex<Polynomial<MaxDeg>, dim> Re(
+    const Hypercomplex<Polynomial<MaxDeg>, dim> &H
+) {
+    Hypercomplex<Polynomial<MaxDeg>, dim> result = H;
+    for (unsigned int i=1; i < dim; i++) result[i] = Polynomial<MaxDeg>();
+    return result;
+}
+
+// return the imaginary part of the number
+template <const unsigned int MaxDeg, const unsigned int dim>
+Hypercomplex<Polynomial<MaxDeg>, dim> Im(
+    const Hypercomplex<Polynomial<MaxDeg>, dim> &H
+) {
+    Hypercomplex<Polynomial<MaxDeg>, dim> result = H;
+    result[0] = Polynomial<MaxDeg>();
+    return result;
+}
+
+// centered lift in the quotient ring Z/nZ/ / (x^N-1)
+template <const unsigned int MaxDeg, const unsigned int dim>
+void CenteredLift(
+    const Hypercomplex<Polynomial<MaxDeg>, dim> &H,
+    const int &mod
+) {
+    for (unsigned int i=0; i < dim; i++) CenteredLift(H[i], mod);
+}
+
+
+
+// Hypercomplex inverse in the quotient ring Z/nZ/ / (x^N-1)
+// implement according to QTRU paper, with RingNorm
+// In general, inverses in your complex algebra can be calculated by taking inverses of norms, as on p. 9 of your OTRU link.
+//template <const unsigned int MaxDeg, const unsigned int dim>
+//Hypercomplex<Polynomial<MaxDeg>, dim> RingInverse(const Hypercomplex<Polynomial<MaxDeg>, dim> &H, const int &mod) {
+// Polynomial<MaxDeg> norm = H.norm();
+// norm inverse over respective ring
+// norm inverse * coefficients
+// https://math.stackexchange.com/questions/2092716/find-the-inverse-of-a-polynomial-in-a-quotient-ring
+//}
+
+
+
+
+// Hypercomplex inverse in the quotient ring Z/nZ/ / (x^N-1)
+// implement according to QTRU paper, with norm and then modulo
+// Sometimes inverse do not exist? If the initial polynomial is from the field it has to have one
+// how to handle case if there is no inverse? -> raise error
+//template <const unsigned int MaxDeg, const unsigned int dim>
+//Hypercomplex<Polynomial<MaxDeg>, dim> RingInverse(const Hypercomplex<Polynomial<MaxDeg>, dim> &H, const int &mod) {
+//}
+
+
+
+
+*/
+

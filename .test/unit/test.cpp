@@ -1388,6 +1388,46 @@ TEST_CASE( "Polynomial: Overloading Operators", "[unit]" ) {
         // test self-assignment:
         P1 = P1;
     }
+
+    SECTION( "Addition operator" ) {
+        Polynomial<deg> P = P1 + P2;
+        REQUIRE( P[0] == 98 );
+        REQUIRE( P[1] == -1 );
+        REQUIRE( P[2] == 8 );
+        REQUIRE( P[3] == 9 );
+        REQUIRE( P[4] == -4 );
+    }
+
+    SECTION( "Subtraction operator" ) {
+        Polynomial<deg> P = P1 - P2;
+        REQUIRE( P[0] == 102 );
+        REQUIRE( P[1] == -1 );
+        REQUIRE( P[2] == -4 );
+        REQUIRE( P[3] == -9 );
+        REQUIRE( P[4] == 4 );
+    }
+
+    SECTION( "Multiplication-by-scalar operator" ) {
+        Polynomial<deg> P = 3 * P1;
+        REQUIRE( P[0] == 300 );
+        REQUIRE( P[1] == -3 );
+        REQUIRE( P[2] == 6 );
+        REQUIRE( P[3] == 0 );
+        REQUIRE( P[4] == 0 );
+    }
+
+    SECTION( "Convolution-Multiplication operator" ) {
+        Polynomial<deg> P = P1 * P2;
+        REQUIRE( P[0] == -178 );
+        REQUIRE( P[1] == -6 );
+        REQUIRE( P[2] == 596 );
+        REQUIRE( P[3] == 894 );
+        REQUIRE( P[4] == -397 );
+    }
+
+    SECTION( "Output stream operator" ) {
+        REQUIRE_NOTHROW(std::cout << P1 << std::endl);
+    }
 }
 
 int main(int argc, char* const argv[]) {
