@@ -1278,6 +1278,40 @@ TEST_CASE( "Hypercomplex: MPFR: const objects", "[unit]" ) {
     clear_mpfr_memory();
 }
 
+TEST_CASE( "RingInverse", "[unit]" ) {
+    //
+    SECTION( "[+]" ) {
+        REQUIRE( RingInverse(5, 17) == 7 );
+        REQUIRE( RingInverse(1, 17) == 1 );
+        REQUIRE( RingInverse(10842, 17) == 4 );
+        REQUIRE( RingInverse(5, 2) == 1 );
+        REQUIRE( RingInverse(1, 2) == 1 );
+        REQUIRE( RingInverse(19573442, 3) == 2 );
+        REQUIRE( RingInverse(19573444, 3) == 1 );
+        REQUIRE( RingInverse(7, 10) == 3 );
+    }
+
+    SECTION( "[-]" ) {
+        REQUIRE( RingInverse(-5, 17) == 10 );
+        REQUIRE( RingInverse(-1, 17) == 16 );
+        REQUIRE( RingInverse(-10842, 17) == 13 );
+        REQUIRE( RingInverse(-5, 2) == 1 );
+        REQUIRE( RingInverse(-1, 2) == 1 );
+        REQUIRE( RingInverse(-19573442, 3) == 1 );
+        REQUIRE( RingInverse(-19573444, 3) == 2 );
+        REQUIRE( RingInverse(-7, 10) == 7 );
+    }
+
+    SECTION( "[exception]" ) {
+        REQUIRE_THROWS_AS( RingInverse(0, 17), std::invalid_argument );
+        REQUIRE_THROWS_AS( RingInverse(0, 2), std::invalid_argument );
+        REQUIRE_THROWS_AS( RingInverse(-9, 3), std::invalid_argument );
+        REQUIRE_THROWS_AS( RingInverse(0, 10), std::invalid_argument );
+        REQUIRE_THROWS_AS( RingInverse(2, 10), std::invalid_argument );
+        REQUIRE_THROWS_AS( RingInverse(-6, 10), std::invalid_argument );
+    }
+}
+
 TEST_CASE( "Polynomial: Class Structure", "[unit]" ) {
     //
     SECTION( "Main constructor" ) {
@@ -1428,6 +1462,69 @@ TEST_CASE( "Polynomial: Overloading Operators", "[unit]" ) {
     SECTION( "Output stream operator" ) {
         REQUIRE_NOTHROW(std::cout << P1 << std::endl);
     }
+
+    SECTION( "Modulo operator" ) {
+        long int coefficients_x[] = {-2, 43, 1, 0, -110, 4125375, -258731};
+        Polynomial<6> Px(coefficients_x);
+        //
+        Polynomial P_87 = Px % 87;
+        REQUIRE( P_87[0] == 85 );
+        REQUIRE( P_87[1] == 43 );
+        REQUIRE( P_87[2] == 1 );
+        REQUIRE( P_87[3] == 0 );
+        REQUIRE( P_87[4] == 64 );
+        REQUIRE( P_87[5] == 9 );
+        REQUIRE( P_87[6] == 7 );
+        //
+        Polynomial P_10 = Px % 10;
+        REQUIRE( P_10[0] == 8 );
+        REQUIRE( P_10[1] == 3 );
+        REQUIRE( P_10[2] == 1 );
+        REQUIRE( P_10[3] == 0 );
+        REQUIRE( P_10[4] == 0 );
+        REQUIRE( P_10[5] == 5 );
+        REQUIRE( P_10[6] == 9 );
+        //
+        Polynomial P_2 = Px % 2;
+        REQUIRE( P_2[0] == 0 );
+        REQUIRE( P_2[1] == 1 );
+        REQUIRE( P_2[2] == 1 );
+        REQUIRE( P_2[3] == 0 );
+        REQUIRE( P_2[4] == 0 );
+        REQUIRE( P_2[5] == 1 );
+        REQUIRE( P_2[6] == 1 );
+    }
+}
+
+TEST_CASE( "Polynomial: CenteredLift function", "[unit]" ) {
+    //
+    long int coefficients_1[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    Polynomial<10> P1(coefficients_1);
+    CenteredLift(P1, 13);
+    REQUIRE( P1[0] == 0 );
+    REQUIRE( P1[1] == 1 );
+    REQUIRE( P1[2] == 2 );
+    REQUIRE( P1[3] == 3 );
+    REQUIRE( P1[4] == 4 );
+    REQUIRE( P1[5] == 5 );
+    REQUIRE( P1[6] == 6 );
+    REQUIRE( P1[7] == -6 );
+    REQUIRE( P1[8] == -5 );
+    REQUIRE( P1[9] == -4 );
+    //
+    long int coefficients_2[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    Polynomial<10> P2(coefficients_2);
+    CenteredLift(P2, 12);
+    REQUIRE( P2[0] == 0 );
+    REQUIRE( P2[1] == 1 );
+    REQUIRE( P2[2] == 2 );
+    REQUIRE( P2[3] == 3 );
+    REQUIRE( P2[4] == 4 );
+    REQUIRE( P2[5] == 5 );
+    REQUIRE( P2[6] == 6 );
+    REQUIRE( P2[7] == -5 );
+    REQUIRE( P2[8] == -4 );
+    REQUIRE( P2[9] == -3 );
 }
 
 int main(int argc, char* const argv[]) {

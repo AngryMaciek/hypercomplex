@@ -22,6 +22,15 @@
 #include <cstdlib>
 #include <iostream>
 
+long int RingInverse(const long int &x, const long int &mod) {
+    long int y = x % mod;
+    if (y < 0) y += mod;
+    for (unsigned int i=1; i < mod; i++) {
+        if ((y*i) % mod == 1) return i;
+    }
+    throw std::invalid_argument("non-invertible element");
+}
+
 template <const unsigned int MaxDeg>
 class Polynomial {
  private:
@@ -160,6 +169,35 @@ Polynomial<MaxDeg> operator*(
     delete[] prod;
     delete[] conv;
     return p;
+}
+
+// overloaded % operator: reduce coefficients modulo a scalar
+template <const unsigned int MaxDeg>
+Polynomial<MaxDeg> operator%(const Polynomial<MaxDeg> &P, const long int &x) {
+    long int *temparr = new long int[MaxDeg+1];
+    for (unsigned int i=0; i <= MaxDeg; i++) {
+        temparr[i] = P[i] % x;
+        if (temparr[i] < 0) temparr[i] += x;
+    }
+    Polynomial<MaxDeg> p(temparr);
+    delete[] temparr;
+    return p;
+}
+
+// centered lift of a polynomial in the quotient ring Z/nZ/ / (x^N-1)
+template <const unsigned int MaxDeg>
+void CenteredLift(const Polynomial<MaxDeg> &P, const long int &mod) {
+    long int lower = -mod/2;
+    long int upper = mod/2;
+    for (unsigned int i = 0; i <= MaxDeg; i++) {
+        if (mod % 2) {  // odd: <lower, upper>
+            if (P[i] < lower) P[i] = P[i] + mod;
+            if (P[i] > upper) P[i] = P[i] - mod;
+        } else {  // even: (lower, upper>
+            if (P[i] <= lower) P[i] = P[i] + mod;
+            if (P[i] > upper) P[i] = P[i] - mod;
+        }
+    }
 }
 
 #endif  // HYPERCOMPLEX_POLYNOMIAL_HPP_
