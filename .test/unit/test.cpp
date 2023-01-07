@@ -1496,6 +1496,23 @@ TEST_CASE( "Polynomial: Overloading Operators", "[unit]" ) {
     }
 }
 
+TEST_CASE( "Polynomial: const objects", "[unit]" ) {
+    const long int coefficientsA[] = {1, 2, 0, 1, -4};
+    const long int coefficientsB[] = {2, 20, 200, 2000, 20000};
+    const Polynomial<4> const_PA(coefficientsA);
+    const Polynomial<4> const_PB(coefficientsB);
+    REQUIRE_NOTHROW(-const_PA);
+    REQUIRE_NOTHROW(const_PA[0]);
+    REQUIRE_NOTHROW(const_PA == const_PB);
+    REQUIRE_NOTHROW(const_PA != const_PB);
+    REQUIRE_NOTHROW(const_PA + const_PB);
+    REQUIRE_NOTHROW(const_PA - const_PB);
+    REQUIRE_NOTHROW(5 * const_PA);
+    REQUIRE_NOTHROW(const_PA * const_PB);
+    REQUIRE_NOTHROW(const_PA % 3);
+    REQUIRE_NOTHROW(std::cout << const_PA << std::endl);
+}
+
 TEST_CASE( "Polynomial: CenteredLift function", "[unit]" ) {
     //
     long int coefficients_1[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
@@ -1513,7 +1530,7 @@ TEST_CASE( "Polynomial: CenteredLift function", "[unit]" ) {
     REQUIRE( P1[9] == -4 );
     //
     long int coefficients_2[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-    Polynomial<10> P2(coefficients_2);
+    const Polynomial<10> P2(coefficients_2);
     CenteredLift(P2, 12);
     REQUIRE( P2[0] == 0 );
     REQUIRE( P2[1] == 1 );
