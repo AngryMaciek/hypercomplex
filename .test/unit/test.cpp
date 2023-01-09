@@ -1572,14 +1572,6 @@ TEST_CASE( "Polynomial: RingInverse function", "[unit]" ) {
     }
 
     SECTION( "Test 3: x^5-1 | mod5" ) {
-        long int coefficients[] = {1, 1, 1, 0, 0};
-        const Polynomial<4> P(coefficients);
-        long int coefficients_inv[] = {4, 3, 3, 4, 3};
-        const Polynomial<4> Pinv(coefficients_inv);
-        REQUIRE( RingInverse(P, 5, 5) == Pinv );
-    }
-
-    SECTION( "Test 4: x^5-1 | mod5" ) {
         long int coefficients[] = {0, 0, 2, 0, 2};
         const Polynomial<4> P(coefficients);
         long int coefficients_inv[] = {1, 4, 4, 4, 1};
@@ -1587,10 +1579,18 @@ TEST_CASE( "Polynomial: RingInverse function", "[unit]" ) {
         REQUIRE( RingInverse(P, 5, 5) == Pinv );
     }
 
-    SECTION( "Test 5: x^5-1 | mod5" ) {
+    SECTION( "Test 4: x^5-1 | mod5" ) {
         long int coefficients[] = {1, 0, 0, 2, 0};
         const Polynomial<4> P(coefficients);
         long int coefficients_inv[] = {2, 3, 2, 1, 4};
+        const Polynomial<4> Pinv(coefficients_inv);
+        REQUIRE( RingInverse(P, 5, 5) == Pinv );
+    }
+
+    SECTION( "Test 5: x^5-1 | mod5" ) {
+        long int coefficients[] = {1, 1, 1, 0, 0};
+        const Polynomial<4> P(coefficients);
+        long int coefficients_inv[] = {4, 3, 3, 4, 3};
         const Polynomial<4> Pinv(coefficients_inv);
         REQUIRE( RingInverse(P, 5, 5) == Pinv );
     }
