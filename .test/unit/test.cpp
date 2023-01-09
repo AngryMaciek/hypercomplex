@@ -1550,7 +1550,7 @@ TEST_CASE( "Polynomial: RingInverse function", "[unit]" ) {
         long int coefficients[] = {0, 3, 0, 0, 2};
         Polynomial<4> P(coefficients);
         REQUIRE_THROWS_AS(
-            RingInverse(P, 5, 5),
+            RingInverse(P, 5),
             std::invalid_argument
         );
     }
@@ -1560,7 +1560,7 @@ TEST_CASE( "Polynomial: RingInverse function", "[unit]" ) {
         Polynomial<10> P(coefficients);
         long int coefficients_inv[] = {1, 2, 0, 2, 2, 1, 0, 2, 1, 2, 0};
         Polynomial<10> Pinv(coefficients_inv);
-        REQUIRE( RingInverse(P, 11, 3) == Pinv );
+        REQUIRE( RingInverse(P, 3) == Pinv );
     }
 
     SECTION( "Test 2: x^11-1 | mod37" ) {
@@ -1568,7 +1568,7 @@ TEST_CASE( "Polynomial: RingInverse function", "[unit]" ) {
         Polynomial<10> P(coefficients);
         long int coefficients_inv[] = {13, 0, 8, 34, 36, 14, 9, 5, 33, 12, 22};
         Polynomial<10> Pinv(coefficients_inv);
-        REQUIRE( RingInverse(P, 11, 37) == Pinv );
+        REQUIRE( RingInverse(P, 37) == Pinv );
     }
 
     SECTION( "Test 3: x^5-1 | mod5" ) {
@@ -1576,7 +1576,7 @@ TEST_CASE( "Polynomial: RingInverse function", "[unit]" ) {
         const Polynomial<4> P(coefficients);
         long int coefficients_inv[] = {1, 4, 4, 4, 1};
         const Polynomial<4> Pinv(coefficients_inv);
-        REQUIRE( RingInverse(P, 5, 5) == Pinv );
+        REQUIRE( RingInverse(P, 5) == Pinv );
     }
 
     SECTION( "Test 4: x^5-1 | mod5" ) {
@@ -1584,7 +1584,7 @@ TEST_CASE( "Polynomial: RingInverse function", "[unit]" ) {
         const Polynomial<4> P(coefficients);
         long int coefficients_inv[] = {2, 3, 2, 1, 4};
         const Polynomial<4> Pinv(coefficients_inv);
-        REQUIRE( RingInverse(P, 5, 5) == Pinv );
+        REQUIRE( RingInverse(P, 5) == Pinv );
     }
 
     SECTION( "Test 5: x^5-1 | mod5" ) {
@@ -1592,7 +1592,16 @@ TEST_CASE( "Polynomial: RingInverse function", "[unit]" ) {
         const Polynomial<4> P(coefficients);
         long int coefficients_inv[] = {4, 3, 3, 4, 3};
         const Polynomial<4> Pinv(coefficients_inv);
-        REQUIRE( RingInverse(P, 5, 5) == Pinv );
+        REQUIRE( RingInverse(P, 5) == Pinv );
+    }
+
+    SECTION( "Test 6: x^5-1 | mod7" ) {
+        long int coefficients[] = {0, 0, 0, 0, 0};
+        Polynomial<4> P(coefficients);
+        REQUIRE_THROWS_AS(
+            RingInverse(P, 7),
+            std::invalid_argument
+        );
     }
 }
 

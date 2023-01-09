@@ -184,7 +184,7 @@ Polynomial<MaxDeg> operator%(const Polynomial<MaxDeg> &P, const long int &x) {
     return p;
 }
 
-// centered lift of a polynomial in the quotient ring Z/nZ/ / (x^N-1)
+// centered lift of a polynomial in a modular quotient ring Z/nZ/ / (x^N-1)
 template <const unsigned int MaxDeg>
 void CenteredLift(const Polynomial<MaxDeg> &P, const long int &mod) {
     long int lower = -mod/2;
@@ -198,6 +198,89 @@ void CenteredLift(const Polynomial<MaxDeg> &P, const long int &mod) {
             if (P[i] > upper) P[i] = P[i] - mod;
         }
     }
+}
+
+// polynomial inverse in a modular quotient ring Z/nZ/ / (x^N-1)
+// adapted from: https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm
+template <const unsigned int MaxDeg>
+Polynomial<MaxDeg> RingInverse(
+    const Polynomial<MaxDeg> &P,
+    const long int &mod
+) {
+    // make sure to shift coefficients to: [0,mod-1]
+    Polynomial<MaxDeg> P_ = P % mod;
+    //
+    // define placeholders & init values
+    //
+    Polynomial<MaxDeg+1> q;
+    Polynomial<MaxDeg+1> temp;
+    //
+    Polynomial<MaxDeg+1> t;
+    Polynomial<MaxDeg+1> newt;
+    newt[0] = 1;
+    //
+    Polynomial<MaxDeg+1> r;
+    r[0] = mod-1;
+    r[MaxDeg+1] = 1;
+    unsigned int deg_r = MaxDeg+1;
+    for (unsigned int i=0; i <= MaxDeg; i++) temp[i] = P_[i];
+    Polynomial<MaxDeg+1> newr(temp);
+    unsigned int deg_newr = 0;
+    for (unsigned int i=0; i <= MaxDeg+1; i++) {
+        if (newr[i]) deg_newr = i;
+    }
+
+    // algorithm loop
+    while (deg_newr > 0) {
+        // division loop
+        while (deg_r >= deg_newr) {
+            for (unsigned int i=0; i <= MaxDeg+1; i++) temp[i] = 0;
+            for (unsigned int i=0; i <= deg_newr; i++)
+                temp[i + deg_r - deg_newr] = newr[i];
+            q[deg_r - deg_newr] =
+                (r[deg_r] * RingInverse(temp[deg_r], mod)) % mod;
+            for (unsigned int i=0; i <= deg_r; i++)
+                temp[i] = (temp[i] * q[deg_r - deg_newr]) % mod;
+            temp = temp % mod;
+            for (unsigned int i=0; i <= deg_r; i++) r[i] = r[i] - temp[i];
+            r = r % mod;
+            deg_r -= 1;
+        }
+
+        // re-assign labels after one round of the algorithm:
+        temp = newr;
+        newr = r;
+        r = temp;
+        //
+        temp = newt;
+        newt = (t - (q * newt)) % mod;
+        t = temp;
+
+        // reset variables:
+        for (unsigned int i=0; i <= MaxDeg+1; i++) q[i] = 0;
+        for (unsigned int i=0; i <= MaxDeg+1; i++) {
+            if (newr[i]) deg_newr = i;
+        }
+        for (unsigned int i=0; i <= MaxDeg+1; i++) {
+            if (r[i]) deg_r = i;
+        }
+    }
+
+    // after the algorithm: deg of the last remainder < deg(P)
+    assert(newr[MaxDeg+1] == 0);
+
+    // construct the inverse polynomial
+    long int multiplier = RingInverse(newr[0], mod);
+    Polynomial<MaxDeg> inverse;
+    for (unsigned int i=0; i <= MaxDeg; i++) inverse[i] = newt[i];
+    inverse = (multiplier * inverse) % mod;
+
+    // test: P * 1/P == 1
+    Polynomial<MaxDeg> unity;
+    unity[0] = 1;
+    assert((inverse * P) % mod == unity);
+
+    return inverse;
 }
 
 #endif  // HYPERCOMPLEX_POLYNOMIAL_HPP_
