@@ -1316,14 +1316,14 @@ TEST_CASE( "Polynomial: Class Structure", "[unit]" ) {
     //
     SECTION( "Main constructor" ) {
         const unsigned int deg = 4;
-        long int coefficients[] = {100, -1, 2, 0, 0};
+        int64_t coefficients[] = {100, -1, 2, 0, 0};
         Polynomial<deg> P(coefficients);
         REQUIRE( true );
     }
 
     SECTION( "Copy constructor" ) {
         const unsigned int deg = 4;
-        long int coefficients[] = {100, -1, 2, 0, 0};
+        int64_t coefficients[] = {100, -1, 2, 0, 0};
         Polynomial<deg> P1(coefficients);
         Polynomial<deg> P2(P1);
         Polynomial<deg> P3 = P2;
@@ -1345,7 +1345,7 @@ TEST_CASE( "Polynomial: Class Structure", "[unit]" ) {
 
     SECTION( "Destructor" ) {
         const unsigned int deg = 4;
-        long int coefficients[] = {100, -1, 2, 0, 0};
+        int64_t coefficients[] = {100, -1, 2, 0, 0};
         // dynamic memory allocation for memory leak test:
         Polynomial<deg>* P = new Polynomial<deg>(coefficients);
         delete P;
@@ -1356,9 +1356,9 @@ TEST_CASE( "Polynomial: Class Structure", "[unit]" ) {
 TEST_CASE( "Polynomial: Overloading Operators", "[unit]" ) {
     //
     const unsigned int deg = 4;
-    long int coefficients1[] = {100, -1, 2, 0, 0};
-    long int coefficients2[] = {-2, 0, 6, 9, -4};
-    long int coefficients3[] = {-20, 4, 1, -4, 10};
+    int64_t coefficients1[] = {100, -1, 2, 0, 0};
+    int64_t coefficients2[] = {-2, 0, 6, 9, -4};
+    int64_t coefficients3[] = {-20, 4, 1, -4, 10};
     Polynomial<deg> P1(coefficients1);
     Polynomial<deg> P2(coefficients2);
     Polynomial<deg> P3(coefficients3);
@@ -1400,9 +1400,9 @@ TEST_CASE( "Polynomial: Overloading Operators", "[unit]" ) {
     }
 
     SECTION( "Assignment operator" ) {
-        long int coefficientsA[] = {1, 2, 0, 1, -4};
-        long int coefficientsB[] = {2, 20, 200, 2000, 20000};
-        long int coefficientsC[] = {-5, -23, -43, -662, -2934};
+        int64_t coefficientsA[] = {1, 2, 0, 1, -4};
+        int64_t coefficientsB[] = {2, 20, 200, 2000, 20000};
+        int64_t coefficientsC[] = {-5, -23, -43, -662, -2934};
         Polynomial<deg> PA(coefficientsA);
         Polynomial<deg> PB(coefficientsB);
         Polynomial<deg> PC(coefficientsC);
@@ -1464,7 +1464,7 @@ TEST_CASE( "Polynomial: Overloading Operators", "[unit]" ) {
     }
 
     SECTION( "Modulo operator" ) {
-        long int coefficients_x[] = {-2, 43, 1, 0, -110, 4125375, -258731};
+        int64_t coefficients_x[] = {-2, 43, 1, 0, -110, 4125375, -258731};
         Polynomial<6> Px(coefficients_x);
         //
         Polynomial P_87 = Px % 87;
@@ -1497,8 +1497,8 @@ TEST_CASE( "Polynomial: Overloading Operators", "[unit]" ) {
 }
 
 TEST_CASE( "Polynomial: const objects", "[unit]" ) {
-    const long int coefficientsA[] = {1, 2, 0, 1, -4};
-    const long int coefficientsB[] = {2, 20, 200, 2000, 20000};
+    const int64_t coefficientsA[] = {1, 2, 0, 1, -4};
+    const int64_t coefficientsB[] = {2, 20, 200, 2000, 20000};
     const Polynomial<4> const_PA(coefficientsA);
     const Polynomial<4> const_PB(coefficientsB);
     REQUIRE_NOTHROW(-const_PA);
@@ -1515,7 +1515,7 @@ TEST_CASE( "Polynomial: const objects", "[unit]" ) {
 
 TEST_CASE( "Polynomial: CenteredLift function", "[unit]" ) {
     //
-    long int coefficients_1[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    int64_t coefficients_1[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
     Polynomial<10> P1(coefficients_1);
     CenteredLift(P1, 13);
     REQUIRE( P1[0] == 0 );
@@ -1529,7 +1529,7 @@ TEST_CASE( "Polynomial: CenteredLift function", "[unit]" ) {
     REQUIRE( P1[8] == -5 );
     REQUIRE( P1[9] == -4 );
     //
-    long int coefficients_2[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    int64_t coefficients_2[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
     const Polynomial<10> P2(coefficients_2);
     CenteredLift(P2, 12);
     REQUIRE( P2[0] == 0 );
@@ -1547,7 +1547,7 @@ TEST_CASE( "Polynomial: CenteredLift function", "[unit]" ) {
 TEST_CASE( "Polynomial: RingInverse function", "[unit]" ) {
     //
     SECTION( "Test 0: x^5-1 | mod5" ) {
-        long int coefficients[] = {0, 3, 0, 0, 2};
+        int64_t coefficients[] = {0, 3, 0, 0, 2};
         Polynomial<4> P(coefficients);
         REQUIRE_THROWS_AS(
             RingInverse(P, 5),
@@ -1556,47 +1556,47 @@ TEST_CASE( "Polynomial: RingInverse function", "[unit]" ) {
     }
 
     SECTION( "Test 1: x^11-1 | mod3" ) {
-        long int coefficients[] = {2, 1, 1, 0, 2, 0, 1, 0, 0, 1, 2};
+        int64_t coefficients[] = {2, 1, 1, 0, 2, 0, 1, 0, 0, 1, 2};
         Polynomial<10> P(coefficients);
-        long int coefficients_inv[] = {1, 2, 0, 2, 2, 1, 0, 2, 1, 2, 0};
+        int64_t coefficients_inv[] = {1, 2, 0, 2, 2, 1, 0, 2, 1, 2, 0};
         Polynomial<10> Pinv(coefficients_inv);
         REQUIRE( RingInverse(P, 3) == Pinv );
     }
 
     SECTION( "Test 2: x^11-1 | mod37" ) {
-        long int coefficients[] = {36, 1, 1, 0, 36, 0, 1, 0, 0, 1, 36};
+        int64_t coefficients[] = {36, 1, 1, 0, 36, 0, 1, 0, 0, 1, 36};
         Polynomial<10> P(coefficients);
-        long int coefficients_inv[] = {13, 0, 8, 34, 36, 14, 9, 5, 33, 12, 22};
+        int64_t coefficients_inv[] = {13, 0, 8, 34, 36, 14, 9, 5, 33, 12, 22};
         Polynomial<10> Pinv(coefficients_inv);
         REQUIRE( RingInverse(P, 37) == Pinv );
     }
 
     SECTION( "Test 3: x^5-1 | mod5" ) {
-        long int coefficients[] = {0, 0, 2, 0, 2};
+        int64_t coefficients[] = {0, 0, 2, 0, 2};
         const Polynomial<4> P(coefficients);
-        long int coefficients_inv[] = {1, 4, 4, 4, 1};
+        int64_t coefficients_inv[] = {1, 4, 4, 4, 1};
         const Polynomial<4> Pinv(coefficients_inv);
         REQUIRE( RingInverse(P, 5) == Pinv );
     }
 
     SECTION( "Test 4: x^5-1 | mod5" ) {
-        long int coefficients[] = {1, 0, 0, 2, 0};
+        int64_t coefficients[] = {1, 0, 0, 2, 0};
         const Polynomial<4> P(coefficients);
-        long int coefficients_inv[] = {2, 3, 2, 1, 4};
+        int64_t coefficients_inv[] = {2, 3, 2, 1, 4};
         const Polynomial<4> Pinv(coefficients_inv);
         REQUIRE( RingInverse(P, 5) == Pinv );
     }
 
     SECTION( "Test 5: x^5-1 | mod5" ) {
-        long int coefficients[] = {1, 1, 1, 0, 0};
+        int64_t coefficients[] = {1, 1, 1, 0, 0};
         const Polynomial<4> P(coefficients);
-        long int coefficients_inv[] = {4, 3, 3, 4, 3};
+        int64_t coefficients_inv[] = {4, 3, 3, 4, 3};
         const Polynomial<4> Pinv(coefficients_inv);
         REQUIRE( RingInverse(P, 5) == Pinv );
     }
 
     SECTION( "Test 6: x^5-1 | mod7" ) {
-        long int coefficients[] = {0, 0, 0, 0, 0};
+        int64_t coefficients[] = {0, 0, 0, 0, 0};
         Polynomial<4> P(coefficients);
         REQUIRE_THROWS_AS(
             RingInverse(P, 7),
