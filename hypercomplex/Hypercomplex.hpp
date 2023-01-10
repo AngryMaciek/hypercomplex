@@ -1208,8 +1208,6 @@ class Hypercomplex<Polynomial<MaxDeg>, dim> {
         return *this;
     }
 
-    /*
-
     Hypercomplex& operator*= (const Hypercomplex &H) {
         Hypercomplex<Polynomial<MaxDeg>, dim> result = (*this) * H;
         for (unsigned int i=0; i < dim; i++) (*this)[i] = result[i];
@@ -1221,9 +1219,6 @@ class Hypercomplex<Polynomial<MaxDeg>, dim> {
         for (unsigned int i=0; i < dim; i++) (*this)[i] = result[i];
         return *this;
     }
-
-    */
-
 };
 
 // overloaded == operator
@@ -1339,8 +1334,6 @@ Hypercomplex<Polynomial<MaxDeg>, dim> operator%(
     return h;
 }
 
-/*
-
 // overloaded * binary operator
 template <const unsigned int MaxDeg, const unsigned int dim>
 Hypercomplex<Polynomial<MaxDeg>, dim> operator*(
@@ -1397,7 +1390,19 @@ Hypercomplex<Polynomial<MaxDeg>, dim> operator^(
     }
 }
 
-*/
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Hypercomplex inv() const {
 //

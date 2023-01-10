@@ -1947,6 +1947,140 @@ TEST_CASE( "Hypercomplex: Polynomial lib test", "[unit]" ) {
             REQUIRE( hA[3] == polynomial4 % 2 );
         }
 
+        SECTION( "Multiplication operator" ) {
+            Hypercomplex<Polynomial<MaxDeg>, dim> h = hA * hB;
+            REQUIRE( h[0][0] == -43 );
+            REQUIRE( h[0][1] == -37 );
+            REQUIRE( h[0][2] == -53 );
+            REQUIRE( h[0][3] == -37 );
+            REQUIRE( h[0][4] == -40 );
+            REQUIRE( h[1][0] == 18 );
+            REQUIRE( h[1][1] == 22 );
+            REQUIRE( h[1][2] == 15 );
+            REQUIRE( h[1][3] == 19 );
+            REQUIRE( h[1][4] == 6 );
+            REQUIRE( h[2][0] == 36 );
+            REQUIRE( h[2][1] == 36 );
+            REQUIRE( h[2][2] == 28 );
+            REQUIRE( h[2][3] == 25 );
+            REQUIRE( h[2][4] == 29 );
+            REQUIRE( h[3][0] == 26 );
+            REQUIRE( h[3][1] == 6 );
+            REQUIRE( h[3][2] == 26 );
+            REQUIRE( h[3][3] == 32 );
+            REQUIRE( h[3][4] == 13 );
+        }
+
+        SECTION( "Power operator" ) {
+            REQUIRE_THROWS_AS(hA ^ 0, std::invalid_argument);
+            REQUIRE_NOTHROW(hA ^ 1);
+            Hypercomplex<Polynomial<MaxDeg>, dim> h = hA ^ 3;
+            REQUIRE( h[0][0] == -458 );
+            REQUIRE( h[0][1] == -439 );
+            REQUIRE( h[0][2] == -574 );
+            REQUIRE( h[0][3] == -393 );
+            REQUIRE( h[0][4] == -561 );
+            REQUIRE( h[1][0] == -89 );
+            REQUIRE( h[1][1] == -88 );
+            REQUIRE( h[1][2] == -93 );
+            REQUIRE( h[1][3] == -84 );
+            REQUIRE( h[1][4] == -121 );
+            REQUIRE( h[2][0] == -218 );
+            REQUIRE( h[2][1] == -105 );
+            REQUIRE( h[2][2] == -216 );
+            REQUIRE( h[2][3] == -165 );
+            REQUIRE( h[2][4] == -151 );
+            REQUIRE( h[3][0] == -65 );
+            REQUIRE( h[3][1] == -228 );
+            REQUIRE( h[3][2] == -115 );
+            REQUIRE( h[3][3] == -134 );
+            REQUIRE( h[3][4] == -218 );
+            // test implicit type conversion
+            short int si = 3;
+            unsigned short int usi = 3;
+            int i = 3;
+            unsigned int ui = 3;
+            long int li = 3;
+            unsigned long int uli = 3;
+            long long int lli = 3;
+            unsigned long long int ulli = 3;
+            REQUIRE_NOTHROW(hA ^ si);
+            REQUIRE_NOTHROW(hA ^ usi);
+            REQUIRE_NOTHROW(hA ^ i);
+            REQUIRE_NOTHROW(hA ^ ui);
+            REQUIRE_NOTHROW(hA ^ li);
+            REQUIRE_NOTHROW(hA ^ uli);
+            REQUIRE_NOTHROW(hA ^ lli);
+            REQUIRE_NOTHROW(hA ^ ulli);
+        }
+
+        SECTION( "Multiplication-Assignment operator" ) {
+            hA *= hB;
+            REQUIRE( hA[0][0] == -43 );
+            REQUIRE( hA[0][1] == -37 );
+            REQUIRE( hA[0][2] == -53 );
+            REQUIRE( hA[0][3] == -37 );
+            REQUIRE( hA[0][4] == -40 );
+            REQUIRE( hA[1][0] == 18 );
+            REQUIRE( hA[1][1] == 22 );
+            REQUIRE( hA[1][2] == 15 );
+            REQUIRE( hA[1][3] == 19 );
+            REQUIRE( hA[1][4] == 6 );
+            REQUIRE( hA[2][0] == 36 );
+            REQUIRE( hA[2][1] == 36 );
+            REQUIRE( hA[2][2] == 28 );
+            REQUIRE( hA[2][3] == 25 );
+            REQUIRE( hA[2][4] == 29 );
+            REQUIRE( hA[3][0] == 26 );
+            REQUIRE( hA[3][1] == 6 );
+            REQUIRE( hA[3][2] == 26 );
+            REQUIRE( hA[3][3] == 32 );
+            REQUIRE( hA[3][4] == 13 );
+        }
+
+        SECTION( "Power-Assignment operator" ) {
+            REQUIRE_THROWS_AS(hA ^= 0, std::invalid_argument);
+            REQUIRE_NOTHROW(hA ^= 1);
+            hA ^= 3;
+            REQUIRE( hA[0][0] == -458 );
+            REQUIRE( hA[0][1] == -439 );
+            REQUIRE( hA[0][2] == -574 );
+            REQUIRE( hA[0][3] == -393 );
+            REQUIRE( hA[0][4] == -561 );
+            REQUIRE( hA[1][0] == -89 );
+            REQUIRE( hA[1][1] == -88 );
+            REQUIRE( hA[1][2] == -93 );
+            REQUIRE( hA[1][3] == -84 );
+            REQUIRE( hA[1][4] == -121 );
+            REQUIRE( hA[2][0] == -218 );
+            REQUIRE( hA[2][1] == -105 );
+            REQUIRE( hA[2][2] == -216 );
+            REQUIRE( hA[2][3] == -165 );
+            REQUIRE( hA[2][4] == -151 );
+            REQUIRE( hA[3][0] == -65 );
+            REQUIRE( hA[3][1] == -228 );
+            REQUIRE( hA[3][2] == -115 );
+            REQUIRE( hA[3][3] == -134 );
+            REQUIRE( hA[3][4] == -218 );
+            // test implicit type conversion
+            short int si = 3;
+            unsigned short int usi = 3;
+            int i = 3;
+            unsigned int ui = 3;
+            long int li = 3;
+            unsigned long int uli = 3;
+            long long int lli = 3;
+            unsigned long long int ulli = 3;
+            REQUIRE_NOTHROW(hA ^= si);
+            REQUIRE_NOTHROW(hA ^= usi);
+            REQUIRE_NOTHROW(hA ^= i);
+            REQUIRE_NOTHROW(hA ^= ui);
+            REQUIRE_NOTHROW(hA ^= li);
+            REQUIRE_NOTHROW(hA ^= uli);
+            REQUIRE_NOTHROW(hA ^= lli);
+            REQUIRE_NOTHROW(hA ^= ulli);
+        }
+
         SECTION( "Output stream operator" ) {
             REQUIRE_NOTHROW(std::cout << hA << std::endl);
         }
