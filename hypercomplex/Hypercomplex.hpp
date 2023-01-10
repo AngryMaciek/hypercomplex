@@ -1219,6 +1219,8 @@ class Hypercomplex<Polynomial<MaxDeg>, dim> {
         for (unsigned int i=0; i < dim; i++) (*this)[i] = result[i];
         return *this;
     }
+
+    Hypercomplex& operator/= (const Hypercomplex &H) = delete;
 };
 
 // overloaded == operator
@@ -1267,6 +1269,13 @@ Hypercomplex<Polynomial<MaxDeg>, dim> operator-(
     delete[] temparr;
     return H;
 }
+
+// forbid / binary operator
+template <const unsigned int MaxDeg, const unsigned int dim>
+Hypercomplex<Polynomial<MaxDeg>, dim> operator/(
+    const Hypercomplex<Polynomial<MaxDeg>, dim> &H1,
+    const Hypercomplex<Polynomial<MaxDeg>, dim> &H2
+) = delete;
 
 // overloaded << operator
 template <const unsigned int MaxDeg, const unsigned int dim>
@@ -1380,6 +1389,12 @@ Hypercomplex<Polynomial<MaxDeg>, dim> Im(
     result[0] = Polynomial<MaxDeg>();
     return result;
 }
+
+// forbid e^H
+template <const unsigned int MaxDeg, const unsigned int dim>
+Hypercomplex<Polynomial<MaxDeg>, dim> exp(
+    const Hypercomplex<Polynomial<MaxDeg>, dim> &H
+) = delete;
 
 // centered lift in a modular quotient ring Z/nZ/ / (x^N-1)
 template <const unsigned int MaxDeg, const unsigned int dim>
