@@ -4,7 +4,7 @@
 #   Test: unit tests
 #
 #   AUTHOR: Maciej_Bak
-#   AFFILIATION: Swiss_Institute_of_Bioinformatics
+#   AFFILIATION: Department_of_Mathematics_City_University_of_London
 #   CONTACT: wsciekly.maciek@gmail.com
 #   CREATED: 23-10-2020
 #   LICENSE: MIT

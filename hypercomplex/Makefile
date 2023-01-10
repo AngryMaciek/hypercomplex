@@ -2,7 +2,7 @@
 # Makefile for installation & development of the library.
 #
 # Maciej Bak
-# Swiss Institute of Bioinformatics
+# Department of Mathematics, City University of London
 # 22.10.2019
 #
 

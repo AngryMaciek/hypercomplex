@@ -6,7 +6,7 @@
 #   Polynomial helper class and functions for the cryptosystems.
 #
 #   AUTHOR: Maciej_Bak
-#   AFFILIATION: Swiss_Institute_of_Bioinformatics
+#   AFFILIATION: Department_of_Mathematics_City_University_of_London
 #   CONTACT: wsciekly.maciek@gmail.com
 #   CREATED: 02-12-2022
 #   LICENSE: Apache 2.0
