@@ -1279,35 +1279,6 @@ std::ostream& operator<<(
     return os;
 }
 
-// return the real part of the number
-template <const unsigned int MaxDeg, const unsigned int dim>
-Hypercomplex<Polynomial<MaxDeg>, dim> Re(
-    const Hypercomplex<Polynomial<MaxDeg>, dim> &H
-) {
-    Hypercomplex<Polynomial<MaxDeg>, dim> result = H;
-    for (unsigned int i=1; i < dim; i++) result[i] = Polynomial<MaxDeg>();
-    return result;
-}
-
-// return the imaginary part of the number
-template <const unsigned int MaxDeg, const unsigned int dim>
-Hypercomplex<Polynomial<MaxDeg>, dim> Im(
-    const Hypercomplex<Polynomial<MaxDeg>, dim> &H
-) {
-    Hypercomplex<Polynomial<MaxDeg>, dim> result = H;
-    result[0] = Polynomial<MaxDeg>();
-    return result;
-}
-
-// centered lift in a modular quotient ring Z/nZ/ / (x^N-1)
-template <const unsigned int MaxDeg, const unsigned int dim>
-void CenteredLift(
-    const Hypercomplex<Polynomial<MaxDeg>, dim> &H,
-    const int64_t &mod
-) {
-    for (unsigned int i=0; i < dim; i++) CenteredLift(H[i], mod);
-}
-
 // overloaded * operator: multiplication by a scalar
 template <const unsigned int MaxDeg, const unsigned int dim>
 Hypercomplex<Polynomial<MaxDeg>, dim> operator*(
@@ -1390,39 +1361,58 @@ Hypercomplex<Polynomial<MaxDeg>, dim> operator^(
     }
 }
 
+// return the real part of the number
+template <const unsigned int MaxDeg, const unsigned int dim>
+Hypercomplex<Polynomial<MaxDeg>, dim> Re(
+    const Hypercomplex<Polynomial<MaxDeg>, dim> &H
+) {
+    Hypercomplex<Polynomial<MaxDeg>, dim> result = H;
+    for (unsigned int i=1; i < dim; i++) result[i] = Polynomial<MaxDeg>();
+    return result;
+}
 
+// return the imaginary part of the number
+template <const unsigned int MaxDeg, const unsigned int dim>
+Hypercomplex<Polynomial<MaxDeg>, dim> Im(
+    const Hypercomplex<Polynomial<MaxDeg>, dim> &H
+) {
+    Hypercomplex<Polynomial<MaxDeg>, dim> result = H;
+    result[0] = Polynomial<MaxDeg>();
+    return result;
+}
 
+// centered lift in a modular quotient ring Z/nZ/ / (x^N-1)
+template <const unsigned int MaxDeg, const unsigned int dim>
+void CenteredLift(
+    const Hypercomplex<Polynomial<MaxDeg>, dim> &H,
+    const int64_t &mod
+) {
+    for (unsigned int i=0; i < dim; i++) CenteredLift(H[i], mod);
+}
 
-
-
-
-
-
-
-
-
-
-
-
-// Hypercomplex inv() const {
-//
-// Hypercomplex inverse in the quotient ring Z/nZ/ / (x^N-1)
-// implement according to QTRU paper, with RingNorm
-// In general, inverses in your complex algebra can be calculated by taking inverses of norms, as on p. 9 of your OTRU link.
-//template <const unsigned int MaxDeg, const unsigned int dim>
-//Hypercomplex<Polynomial<MaxDeg>, dim> RingInverse(const Hypercomplex<Polynomial<MaxDeg>, dim> &H, const int &mod) {
-// Polynomial<MaxDeg> norm = H.norm();
-// norm inverse over respective ring
-// norm inverse * coefficients
-//}
-//
-// Hypercomplex inverse in the quotient ring Z/nZ/ / (x^N-1)
-// implement according to QTRU paper, with norm and then modulo
-// Sometimes inverse do not exist? If the initial polynomial is from the field it has to have one
-// how to handle case if there is no inverse? -> raise error
-//template <const unsigned int MaxDeg, const unsigned int dim>
-//Hypercomplex<Polynomial<MaxDeg>, dim> RingInverse(const Hypercomplex<Polynomial<MaxDeg>, dim> &H, const int &mod) {
-//}
-// https://math.stackexchange.com/questions/2092716/find-the-inverse-of-a-polynomial-in-a-quotient-ring
+// Hypercomplex inverse in a modular quotient ring Z/nZ/ / (x^N-1)
+template <const unsigned int MaxDeg, const unsigned int dim>
+Hypercomplex<Polynomial<MaxDeg>, dim> RingInverse(
+    const Hypercomplex<Polynomial<MaxDeg>, dim> &H,
+    const int64_t &mod
+) {
+    Polynomial<MaxDeg> ringnorm2 = H.norm() % mod;
+    Polynomial<MaxDeg> ringinverse = RingInverse(ringnorm2, mod);
+    Polynomial<MaxDeg>* temparr = new Polynomial<MaxDeg>[dim];
+    temparr[0] = H[0] * ringinverse % mod;
+    for (unsigned int i=1; i < dim; i++)
+        temparr[i] = -H[i] * ringinverse % mod;
+    Hypercomplex<Polynomial<MaxDeg>, dim> Hinv(temparr);
+    delete[] temparr;
+    // validate the inverse:
+    Polynomial<MaxDeg> zero;
+    Polynomial<MaxDeg> unity;
+    unity[0] = 1;
+    Hypercomplex<Polynomial<MaxDeg>, dim> result = (H * Hinv) % mod;
+    assert(result[0] == unity);
+    for (unsigned int i=1; i < dim; i++) assert(result[i] == zero);
+    //
+    return Hinv;
+}
 
 #endif  // HYPERCOMPLEX_HYPERCOMPLEX_HPP_

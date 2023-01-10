@@ -1674,6 +1674,23 @@ TEST_CASE( "Hypercomplex: Polynomial lib test", "[unit]" ) {
             REQUIRE( h1.norm() == polynomial );
         }
 
+        SECTION( "Inverse" ) {
+            Hypercomplex<Polynomial<MaxDeg>, dim> invh1 = RingInverse(h1, 2);
+            int64_t inv_array1[] = {0, 0, 0, 0, 0};
+            int64_t inv_array2[] = {0, 1, 0, 1, 0};
+            int64_t inv_array3[] = {1, 1, 1, 0, 1};
+            int64_t inv_array4[] = {0, 0, 0, 1, 0};
+            Polynomial<MaxDeg> inv_polynomial1(inv_array1);
+            Polynomial<MaxDeg> inv_polynomial2(inv_array2);
+            Polynomial<MaxDeg> inv_polynomial3(inv_array3);
+            Polynomial<MaxDeg> inv_polynomial4(inv_array4);
+            REQUIRE( invh1[0] == inv_polynomial1 );
+            REQUIRE( invh1[1] == inv_polynomial2 );
+            REQUIRE( invh1[2] == inv_polynomial3 );
+            REQUIRE( invh1[3] == inv_polynomial4 );
+            REQUIRE_THROWS_AS( RingInverse(h1, 3), std::invalid_argument );
+        }
+
         SECTION( "Real part" ) {
             Polynomial<MaxDeg> zero;
             Hypercomplex<Polynomial<MaxDeg>, dim> real_h1 = Re(h1);
