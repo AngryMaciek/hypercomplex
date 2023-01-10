@@ -1883,6 +1883,70 @@ TEST_CASE( "Hypercomplex: Polynomial lib test", "[unit]" ) {
             hA = hA;
         }
 
+        SECTION( "Addition operator" ) {
+            Hypercomplex<Polynomial<MaxDeg>, dim> h = hA + hB;
+            REQUIRE( h[0] == polynomial1 + polynomial5 );
+            REQUIRE( h[1] == polynomial2 + polynomial6 );
+            REQUIRE( h[2] == polynomial3 + polynomial7 );
+            REQUIRE( h[3] == polynomial4 + polynomial8 );
+        }
+
+        SECTION( "Subtraction operator" ) {
+            Hypercomplex<Polynomial<MaxDeg>, dim> h = hA - hB;
+            REQUIRE( h[0] == polynomial1 - polynomial5 );
+            REQUIRE( h[1] == polynomial2 - polynomial6 );
+            REQUIRE( h[2] == polynomial3 - polynomial7 );
+            REQUIRE( h[3] == polynomial4 - polynomial8 );
+        }
+
+        SECTION( "Addition-Assignment operator" ) {
+            hA += hB;
+            REQUIRE( hA[0] == polynomial1 + polynomial5 );
+            REQUIRE( hA[1] == polynomial2 + polynomial6 );
+            REQUIRE( hA[2] == polynomial3 + polynomial7 );
+            REQUIRE( hA[3] == polynomial4 + polynomial8 );
+        }
+
+        SECTION( "Subtraction-Assignment operator" ) {
+            hA -= hB;
+            REQUIRE( hA[0] == polynomial1 - polynomial5 );
+            REQUIRE( hA[1] == polynomial2 - polynomial6 );
+            REQUIRE( hA[2] == polynomial3 - polynomial7 );
+            REQUIRE( hA[3] == polynomial4 - polynomial8 );
+        }
+
+        SECTION( "Multiplication-by-scalar operator" ) {
+            Hypercomplex<Polynomial<MaxDeg>, dim> h = 3 * hA;
+            REQUIRE( h[0] == 3 * polynomial1 );
+            REQUIRE( h[1] == 3 * polynomial2 );
+            REQUIRE( h[2] == 3 * polynomial3 );
+            REQUIRE( h[3] == 3 * polynomial4 );
+        }
+
+        SECTION( "Modulo operator" ) {
+            Hypercomplex<Polynomial<MaxDeg>, dim> h = hA % 2;
+            REQUIRE( h[0] == polynomial1 % 2 );
+            REQUIRE( h[1] == polynomial2 % 2 );
+            REQUIRE( h[2] == polynomial3 % 2 );
+            REQUIRE( h[3] == polynomial4 % 2 );
+        }
+
+        SECTION( "Multiplication-by-scalar-Assignment operator" ) {
+            hA *= 3;
+            REQUIRE( hA[0] == 3 * polynomial1 );
+            REQUIRE( hA[1] == 3 * polynomial2 );
+            REQUIRE( hA[2] == 3 * polynomial3 );
+            REQUIRE( hA[3] == 3 * polynomial4 );
+        }
+
+        SECTION( "Modulo-Assignment operator" ) {
+            hA %= 2;
+            REQUIRE( hA[0] == polynomial1 % 2 );
+            REQUIRE( hA[1] == polynomial2 % 2 );
+            REQUIRE( hA[2] == polynomial3 % 2 );
+            REQUIRE( hA[3] == polynomial4 % 2 );
+        }
+
         SECTION( "Output stream operator" ) {
             REQUIRE_NOTHROW(std::cout << hA << std::endl);
         }

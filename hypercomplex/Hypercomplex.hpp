@@ -22,6 +22,7 @@
 #include <cassert>
 #include <cmath>
 #include <cstdlib>
+#include "Polynomial.hpp"
 #include <iostream>
 #include <stdexcept>
 
@@ -1098,10 +1099,6 @@ Hypercomplex<mpfr_t, dim> exp(const Hypercomplex<mpfr_t, dim> &H) {
     return result;
 }
 
-#endif  // HYPERCOMPLEX_HYPERCOMPLEX_HPP_
-
-
-
 /*
 ###############################################################################
 #
@@ -1112,8 +1109,6 @@ Hypercomplex<mpfr_t, dim> exp(const Hypercomplex<mpfr_t, dim> &H) {
 
 /** Partial specialisation of the main class for polynomial operations
   */
-
-/*
 template <const unsigned int MaxDeg, const unsigned int dim>
 class Hypercomplex<Polynomial<MaxDeg>, dim> {
  private:
@@ -1200,6 +1195,21 @@ class Hypercomplex<Polynomial<MaxDeg>, dim> {
         return *this;
     }
 
+    Hypercomplex& operator*= (const int64_t &x) {
+        // scalar-polynomial multiplication is commutative
+        Hypercomplex<Polynomial<MaxDeg>, dim> result = x * (*this);
+        for (unsigned int i=0; i < dim; i++) (*this)[i] = result[i];
+        return *this;
+    }
+
+    Hypercomplex& operator%= (const int64_t &x) {
+        Hypercomplex<Polynomial<MaxDeg>, dim> result = (*this) % x;
+        for (unsigned int i=0; i < dim; i++) (*this)[i] = result[i];
+        return *this;
+    }
+
+    /*
+
     Hypercomplex& operator*= (const Hypercomplex &H) {
         Hypercomplex<Polynomial<MaxDeg>, dim> result = (*this) * H;
         for (unsigned int i=0; i < dim; i++) (*this)[i] = result[i];
@@ -1211,6 +1221,9 @@ class Hypercomplex<Polynomial<MaxDeg>, dim> {
         for (unsigned int i=0; i < dim; i++) (*this)[i] = result[i];
         return *this;
     }
+
+    */
+
 };
 
 // overloaded == operator
@@ -1232,32 +1245,6 @@ bool operator!=(
     const Hypercomplex<Polynomial<MaxDeg>, dim> &H2
 ) {
     return !(H1 == H2);
-}
-
-// overloaded * operator: multiplication by a scalar
-template <const unsigned int MaxDeg, const unsigned int dim>
-Hypercomplex<Polynomial<MaxDeg>, dim> operator*(
-    const int &x,
-    const Hypercomplex<Polynomial<MaxDeg>, dim> &H
-) {
-    Polynomial<MaxDeg> *temparr = new Polynomial<MaxDeg>[dim];
-    for (unsigned int i=0; i < dim; i++) temparr[i] = x * H[i];
-    Hypercomplex<Polynomial<MaxDeg>, dim> h(temparr);
-    delete[] temparr;
-    return h;
-}
-
-// overloaded % operator: reduce coefficients modulo a scalar
-template <const unsigned int MaxDeg, const unsigned int dim>
-Hypercomplex<Polynomial<MaxDeg>, dim> operator%(
-    const Hypercomplex<Polynomial<MaxDeg>, dim> &H,
-    const int &x
-) {
-    Polynomial<MaxDeg> *temparr = new Polynomial<MaxDeg>[dim];
-    for (unsigned int i=0; i < dim; i++) temparr[i] = H[i] % x;
-    Hypercomplex<Polynomial<MaxDeg>, dim> h(temparr);
-    delete[] temparr;
-    return h;
 }
 
 // overloaded + binary operator
@@ -1285,6 +1272,74 @@ Hypercomplex<Polynomial<MaxDeg>, dim> operator-(
     delete[] temparr;
     return H;
 }
+
+// overloaded << operator
+template <const unsigned int MaxDeg, const unsigned int dim>
+std::ostream& operator<<(
+    std::ostream &os,
+    const Hypercomplex<Polynomial<MaxDeg>, dim> &H
+) {
+    for (unsigned int i=0; i < dim - 1; i++) os << H[i] << std::endl;
+    os << H[dim - 1];
+    return os;
+}
+
+// return the real part of the number
+template <const unsigned int MaxDeg, const unsigned int dim>
+Hypercomplex<Polynomial<MaxDeg>, dim> Re(
+    const Hypercomplex<Polynomial<MaxDeg>, dim> &H
+) {
+    Hypercomplex<Polynomial<MaxDeg>, dim> result = H;
+    for (unsigned int i=1; i < dim; i++) result[i] = Polynomial<MaxDeg>();
+    return result;
+}
+
+// return the imaginary part of the number
+template <const unsigned int MaxDeg, const unsigned int dim>
+Hypercomplex<Polynomial<MaxDeg>, dim> Im(
+    const Hypercomplex<Polynomial<MaxDeg>, dim> &H
+) {
+    Hypercomplex<Polynomial<MaxDeg>, dim> result = H;
+    result[0] = Polynomial<MaxDeg>();
+    return result;
+}
+
+// centered lift in a modular quotient ring Z/nZ/ / (x^N-1)
+template <const unsigned int MaxDeg, const unsigned int dim>
+void CenteredLift(
+    const Hypercomplex<Polynomial<MaxDeg>, dim> &H,
+    const int64_t &mod
+) {
+    for (unsigned int i=0; i < dim; i++) CenteredLift(H[i], mod);
+}
+
+// overloaded * operator: multiplication by a scalar
+template <const unsigned int MaxDeg, const unsigned int dim>
+Hypercomplex<Polynomial<MaxDeg>, dim> operator*(
+    const int64_t &x,
+    const Hypercomplex<Polynomial<MaxDeg>, dim> &H
+) {
+    Polynomial<MaxDeg> *temparr = new Polynomial<MaxDeg>[dim];
+    for (unsigned int i=0; i < dim; i++) temparr[i] = x * H[i];
+    Hypercomplex<Polynomial<MaxDeg>, dim> h(temparr);
+    delete[] temparr;
+    return h;
+}
+
+// overloaded % operator: reduce coefficients modulo a scalar
+template <const unsigned int MaxDeg, const unsigned int dim>
+Hypercomplex<Polynomial<MaxDeg>, dim> operator%(
+    const Hypercomplex<Polynomial<MaxDeg>, dim> &H,
+    const int64_t &x
+) {
+    Polynomial<MaxDeg> *temparr = new Polynomial<MaxDeg>[dim];
+    for (unsigned int i=0; i < dim; i++) temparr[i] = H[i] % x;
+    Hypercomplex<Polynomial<MaxDeg>, dim> h(temparr);
+    delete[] temparr;
+    return h;
+}
+
+/*
 
 // overloaded * binary operator
 template <const unsigned int MaxDeg, const unsigned int dim>
@@ -1342,48 +1397,10 @@ Hypercomplex<Polynomial<MaxDeg>, dim> operator^(
     }
 }
 
-// overloaded << operator
-template <const unsigned int MaxDeg, const unsigned int dim>
-std::ostream& operator<<(
-    std::ostream &os,
-    const Hypercomplex<Polynomial<MaxDeg>, dim> &H
-) {
-    for (unsigned int i=0; i < dim - 1; i++) os << H[i] << " ";
-    os << H[dim - 1];
-    return os;
-}
+*/
 
-// return the real part of the number
-template <const unsigned int MaxDeg, const unsigned int dim>
-Hypercomplex<Polynomial<MaxDeg>, dim> Re(
-    const Hypercomplex<Polynomial<MaxDeg>, dim> &H
-) {
-    Hypercomplex<Polynomial<MaxDeg>, dim> result = H;
-    for (unsigned int i=1; i < dim; i++) result[i] = Polynomial<MaxDeg>();
-    return result;
-}
-
-// return the imaginary part of the number
-template <const unsigned int MaxDeg, const unsigned int dim>
-Hypercomplex<Polynomial<MaxDeg>, dim> Im(
-    const Hypercomplex<Polynomial<MaxDeg>, dim> &H
-) {
-    Hypercomplex<Polynomial<MaxDeg>, dim> result = H;
-    result[0] = Polynomial<MaxDeg>();
-    return result;
-}
-
-// centered lift in the quotient ring Z/nZ/ / (x^N-1)
-template <const unsigned int MaxDeg, const unsigned int dim>
-void CenteredLift(
-    const Hypercomplex<Polynomial<MaxDeg>, dim> &H,
-    const int &mod
-) {
-    for (unsigned int i=0; i < dim; i++) CenteredLift(H[i], mod);
-}
-
-
-
+// Hypercomplex inv() const {
+//
 // Hypercomplex inverse in the quotient ring Z/nZ/ / (x^N-1)
 // implement according to QTRU paper, with RingNorm
 // In general, inverses in your complex algebra can be calculated by taking inverses of norms, as on p. 9 of your OTRU link.
@@ -1392,12 +1409,8 @@ void CenteredLift(
 // Polynomial<MaxDeg> norm = H.norm();
 // norm inverse over respective ring
 // norm inverse * coefficients
-// https://math.stackexchange.com/questions/2092716/find-the-inverse-of-a-polynomial-in-a-quotient-ring
 //}
-
-
-
-
+//
 // Hypercomplex inverse in the quotient ring Z/nZ/ / (x^N-1)
 // implement according to QTRU paper, with norm and then modulo
 // Sometimes inverse do not exist? If the initial polynomial is from the field it has to have one
@@ -1405,9 +1418,6 @@ void CenteredLift(
 //template <const unsigned int MaxDeg, const unsigned int dim>
 //Hypercomplex<Polynomial<MaxDeg>, dim> RingInverse(const Hypercomplex<Polynomial<MaxDeg>, dim> &H, const int &mod) {
 //}
+// https://math.stackexchange.com/questions/2092716/find-the-inverse-of-a-polynomial-in-a-quotient-ring
 
-
-
-
-*/
-
+#endif  // HYPERCOMPLEX_HYPERCOMPLEX_HPP_
