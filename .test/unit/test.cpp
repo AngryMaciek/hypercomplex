@@ -1668,10 +1668,10 @@ TEST_CASE( "Hypercomplex: Polynomial lib test", "[unit]" ) {
             REQUIRE( h1._() == dim );
         }
 
-        SECTION( "Norm" ) {
+        SECTION( "Norm squared" ) {
             int64_t array[] = {24, 33, 22, 33, 29};
             Polynomial<MaxDeg> polynomial(array);
-            REQUIRE( h1.norm() == polynomial );
+            REQUIRE( h1.norm2() == polynomial );
         }
 
         SECTION( "Inverse" ) {

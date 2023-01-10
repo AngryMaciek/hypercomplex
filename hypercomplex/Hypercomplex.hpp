@@ -1137,12 +1137,14 @@ class Hypercomplex<Polynomial<MaxDeg>, dim> {
 
     unsigned int _() const { return dim; }
 
-    Polynomial<MaxDeg> norm() const {
-        Polynomial<MaxDeg> norm;
+    Polynomial<MaxDeg> norm() = delete;
+
+    Polynomial<MaxDeg> norm2() const {
+        Polynomial<MaxDeg> norm2;
         for (unsigned int i=0; i < dim; i++) {
-            norm = norm + arr[i] * arr[i];
+            norm2 = norm2 + arr[i] * arr[i];
         }
-        return norm;
+        return norm2;
     }
 
     template <const unsigned int newdim>
@@ -1411,7 +1413,7 @@ Hypercomplex<Polynomial<MaxDeg>, dim> RingInverse(
     const Hypercomplex<Polynomial<MaxDeg>, dim> &H,
     const int64_t &mod
 ) {
-    Polynomial<MaxDeg> ringnorm2 = H.norm() % mod;
+    Polynomial<MaxDeg> ringnorm2 = H.norm2() % mod;
     Polynomial<MaxDeg> ringinverse = RingInverse(ringnorm2, mod);
     Polynomial<MaxDeg>* temparr = new Polynomial<MaxDeg>[dim];
     temparr[0] = H[0] * ringinverse % mod;
