@@ -34,6 +34,11 @@ using MPFR_Hypercomplex1 = Hypercomplex<mpfr_t, 1>;
 using MPFR_Hypercomplex2 = Hypercomplex<mpfr_t, 2>;
 using MPFR_Hypercomplex3 = Hypercomplex<mpfr_t, 3>;
 
+using Polynomial4_Hypercomplex0 = Hypercomplex<Polynomial<4>, 0>;
+using Polynomial4_Hypercomplex1 = Hypercomplex<Polynomial<4>, 1>;
+using Polynomial4_Hypercomplex2 = Hypercomplex<Polynomial<4>, 2>;
+using Polynomial4_Hypercomplex3 = Hypercomplex<Polynomial<4>, 3>;
+
 using TestTypes = std::tuple<float, double, long double>;
 
 TEMPLATE_LIST_TEST_CASE(
@@ -478,6 +483,35 @@ TEST_CASE( "Hypercomplex: Expansion", "[unit]" ) {
     mpfr_clear(mpfrA[2]);
     mpfr_clear(mpfrA[3]);
     clear_mpfr_memory();
+    // Polynomial:
+    int64_t array1[] = {0, 0, 2, 0, 2};
+    int64_t array2[] = {1, 1, 2, 0, 2};
+    int64_t array3[] = {3, 0, 2, 1, 2};
+    int64_t array4[] = {0, 1, 1, 0, 3};
+    Polynomial<4> polynomial1(array1);
+    Polynomial<4> polynomial2(array2);
+    Polynomial<4> polynomial3(array3);
+    Polynomial<4> polynomial4(array4);
+    Polynomial<4> coefficients[] = {
+        polynomial1, polynomial2, polynomial3, polynomial4
+    };
+    Polynomial<4> zero;
+    Hypercomplex<Polynomial<4>, 4> h(coefficients);
+    Hypercomplex<Polynomial<4>, 8> phexpanded = h.expand<8>();
+    REQUIRE( phexpanded[0] == h[0] );
+    REQUIRE( phexpanded[1] == h[1] );
+    REQUIRE( phexpanded[2] == h[2] );
+    REQUIRE( phexpanded[3] == h[3] );
+    REQUIRE( phexpanded[4] == zero );
+    REQUIRE( phexpanded[5] == zero );
+    REQUIRE( phexpanded[6] == zero );
+    REQUIRE( phexpanded[7] == zero );
+    REQUIRE_THROWS_AS(
+        h.expand<4>(),
+        std::invalid_argument
+    );
+    const Hypercomplex<Polynomial<4>, 4> const_h(coefficients);
+    REQUIRE_NOTHROW(const_h.expand<8>());
 }
 
 TEST_CASE( "Hypercomplex: MPFR lib test", "[unit]" ) {
@@ -1602,6 +1636,256 @@ TEST_CASE( "Polynomial: RingInverse function", "[unit]" ) {
             RingInverse(P, 7),
             std::invalid_argument
         );
+    }
+}
+
+TEST_CASE( "Hypercomplex: Polynomial lib test", "[unit]" ) {
+    //
+    SECTION( "Main constructor & functions" ) {
+        const unsigned int dim = 4;
+        const unsigned int MaxDeg = 4;
+        int64_t array1[] = {0, 0, 2, 0, 2};
+        int64_t array2[] = {1, 1, 2, 0, 2};
+        int64_t array3[] = {3, 0, 2, 1, 2};
+        int64_t array4[] = {0, 1, 1, 0, 3};
+        Polynomial<MaxDeg> polynomial1(array1);
+        Polynomial<MaxDeg> polynomial2(array2);
+        Polynomial<MaxDeg> polynomial3(array3);
+        Polynomial<MaxDeg> polynomial4(array4);
+        Polynomial<MaxDeg> coefficients[] = {
+            polynomial1, polynomial2, polynomial3, polynomial4
+        };
+        Polynomial<MaxDeg> invalid[] = {
+            polynomial1, polynomial2, polynomial3
+        };
+        Hypercomplex<Polynomial<MaxDeg>, dim> h1(coefficients);
+        REQUIRE_THROWS_AS(
+            Polynomial4_Hypercomplex3(invalid),
+            std::invalid_argument
+        );
+
+        SECTION( "Getters" ) {
+            REQUIRE( h1._() == dim );
+        }
+
+        SECTION( "Norm" ) {
+            int64_t array[] = {24, 33, 22, 33, 29};
+            Polynomial<MaxDeg> polynomial(array);
+            REQUIRE( h1.norm() == polynomial );
+        }
+
+        SECTION( "Real part" ) {
+            Polynomial<MaxDeg> zero;
+            Hypercomplex<Polynomial<MaxDeg>, dim> real_h1 = Re(h1);
+            REQUIRE( real_h1[0] == h1[0] );
+            REQUIRE( real_h1[1] == zero );
+            REQUIRE( real_h1[2] == zero );
+            REQUIRE( real_h1[3] == zero );
+        }
+
+        SECTION( "Imaginary part" ) {
+            Polynomial<MaxDeg> zero;
+            Hypercomplex<Polynomial<MaxDeg>, dim> imaginary_h1 = Im(h1);
+            REQUIRE( imaginary_h1[0] == zero );
+            REQUIRE( imaginary_h1[1] == h1[1] );
+            REQUIRE( imaginary_h1[2] == h1[2] );
+            REQUIRE( imaginary_h1[3] == h1[3] );
+        }
+
+        SECTION( "CenteredLift function" ) {
+            int64_t coefficients_1[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+            int64_t coefficients_2[] = {0, 1, 2, 3, 4, 10, 9, 8, 7, 6, 5};
+            Polynomial<10> P1(coefficients_1);
+            Polynomial<10> P2(coefficients_2);
+            Polynomial<10> coefficients[] = { P1, P2 };
+            Hypercomplex<Polynomial<10>, 2> H(coefficients);
+            CenteredLift(H, 13);
+            int64_t coefficients_1x[] = {0, 1, 2, 3, 4, 5, 6, -6, -5, -4, -3};
+            int64_t coefficients_2x[] = {0, 1, 2, 3, 4, -3, -4, -5, -6, 6, 5};
+            Polynomial<10> P1x(coefficients_1x);
+            Polynomial<10> P2x(coefficients_2x);
+            REQUIRE( H[0] == P1x );
+            REQUIRE( H[1] == P2x );
+        }
+    }
+
+    SECTION( "Main constructor: exception" ) {
+        const unsigned int MaxDeg = 4;
+        int64_t array1[] = {0, 0, 2, 0, 2};
+        Polynomial<MaxDeg> polynomial1(array1);
+        Polynomial<MaxDeg> coefficients1[] = { polynomial1 };
+        Polynomial<MaxDeg> coefficients0[] = {};
+        REQUIRE_NOTHROW(Polynomial4_Hypercomplex1(coefficients1));
+        REQUIRE_THROWS_AS(
+            Polynomial4_Hypercomplex0(coefficients0),
+            std::invalid_argument
+        );
+    }
+
+    SECTION( "Copy constructor" ) {
+        const unsigned int dim = 2;
+        const unsigned int MaxDeg = 4;
+        int64_t array1[] = {0, 0, 2, 0, 2};
+        int64_t array2[] = {3, 3, 2, 0, 2};
+        Polynomial<MaxDeg> polynomial1(array1);
+        Polynomial<MaxDeg> polynomial2(array2);
+        Polynomial<MaxDeg> coefficients[] = { polynomial1, polynomial2 };
+        Hypercomplex<Polynomial<MaxDeg>, dim> h1(coefficients);
+        Hypercomplex<Polynomial<MaxDeg>, dim> h2(h1);
+        Hypercomplex<Polynomial<MaxDeg>, dim> h3 = h2;
+        REQUIRE( &h1 != &h2 );
+        REQUIRE( &h2 != &h3 );
+        REQUIRE( &h3 != &h1 );
+        REQUIRE( h1._() == h2._() );
+        REQUIRE( h2._() == h3._() );
+        REQUIRE( h3._() == h1._() );
+        REQUIRE( h1[0] == h2[0] );
+        REQUIRE( h2[0] == h3[0] );
+        REQUIRE( h3[0] == h1[0] );
+    }
+
+    SECTION( "Destructor" ) {
+        const unsigned int dim = 2;
+        const unsigned int MaxDeg = 4;
+        int64_t array1[] = {0, 0, 2, 0, 2};
+        int64_t array2[] = {3, 3, 2, 0, 2};
+        Polynomial<MaxDeg> polynomial1(array1);
+        Polynomial<MaxDeg> polynomial2(array2);
+        Polynomial<MaxDeg> coefficients[] = { polynomial1, polynomial2 };
+        // dynamic memory allocation for memory leak test:
+        Hypercomplex<Polynomial<MaxDeg>, dim>* h = 
+            new Hypercomplex<Polynomial<MaxDeg>, dim>(coefficients);
+        delete h;
+        REQUIRE( true );
+    }
+
+    SECTION( "Overloading Operators" ) {
+        const unsigned int dim = 4;
+        const unsigned int MaxDeg = 4;
+        //
+        int64_t array1[] = {1, 0, 2, 0, 2};
+        int64_t array2[] = {2, 1, 0, 0, 2};
+        int64_t array3[] = {3, 0, 2, 2, 2};
+        int64_t array4[] = {0, 3, 1, 1, 3};
+        int64_t array5[] = {0, 4, 2, 0, 2};
+        int64_t array6[] = {1, 4, 2, 0, 2};
+        int64_t array7[] = {3, 0, 2, 4, 4};
+        int64_t array8[] = {1, 1, 2, 4, 3};
+        int64_t array9[] = {1, 2, 3, 0, 2};
+        int64_t array10[] = {3, 4, 1, 1, 1};
+        int64_t array11[] = {4, 4, 4, 4, 4};
+        int64_t array12[] = {4, 1, 4, 1, 3};
+        //
+        Polynomial<MaxDeg> polynomial1(array1);
+        Polynomial<MaxDeg> polynomial2(array2);
+        Polynomial<MaxDeg> polynomial3(array3);
+        Polynomial<MaxDeg> polynomial4(array4);
+        Polynomial<MaxDeg> polynomial5(array5);
+        Polynomial<MaxDeg> polynomial6(array6);
+        Polynomial<MaxDeg> polynomial7(array7);
+        Polynomial<MaxDeg> polynomial8(array8);
+        Polynomial<MaxDeg> polynomial9(array9);
+        Polynomial<MaxDeg> polynomial10(array10);
+        Polynomial<MaxDeg> polynomial11(array11);
+        Polynomial<MaxDeg> polynomial12(array12);
+        //
+        Polynomial<MaxDeg> coefficientsA[] = {
+            polynomial1, polynomial2, polynomial3, polynomial4
+        };
+        Polynomial<MaxDeg> coefficientsB[] = {
+            polynomial5, polynomial6, polynomial7, polynomial8
+        };
+        Polynomial<MaxDeg> coefficientsC[] = {
+            polynomial9, polynomial10, polynomial11, polynomial12
+        };
+        //
+        Hypercomplex<Polynomial<MaxDeg>, dim> hA(coefficientsA);
+        Hypercomplex<Polynomial<MaxDeg>, dim> hB(coefficientsB);
+        Hypercomplex<Polynomial<MaxDeg>, dim> hC(coefficientsC);
+
+        SECTION( "Conjugate operator" ) {
+            Hypercomplex<Polynomial<MaxDeg>, dim> hA_ = ~hA;
+            REQUIRE( &hA != &hA_ );
+            REQUIRE( hA_[0] == coefficientsA[0] );
+            REQUIRE( hA_[1] == -coefficientsA[1] );
+            REQUIRE( hA_[2] == -coefficientsA[2] );
+            REQUIRE( hA_[3] == -coefficientsA[3] );
+            unsigned int dimX = (~hA)._();
+            REQUIRE( dimX == dim );
+        }
+
+        SECTION( "Access operator" ) {
+            REQUIRE( hA[0] == coefficientsA[0] );
+            REQUIRE( hA[1] == coefficientsA[1] );
+            REQUIRE( hA[2] == coefficientsA[2] );
+            REQUIRE( hA[3] == coefficientsA[3] );
+            int64_t array[] = {1, 0, 0, 0, 1};
+            Polynomial<MaxDeg> polynomial(array);
+            hA[0] = polynomial;
+            REQUIRE( hA[0] == polynomial );
+        }
+
+        SECTION( "Equality operator" ) {
+            bool result;
+            result = hA == hB;
+            REQUIRE( result == false );
+            result = hA == hA;
+            REQUIRE( result == true );
+        }
+
+        SECTION( "Inequality operator" ) {
+            bool result;
+            result = hA != hB;
+            REQUIRE( result == true );
+            result = hA != hA;
+            REQUIRE( result == false );
+        }
+
+        SECTION( "Negation operator" ) {
+            Hypercomplex<Polynomial<MaxDeg>, dim> hA_ = -hA;
+            REQUIRE( &hA != &hA_ );
+            REQUIRE( hA_[0] == -coefficientsA[0] );
+            REQUIRE( hA_[1] == -coefficientsA[1] );
+            REQUIRE( hA_[2] == -coefficientsA[2] );
+            REQUIRE( hA_[3] == -coefficientsA[3] );
+            unsigned int dimX = (-hA)._();
+            REQUIRE( dimX == dim );
+        }
+
+        SECTION( "Assignment operator" ) {
+            int64_t array_1[] = {1, 1, 1, 0, 1};
+            int64_t array_2[] = {2, 1, 0, 0, 1};
+            int64_t array_3[] = {3, 0, 1, 1, 2};
+            int64_t array_4[] = {0, 0, 0, 0, 3};
+            Polynomial<MaxDeg> polynomial_1(array_1);
+            Polynomial<MaxDeg> polynomial_2(array_2);
+            Polynomial<MaxDeg> polynomial_3(array_3);
+            Polynomial<MaxDeg> polynomial_4(array_4);
+            Polynomial<MaxDeg> coefficients_A[] = {
+                polynomial_1, polynomial_2, polynomial_3, polynomial_4
+            };
+            Hypercomplex<Polynomial<MaxDeg>, dim> h_A(coefficients_A);
+            //
+            REQUIRE( &hA != &h_A );
+            REQUIRE( hA[0] != h_A[0] );
+            h_A = hA;
+            REQUIRE( &hA != &h_A );
+            REQUIRE( hA[0] == h_A[0] );
+            // chain assignment:
+            hC = hB = hA;
+            REQUIRE( &hA != &hB );
+            REQUIRE( &hB != &hC );
+            REQUIRE( &hC != &hA );    
+            REQUIRE( hA[0] == hB[0] );
+            REQUIRE( hB[0] == hC[0] );
+            REQUIRE( hC[0] == hA[0] );    
+            // test self-assignment:
+            hA = hA;
+        }
+
+        SECTION( "Output stream operator" ) {
+            REQUIRE_NOTHROW(std::cout << hA << std::endl);
+        }
     }
 }
 
