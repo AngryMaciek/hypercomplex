@@ -22,9 +22,9 @@
 #include <cassert>
 #include <cmath>
 #include <cstdlib>
-#include "Polynomial.hpp"
 #include <iostream>
 #include <stdexcept>
+#include "./Polynomial.hpp"
 
 /*
 ###############################################################################
