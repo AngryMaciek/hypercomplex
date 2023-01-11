@@ -2190,8 +2190,8 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         };
         Hypercomplex<Polynomial<MaxDeg>, dim> G(G_coefficients);
         CenteredLift(G, p);
-        int64_t _H_array1[] = {79, 99, 92, 115, 37, 69, 0, 114, 44, 34, 105};
-        int64_t _H_array2[] = {91, 92, 50, 75, 50, 99, 55, 85, 7, 16, 2};
+        int64_t _H_array1[] = {111, 33, 73, 123, 97, 23, 0, 38, 57, 96, 35};
+        int64_t _H_array2[] = {115, 73, 59, 25, 59, 33, 103, 113, 87, 90, 43};
         Polynomial<MaxDeg> _H_polynomial1(_H_array1);
         Polynomial<MaxDeg> _H_polynomial2(_H_array2);
         Polynomial<MaxDeg> _H_coefficients[] = {
@@ -2200,29 +2200,38 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         };
         Hypercomplex<Polynomial<MaxDeg>, dim> _H(_H_coefficients);
         Hypercomplex<Polynomial<MaxDeg>, dim> H = PUBLICKEY(F, G, q);
-        //REQUIRE( H == _H );
+        REQUIRE( H == _H );
         // Encryption
-        int64_t M_array1[] = {0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 1};
+        int64_t M_array1[] = {1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1};
+        int64_t M_array2[] = {0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0};
         Polynomial<MaxDeg> M_polynomial1(M_array1);
+        Polynomial<MaxDeg> M_polynomial2(M_array2);
         Polynomial<MaxDeg> M_coefficients[] = {
-            M_polynomial1
+            M_polynomial1,
+            M_polynomial2
         };
         Hypercomplex<Polynomial<MaxDeg>, dim> M(M_coefficients);
-        int64_t PHI_array1[] = {0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0};
+        int64_t PHI_array1[] = {0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1};
+        int64_t PHI_array2[] = {2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1};
         Polynomial<MaxDeg> PHI_polynomial1(PHI_array1);
+        Polynomial<MaxDeg> PHI_polynomial2(PHI_array2);
         Polynomial<MaxDeg> PHI_coefficients[] = {
-            PHI_polynomial1
+            PHI_polynomial1,
+            PHI_polynomial2
         };
         Hypercomplex<Polynomial<MaxDeg>, dim> PHI(PHI_coefficients);
         CenteredLift(PHI, p);
-        int64_t _E_array1[] = {18, 5, 24, 32, 12, 20, 8, 35, 22, 21, 29};
+        int64_t _E_array1[] = {99, 121, 7, 96, 125, 123, 56, 87, 13, 30, 60};
+        int64_t _E_array2[] = {40, 1, 105, 115, 6, 77, 37, 114, 83, 123, 37};
         Polynomial<MaxDeg> _E_polynomial1(_E_array1);
+        Polynomial<MaxDeg> _E_polynomial2(_E_array2);
         Polynomial<MaxDeg> _E_coefficients[] = {
-            _E_polynomial1
+            _E_polynomial1,
+            _E_polynomial2
         };
         Hypercomplex<Polynomial<MaxDeg>, dim> _E(_E_coefficients);
         Hypercomplex<Polynomial<MaxDeg>, dim> E = ENCRYPT(H, M, PHI, p, q);
-        //REQUIRE( E == _E );
+        REQUIRE( E == _E );
         // Decryption
         Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, PHI, p, q);
         CenteredLift(M, p);
