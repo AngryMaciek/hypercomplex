@@ -1432,4 +1432,52 @@ Hypercomplex<Polynomial<MaxDeg>, dim> RingInverse(
     return Hinv;
 }
 
+/*
+###############################################################################
+#
+#   Cryptographic functions for Hypercomplex<Polynomial> specialisation
+#
+###############################################################################
+*/
+
+template <const unsigned int MaxDeg, const unsigned int dim>
+Hypercomplex<Polynomial<MaxDeg>, dim> PUBLICKEY(
+    const Hypercomplex<Polynomial<MaxDeg>, dim> &F,
+    const Hypercomplex<Polynomial<MaxDeg>, dim> &G,
+    const int64_t &q
+) {
+    Hypercomplex<Polynomial<MaxDeg>, dim> invFq = RingInverse(F, q);
+    Hypercomplex<Polynomial<MaxDeg>, dim> H = invFq * G % q;
+    return H;
+}
+
+template <const unsigned int MaxDeg, const unsigned int dim>
+Hypercomplex<Polynomial<MaxDeg>, dim> ENCRYPT(
+    const Hypercomplex<Polynomial<MaxDeg>, dim> &H,
+    const Hypercomplex<Polynomial<MaxDeg>, dim> &M,
+    const Hypercomplex<Polynomial<MaxDeg>, dim> &PHI,
+    const int64_t &p,
+    const int64_t &q
+) {
+    Hypercomplex<Polynomial<MaxDeg>, dim> E = (p * H * PHI + M) % q;
+    return E;
+}
+
+template <const unsigned int MaxDeg, const unsigned int dim>
+Hypercomplex<Polynomial<MaxDeg>, dim> DECRYPT(
+    const Hypercomplex<Polynomial<MaxDeg>, dim> &F,
+    const Hypercomplex<Polynomial<MaxDeg>, dim> &E,
+    const Hypercomplex<Polynomial<MaxDeg>, dim> &PHI,
+    const int64_t &p,
+    const int64_t &q
+) {
+    Hypercomplex<Polynomial<MaxDeg>, dim> invFp = RingInverse(F, p);
+    Hypercomplex<Polynomial<MaxDeg>, dim> A = (F * E * F) % q;
+    CenteredLift(A, q);
+    Hypercomplex<Polynomial<MaxDeg>, dim> B = A % p;
+    Hypercomplex<Polynomial<MaxDeg>, dim> C = (invFp * (B * invFp)) % p;
+    CenteredLift(C, p);
+    return C;
+}
+
 #endif  // HYPERCOMPLEX_HYPERCOMPLEX_HPP_
