@@ -3023,6 +3023,58 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         CenteredLift(M, p);
         REQUIRE( D == M );
     }
+    //
+    SECTION( "CD1024" ) {
+        //
+        const unsigned int dim = 1024;
+        const unsigned int MaxDeg = 10;
+        const int64_t p = 3;
+        const int64_t q = 5011;
+        srand(0);
+        // Public Key
+        Polynomial<MaxDeg> F_coefficients[dim];
+        F_coefficients[9][0] = 1;
+        F_coefficients[9][1] = 2;
+        F_coefficients[9][2] = 2;
+        F_coefficients[9][4] = 1;
+        F_coefficients[9][5] = 2;
+        F_coefficients[9][6] = 1;
+        F_coefficients[9][0] = 1;
+        F_coefficients[9][8] = 1;
+        F_coefficients[9][10] = 1;
+        Hypercomplex<Polynomial<MaxDeg>, dim> F(F_coefficients);
+        CenteredLift(F, p);
+        Polynomial<MaxDeg> G_coefficients[dim];
+        for (unsigned int i=0; i < dim; i++) {
+            for (unsigned int j=0; j <= MaxDeg; j++) {
+                G_coefficients[i][j] = rand() % 3;
+            }
+        }
+        Hypercomplex<Polynomial<MaxDeg>, dim> G(G_coefficients);
+        CenteredLift(G, p);
+        Hypercomplex<Polynomial<MaxDeg>, dim> H = PUBLICKEY(F, G, q);
+        // Encryption
+        Polynomial<MaxDeg> M_coefficients[dim];
+        for (unsigned int i=0; i < dim; i++) {
+            for (unsigned int j=0; j <= MaxDeg; j++) {
+                M_coefficients[i][j] = rand() % 3;
+            }
+        }
+        Hypercomplex<Polynomial<MaxDeg>, dim> M(M_coefficients);
+        Polynomial<MaxDeg> PHI_coefficients[dim];
+        for (unsigned int i=0; i < dim; i++) {
+            for (unsigned int j=0; j <= MaxDeg; j++) {
+                PHI_coefficients[i][j] = rand() % 3;
+            }
+        }
+        Hypercomplex<Polynomial<MaxDeg>, dim> PHI(PHI_coefficients);
+        CenteredLift(PHI, p);
+        Hypercomplex<Polynomial<MaxDeg>, dim> E = ENCRYPT(H, M, PHI, p, q);
+        // Decryption
+        Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, PHI, p, q);
+        CenteredLift(M, p);
+        REQUIRE( D == M );
+    }
 }
 
 int main(int argc, char* const argv[]) {
