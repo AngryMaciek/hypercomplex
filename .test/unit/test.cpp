@@ -2364,6 +2364,221 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         CenteredLift(M, p);
         REQUIRE( D == M );
     }
+    //
+    SECTION( "CD8" ) {
+        //
+        const unsigned int dim = 8;
+        const unsigned int MaxDeg = 10;
+        const int64_t p = 3;
+        const int64_t q = 997;
+        // Public Key
+        int64_t F_array1[] = {0, 1, 0, 0, 2, 0, 0, 0, 0, 0, 1};
+        int64_t F_array2[] = {0, 0, 1, 0, 0, 0, 2, 0, 0, 2, 0};
+        int64_t F_array3[] = {1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0};
+        int64_t F_array4[] = {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 2};
+        int64_t F_array5[] = {1, 0, 0, 2, 1, 1, 1, 1, 1, 0, 2};
+        int64_t F_array6[] = {1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0};
+        int64_t F_array7[] = {2, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0};
+        int64_t F_array8[] = {0, 1, 0, 0, 0, 0, 1, 1, 1, 2, 2};
+        Polynomial<MaxDeg> F_polynomial1(F_array1);
+        Polynomial<MaxDeg> F_polynomial2(F_array2);
+        Polynomial<MaxDeg> F_polynomial3(F_array3);
+        Polynomial<MaxDeg> F_polynomial4(F_array4);
+        Polynomial<MaxDeg> F_polynomial5(F_array5);
+        Polynomial<MaxDeg> F_polynomial6(F_array6);
+        Polynomial<MaxDeg> F_polynomial7(F_array7);
+        Polynomial<MaxDeg> F_polynomial8(F_array8);
+        Polynomial<MaxDeg> F_coefficients[] = {
+            F_polynomial1,
+            F_polynomial2,
+            F_polynomial3,
+            F_polynomial4,
+            F_polynomial5,
+            F_polynomial6,
+            F_polynomial7,
+            F_polynomial8
+        };
+        Hypercomplex<Polynomial<MaxDeg>, dim> F(F_coefficients);
+        CenteredLift(F, p);
+        int64_t G_array1[] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0};
+        int64_t G_array2[] = {0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 2};
+        int64_t G_array3[] = {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        int64_t G_array4[] = {2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 2};
+        int64_t G_array5[] = {0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        int64_t G_array6[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2};
+        int64_t G_array7[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1};
+        int64_t G_array8[] = {2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        Polynomial<MaxDeg> G_polynomial1(G_array1);
+        Polynomial<MaxDeg> G_polynomial2(G_array2);
+        Polynomial<MaxDeg> G_polynomial3(G_array3);
+        Polynomial<MaxDeg> G_polynomial4(G_array4);
+        Polynomial<MaxDeg> G_polynomial5(G_array5);
+        Polynomial<MaxDeg> G_polynomial6(G_array6);
+        Polynomial<MaxDeg> G_polynomial7(G_array7);
+        Polynomial<MaxDeg> G_polynomial8(G_array8);
+        Polynomial<MaxDeg> G_coefficients[] = {
+            G_polynomial1,
+            G_polynomial2,
+            G_polynomial3,
+            G_polynomial4,
+            G_polynomial5,
+            G_polynomial6,
+            G_polynomial7,
+            G_polynomial8
+        };
+        Hypercomplex<Polynomial<MaxDeg>, dim> G(G_coefficients);
+        CenteredLift(G, p);
+        int64_t _H_array1[] = {
+            777, 721, 859, 218, 198, 421, 890, 844, 869, 437, 745
+        };
+        int64_t _H_array2[] = {
+            206, 90, 530, 903, 991, 98, 705, 472, 232, 2, 85
+        };
+        int64_t _H_array3[] = {
+            957, 326, 134, 889, 172, 510, 623, 973, 113, 47, 490
+        };
+        int64_t _H_array4[] = {
+            741, 939, 122, 487, 16, 134, 228, 610, 952, 178, 137
+        };
+        int64_t _H_array5[] = {
+            145, 309, 286, 981, 805, 281, 259, 66, 870, 261, 616
+        };
+        int64_t _H_array6[] = {
+            936, 618, 196, 61, 461, 499, 269, 242, 489, 979, 148
+        };
+        int64_t _H_array7[] = {
+            216, 673, 901, 43, 223, 442, 919, 194, 108, 341, 685
+        };
+        int64_t _H_array8[] = {
+            108, 913, 657, 16, 175, 154, 491, 505, 826, 851, 260
+        };
+        Polynomial<MaxDeg> _H_polynomial1(_H_array1);
+        Polynomial<MaxDeg> _H_polynomial2(_H_array2);
+        Polynomial<MaxDeg> _H_polynomial3(_H_array3);
+        Polynomial<MaxDeg> _H_polynomial4(_H_array4);
+        Polynomial<MaxDeg> _H_polynomial5(_H_array5);
+        Polynomial<MaxDeg> _H_polynomial6(_H_array6);
+        Polynomial<MaxDeg> _H_polynomial7(_H_array7);
+        Polynomial<MaxDeg> _H_polynomial8(_H_array8);
+        Polynomial<MaxDeg> _H_coefficients[] = {
+            _H_polynomial1,
+            _H_polynomial2,
+            _H_polynomial3,
+            _H_polynomial4,
+            _H_polynomial5,
+            _H_polynomial6,
+            _H_polynomial7,
+            _H_polynomial8
+        };
+        Hypercomplex<Polynomial<MaxDeg>, dim> _H(_H_coefficients);
+        Hypercomplex<Polynomial<MaxDeg>, dim> H = PUBLICKEY(F, G, q);
+        REQUIRE( H == _H );
+        // Encryption
+        int64_t M_array1[] = {1, 0, 0, 0, 0, 2, 0, 0, 0, 1, 1};
+        int64_t M_array2[] = {0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0};
+        int64_t M_array3[] = {0, 2, 0, 2, 0, 0, 0, 0, 0, 1, 1};
+        int64_t M_array4[] = {0, 0, 0, 2, 2, 0, 0, 0, 2, 0, 0};
+        int64_t M_array5[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1};
+        int64_t M_array6[] = {1, 0, 0, 1, 0, 0, 0, 0, 2, 0, 0};
+        int64_t M_array7[] = {1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1};
+        int64_t M_array8[] = {0, 0, 1, 2, 1, 0, 0, 1, 1, 0, 0};
+        Polynomial<MaxDeg> M_polynomial1(M_array1);
+        Polynomial<MaxDeg> M_polynomial2(M_array2);
+        Polynomial<MaxDeg> M_polynomial3(M_array3);
+        Polynomial<MaxDeg> M_polynomial4(M_array4);
+        Polynomial<MaxDeg> M_polynomial5(M_array5);
+        Polynomial<MaxDeg> M_polynomial6(M_array6);
+        Polynomial<MaxDeg> M_polynomial7(M_array7);
+        Polynomial<MaxDeg> M_polynomial8(M_array8);
+        Polynomial<MaxDeg> M_coefficients[] = {
+            M_polynomial1,
+            M_polynomial2,
+            M_polynomial3,
+            M_polynomial4,
+            M_polynomial5,
+            M_polynomial6,
+            M_polynomial7,
+            M_polynomial8
+        };
+        Hypercomplex<Polynomial<MaxDeg>, dim> M(M_coefficients);
+        int64_t PHI_array1[] = {0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 2};
+        int64_t PHI_array2[] = {0, 2, 2, 0, 0, 0, 1, 0, 0, 0, 0};
+        int64_t PHI_array3[] = {1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0};
+        int64_t PHI_array4[] = {0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1};
+        int64_t PHI_array5[] = {1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0};
+        int64_t PHI_array6[] = {0, 2, 2, 1, 0, 1, 1, 0, 0, 0, 0};
+        int64_t PHI_array7[] = {1, 1, 1, 0, 2, 0, 2, 0, 0, 0, 0};
+        int64_t PHI_array8[] = {0, 0, 2, 0, 0, 0, 2, 2, 0, 1, 1};
+        Polynomial<MaxDeg> PHI_polynomial1(PHI_array1);
+        Polynomial<MaxDeg> PHI_polynomial2(PHI_array2);
+        Polynomial<MaxDeg> PHI_polynomial3(PHI_array3);
+        Polynomial<MaxDeg> PHI_polynomial4(PHI_array4);
+        Polynomial<MaxDeg> PHI_polynomial5(PHI_array5);
+        Polynomial<MaxDeg> PHI_polynomial6(PHI_array6);
+        Polynomial<MaxDeg> PHI_polynomial7(PHI_array7);
+        Polynomial<MaxDeg> PHI_polynomial8(PHI_array8);
+        Polynomial<MaxDeg> PHI_coefficients[] = {
+            PHI_polynomial1,
+            PHI_polynomial2,
+            PHI_polynomial3,
+            PHI_polynomial4,
+            PHI_polynomial5,
+            PHI_polynomial6,
+            PHI_polynomial7,
+            PHI_polynomial8
+        };
+        Hypercomplex<Polynomial<MaxDeg>, dim> PHI(PHI_coefficients);
+        CenteredLift(PHI, p);
+        int64_t _E_array1[] = {
+            351, 662, 242, 968, 466, 443, 544, 49, 758, 651, 966
+        };
+        int64_t _E_array2[] = {
+            87, 585, 911, 5, 543, 986, 495, 187, 433, 469, 260
+        };
+        int64_t _E_array3[] = {
+            420, 116, 112, 884, 678, 215, 153, 714, 23, 22, 568
+        };
+        int64_t _E_array4[] = {
+            701, 735, 10, 827, 57, 570, 241, 350, 10, 82, 898
+        };
+        int64_t _E_array5[] = {
+            845, 789, 816, 821, 499, 614, 721, 244, 98, 45, 171
+        };
+        int64_t _E_array6[] = {
+            153, 883, 529, 214, 936, 834, 751, 787, 691, 14, 291
+        };
+        int64_t _E_array7[] = {
+            743, 263, 380, 784, 672, 654, 320, 768, 277, 42, 428
+        };
+        int64_t _E_array8[] = {
+            752, 849, 576, 129, 696, 428, 406, 347, 800, 941, 138
+        };
+        Polynomial<MaxDeg> _E_polynomial1(_E_array1);
+        Polynomial<MaxDeg> _E_polynomial2(_E_array2);
+        Polynomial<MaxDeg> _E_polynomial3(_E_array3);
+        Polynomial<MaxDeg> _E_polynomial4(_E_array4);
+        Polynomial<MaxDeg> _E_polynomial5(_E_array5);
+        Polynomial<MaxDeg> _E_polynomial6(_E_array6);
+        Polynomial<MaxDeg> _E_polynomial7(_E_array7);
+        Polynomial<MaxDeg> _E_polynomial8(_E_array8);
+        Polynomial<MaxDeg> _E_coefficients[] = {
+            _E_polynomial1,
+            _E_polynomial2,
+            _E_polynomial3,
+            _E_polynomial4,
+            _E_polynomial5,
+            _E_polynomial6,
+            _E_polynomial7,
+            _E_polynomial8
+        };
+        Hypercomplex<Polynomial<MaxDeg>, dim> _E(_E_coefficients);
+        Hypercomplex<Polynomial<MaxDeg>, dim> E = ENCRYPT(H, M, PHI, p, q);
+        REQUIRE( E == _E );
+        // Decryption
+        Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, PHI, p, q);
+        CenteredLift(M, p);
+        REQUIRE( D == M );
+    }
 }
 
 int main(int argc, char* const argv[]) {
