@@ -47,7 +47,7 @@ jobs:
 
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}
-        run: ./test -d yes -w NoAssertions --use-colour yes --benchmark-samples 100 --benchmark-resamples 100000
+        run: ./test ~[local] -d yes -w NoAssertions --use-colour yes --benchmark-samples 100 --benchmark-resamples 100000
 
   code-coverage:
     runs-on: ubuntu-20.04
@@ -77,7 +77,7 @@ jobs:
 
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}
-        run: ./test
+        run: ./test ~[local]
 
       - name: Generate Coverage Report
         run: gcov -o . test.cpp
@@ -120,6 +120,6 @@ jobs:
       - name: Analyze Test Program Execution
         working-directory: ${{env.working-directory}}
         run: |
-          valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind.txt ./test
+          valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind.txt ./test ~[local]
           cat valgrind.txt
           grep -q -w "All heap blocks were freed -- no leaks are possible" "valgrind.txt"
