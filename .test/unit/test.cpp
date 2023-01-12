@@ -2107,7 +2107,7 @@ TEST_CASE( "Hypercomplex: Polynomial lib test", "[unit]" ) {
 
 TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
     //
-    SECTION( "CD1" ) {
+    SECTION( "CD[1] | N = 11" ) {
         //
         const unsigned int dim = 1;
         const unsigned int MaxDeg = 10;
@@ -2164,7 +2164,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         REQUIRE( D == M );
     }
     //
-    SECTION( "CD2" ) {
+    SECTION( "CD[2] | N = 11" ) {
         //
         const unsigned int dim = 2;
         const unsigned int MaxDeg = 10;
@@ -2239,7 +2239,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         REQUIRE( D == M );
     }
     //
-    SECTION( "CD4" ) {
+    SECTION( "CD[4] | N = 11" ) {
         //
         const unsigned int dim = 4;
         const unsigned int MaxDeg = 10;
@@ -2366,7 +2366,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         REQUIRE( D == M );
     }
     //
-    SECTION( "CD8" ) {
+    SECTION( "CD[8] | N = 11" ) {
         //
         const unsigned int dim = 8;
         const unsigned int MaxDeg = 10;
@@ -2581,7 +2581,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         REQUIRE( D == M );
     }
     //
-    SECTION( "CD16" ) {
+    SECTION( "CD[16] | N = 11" ) {
         //
         const unsigned int dim = 16;
         const unsigned int MaxDeg = 10;
@@ -2972,7 +2972,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         REQUIRE( D == M );
     }
     //
-    SECTION( "CD128" ) {
+    SECTION( "CD[128] | N = 11" ) {
         //
         const unsigned int dim = 128;
         const unsigned int MaxDeg = 10;
@@ -2981,15 +2981,15 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         srand(0);
         // Public Key
         Polynomial<MaxDeg> F_coefficients[dim];
-        F_coefficients[7][0] = 1;
-        F_coefficients[7][1] = 2;
-        F_coefficients[7][2] = 2;
-        F_coefficients[7][4] = 1;
-        F_coefficients[7][5] = 2;
-        F_coefficients[7][6] = 1;
-        F_coefficients[7][0] = 1;
-        F_coefficients[7][8] = 1;
-        F_coefficients[7][10] = 1;
+        F_coefficients[9][0] = 1;
+        F_coefficients[9][1] = 2;
+        F_coefficients[9][2] = 2;
+        F_coefficients[9][4] = 1;
+        F_coefficients[9][5] = 2;
+        F_coefficients[9][6] = 1;
+        F_coefficients[9][0] = 1;
+        F_coefficients[9][8] = 1;
+        F_coefficients[9][10] = 1;
         Hypercomplex<Polynomial<MaxDeg>, dim> F(F_coefficients);
         CenteredLift(F, p);
         Polynomial<MaxDeg> G_coefficients[dim];
@@ -3024,7 +3024,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         REQUIRE( D == M );
     }
     //
-    SECTION( "CD1024" ) {
+    SECTION( "CD[1024] | N = 11" ) {
         //
         const unsigned int dim = 1024;
         const unsigned int MaxDeg = 10;
@@ -3042,6 +3042,67 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         F_coefficients[9][0] = 1;
         F_coefficients[9][8] = 1;
         F_coefficients[9][10] = 1;
+        Hypercomplex<Polynomial<MaxDeg>, dim> F(F_coefficients);
+        CenteredLift(F, p);
+        Polynomial<MaxDeg> G_coefficients[dim];
+        for (unsigned int i=0; i < dim; i++) {
+            for (unsigned int j=0; j <= MaxDeg; j++) {
+                G_coefficients[i][j] = rand() % 3;
+            }
+        }
+        Hypercomplex<Polynomial<MaxDeg>, dim> G(G_coefficients);
+        CenteredLift(G, p);
+        Hypercomplex<Polynomial<MaxDeg>, dim> H = PUBLICKEY(F, G, q);
+        // Encryption
+        Polynomial<MaxDeg> M_coefficients[dim];
+        for (unsigned int i=0; i < dim; i++) {
+            for (unsigned int j=0; j <= MaxDeg; j++) {
+                M_coefficients[i][j] = rand() % 3;
+            }
+        }
+        Hypercomplex<Polynomial<MaxDeg>, dim> M(M_coefficients);
+        Polynomial<MaxDeg> PHI_coefficients[dim];
+        for (unsigned int i=0; i < dim; i++) {
+            for (unsigned int j=0; j <= MaxDeg; j++) {
+                PHI_coefficients[i][j] = rand() % 3;
+            }
+        }
+        Hypercomplex<Polynomial<MaxDeg>, dim> PHI(PHI_coefficients);
+        CenteredLift(PHI, p);
+        Hypercomplex<Polynomial<MaxDeg>, dim> E = ENCRYPT(H, M, PHI, p, q);
+        // Decryption
+        Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, PHI, p, q);
+        CenteredLift(M, p);
+        REQUIRE( D == M );
+    }
+    //
+    SECTION( "CD[16] | N = 1031" ) {
+        //
+        const unsigned int dim = 16;
+        const unsigned int MaxDeg = 1031;
+        const int64_t p = 3;
+        const int64_t q = 15013;
+        srand(0);
+        // Public Key
+        Polynomial<MaxDeg> F_coefficients[dim];
+        F_coefficients[9][0] = 1;
+        F_coefficients[9][1] = 2;
+        F_coefficients[9][2] = 2;
+        F_coefficients[9][10] = 1;
+        F_coefficients[9][142] = 2;
+        F_coefficients[9][199] = 1;
+        F_coefficients[9][200] = 1;
+        F_coefficients[9][287] = 1;
+        F_coefficients[9][344] = 1;
+        F_coefficients[9][390] = 1;
+        F_coefficients[9][502] = 1;
+        F_coefficients[9][511] = 2;
+        F_coefficients[9][512] = 2;
+        F_coefficients[9][599] = 2;
+        F_coefficients[9][612] = 2;
+        F_coefficients[9][619] = 2;
+        F_coefficients[9][640] = 1;
+        F_coefficients[9][1029] = 1;
         Hypercomplex<Polynomial<MaxDeg>, dim> F(F_coefficients);
         CenteredLift(F, p);
         Polynomial<MaxDeg> G_coefficients[dim];
