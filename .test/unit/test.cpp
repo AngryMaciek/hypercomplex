@@ -14,11 +14,12 @@
 
 #define CATCH_CONFIG_RUNNER
 #include "catch.hpp"
+#include <cstdlib>
 #include "hypercomplex/Hypercomplex.hpp"
 #include "hypercomplex/Polynomial.hpp"
-#include <tuple>
-#include <stdexcept>
 #include <iostream>
+#include <stdexcept>
+#include <tuple>
 
 template<typename T>
 using Hypercomplex0 = Hypercomplex<T, 0>;
@@ -2965,6 +2966,58 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         Hypercomplex<Polynomial<MaxDeg>, dim> _E(_E_coefficients);
         Hypercomplex<Polynomial<MaxDeg>, dim> E = ENCRYPT(H, M, PHI, p, q);
         REQUIRE( E == _E );
+        // Decryption
+        Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, PHI, p, q);
+        CenteredLift(M, p);
+        REQUIRE( D == M );
+    }
+    //
+    SECTION( "CD128" ) {
+        //
+        const unsigned int dim = 128;
+        const unsigned int MaxDeg = 10;
+        const int64_t p = 3;
+        const int64_t q = 2221;
+        srand(0);
+        // Public Key
+        Polynomial<MaxDeg> F_coefficients[dim];
+        F_coefficients[7][0] = 1;
+        F_coefficients[7][1] = 2;
+        F_coefficients[7][2] = 2;
+        F_coefficients[7][4] = 1;
+        F_coefficients[7][5] = 2;
+        F_coefficients[7][6] = 1;
+        F_coefficients[7][0] = 1;
+        F_coefficients[7][8] = 1;
+        F_coefficients[7][10] = 1;
+        Hypercomplex<Polynomial<MaxDeg>, dim> F(F_coefficients);
+        CenteredLift(F, p);
+        Polynomial<MaxDeg> G_coefficients[dim];
+        for (unsigned int i=0; i < dim; i++) {
+            for (unsigned int j=0; j <= MaxDeg; j++) {
+                G_coefficients[i][j] = rand() % 3;
+            }
+        }
+        Hypercomplex<Polynomial<MaxDeg>, dim> G(G_coefficients);
+        CenteredLift(G, p);
+        Hypercomplex<Polynomial<MaxDeg>, dim> H = PUBLICKEY(F, G, q);
+        // Encryption
+        Polynomial<MaxDeg> M_coefficients[dim];
+        for (unsigned int i=0; i < dim; i++) {
+            for (unsigned int j=0; j <= MaxDeg; j++) {
+                M_coefficients[i][j] = rand() % 3;
+            }
+        }
+        Hypercomplex<Polynomial<MaxDeg>, dim> M(M_coefficients);
+        Polynomial<MaxDeg> PHI_coefficients[dim];
+        for (unsigned int i=0; i < dim; i++) {
+            for (unsigned int j=0; j <= MaxDeg; j++) {
+                PHI_coefficients[i][j] = rand() % 3;
+            }
+        }
+        Hypercomplex<Polynomial<MaxDeg>, dim> PHI(PHI_coefficients);
+        CenteredLift(PHI, p);
+        Hypercomplex<Polynomial<MaxDeg>, dim> E = ENCRYPT(H, M, PHI, p, q);
         // Decryption
         Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, PHI, p, q);
         CenteredLift(M, p);
