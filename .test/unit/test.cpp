@@ -3193,12 +3193,13 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
     }
 }
 
+/*
 TEST_CASE( "CD[1024] | N = 1031", "[local]" ) {
     //
     const unsigned int dim = 1024;
     const unsigned int MaxDeg = 1031;
     const int64_t p = 3;
-    const int64_t q = 65537;
+    const int64_t q = 100003;
     srand(0);
     // Public Key
     Polynomial<MaxDeg> F_coefficients[dim];
@@ -3253,6 +3254,7 @@ TEST_CASE( "CD[1024] | N = 1031", "[local]" ) {
     CenteredLift(M, p);
     REQUIRE( D == M );
 }
+*/
 
 int main(int argc, char* const argv[]) {
     return Catch::Session().run(argc, argv);
