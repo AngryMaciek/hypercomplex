@@ -21,7 +21,7 @@
 #include <mpfr.h>
 #include <cassert>
 #include <cmath>
-#include <cstdlib>
+//#include <cstdlib>
 #include <iostream>
 #include <stdexcept>
 #include "./Polynomial.hpp"
