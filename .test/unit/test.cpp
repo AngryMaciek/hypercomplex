@@ -14,7 +14,6 @@
 
 #define CATCH_CONFIG_RUNNER
 #include "catch.hpp"
-#include <cstdlib>
 #include "hypercomplex/Hypercomplex.hpp"
 #include "hypercomplex/Polynomial.hpp"
 #include <iostream>
@@ -1552,7 +1551,7 @@ TEST_CASE( "Polynomial: CenteredLift function", "[unit]" ) {
     //
     int64_t coefficients_1[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
     Polynomial<10> P1(coefficients_1);
-    CenteredLift(P1, 13);
+    CenteredLift(&P1, 13);
     REQUIRE( P1[0] == 0 );
     REQUIRE( P1[1] == 1 );
     REQUIRE( P1[2] == 2 );
@@ -1703,7 +1702,7 @@ TEST_CASE( "Hypercomplex: Polynomial lib test", "[unit]" ) {
             Polynomial<10> P2(coefficients_2);
             Polynomial<10> coefficients[] = { P1, P2 };
             Hypercomplex<Polynomial<10>, 2> H(coefficients);
-            CenteredLift(H, 13);
+            CenteredLift(&H, 13);
             int64_t coefficients_1x[] = {0, 1, 2, 3, 4, 5, 6, -6, -5, -4, -3};
             int64_t coefficients_2x[] = {0, 1, 2, 3, 4, -3, -4, -5, -6, 6, 5};
             Polynomial<10> P1x(coefficients_1x);
@@ -2106,14 +2105,14 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
             F_polynomial1
         };
         Hypercomplex<Polynomial<MaxDeg>, dim> F(F_coefficients);
-        CenteredLift(F, p);
+        CenteredLift(&F, p);
         int64_t G_array1[] = {2, 0, 1, 1, 0, 1, 0, 0, 2, 0, 2};
         Polynomial<MaxDeg> G_polynomial1(G_array1);
         Polynomial<MaxDeg> G_coefficients[] = {
             G_polynomial1
         };
         Hypercomplex<Polynomial<MaxDeg>, dim> G(G_coefficients);
-        CenteredLift(G, p);
+        CenteredLift(&G, p);
         int64_t _H_array1[] = {7, 32, 12, 20, 12, 36, 7, 35, 36, 16, 9};
         Polynomial<MaxDeg> _H_polynomial1(_H_array1);
         Polynomial<MaxDeg> _H_coefficients[] = {
@@ -2135,7 +2134,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
             PHI_polynomial1
         };
         Hypercomplex<Polynomial<MaxDeg>, dim> PHI(PHI_coefficients);
-        CenteredLift(PHI, p);
+        CenteredLift(&PHI, p);
         int64_t _E_array1[] = {18, 5, 24, 32, 12, 20, 8, 35, 22, 21, 29};
         Polynomial<MaxDeg> _E_polynomial1(_E_array1);
         Polynomial<MaxDeg> _E_coefficients[] = {
@@ -2146,7 +2145,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         REQUIRE( E == _E );
         // Decryption
         Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, PHI, p, q);
-        CenteredLift(M, p);
+        CenteredLift(&M, p);
         REQUIRE( D == M );
     }
     //
@@ -2166,7 +2165,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
             F_polynomial2
         };
         Hypercomplex<Polynomial<MaxDeg>, dim> F(F_coefficients);
-        CenteredLift(F, p);
+        CenteredLift(&F, p);
         int64_t G_array1[] = {0, 0, 1, 1, 0, 1, 2, 0, 2, 1, 2};
         int64_t G_array2[] = {0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 2};
         Polynomial<MaxDeg> G_polynomial1(G_array1);
@@ -2176,7 +2175,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
             G_polynomial2
         };
         Hypercomplex<Polynomial<MaxDeg>, dim> G(G_coefficients);
-        CenteredLift(G, p);
+        CenteredLift(&G, p);
         int64_t _H_array1[] = {111, 33, 73, 123, 97, 23, 0, 38, 57, 96, 35};
         int64_t _H_array2[] = {115, 73, 59, 25, 59, 33, 103, 113, 87, 90, 43};
         Polynomial<MaxDeg> _H_polynomial1(_H_array1);
@@ -2207,7 +2206,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
             PHI_polynomial2
         };
         Hypercomplex<Polynomial<MaxDeg>, dim> PHI(PHI_coefficients);
-        CenteredLift(PHI, p);
+        CenteredLift(&PHI, p);
         int64_t _E_array1[] = {99, 121, 7, 96, 125, 123, 56, 87, 13, 30, 60};
         int64_t _E_array2[] = {40, 1, 105, 115, 6, 77, 37, 114, 83, 123, 37};
         Polynomial<MaxDeg> _E_polynomial1(_E_array1);
@@ -2221,7 +2220,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         REQUIRE( E == _E );
         // Decryption
         Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, PHI, p, q);
-        CenteredLift(M, p);
+        CenteredLift(&M, p);
         REQUIRE( D == M );
     }
     //
@@ -2247,7 +2246,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
             F_polynomial4
         };
         Hypercomplex<Polynomial<MaxDeg>, dim> F(F_coefficients);
-        CenteredLift(F, p);
+        CenteredLift(&F, p);
         int64_t G_array1[] = {0, 2, 0, 0, 0, 0, 1, 0, 0, 1, 0};
         int64_t G_array2[] = {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 2};
         int64_t G_array3[] = {1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0};
@@ -2263,7 +2262,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
             G_polynomial4
         };
         Hypercomplex<Polynomial<MaxDeg>, dim> G(G_coefficients);
-        CenteredLift(G, p);
+        CenteredLift(&G, p);
         int64_t _H_array1[] = {
             118, 82, 58, 91, 93, 19, 119, 50, 71, 120, 62
         };
@@ -2320,7 +2319,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
             PHI_polynomial4
         };
         Hypercomplex<Polynomial<MaxDeg>, dim> PHI(PHI_coefficients);
-        CenteredLift(PHI, p);
+        CenteredLift(&PHI, p);
         int64_t _E_array1[] = {
             40, 111, 67, 55, 57, 125, 125, 58, 92, 110, 112
         };
@@ -2348,7 +2347,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         REQUIRE( E == _E );
         // Decryption
         Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, PHI, p, q);
-        CenteredLift(M, p);
+        CenteredLift(&M, p);
         REQUIRE( D == M );
     }
     //
@@ -2386,7 +2385,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
             F_polynomial8
         };
         Hypercomplex<Polynomial<MaxDeg>, dim> F(F_coefficients);
-        CenteredLift(F, p);
+        CenteredLift(&F, p);
         int64_t G_array1[] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0};
         int64_t G_array2[] = {0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 2};
         int64_t G_array3[] = {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -2414,7 +2413,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
             G_polynomial8
         };
         Hypercomplex<Polynomial<MaxDeg>, dim> G(G_coefficients);
-        CenteredLift(G, p);
+        CenteredLift(&G, p);
         int64_t _H_array1[] = {
             777, 721, 859, 218, 198, 421, 890, 844, 869, 437, 745
         };
@@ -2515,7 +2514,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
             PHI_polynomial8
         };
         Hypercomplex<Polynomial<MaxDeg>, dim> PHI(PHI_coefficients);
-        CenteredLift(PHI, p);
+        CenteredLift(&PHI, p);
         int64_t _E_array1[] = {
             351, 662, 242, 968, 466, 443, 544, 49, 758, 651, 966
         };
@@ -2563,7 +2562,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         REQUIRE( E == _E );
         // Decryption
         Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, PHI, p, q);
-        CenteredLift(M, p);
+        CenteredLift(&M, p);
         REQUIRE( D == M );
     }
     //
@@ -2625,7 +2624,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
             F_polynomial16
         };
         Hypercomplex<Polynomial<MaxDeg>, dim> F(F_coefficients);
-        CenteredLift(F, p);
+        CenteredLift(&F, p);
         int64_t G_array1[] = {1, 2, 1, 0, 1, 0, 1, 1, 1, 1, 0};
         int64_t G_array2[] = {0, 0, 1, 0, 2, 2, 1, 0, 0, 0, 2};
         int64_t G_array3[] = {1, 0, 0, 0, 2, 0, 0, 1, 0, 0, 0};
@@ -2677,7 +2676,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
             G_polynomial16
         };
         Hypercomplex<Polynomial<MaxDeg>, dim> G(G_coefficients);
-        CenteredLift(G, p);
+        CenteredLift(&G, p);
         int64_t _H_array1[] = {
             516, 157, 133, 258, 79, 67, 626, 538, 34, 312, 268
         };
@@ -2866,7 +2865,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
             PHI_polynomial16
         };
         Hypercomplex<Polynomial<MaxDeg>, dim> PHI(PHI_coefficients);
-        CenteredLift(PHI, p);
+        CenteredLift(&PHI, p);
         int64_t _E_array1[] = {
             411, 234, 332, 709, 610, 681, 827, 285, 829, 431, 642
         };
@@ -2954,7 +2953,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         REQUIRE( E == _E );
         // Decryption
         Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, PHI, p, q);
-        CenteredLift(M, p);
+        CenteredLift(&M, p);
         REQUIRE( D == M );
     }
     //
@@ -2977,7 +2976,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         F_coefficients[9][8] = 1;
         F_coefficients[9][10] = 1;
         Hypercomplex<Polynomial<MaxDeg>, dim> F(F_coefficients);
-        CenteredLift(F, p);
+        CenteredLift(&F, p);
         Polynomial<MaxDeg> G_coefficients[dim];
         for (unsigned int i=0; i < dim; i++) {
             for (unsigned int j=0; j <= MaxDeg; j++) {
@@ -2985,7 +2984,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
             }
         }
         Hypercomplex<Polynomial<MaxDeg>, dim> G(G_coefficients);
-        CenteredLift(G, p);
+        CenteredLift(&G, p);
         Hypercomplex<Polynomial<MaxDeg>, dim> H = PUBLICKEY(F, G, q);
         // Encryption
         Polynomial<MaxDeg> M_coefficients[dim];
@@ -3002,11 +3001,11 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
             }
         }
         Hypercomplex<Polynomial<MaxDeg>, dim> PHI(PHI_coefficients);
-        CenteredLift(PHI, p);
+        CenteredLift(&PHI, p);
         Hypercomplex<Polynomial<MaxDeg>, dim> E = ENCRYPT(H, M, PHI, p, q);
         // Decryption
         Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, PHI, p, q);
-        CenteredLift(M, p);
+        CenteredLift(&M, p);
         REQUIRE( D == M );
     }
     //
@@ -3029,7 +3028,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         F_coefficients[9][8] = 1;
         F_coefficients[9][10] = 1;
         Hypercomplex<Polynomial<MaxDeg>, dim> F(F_coefficients);
-        CenteredLift(F, p);
+        CenteredLift(&F, p);
         Polynomial<MaxDeg> G_coefficients[dim];
         for (unsigned int i=0; i < dim; i++) {
             for (unsigned int j=0; j <= MaxDeg; j++) {
@@ -3037,7 +3036,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
             }
         }
         Hypercomplex<Polynomial<MaxDeg>, dim> G(G_coefficients);
-        CenteredLift(G, p);
+        CenteredLift(&G, p);
         Hypercomplex<Polynomial<MaxDeg>, dim> H = PUBLICKEY(F, G, q);
         // Encryption
         Polynomial<MaxDeg> M_coefficients[dim];
@@ -3054,11 +3053,11 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
             }
         }
         Hypercomplex<Polynomial<MaxDeg>, dim> PHI(PHI_coefficients);
-        CenteredLift(PHI, p);
+        CenteredLift(&PHI, p);
         Hypercomplex<Polynomial<MaxDeg>, dim> E = ENCRYPT(H, M, PHI, p, q);
         // Decryption
         Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, PHI, p, q);
-        CenteredLift(M, p);
+        CenteredLift(&M, p);
         REQUIRE( D == M );
     }
     //
@@ -3090,7 +3089,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         F_coefficients[9][640] = 1;
         F_coefficients[9][1029] = 1;
         Hypercomplex<Polynomial<MaxDeg>, dim> F(F_coefficients);
-        CenteredLift(F, p);
+        CenteredLift(&F, p);
         Polynomial<MaxDeg> G_coefficients[dim];
         for (unsigned int i=0; i < dim; i++) {
             for (unsigned int j=0; j <= MaxDeg; j++) {
@@ -3098,7 +3097,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
             }
         }
         Hypercomplex<Polynomial<MaxDeg>, dim> G(G_coefficients);
-        CenteredLift(G, p);
+        CenteredLift(&G, p);
         Hypercomplex<Polynomial<MaxDeg>, dim> H = PUBLICKEY(F, G, q);
         // Encryption
         Polynomial<MaxDeg> M_coefficients[dim];
@@ -3115,11 +3114,11 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
             }
         }
         Hypercomplex<Polynomial<MaxDeg>, dim> PHI(PHI_coefficients);
-        CenteredLift(PHI, p);
+        CenteredLift(&PHI, p);
         Hypercomplex<Polynomial<MaxDeg>, dim> E = ENCRYPT(H, M, PHI, p, q);
         // Decryption
         Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, PHI, p, q);
-        CenteredLift(M, p);
+        CenteredLift(&M, p);
         REQUIRE( D == M );
     }
     //
@@ -3145,7 +3144,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         F_coefficients[9][203] = 2;
         F_coefficients[9][255] = 1;
         Hypercomplex<Polynomial<MaxDeg>, dim> F(F_coefficients);
-        CenteredLift(F, p);
+        CenteredLift(&F, p);
         Polynomial<MaxDeg> G_coefficients[dim];
         for (unsigned int i=0; i < dim; i++) {
             for (unsigned int j=0; j <= MaxDeg; j++) {
@@ -3153,7 +3152,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
             }
         }
         Hypercomplex<Polynomial<MaxDeg>, dim> G(G_coefficients);
-        CenteredLift(G, p);
+        CenteredLift(&G, p);
         Hypercomplex<Polynomial<MaxDeg>, dim> H = PUBLICKEY(F, G, q);
         // Encryption
         Polynomial<MaxDeg> M_coefficients[dim];
@@ -3170,11 +3169,11 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
             }
         }
         Hypercomplex<Polynomial<MaxDeg>, dim> PHI(PHI_coefficients);
-        CenteredLift(PHI, p);
+        CenteredLift(&PHI, p);
         Hypercomplex<Polynomial<MaxDeg>, dim> E = ENCRYPT(H, M, PHI, p, q);
         // Decryption
         Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, PHI, p, q);
-        CenteredLift(M, p);
+        CenteredLift(&M, p);
         REQUIRE( D == M );
     }
 }
@@ -3208,7 +3207,7 @@ TEST_CASE( "CD[1024] | N = 1031", "[local]" ) {
     F_coefficients[9][640] = 1;
     F_coefficients[9][1029] = 1;
     Hypercomplex<Polynomial<MaxDeg>, dim> F(F_coefficients);
-    CenteredLift(F, p);
+    CenteredLift(&F, p);
     Polynomial<MaxDeg> G_coefficients[dim];
     for (unsigned int i=0; i < dim; i++) {
         for (unsigned int j=0; j <= MaxDeg; j++) {
@@ -3216,7 +3215,7 @@ TEST_CASE( "CD[1024] | N = 1031", "[local]" ) {
         }
     }
     Hypercomplex<Polynomial<MaxDeg>, dim> G(G_coefficients);
-    CenteredLift(G, p);
+    CenteredLift(&G, p);
     Hypercomplex<Polynomial<MaxDeg>, dim> H = PUBLICKEY(F, G, q);
     // Encryption
     Polynomial<MaxDeg> M_coefficients[dim];
@@ -3233,11 +3232,11 @@ TEST_CASE( "CD[1024] | N = 1031", "[local]" ) {
         }
     }
     Hypercomplex<Polynomial<MaxDeg>, dim> PHI(PHI_coefficients);
-    CenteredLift(PHI, p);
+    CenteredLift(&PHI, p);
     Hypercomplex<Polynomial<MaxDeg>, dim> E = ENCRYPT(H, M, PHI, p, q);
     // Decryption
     Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, PHI, p, q);
-    CenteredLift(M, p);
+    CenteredLift(&M, p);
     REQUIRE( D == M );
 }
 */
