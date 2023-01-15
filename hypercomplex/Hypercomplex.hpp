@@ -21,7 +21,6 @@
 #include <mpfr.h>
 #include <cassert>
 #include <cmath>
-#include <cstdlib>
 #include <iostream>
 #include <stdexcept>
 #include "./Polynomial.hpp"
@@ -39,7 +38,7 @@
 template <typename T, const unsigned int dim>
 class Hypercomplex {
  private:
-    T* arr;
+    T arr[dim]; // NOLINT
 
  public:
     /** \brief This is the main constructor
@@ -112,14 +111,23 @@ class Hypercomplex {
       */
     Hypercomplex& operator= (const Hypercomplex &H);
 
-    /** \brief Access operator
+    /** \brief Access operator (const)
       * \param [in] i index for the element to access
       * \return i-th element of the number
       * 
       * Note that the return type is the same as
       * template parameter.
       */
-    T& operator[] (const unsigned int i) const;
+    T const & operator[] (const unsigned int i) const;
+
+    /** \brief Access operator (non-const)
+      * \param [in] i index for the element to access
+      * \return i-th element of the number
+      * 
+      * Note that the return type is the same as
+      * template parameter.
+      */
+    T & operator[] (const unsigned int i);
 
     /** \brief Addition-Assignment operator
       * \param [in] H existing class instance
@@ -273,28 +281,25 @@ Hypercomplex<T, dim>::Hypercomplex(const T* ARR) {
     if ((dim & (dim - 1)) != 0) {
         throw std::invalid_argument("invalid dimension");
     }
-    arr = new T[dim];
     for (unsigned int i=0; i < dim; i++) arr[i] = ARR[i];
 }
 
 // Hypercomplex copy constructor
 template <typename T, const unsigned int dim>
 Hypercomplex<T, dim>::Hypercomplex(const Hypercomplex<T, dim> &H) {
-    arr = new T[dim];
     for (unsigned int i=0; i < dim; i++) arr[i] = H[i];
 }
 
 // Hypercomplex destructor
 template <typename T, const unsigned int dim>
 Hypercomplex<T, dim>::~Hypercomplex() {
-    delete[] arr;
 }
 
 // calculate norm of the number
 template <typename T, const unsigned int dim>
 inline T Hypercomplex<T, dim>::norm() const {
     T result = T();
-    for (unsigned int i=0; i < dim; i++) result = result + arr[i] * arr[i];
+    for (unsigned int i=0; i < dim; i++) result += arr[i] * arr[i];
     return sqrt(result);
 }
 
@@ -306,12 +311,11 @@ Hypercomplex<T, dim> Hypercomplex<T, dim>::inv() const {
     if (norm == zero) {
         throw std::invalid_argument("division by zero");
     } else {
-        T* temparr = new T[dim];
+        T temparr[dim]; // NOLINT
         temparr[0] = arr[0] / (norm * norm);
         for (unsigned int i=1; i < dim; i++)
             temparr[i] = -arr[i] / (norm * norm);
         Hypercomplex<T, dim> H(temparr);
-        delete[] temparr;
         return H;
     }
 }
@@ -321,31 +325,29 @@ template <typename T, const unsigned int dim>
 template <const unsigned int newdim>
 Hypercomplex<T, newdim> Hypercomplex<T, dim>::expand() const {
     if (newdim <= dim) throw std::invalid_argument("invalid dimension");
-    T* temparr = new T[newdim]();  // zero-init
+    T temparr[newdim]; // NOLINT
     for (unsigned int i=0; i < dim; i++) temparr[i] = arr[i];
+    for (unsigned int i=dim; i < newdim; i++) temparr[i] = 0;
     Hypercomplex<T, newdim> H(temparr);
-    delete[] temparr;
     return H;
 }
 
 // overloaded ~ operator
 template <typename T, const unsigned int dim>
 inline Hypercomplex<T, dim> Hypercomplex<T, dim>::operator~() const {
-    T* temparr = new T[dim];
+    T temparr[dim]; // NOLINT
     temparr[0] = arr[0];
     for (unsigned int i=1; i < dim; i++) temparr[i] = -arr[i];
     Hypercomplex<T, dim> H(temparr);
-    delete[] temparr;
     return H;
 }
 
 // overloaded - unary operator
 template <typename T, const unsigned int dim>
 Hypercomplex<T, dim> Hypercomplex<T, dim>::operator-() const {
-    T* temparr = new T[dim];
+    T temparr[dim]; // NOLINT
     for (unsigned int i=0; i < dim; i++) temparr[i] = -arr[i];
     Hypercomplex<T, dim> H(temparr);
-    delete[] temparr;
     return H;
 }
 
@@ -362,9 +364,16 @@ inline Hypercomplex<T, dim>& Hypercomplex<T, dim>::operator=(
     return *this;
 }
 
-// overloaded [] operator
+// overloaded [] operator (const)
 template <typename T, const unsigned int dim>
-inline T& Hypercomplex<T, dim>::operator[](const unsigned int i) const {
+inline T const & Hypercomplex<T, dim>::operator[](const unsigned int i) const {
+    assert(0 <= i && i < dim);
+    return arr[i];
+}
+
+// overloaded [] operator (non-const)
+template <typename T, const unsigned int dim>
+inline T & Hypercomplex<T, dim>::operator[](const unsigned int i) {
     assert(0 <= i && i < dim);
     return arr[i];
 }
@@ -396,10 +405,9 @@ Hypercomplex<T, dim> operator+(
     const Hypercomplex<T, dim> &H1,
     const Hypercomplex<T, dim> &H2
 ) {
-    T *temparr = new T[dim];
+    T temparr[dim]; // NOLINT
     for (unsigned int i=0; i < dim; i++) temparr[i] = H1[i] + H2[i];
     Hypercomplex<T, dim> H(temparr);
-    delete[] temparr;
     return H;
 }
 
@@ -409,10 +417,9 @@ Hypercomplex<T, dim> operator-(
     const Hypercomplex<T, dim> &H1,
     const Hypercomplex<T, dim> &H2
 ) {
-    T* temparr = new T[dim];
+    T temparr[dim]; // NOLINT
     for (unsigned int i=0; i < dim; i++) temparr[i] = H1[i] - H2[i];
     Hypercomplex<T, dim> H(temparr);
-    delete[] temparr;
     return H;
 }
 
@@ -431,7 +438,7 @@ Hypercomplex<T, dim> operator*(
     } else {
         // shared objects:
         const unsigned int halfd = dim / 2;
-        T* temparr = new T[dim];
+        T temparr[dim]; // NOLINT
         // construct helper objects:
         for (unsigned int i=0; i < halfd; i++) temparr[i] = H1[i];
         Hypercomplex<T, halfd> H1a(temparr);
@@ -452,7 +459,6 @@ Hypercomplex<T, dim> operator*(
         for (unsigned int i=0; i < halfd; i++) temparr[i] = Ha[i];
         for (unsigned int i=0; i < halfd; i++) temparr[i+halfd] = Hb[i];
         Hypercomplex<T, dim> H(temparr);
-        delete[] temparr;
         return H;
     }
 }
@@ -467,7 +473,7 @@ Hypercomplex<T, dim> operator^(
         throw std::invalid_argument("zero is not a valid argument");
     } else {
         Hypercomplex<T, dim> Hx(H);
-        for (unsigned int i=0; i < x-1; i++) Hx = Hx * H;
+        for (unsigned int i=0; i < x-1; i++) Hx *= H;
         return Hx;
     }
 }
@@ -568,9 +574,9 @@ Hypercomplex<T, dim> exp(const Hypercomplex<T, dim> &H) {
         for (unsigned int i=1; i < dim; i++) result[i] = zero;
     } else {
         T sinv_v = sin(norm) / norm;
-        for (unsigned int i=0; i < dim; i++) result[i] = result[i] * sinv_v;
-        result[0] = result[0] + cos(norm);
-        for (unsigned int i=0; i < dim; i++) result[i] = result[i] * exp(H[0]);
+        for (unsigned int i=0; i < dim; i++) result[i] *= sinv_v;
+        result[0] += cos(norm);
+        for (unsigned int i=0; i < dim; i++) result[i] *= exp(H[0]);
     }
     return result;
 }
@@ -611,7 +617,7 @@ void clear_mpfr_memory() {
 template <const unsigned int dim>
 class Hypercomplex<mpfr_t, dim> {
  private:
-    mpfr_t* arr;
+    mpfr_t arr[dim]; // NOLINT
 
  public:
     /** \brief This is the main constructor
@@ -626,7 +632,6 @@ class Hypercomplex<mpfr_t, dim> {
         if ((dim & (dim - 1)) != 0) {
             throw std::invalid_argument("invalid dimension");
         }
-        arr = new mpfr_t[dim];
         for (unsigned int i=0; i < dim; i++)
             mpfr_init2(arr[i], MPFR_global_precision);
         for (unsigned int i=0; i < dim; i++)
@@ -641,7 +646,6 @@ class Hypercomplex<mpfr_t, dim> {
       * * dimensionality of the algebra
       */
     Hypercomplex(const Hypercomplex &H) {
-        arr = new mpfr_t[dim];
         for (unsigned int i=0; i < dim; i++)
             mpfr_init2(arr[i], MPFR_global_precision);
         for (unsigned int i=0; i < dim; i++)
@@ -652,7 +656,6 @@ class Hypercomplex<mpfr_t, dim> {
 
     ~Hypercomplex() {
         for (unsigned int i=0; i < dim; i++) mpfr_clear(arr[i]);
-        delete[] arr;
     }
 
     /** \brief Dimensionality getter
@@ -696,7 +699,7 @@ class Hypercomplex<mpfr_t, dim> {
             mpfr_clear(norm);
             throw std::invalid_argument("division by zero");
         } else {
-            mpfr_t* temparr = new mpfr_t[dim];
+            mpfr_t temparr[dim]; // NOLINT
             for (unsigned int i=0; i < dim; i++)
                 mpfr_init2(temparr[i], MPFR_global_precision);
             mpfr_mul(norm, norm, norm, MPFR_RNDN);
@@ -709,7 +712,6 @@ class Hypercomplex<mpfr_t, dim> {
             mpfr_clear(zero);
             mpfr_clear(norm);
             for (unsigned int i=0; i < dim; i++) mpfr_clear(temparr[i]);
-            delete[] temparr;
             return H;
         }
     }
@@ -723,7 +725,7 @@ class Hypercomplex<mpfr_t, dim> {
     template <const unsigned int newdim>
     Hypercomplex<mpfr_t, newdim> expand() const {
         if (newdim <= dim) throw std::invalid_argument("invalid dimension");
-        mpfr_t* temparr = new mpfr_t[newdim];
+        mpfr_t temparr[newdim]; // NOLINT
         for (unsigned int i=0; i < newdim; i++)
             mpfr_init2(temparr[i], MPFR_global_precision);
         for (unsigned int i=0; i < dim; i++)
@@ -731,7 +733,6 @@ class Hypercomplex<mpfr_t, dim> {
         for (unsigned int i=dim; i < newdim; i++) mpfr_set_zero(temparr[i], 0);
         Hypercomplex<mpfr_t, newdim> H(temparr);
         for (unsigned int i=0; i < newdim; i++) mpfr_clear(temparr[i]);
-        delete[] temparr;
         return H;
     }
 
@@ -742,7 +743,7 @@ class Hypercomplex<mpfr_t, dim> {
         mpfr_t zero;
         mpfr_init2(zero, MPFR_global_precision);
         mpfr_set_zero(zero, 0);
-        mpfr_t* temparr = new mpfr_t[dim];
+        mpfr_t temparr[dim]; // NOLINT
         for (unsigned int i=0; i < dim; i++)
             mpfr_init2(temparr[i], MPFR_global_precision);
         mpfr_set(temparr[0], arr[0], MPFR_RNDN);
@@ -750,7 +751,6 @@ class Hypercomplex<mpfr_t, dim> {
             mpfr_sub(temparr[i], zero, arr[i], MPFR_RNDN);
         Hypercomplex<mpfr_t, dim> H(temparr);
         for (unsigned int i=0; i < dim; i++) mpfr_clear(temparr[i]);
-        delete[] temparr;
         mpfr_clear(zero);
         return H;
     }
@@ -762,14 +762,13 @@ class Hypercomplex<mpfr_t, dim> {
         mpfr_t zero;
         mpfr_init2(zero, MPFR_global_precision);
         mpfr_set_zero(zero, 0);
-        mpfr_t* temparr = new mpfr_t[dim];
+        mpfr_t temparr[dim]; // NOLINT
         for (unsigned int i=0; i < dim; i++)
             mpfr_init2(temparr[i], MPFR_global_precision);
         for (unsigned int i=0; i < dim; i++)
             mpfr_sub(temparr[i], zero, arr[i], MPFR_RNDN);
         Hypercomplex<mpfr_t, dim> H(temparr);
         for (unsigned int i=0; i < dim; i++) mpfr_clear(temparr[i]);
-        delete[] temparr;
         mpfr_clear(zero);
         return H;
     }
@@ -785,11 +784,20 @@ class Hypercomplex<mpfr_t, dim> {
         return *this;
     }
 
-    /** \brief Access operator
+    /** \brief Access operator (const)
       * \param [in] i index for the element to access
       * \return i-th element of the number
       */
-    mpfr_t& operator[] (const unsigned int i) const {
+    mpfr_t const & operator[] (const unsigned int i) const {
+        assert(0 <= i && i < dim);
+        return arr[i];
+    }
+
+    /** \brief Access operator (non-const)
+      * \param [in] i index for the element to access
+      * \return i-th element of the number
+      */
+    mpfr_t & operator[] (const unsigned int i) {
         assert(0 <= i && i < dim);
         return arr[i];
     }
@@ -889,14 +897,13 @@ Hypercomplex<mpfr_t, dim> operator+(
     const Hypercomplex<mpfr_t, dim> &H1,
     const Hypercomplex<mpfr_t, dim> &H2
 ) {
-    mpfr_t* temparr = new mpfr_t[dim];
+    mpfr_t temparr[dim]; // NOLINT
     for (unsigned int i=0; i < dim; i++)
         mpfr_init2(temparr[i], MPFR_global_precision);
     for (unsigned int i=0; i < dim; i++)
         mpfr_add(temparr[i], H1[i], H2[i], MPFR_RNDN);
     Hypercomplex<mpfr_t, dim> H(temparr);
     for (unsigned int i=0; i < dim; i++) mpfr_clear(temparr[i]);
-    delete[] temparr;
     return H;
 }
 
@@ -910,14 +917,13 @@ Hypercomplex<mpfr_t, dim> operator-(
     const Hypercomplex<mpfr_t, dim> &H1,
     const Hypercomplex<mpfr_t, dim> &H2
 ) {
-    mpfr_t* temparr = new mpfr_t[dim];
+    mpfr_t temparr[dim]; // NOLINT
     for (unsigned int i=0; i < dim; i++)
         mpfr_init2(temparr[i], MPFR_global_precision);
     for (unsigned int i=0; i < dim; i++)
         mpfr_sub(temparr[i], H1[i], H2[i], MPFR_RNDN);
     Hypercomplex<mpfr_t, dim> H(temparr);
     for (unsigned int i=0; i < dim; i++) mpfr_clear(temparr[i]);
-    delete[] temparr;
     return H;
 }
 
@@ -947,7 +953,7 @@ Hypercomplex<mpfr_t, dim> operator*(
     } else {
         // shared objects:
         const unsigned int halfd = dim / 2;
-        mpfr_t* temparr = new mpfr_t[dim];
+        mpfr_t temparr[dim]; // NOLINT
         for (unsigned int i=0; i < dim; i++)
             mpfr_init2(temparr[i], MPFR_global_precision);
         // construct helper objects:
@@ -977,7 +983,6 @@ Hypercomplex<mpfr_t, dim> operator*(
             mpfr_set(temparr[i+halfd], Hb[i], MPFR_RNDN);
         Hypercomplex<mpfr_t, dim> H(temparr);
         for (unsigned int i=0; i < dim; i++) mpfr_clear(temparr[i]);
-        delete[] temparr;
         return H;
     }
 }
@@ -996,7 +1001,7 @@ Hypercomplex<mpfr_t, dim> operator^(
         throw std::invalid_argument("zero is not a valid argument");
     } else {
         Hypercomplex<mpfr_t, dim> Hx(H);
-        for (unsigned int i=0; i < x-1; i++) Hx = Hx * H;
+        for (unsigned int i=0; i < x-1; i++) Hx *= H;
         return Hx;
     }
 }
@@ -1025,15 +1030,15 @@ std::ostream& operator<<(
     std::ostream &os,
     const Hypercomplex<mpfr_t, dim> &H
 ) {
-    long int* exponent; // NOLINT
+    mpfr_exp_t exponent = 0;
     char* outstr;
     for (unsigned int i=0; i < dim - 1; i++) {
-        outstr = mpfr_get_str(NULL, exponent, 10, 0, H[i], MPFR_RNDN);
-        os << outstr << "E" << *exponent << " ";
+        outstr = mpfr_get_str(NULL, &exponent, 10, 0, H[i], MPFR_RNDN);
+        os << outstr << "E" << exponent << " ";
         mpfr_free_str(outstr);
     }
-    outstr = mpfr_get_str(NULL, exponent, 10, 0, H[dim - 1], MPFR_RNDN);
-    os << outstr << "E" << *exponent;
+    outstr = mpfr_get_str(NULL, &exponent, 10, 0, H[dim - 1], MPFR_RNDN);
+    os << outstr << "E" << exponent;
     mpfr_free_str(outstr);
     return os;
 }
@@ -1112,7 +1117,7 @@ Hypercomplex<mpfr_t, dim> exp(const Hypercomplex<mpfr_t, dim> &H) {
 template <const unsigned int MaxDeg, const unsigned int dim>
 class Hypercomplex<Polynomial<MaxDeg>, dim> {
  private:
-    Polynomial<MaxDeg>* arr;
+    Polynomial<MaxDeg> arr[dim];
 
  public:
     explicit Hypercomplex(const Polynomial<MaxDeg>* ARR) {
@@ -1120,19 +1125,16 @@ class Hypercomplex<Polynomial<MaxDeg>, dim> {
         if ((dim & (dim - 1)) != 0) {
             throw std::invalid_argument("invalid dimension");
         }
-        arr = new Polynomial<MaxDeg>[dim];
         for (unsigned int i=0; i < dim; i++) arr[i] = ARR[i];
     }
 
     Hypercomplex(const Hypercomplex &H) {
-        arr = new Polynomial<MaxDeg>[dim];
         for (unsigned int i=0; i < dim; i++) arr[i] = H[i];
     }
 
     Hypercomplex() = delete;
 
     ~Hypercomplex() {
-        delete[] arr;
     }
 
     unsigned int _() const { return dim; }
@@ -1150,32 +1152,36 @@ class Hypercomplex<Polynomial<MaxDeg>, dim> {
     template <const unsigned int newdim>
     Hypercomplex<Polynomial<MaxDeg>, newdim> expand() const {
         if (newdim <= dim) throw std::invalid_argument("invalid dimension");
-        Polynomial<MaxDeg>* temparr = new Polynomial<MaxDeg>[newdim];
+        Polynomial<MaxDeg> temparr[newdim];
+        Polynomial<MaxDeg> zero;
         for (unsigned int i=0; i < dim; i++) temparr[i] = arr[i];
+        for (unsigned int i=dim; i < newdim; i++) temparr[i] = zero;
         Hypercomplex<Polynomial<MaxDeg>, newdim> H(temparr);
-        delete[] temparr;
         return H;
     }
 
-    Polynomial<MaxDeg>& operator[] (const unsigned int i) const {
+    Polynomial<MaxDeg> const & operator[] (const unsigned int i) const {
+        assert(0 <= i && i < dim);
+        return arr[i];
+    }
+
+    Polynomial<MaxDeg> & operator[] (const unsigned int i) {
         assert(0 <= i && i < dim);
         return arr[i];
     }
 
     Hypercomplex operator~ () const {
-        Polynomial<MaxDeg>* temparr = new Polynomial<MaxDeg>[dim];
+        Polynomial<MaxDeg> temparr[dim];
         temparr[0] = arr[0];
         for (unsigned int i=1; i < dim; i++) temparr[i] = -arr[i];
         Hypercomplex<Polynomial<MaxDeg>, dim> H(temparr);
-        delete[] temparr;
         return H;
     }
 
     Hypercomplex operator- () const {
-        Polynomial<MaxDeg>* temparr = new Polynomial<MaxDeg>[dim];
+        Polynomial<MaxDeg> temparr[dim];
         for (unsigned int i=0; i < dim; i++) temparr[i] = -arr[i];
         Hypercomplex<Polynomial<MaxDeg>, dim> H(temparr);
-        delete[] temparr;
         return H;
     }
 
@@ -1252,10 +1258,9 @@ Hypercomplex<Polynomial<MaxDeg>, dim> operator+(
     const Hypercomplex<Polynomial<MaxDeg>, dim> &H1,
     const Hypercomplex<Polynomial<MaxDeg>, dim> &H2
 ) {
-    Polynomial<MaxDeg> *temparr = new Polynomial<MaxDeg>[dim];
+    Polynomial<MaxDeg> temparr[dim];
     for (unsigned int i=0; i < dim; i++) temparr[i] = H1[i] + H2[i];
     Hypercomplex<Polynomial<MaxDeg>, dim> H(temparr);
-    delete[] temparr;
     return H;
 }
 
@@ -1265,10 +1270,9 @@ Hypercomplex<Polynomial<MaxDeg>, dim> operator-(
     const Hypercomplex<Polynomial<MaxDeg>, dim> &H1,
     const Hypercomplex<Polynomial<MaxDeg>, dim> &H2
 ) {
-    Polynomial<MaxDeg> *temparr = new Polynomial<MaxDeg>[dim];
+    Polynomial<MaxDeg> temparr[dim];
     for (unsigned int i=0; i < dim; i++) temparr[i] = H1[i] - H2[i];
     Hypercomplex<Polynomial<MaxDeg>, dim> H(temparr);
-    delete[] temparr;
     return H;
 }
 
@@ -1296,10 +1300,9 @@ Hypercomplex<Polynomial<MaxDeg>, dim> operator*(
     const int64_t &x,
     const Hypercomplex<Polynomial<MaxDeg>, dim> &H
 ) {
-    Polynomial<MaxDeg> *temparr = new Polynomial<MaxDeg>[dim];
+    Polynomial<MaxDeg> temparr[dim];
     for (unsigned int i=0; i < dim; i++) temparr[i] = x * H[i];
     Hypercomplex<Polynomial<MaxDeg>, dim> h(temparr);
-    delete[] temparr;
     return h;
 }
 
@@ -1309,10 +1312,9 @@ Hypercomplex<Polynomial<MaxDeg>, dim> operator%(
     const Hypercomplex<Polynomial<MaxDeg>, dim> &H,
     const int64_t &x
 ) {
-    Polynomial<MaxDeg> *temparr = new Polynomial<MaxDeg>[dim];
+    Polynomial<MaxDeg> temparr[dim];
     for (unsigned int i=0; i < dim; i++) temparr[i] = H[i] % x;
     Hypercomplex<Polynomial<MaxDeg>, dim> h(temparr);
-    delete[] temparr;
     return h;
 }
 
@@ -1331,7 +1333,7 @@ Hypercomplex<Polynomial<MaxDeg>, dim> operator*(
     } else {
         // shared objects:
         const unsigned int halfd = dim / 2;
-        Polynomial<MaxDeg>* temparr = new Polynomial<MaxDeg>[dim];
+        Polynomial<MaxDeg> temparr[dim];
         // construct helper objects:
         for (unsigned int i=0; i < halfd; i++) temparr[i] = H1[i];
         Hypercomplex<Polynomial<MaxDeg>, halfd> H1a(temparr);
@@ -1352,7 +1354,6 @@ Hypercomplex<Polynomial<MaxDeg>, dim> operator*(
         for (unsigned int i=0; i < halfd; i++) temparr[i] = Ha[i];
         for (unsigned int i=0; i < halfd; i++) temparr[i+halfd] = Hb[i];
         Hypercomplex<Polynomial<MaxDeg>, dim> H(temparr);
-        delete[] temparr;
         return H;
     }
 }
@@ -1401,10 +1402,10 @@ Hypercomplex<Polynomial<MaxDeg>, dim> exp(
 // centered lift in a modular quotient ring Z/nZ/ / (x^N-1)
 template <const unsigned int MaxDeg, const unsigned int dim>
 void CenteredLift(
-    const Hypercomplex<Polynomial<MaxDeg>, dim> &H,
+    Hypercomplex<Polynomial<MaxDeg>, dim> *H,
     const int64_t &mod
 ) {
-    for (unsigned int i=0; i < dim; i++) CenteredLift(H[i], mod);
+    for (unsigned int i=0; i < dim; i++) CenteredLift(&(*H)[i], mod);
 }
 
 // Hypercomplex inverse in a modular quotient ring Z/nZ/ / (x^N-1)
@@ -1415,12 +1416,11 @@ Hypercomplex<Polynomial<MaxDeg>, dim> RingInverse(
 ) {
     Polynomial<MaxDeg> ringnorm2 = H.norm2() % mod;
     Polynomial<MaxDeg> ringinverse = RingInverse(ringnorm2, mod);
-    Polynomial<MaxDeg>* temparr = new Polynomial<MaxDeg>[dim];
+    Polynomial<MaxDeg> temparr[dim];
     temparr[0] = H[0] * ringinverse % mod;
     for (unsigned int i=1; i < dim; i++)
         temparr[i] = -H[i] * ringinverse % mod;
     Hypercomplex<Polynomial<MaxDeg>, dim> Hinv(temparr);
-    delete[] temparr;
     // validate the inverse:
     Polynomial<MaxDeg> zero;
     Polynomial<MaxDeg> unity;
@@ -1473,10 +1473,10 @@ Hypercomplex<Polynomial<MaxDeg>, dim> DECRYPT(
 ) {
     Hypercomplex<Polynomial<MaxDeg>, dim> invFp = RingInverse(F, p);
     Hypercomplex<Polynomial<MaxDeg>, dim> A = (F * E * F) % q;
-    CenteredLift(A, q);
+    CenteredLift(&A, q);
     Hypercomplex<Polynomial<MaxDeg>, dim> B = A % p;
     Hypercomplex<Polynomial<MaxDeg>, dim> C = (invFp * (B * invFp)) % p;
-    CenteredLift(C, p);
+    CenteredLift(&C, p);
     return C;
 }
 

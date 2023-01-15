@@ -74,13 +74,13 @@ class Polynomial {
     }
 
     // overloaded [] operator (const)
-    int64_t operator[](const unsigned int i) const {
+    int64_t const & operator[](const unsigned int i) const {
         assert(0 <= i && i <= MaxDeg);
         return coefficients[i];
     }
 
     // overloaded [] operator (non-const)
-    int64_t& operator[](const unsigned int i) {
+    int64_t & operator[](const unsigned int i) {
         assert(0 <= i && i <= MaxDeg);
         return coefficients[i];
     }
