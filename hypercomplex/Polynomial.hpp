@@ -19,7 +19,6 @@
 #define HYPERCOMPLEX_POLYNOMIAL_HPP_
 
 #include <cassert>
-#include <cstdlib>
 #include <iostream>
 
 int64_t RingInverse(const int64_t x, const int64_t mod) {
@@ -34,30 +33,26 @@ int64_t RingInverse(const int64_t x, const int64_t mod) {
 template <const unsigned int MaxDeg>
 class Polynomial {
  private:
-    int64_t *coefficients;
+    int64_t coefficients[MaxDeg+1];
 
  public:
     // Polynomial main constructor
     explicit Polynomial(const int64_t* arr) {
-        coefficients = new int64_t[MaxDeg+1];
         for (unsigned int i=0; i <= MaxDeg; i++) coefficients[i] = arr[i];
     }
 
     // Polynomial copy constructor
     Polynomial(const Polynomial &P) {
-        coefficients = new int64_t[MaxDeg+1];
         for (unsigned int i=0; i <= MaxDeg; i++) coefficients[i] = P[i];
     }
 
     // Polynomial default constructor
     Polynomial() {
-        coefficients = new int64_t[MaxDeg+1];
         for (unsigned int i=0; i <= MaxDeg; i++) coefficients[i] = 0;
     }
 
     // Polynomial destructor
     ~Polynomial() {
-        delete[] coefficients;
     }
 
     // overloaded = operator
@@ -72,15 +67,20 @@ class Polynomial {
 
     // overloaded - unary operator
     Polynomial operator-() const {
-        int64_t* temparr = new int64_t[MaxDeg+1];
+        int64_t temparr[MaxDeg+1];
         for (unsigned int i=0; i <= MaxDeg; i++) temparr[i] = -coefficients[i];
         Polynomial<MaxDeg> P(temparr);
-        delete[] temparr;
         return P;
     }
 
-    // overloaded [] operator
-    int64_t& operator[](const unsigned int i) const {
+    // overloaded [] operator (const)
+    int64_t operator[](const unsigned int i) const {
+        assert(0 <= i && i <= MaxDeg);
+        return coefficients[i];
+    }
+
+    // overloaded [] operator (non-const)
+    int64_t& operator[](const unsigned int i) {
         assert(0 <= i && i <= MaxDeg);
         return coefficients[i];
     }
@@ -118,10 +118,9 @@ std::ostream& operator<< (std::ostream &os, const Polynomial<MaxDeg> &P) {
 // overloaded * operator: multiplication by a scalar
 template <const unsigned int MaxDeg>
 Polynomial<MaxDeg> operator*(const int64_t x, const Polynomial<MaxDeg> &P) {
-    int64_t *temparr = new int64_t[MaxDeg+1];
+    int64_t temparr[MaxDeg+1];
     for (unsigned int i=0; i <= MaxDeg; i++) temparr[i] = P[i] * x;
     Polynomial<MaxDeg> p(temparr);
-    delete[] temparr;
     return p;
 }
 
@@ -131,10 +130,9 @@ Polynomial<MaxDeg> operator+(
     const Polynomial<MaxDeg> &P1,
     const Polynomial<MaxDeg> &P2
 ) {
-    int64_t *temparr = new int64_t[MaxDeg+1];
+    int64_t temparr[MaxDeg+1];
     for (unsigned int i=0; i <= MaxDeg; i++) temparr[i] = P1[i] + P2[i];
     Polynomial<MaxDeg> p(temparr);
-    delete[] temparr;
     return p;
 }
 
@@ -144,10 +142,9 @@ Polynomial<MaxDeg> operator-(
     const Polynomial<MaxDeg> &P1,
     const Polynomial<MaxDeg> &P2
 ) {
-    int64_t *temparr = new int64_t[MaxDeg+1];
+    int64_t temparr[MaxDeg+1];
     for (unsigned int i=0; i <= MaxDeg; i++) temparr[i] = P1[i] - P2[i];
     Polynomial<MaxDeg> p(temparr);
-    delete[] temparr;
     return p;
 }
 
@@ -158,35 +155,34 @@ Polynomial<MaxDeg> operator*(
     const Polynomial<MaxDeg> &P1,
     const Polynomial<MaxDeg> &P2
 ) {
-    int64_t *prod = new int64_t[2*MaxDeg+1]();
-    int64_t *conv = new int64_t[MaxDeg+1]();
+    int64_t prod[2*MaxDeg+1];
+    int64_t conv[MaxDeg+1];
+    for (unsigned int i=0; i < 2*MaxDeg+1; i++) prod[i] = 0;
+    for (unsigned int i=0; i <= MaxDeg; i++) conv[i] = 0;
     for (unsigned int i=0; i <= MaxDeg; i++) {
         for (unsigned int j=0; j <= MaxDeg; j++)
             prod[i+j] += P1[i]*P2[j];
     }
     for (unsigned int i=0; i < 2*MaxDeg+1; i++) conv[i%(MaxDeg+1)] += prod[i];
     Polynomial<MaxDeg> p(conv);
-    delete[] prod;
-    delete[] conv;
     return p;
 }
 
 // overloaded % operator: reduce coefficients modulo a scalar
 template <const unsigned int MaxDeg>
 Polynomial<MaxDeg> operator%(const Polynomial<MaxDeg> &P, const int64_t x) {
-    int64_t *temparr = new int64_t[MaxDeg+1];
+    int64_t temparr[MaxDeg+1];
     for (unsigned int i=0; i <= MaxDeg; i++) {
         temparr[i] = P[i] % x;
         if (temparr[i] < 0) temparr[i] += x;
     }
     Polynomial<MaxDeg> p(temparr);
-    delete[] temparr;
     return p;
 }
 
 // centered lift of a polynomial in a modular quotient ring Z/nZ/ / (x^N-1)
 template <const unsigned int MaxDeg>
-void CenteredLift(const Polynomial<MaxDeg> &P, const int64_t mod) {
+void CenteredLift(Polynomial<MaxDeg> &P, const int64_t mod) {
     int64_t lower = -mod/2;
     int64_t upper = mod/2;
     for (unsigned int i = 0; i <= MaxDeg; i++) {

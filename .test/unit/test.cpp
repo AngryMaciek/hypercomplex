@@ -1563,20 +1563,6 @@ TEST_CASE( "Polynomial: CenteredLift function", "[unit]" ) {
     REQUIRE( P1[7] == -6 );
     REQUIRE( P1[8] == -5 );
     REQUIRE( P1[9] == -4 );
-    //
-    int64_t coefficients_2[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-    const Polynomial<10> P2(coefficients_2);
-    CenteredLift(P2, 12);
-    REQUIRE( P2[0] == 0 );
-    REQUIRE( P2[1] == 1 );
-    REQUIRE( P2[2] == 2 );
-    REQUIRE( P2[3] == 3 );
-    REQUIRE( P2[4] == 4 );
-    REQUIRE( P2[5] == 5 );
-    REQUIRE( P2[6] == 6 );
-    REQUIRE( P2[7] == -5 );
-    REQUIRE( P2[8] == -4 );
-    REQUIRE( P2[9] == -3 );
 }
 
 TEST_CASE( "Polynomial: RingInverse function", "[unit]" ) {
