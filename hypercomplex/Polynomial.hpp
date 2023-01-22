@@ -21,6 +21,11 @@
 #include <cassert>
 #include <iostream>
 
+/** \brief Integer multiplicative inverse in a modular ring
+  * \param [in] x non-negative integer
+  * \param [in] mod positive modulus
+  * \return non-negative integer (inverse)
+  */
 int64_t RingInverse(const int64_t x, const int64_t mod) {
     int64_t y = x % mod;
     if (y < 0) y += mod;
@@ -30,32 +35,52 @@ int64_t RingInverse(const int64_t x, const int64_t mod) {
     throw std::invalid_argument("non-invertible element");
 }
 
+/** Helper class for polynomials
+  */
 template <const unsigned int MaxDeg>
 class Polynomial {
  private:
     int64_t coefficients[MaxDeg+1];
 
  public:
-    // Polynomial main constructor
+    /** \brief This is the main constructor
+      * \param [in] arr array of integers
+      * \return new class instance
+      * 
+      * Template parameters are:
+      * * maximum degree of the polynomial
+      */
     explicit Polynomial(const int64_t* arr) {
         for (unsigned int i=0; i <= MaxDeg; i++) coefficients[i] = arr[i];
     }
 
-    // Polynomial copy constructor
+    /** \brief This is the copy constructor
+      * \param [in] P existing class instance
+      * \return new class instance
+      * 
+      * Template parameters are:
+      * * maximum degree of the polynomial
+      */
     Polynomial(const Polynomial &P) {
         for (unsigned int i=0; i <= MaxDeg; i++) coefficients[i] = P[i];
     }
 
-    // Polynomial default constructor
+    /** \brief This is the default constructor
+      * \return new class instance
+      * 
+      * Template parameters are:
+      * * maximum degree of the polynomial
+      */
     Polynomial() {
         for (unsigned int i=0; i <= MaxDeg; i++) coefficients[i] = 0;
     }
 
-    // Polynomial destructor
-    ~Polynomial() {
-    }
+    ~Polynomial() {}
 
-    // overloaded = operator
+    /** \brief Assignment operator
+      * \param [in] P existing class instance
+      * \return Reference to the caller (for chained assignments)
+      */
     Polynomial& operator= (const Polynomial &P) {
         // self-assignment guard
         if (this == &P) return *this;
@@ -65,7 +90,9 @@ class Polynomial {
         return *this;
     }
 
-    // overloaded - unary operator
+    /** \brief Create an additive inverse of a given polynomial
+      * \return new class instance
+      */
     Polynomial operator-() const {
         int64_t temparr[MaxDeg+1];
         for (unsigned int i=0; i <= MaxDeg; i++) temparr[i] = -coefficients[i];
@@ -73,20 +100,30 @@ class Polynomial {
         return P;
     }
 
-    // overloaded [] operator (const)
+    /** \brief Access operator (const)
+      * \param [in] i index for the element to access
+      * \return i-th element of the number
+      */
     int64_t const & operator[](const unsigned int i) const {
         assert(0 <= i && i <= MaxDeg);
         return coefficients[i];
     }
 
-    // overloaded [] operator (non-const)
+    /** \brief Access operator (non-const)
+      * \param [in] i index for the element to access
+      * \return i-th element of the number
+      */
     int64_t & operator[](const unsigned int i) {
         assert(0 <= i && i <= MaxDeg);
         return coefficients[i];
     }
 };
 
-// overloaded == operator
+/** \brief Equality operator
+  * \param [in] P1 LHS operand
+  * \param [in] P2 RHS operand
+  * \return boolean value after the comparison
+  */
 template <const unsigned int MaxDeg>
 bool operator==(
     const Polynomial<MaxDeg> &P1,
@@ -98,7 +135,11 @@ bool operator==(
     return true;
 }
 
-// overloaded != operator
+/** \brief Inequality operator
+  * \param [in] P1 LHS operand
+  * \param [in] P2 RHS operand
+  * \return boolean value after the comparison
+  */
 template <const unsigned int MaxDeg>
 bool operator!=(
     const Polynomial<MaxDeg> &P1,
@@ -107,7 +148,11 @@ bool operator!=(
     return !(P1 == P2);
 }
 
-// overloaded << operator
+/** \brief Print operator
+  * \param [in,out] os output stream
+  * \param [in] P existing class instance
+  * \return output stream
+  */
 template <const unsigned int MaxDeg>
 std::ostream& operator<< (std::ostream &os, const Polynomial<MaxDeg> &P) {
     for (unsigned int i=0; i < MaxDeg; i++) os << P[i] << ",";
@@ -115,7 +160,11 @@ std::ostream& operator<< (std::ostream &os, const Polynomial<MaxDeg> &P) {
     return os;
 }
 
-// overloaded * operator: multiplication by a scalar
+/** \brief Multiplication-by-scalar operator
+  * \param [in] x LHS operand (scalar)
+  * \param [in] P RHS operand (polynomial)
+  * \return new class instance
+  */
 template <const unsigned int MaxDeg>
 Polynomial<MaxDeg> operator*(const int64_t x, const Polynomial<MaxDeg> &P) {
     int64_t temparr[MaxDeg+1];
@@ -124,7 +173,11 @@ Polynomial<MaxDeg> operator*(const int64_t x, const Polynomial<MaxDeg> &P) {
     return p;
 }
 
-// overloaded + binary operator
+/** \brief Addition operator
+  * \param [in] P1 LHS operand
+  * \param [in] P2 RHS operand
+  * \return new class instance
+  */
 template <const unsigned int MaxDeg>
 Polynomial<MaxDeg> operator+(
     const Polynomial<MaxDeg> &P1,
@@ -136,7 +189,11 @@ Polynomial<MaxDeg> operator+(
     return p;
 }
 
-// overloaded - binary operator
+/** \brief Subtraction operator
+  * \param [in] P1 LHS operand
+  * \param [in] P2 RHS operand
+  * \return new class instance
+  */
 template <const unsigned int MaxDeg>
 Polynomial<MaxDeg> operator-(
     const Polynomial<MaxDeg> &P1,
@@ -148,8 +205,11 @@ Polynomial<MaxDeg> operator-(
     return p;
 }
 
-// overloaded * binary operator:
-// convolution multiplication in a polynomial quotient ring Z/(x^N-1)
+/** \brief Convolution multiplication in a polynomial quotient ring operator
+  * \param [in] P1 LHS operand
+  * \param [in] P2 RHS operand
+  * \return new class instance
+  */
 template <const unsigned int MaxDeg>
 Polynomial<MaxDeg> operator*(
     const Polynomial<MaxDeg> &P1,
@@ -168,7 +228,11 @@ Polynomial<MaxDeg> operator*(
     return p;
 }
 
-// overloaded % operator: reduce coefficients modulo a scalar
+/** \brief Coefficient reduction modulo a scalar
+  * \param [in] P LHS operand (polynomial)
+  * \param [in] x RHS operand (scalar)
+  * \return new class instance
+  */
 template <const unsigned int MaxDeg>
 Polynomial<MaxDeg> operator%(const Polynomial<MaxDeg> &P, const int64_t x) {
     int64_t temparr[MaxDeg+1];
@@ -180,7 +244,10 @@ Polynomial<MaxDeg> operator%(const Polynomial<MaxDeg> &P, const int64_t x) {
     return p;
 }
 
-// centered lift of a polynomial in a modular quotient ring Z/nZ/ / (x^N-1)
+/** \brief Center-lift polynomial in a modular quotient ring
+  * \param [in] P existing class instance (pointer)
+  * \param [in] mod scalar modulus
+  */
 template <const unsigned int MaxDeg>
 void CenteredLift(Polynomial<MaxDeg> *P, const int64_t mod) {
     int64_t lower = -mod/2;
@@ -196,8 +263,11 @@ void CenteredLift(Polynomial<MaxDeg> *P, const int64_t mod) {
     }
 }
 
-// polynomial inverse in a modular quotient ring Z/nZ/ / (x^N-1)
-// adapted from: https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm
+/** \brief Inverse polynomial in a modular quotient ring
+  * \param [in] P existing class instance
+  * \param [in] mod scalar modulus
+  * \return new class instance
+  */
 template <const unsigned int MaxDeg>
 Polynomial<MaxDeg> RingInverse(
     const Polynomial<MaxDeg> &P,
