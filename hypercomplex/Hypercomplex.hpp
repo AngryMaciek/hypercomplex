@@ -1120,6 +1120,13 @@ class Hypercomplex<Polynomial<MaxDeg>, dim> {
     Polynomial<MaxDeg> arr[dim];
 
  public:
+     /** \brief This is the main constructor
+      * \param [in] ARR array of Polynomial instances
+      * \return new class instance
+      * 
+      * Template parameters are:
+      * * dimensionality of the algebra
+      */
     explicit Hypercomplex(const Polynomial<MaxDeg>* ARR) {
         if (dim == 0) throw std::invalid_argument("invalid dimension");
         if ((dim & (dim - 1)) != 0) {
@@ -1128,6 +1135,13 @@ class Hypercomplex<Polynomial<MaxDeg>, dim> {
         for (unsigned int i=0; i < dim; i++) arr[i] = ARR[i];
     }
 
+    /** \brief This is the copy constructor
+      * \param [in] H existing class instance
+      * \return new class instance
+      * 
+      * Template parameters are:
+      * * dimensionality of the algebra
+      */
     Hypercomplex(const Hypercomplex &H) {
         for (unsigned int i=0; i < dim; i++) arr[i] = H[i];
     }
@@ -1137,10 +1151,16 @@ class Hypercomplex<Polynomial<MaxDeg>, dim> {
     ~Hypercomplex() {
     }
 
+    /** \brief Dimensionality getter
+      * \return algebraic dimension of the underlying object
+      */
     unsigned int _() const { return dim; }
 
     Polynomial<MaxDeg> norm() = delete;
 
+    /** \brief Calculate squared Euclidean norm of a number
+      * \return Polynomial class instance
+      */
     Polynomial<MaxDeg> norm2() const {
         Polynomial<MaxDeg> norm2;
         for (unsigned int i=0; i < dim; i++) {
@@ -1149,6 +1169,12 @@ class Hypercomplex<Polynomial<MaxDeg>, dim> {
         return norm2;
     }
 
+    /** \brief Cast a number into a higher dimension
+      * \return new class instance
+      * 
+      * New dimension is passed as a function template parameter,
+      * as the return class is not the same as the caller's class.
+      */
     template <const unsigned int newdim>
     Hypercomplex<Polynomial<MaxDeg>, newdim> expand() const {
         if (newdim <= dim) throw std::invalid_argument("invalid dimension");
@@ -1160,16 +1186,27 @@ class Hypercomplex<Polynomial<MaxDeg>, dim> {
         return H;
     }
 
+    /** \brief Access operator (const)
+      * \param [in] i index for the element to access
+      * \return i-th element of the number
+      */
     Polynomial<MaxDeg> const & operator[] (const unsigned int i) const {
         assert(0 <= i && i < dim);
         return arr[i];
     }
 
+    /** \brief Access operator (non-const)
+      * \param [in] i index for the element to access
+      * \return i-th element of the number
+      */
     Polynomial<MaxDeg> & operator[] (const unsigned int i) {
         assert(0 <= i && i < dim);
         return arr[i];
     }
 
+    /** \brief Create a complex conjugate
+      * \return new class instance
+      */
     Hypercomplex operator~ () const {
         Polynomial<MaxDeg> temparr[dim];
         temparr[0] = arr[0];
@@ -1178,6 +1215,9 @@ class Hypercomplex<Polynomial<MaxDeg>, dim> {
         return H;
     }
 
+    /** \brief Create an additive inverse of a given number
+      * \return new class instance
+      */
     Hypercomplex operator- () const {
         Polynomial<MaxDeg> temparr[dim];
         for (unsigned int i=0; i < dim; i++) temparr[i] = -arr[i];
@@ -1185,24 +1225,40 @@ class Hypercomplex<Polynomial<MaxDeg>, dim> {
         return H;
     }
 
+    /** \brief Assignment operator
+      * \param [in] H existing class instance
+      * \return Reference to the caller (for chained assignments)
+      */
     Hypercomplex& operator= (const Hypercomplex &H) {
         if (this == &H) return *this;
         for (unsigned int i=0; i < dim; i++) arr[i] = H[i];
         return *this;
     }
 
+    /** \brief Addition-Assignment operator
+      * \param [in] H existing class instance
+      * \return Reference to the caller
+      */
     Hypercomplex& operator+= (const Hypercomplex &H) {
         Hypercomplex<Polynomial<MaxDeg>, dim> result = (*this) + H;
         for (unsigned int i=0; i < dim; i++) (*this)[i] = result[i];
         return *this;
     }
 
+    /** \brief Subtraction-Assignment operator
+      * \param [in] H existing class instance
+      * \return Reference to the caller
+      */
     Hypercomplex& operator-= (const Hypercomplex &H) {
         Hypercomplex<Polynomial<MaxDeg>, dim> result = (*this) - H;
         for (unsigned int i=0; i < dim; i++) (*this)[i] = result[i];
         return *this;
     }
 
+    /** \brief Scalar-Multiplication-Assignment operator
+      * \param [in] x scalar integer
+      * \return Reference to the caller
+      */
     Hypercomplex& operator*= (const int64_t &x) {
         // scalar-polynomial multiplication is commutative
         Hypercomplex<Polynomial<MaxDeg>, dim> result = x * (*this);
@@ -1210,18 +1266,30 @@ class Hypercomplex<Polynomial<MaxDeg>, dim> {
         return *this;
     }
 
+    /** \brief Modular-Reduction-Assignment operator
+      * \param [in] x modulus
+      * \return Reference to the caller
+      */
     Hypercomplex& operator%= (const int64_t &x) {
         Hypercomplex<Polynomial<MaxDeg>, dim> result = (*this) % x;
         for (unsigned int i=0; i < dim; i++) (*this)[i] = result[i];
         return *this;
     }
 
+    /** \brief Multiplication-Assignment operator
+      * \param [in] H existing class instance
+      * \return Reference to the caller
+      */
     Hypercomplex& operator*= (const Hypercomplex &H) {
         Hypercomplex<Polynomial<MaxDeg>, dim> result = (*this) * H;
         for (unsigned int i=0; i < dim; i++) (*this)[i] = result[i];
         return *this;
     }
 
+    /** \brief Power-Assignment operator
+      * \param [in] x power
+      * \return Reference to the caller
+      */
     Hypercomplex& operator^= (const unsigned int x) {
         Hypercomplex<Polynomial<MaxDeg>, dim> result = (*this) ^ x;
         for (unsigned int i=0; i < dim; i++) (*this)[i] = result[i];
@@ -1231,7 +1299,11 @@ class Hypercomplex<Polynomial<MaxDeg>, dim> {
     Hypercomplex& operator/= (const Hypercomplex &H) = delete;
 };
 
-// overloaded == operator
+/** \brief Equality operator
+  * \param [in] H1 LHS operand
+  * \param [in] H2 RHS operand
+  * \return boolean value after the comparison
+  */
 template <const unsigned int MaxDeg, const unsigned int dim>
 bool operator==(
     const Hypercomplex<Polynomial<MaxDeg>, dim> &H1,
@@ -1243,7 +1315,11 @@ bool operator==(
     return true;
 }
 
-// overloaded != operator
+/** \brief Inequality operator
+  * \param [in] H1 LHS operand
+  * \param [in] H2 RHS operand
+  * \return boolean value after the comparison
+  */
 template <const unsigned int MaxDeg, const unsigned int dim>
 bool operator!=(
     const Hypercomplex<Polynomial<MaxDeg>, dim> &H1,
@@ -1252,7 +1328,11 @@ bool operator!=(
     return !(H1 == H2);
 }
 
-// overloaded + binary operator
+/** \brief Addition operator
+  * \param [in] H1 LHS operand
+  * \param [in] H2 RHS operand
+  * \return new class instance
+  */
 template <const unsigned int MaxDeg, const unsigned int dim>
 Hypercomplex<Polynomial<MaxDeg>, dim> operator+(
     const Hypercomplex<Polynomial<MaxDeg>, dim> &H1,
@@ -1264,7 +1344,11 @@ Hypercomplex<Polynomial<MaxDeg>, dim> operator+(
     return H;
 }
 
-// overloaded - binary operator
+/** \brief Subtraction operator
+  * \param [in] H1 LHS operand
+  * \param [in] H2 RHS operand
+  * \return new class instance
+  */
 template <const unsigned int MaxDeg, const unsigned int dim>
 Hypercomplex<Polynomial<MaxDeg>, dim> operator-(
     const Hypercomplex<Polynomial<MaxDeg>, dim> &H1,
@@ -1283,7 +1367,11 @@ Hypercomplex<Polynomial<MaxDeg>, dim> operator/(
     const Hypercomplex<Polynomial<MaxDeg>, dim> &H2
 ) = delete;
 
-// overloaded << operator
+/** \brief Print operator
+  * \param [in,out] os output stream
+  * \param [in] H existing class instance
+  * \return output stream
+  */
 template <const unsigned int MaxDeg, const unsigned int dim>
 std::ostream& operator<<(
     std::ostream &os,
@@ -1294,7 +1382,11 @@ std::ostream& operator<<(
     return os;
 }
 
-// overloaded * operator: multiplication by a scalar
+/** \brief Scalar-Multiplication operator
+  * \param [in] x integer scalar
+  * \param [in] H existing class instance
+  * \return new class instance
+  */
 template <const unsigned int MaxDeg, const unsigned int dim>
 Hypercomplex<Polynomial<MaxDeg>, dim> operator*(
     const int64_t &x,
@@ -1306,7 +1398,11 @@ Hypercomplex<Polynomial<MaxDeg>, dim> operator*(
     return h;
 }
 
-// overloaded % operator: reduce coefficients modulo a scalar
+/** \brief Modular reduction operator
+  * \param [in] H existing class instance
+  * \param [in] x positive integer scalar
+  * \return new class instance
+  */
 template <const unsigned int MaxDeg, const unsigned int dim>
 Hypercomplex<Polynomial<MaxDeg>, dim> operator%(
     const Hypercomplex<Polynomial<MaxDeg>, dim> &H,
@@ -1318,7 +1414,11 @@ Hypercomplex<Polynomial<MaxDeg>, dim> operator%(
     return h;
 }
 
-// overloaded * binary operator
+/** \brief Multiplication operator
+  * \param [in] H1 LHS operand
+  * \param [in] H2 RHS operand
+  * \return new class instance
+  */
 template <const unsigned int MaxDeg, const unsigned int dim>
 Hypercomplex<Polynomial<MaxDeg>, dim> operator*(
     const Hypercomplex<Polynomial<MaxDeg>, dim> &H1,
@@ -1358,7 +1458,11 @@ Hypercomplex<Polynomial<MaxDeg>, dim> operator*(
     }
 }
 
-// overloaded ^ operator
+/** \brief Power operator
+  * \param [in] H LHS operand
+  * \param [in] x RHS operand
+  * \return new class instance
+  */
 template <const unsigned int MaxDeg, const unsigned int dim>
 Hypercomplex<Polynomial<MaxDeg>, dim> operator^(
     const Hypercomplex<Polynomial<MaxDeg>, dim> &H,
@@ -1373,7 +1477,10 @@ Hypercomplex<Polynomial<MaxDeg>, dim> operator^(
     }
 }
 
-// return the real part of the number
+/** \brief Real part of a hypercomplex number
+  * \param [in] H existing class instance
+  * \return new class instance
+  */
 template <const unsigned int MaxDeg, const unsigned int dim>
 Hypercomplex<Polynomial<MaxDeg>, dim> Re(
     const Hypercomplex<Polynomial<MaxDeg>, dim> &H
@@ -1383,7 +1490,10 @@ Hypercomplex<Polynomial<MaxDeg>, dim> Re(
     return result;
 }
 
-// return the imaginary part of the number
+/** \brief Imaginary part of a hypercomplex number
+  * \param [in] H existing class instance
+  * \return new class instance
+  */
 template <const unsigned int MaxDeg, const unsigned int dim>
 Hypercomplex<Polynomial<MaxDeg>, dim> Im(
     const Hypercomplex<Polynomial<MaxDeg>, dim> &H
@@ -1399,7 +1509,10 @@ Hypercomplex<Polynomial<MaxDeg>, dim> exp(
     const Hypercomplex<Polynomial<MaxDeg>, dim> &H
 ) = delete;
 
-// centered lift in a modular quotient ring Z/nZ/ / (x^N-1)
+/** \brief Center-lift hypercomplex elements in a modular quotient ring
+  * \param [in] H existing class instance (pointer)
+  * \param [in] mod scalar modulus
+  */
 template <const unsigned int MaxDeg, const unsigned int dim>
 void CenteredLift(
     Hypercomplex<Polynomial<MaxDeg>, dim> *H,
@@ -1408,7 +1521,11 @@ void CenteredLift(
     for (unsigned int i=0; i < dim; i++) CenteredLift(&(*H)[i], mod);
 }
 
-// Hypercomplex inverse in a modular quotient ring Z/nZ/ / (x^N-1)
+/** \brief Hypercomplex inverse in a modular quotient ring
+  * \param [in] H existing class instance
+  * \param [in] mod scalar modulus
+  * \return new class instance
+  */
 template <const unsigned int MaxDeg, const unsigned int dim>
 Hypercomplex<Polynomial<MaxDeg>, dim> RingInverse(
     const Hypercomplex<Polynomial<MaxDeg>, dim> &H,
@@ -1440,6 +1557,12 @@ Hypercomplex<Polynomial<MaxDeg>, dim> RingInverse(
 ###############################################################################
 */
 
+/** \brief Generate public key of the cryptosystem
+  * \param [in] F existing class instance
+  * \param [in] G existing class instance
+  * \param [in] q positive scalar integer
+  * \return new class instance
+  */
 template <const unsigned int MaxDeg, const unsigned int dim>
 Hypercomplex<Polynomial<MaxDeg>, dim> PUBLICKEY(
     const Hypercomplex<Polynomial<MaxDeg>, dim> &F,
@@ -1451,6 +1574,14 @@ Hypercomplex<Polynomial<MaxDeg>, dim> PUBLICKEY(
     return H;
 }
 
+/** \brief Encrypt a message via the cryptosystem
+  * \param [in] H existing class instance
+  * \param [in] M existing class instance
+  * \param [in] PHI existing class instance
+  * \param [in] p positive scalar integer
+  * \param [in] q positive scalar integer
+  * \return new class instance
+  */
 template <const unsigned int MaxDeg, const unsigned int dim>
 Hypercomplex<Polynomial<MaxDeg>, dim> ENCRYPT(
     const Hypercomplex<Polynomial<MaxDeg>, dim> &H,
@@ -1463,11 +1594,17 @@ Hypercomplex<Polynomial<MaxDeg>, dim> ENCRYPT(
     return E;
 }
 
+/** \brief Decrypt a message via the cryptosystem
+  * \param [in] F existing class instance
+  * \param [in] E existing class instance
+  * \param [in] p positive scalar integer
+  * \param [in] q positive scalar integer
+  * \return new class instance
+  */
 template <const unsigned int MaxDeg, const unsigned int dim>
 Hypercomplex<Polynomial<MaxDeg>, dim> DECRYPT(
     const Hypercomplex<Polynomial<MaxDeg>, dim> &F,
     const Hypercomplex<Polynomial<MaxDeg>, dim> &E,
-    const Hypercomplex<Polynomial<MaxDeg>, dim> &PHI,
     const int64_t &p,
     const int64_t &q
 ) {

@@ -2144,7 +2144,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         Hypercomplex<Polynomial<MaxDeg>, dim> E = ENCRYPT(H, M, PHI, p, q);
         REQUIRE( E == _E );
         // Decryption
-        Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, PHI, p, q);
+        Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, p, q);
         CenteredLift(&M, p);
         REQUIRE( D == M );
     }
@@ -2219,7 +2219,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         Hypercomplex<Polynomial<MaxDeg>, dim> E = ENCRYPT(H, M, PHI, p, q);
         REQUIRE( E == _E );
         // Decryption
-        Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, PHI, p, q);
+        Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, p, q);
         CenteredLift(&M, p);
         REQUIRE( D == M );
     }
@@ -2346,7 +2346,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         Hypercomplex<Polynomial<MaxDeg>, dim> E = ENCRYPT(H, M, PHI, p, q);
         REQUIRE( E == _E );
         // Decryption
-        Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, PHI, p, q);
+        Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, p, q);
         CenteredLift(&M, p);
         REQUIRE( D == M );
     }
@@ -2561,7 +2561,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         Hypercomplex<Polynomial<MaxDeg>, dim> E = ENCRYPT(H, M, PHI, p, q);
         REQUIRE( E == _E );
         // Decryption
-        Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, PHI, p, q);
+        Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, p, q);
         CenteredLift(&M, p);
         REQUIRE( D == M );
     }
@@ -2952,7 +2952,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         Hypercomplex<Polynomial<MaxDeg>, dim> E = ENCRYPT(H, M, PHI, p, q);
         REQUIRE( E == _E );
         // Decryption
-        Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, PHI, p, q);
+        Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, p, q);
         CenteredLift(&M, p);
         REQUIRE( D == M );
     }
@@ -3004,7 +3004,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         CenteredLift(&PHI, p);
         Hypercomplex<Polynomial<MaxDeg>, dim> E = ENCRYPT(H, M, PHI, p, q);
         // Decryption
-        Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, PHI, p, q);
+        Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, p, q);
         CenteredLift(&M, p);
         REQUIRE( D == M );
     }
@@ -3056,7 +3056,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         CenteredLift(&PHI, p);
         Hypercomplex<Polynomial<MaxDeg>, dim> E = ENCRYPT(H, M, PHI, p, q);
         // Decryption
-        Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, PHI, p, q);
+        Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, p, q);
         CenteredLift(&M, p);
         REQUIRE( D == M );
     }
@@ -3117,7 +3117,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         CenteredLift(&PHI, p);
         Hypercomplex<Polynomial<MaxDeg>, dim> E = ENCRYPT(H, M, PHI, p, q);
         // Decryption
-        Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, PHI, p, q);
+        Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, p, q);
         CenteredLift(&M, p);
         REQUIRE( D == M );
     }
@@ -3172,7 +3172,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         CenteredLift(&PHI, p);
         Hypercomplex<Polynomial<MaxDeg>, dim> E = ENCRYPT(H, M, PHI, p, q);
         // Decryption
-        Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, PHI, p, q);
+        Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, p, q);
         CenteredLift(&M, p);
         REQUIRE( D == M );
     }
@@ -3235,7 +3235,7 @@ TEST_CASE( "CD[1024] | N = 1031", "[local]" ) {
     CenteredLift(&PHI, p);
     Hypercomplex<Polynomial<MaxDeg>, dim> E = ENCRYPT(H, M, PHI, p, q);
     // Decryption
-    Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, PHI, p, q);
+    Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, p, q);
     CenteredLift(&M, p);
     REQUIRE( D == M );
 }
