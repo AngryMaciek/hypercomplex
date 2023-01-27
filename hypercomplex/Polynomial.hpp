@@ -22,9 +22,9 @@
 #include <iostream>
 
 /** \brief Integer multiplicative inverse in a modular ring
-  * \param [in] x non-negative integer
-  * \param [in] mod positive modulus
-  * \return non-negative integer (inverse)
+  * \param [in] x positive integer
+  * \param [in] mod positive integer
+  * \return positive integer
   */
 int64_t RingInverse(const int64_t x, const int64_t mod) {
     int64_t y = x % mod;
@@ -45,7 +45,6 @@ class Polynomial {
  public:
     /** \brief This is the main constructor
       * \param [in] arr array of integers
-      * \return new class instance
       * 
       * Template parameters are:
       * * maximum degree of the polynomial
@@ -56,7 +55,6 @@ class Polynomial {
 
     /** \brief This is the copy constructor
       * \param [in] P existing class instance
-      * \return new class instance
       * 
       * Template parameters are:
       * * maximum degree of the polynomial
@@ -66,7 +64,6 @@ class Polynomial {
     }
 
     /** \brief This is the default constructor
-      * \return new class instance
       * 
       * Template parameters are:
       * * maximum degree of the polynomial
@@ -246,7 +243,7 @@ Polynomial<MaxDeg> operator%(const Polynomial<MaxDeg> &P, const int64_t x) {
 
 /** \brief Center-lift polynomial in a modular quotient ring
   * \param [in] P existing class instance (pointer)
-  * \param [in] mod scalar modulus
+  * \param [in] mod positive integer
   */
 template <const unsigned int MaxDeg>
 void CenteredLift(Polynomial<MaxDeg> *P, const int64_t mod) {
@@ -265,7 +262,7 @@ void CenteredLift(Polynomial<MaxDeg> *P, const int64_t mod) {
 
 /** \brief Inverse polynomial in a modular quotient ring
   * \param [in] P existing class instance
-  * \param [in] mod scalar modulus
+  * \param [in] mod positive integer
   * \return new class instance
   */
 template <const unsigned int MaxDeg>

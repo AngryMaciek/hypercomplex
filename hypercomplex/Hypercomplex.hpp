@@ -43,7 +43,6 @@ class Hypercomplex {
  public:
     /** \brief This is the main constructor
       * \param [in] ARR array of numbers
-      * \return new class instance
       * 
       * Template parameters are:
       * * base type of numbers in the argument array
@@ -53,7 +52,6 @@ class Hypercomplex {
 
     /** \brief This is the copy constructor
       * \param [in] H existing class instance
-      * \return new class instance
       * 
       * Template parameters are:
       * * base type of numbers in the argument array
@@ -148,7 +146,7 @@ class Hypercomplex {
     Hypercomplex& operator*= (const Hypercomplex &H);
 
     /** \brief Power-Assignment operator
-      * \param [in] x power
+      * \param [in] x positive integer
       * \return Reference to the caller
       */
     Hypercomplex& operator^= (const unsigned int x);
@@ -599,7 +597,7 @@ unsigned int get_mpfr_precision() {
 }
 
 /** \brief Setter for the global precision of the MPFR variables
-  * \param [in] n precision in bits
+  * \param [in] n positive integer (precision in bits)
   */
 void set_mpfr_precision(unsigned int n) {
     MPFR_global_precision = n;
@@ -622,7 +620,6 @@ class Hypercomplex<mpfr_t, dim> {
  public:
     /** \brief This is the main constructor
       * \param [in] ARR array of MPFR numbers
-      * \return new class instance
       * 
       * Template parameters are:
       * * dimensionality of the algebra
@@ -640,7 +637,6 @@ class Hypercomplex<mpfr_t, dim> {
 
     /** \brief This is the copy constructor
       * \param [in] H existing class instance
-      * \return new class instance
       * 
       * Template parameters are:
       * * dimensionality of the algebra
@@ -836,7 +832,7 @@ class Hypercomplex<mpfr_t, dim> {
     }
 
     /** \brief Power-Assignment operator
-      * \param [in] x power
+      * \param [in] x positive integer
       * \return Reference to the caller
       */
     Hypercomplex& operator^= (const unsigned int x) {
@@ -1122,7 +1118,6 @@ class Hypercomplex<Polynomial<MaxDeg>, dim> {
  public:
      /** \brief This is the main constructor
       * \param [in] ARR array of Polynomial instances
-      * \return new class instance
       * 
       * Template parameters are:
       * * dimensionality of the algebra
@@ -1137,7 +1132,6 @@ class Hypercomplex<Polynomial<MaxDeg>, dim> {
 
     /** \brief This is the copy constructor
       * \param [in] H existing class instance
-      * \return new class instance
       * 
       * Template parameters are:
       * * dimensionality of the algebra
@@ -1156,7 +1150,9 @@ class Hypercomplex<Polynomial<MaxDeg>, dim> {
       */
     unsigned int _() const { return dim; }
 
+    #ifndef DOXYGEN_SHOULD_SKIP_THIS
     Polynomial<MaxDeg> norm() = delete;
+    #endif /* DOXYGEN_SHOULD_SKIP_THIS */
 
     /** \brief Calculate squared Euclidean norm of a number
       * \return Polynomial class instance
@@ -1267,11 +1263,11 @@ class Hypercomplex<Polynomial<MaxDeg>, dim> {
     }
 
     /** \brief Modular-Reduction-Assignment operator
-      * \param [in] x modulus
+      * \param [in] mod positive integer
       * \return Reference to the caller
       */
-    Hypercomplex& operator%= (const int64_t &x) {
-        Hypercomplex<Polynomial<MaxDeg>, dim> result = (*this) % x;
+    Hypercomplex& operator%= (const int64_t &mod) {
+        Hypercomplex<Polynomial<MaxDeg>, dim> result = (*this) % mod;
         for (unsigned int i=0; i < dim; i++) (*this)[i] = result[i];
         return *this;
     }
@@ -1287,7 +1283,7 @@ class Hypercomplex<Polynomial<MaxDeg>, dim> {
     }
 
     /** \brief Power-Assignment operator
-      * \param [in] x power
+      * \param [in] x positive integer
       * \return Reference to the caller
       */
     Hypercomplex& operator^= (const unsigned int x) {
@@ -1296,7 +1292,9 @@ class Hypercomplex<Polynomial<MaxDeg>, dim> {
         return *this;
     }
 
+    #ifndef DOXYGEN_SHOULD_SKIP_THIS
     Hypercomplex& operator/= (const Hypercomplex &H) = delete;
+    #endif /* DOXYGEN_SHOULD_SKIP_THIS */
 };
 
 /** \brief Equality operator
@@ -1361,11 +1359,13 @@ Hypercomplex<Polynomial<MaxDeg>, dim> operator-(
 }
 
 // forbid / binary operator
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
 template <const unsigned int MaxDeg, const unsigned int dim>
 Hypercomplex<Polynomial<MaxDeg>, dim> operator/(
     const Hypercomplex<Polynomial<MaxDeg>, dim> &H1,
     const Hypercomplex<Polynomial<MaxDeg>, dim> &H2
 ) = delete;
+#endif /* DOXYGEN_SHOULD_SKIP_THIS */
 
 /** \brief Print operator
   * \param [in,out] os output stream
@@ -1383,7 +1383,7 @@ std::ostream& operator<<(
 }
 
 /** \brief Scalar-Multiplication operator
-  * \param [in] x integer scalar
+  * \param [in] x scalar integer
   * \param [in] H existing class instance
   * \return new class instance
   */
@@ -1400,16 +1400,16 @@ Hypercomplex<Polynomial<MaxDeg>, dim> operator*(
 
 /** \brief Modular reduction operator
   * \param [in] H existing class instance
-  * \param [in] x positive integer scalar
+  * \param [in] mod positive integer
   * \return new class instance
   */
 template <const unsigned int MaxDeg, const unsigned int dim>
 Hypercomplex<Polynomial<MaxDeg>, dim> operator%(
     const Hypercomplex<Polynomial<MaxDeg>, dim> &H,
-    const int64_t &x
+    const int64_t &mod
 ) {
     Polynomial<MaxDeg> temparr[dim];
-    for (unsigned int i=0; i < dim; i++) temparr[i] = H[i] % x;
+    for (unsigned int i=0; i < dim; i++) temparr[i] = H[i] % mod;
     Hypercomplex<Polynomial<MaxDeg>, dim> h(temparr);
     return h;
 }
@@ -1504,14 +1504,16 @@ Hypercomplex<Polynomial<MaxDeg>, dim> Im(
 }
 
 // forbid e^H
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
 template <const unsigned int MaxDeg, const unsigned int dim>
 Hypercomplex<Polynomial<MaxDeg>, dim> exp(
     const Hypercomplex<Polynomial<MaxDeg>, dim> &H
 ) = delete;
+#endif /* DOXYGEN_SHOULD_SKIP_THIS */
 
 /** \brief Center-lift hypercomplex elements in a modular quotient ring
   * \param [in] H existing class instance (pointer)
-  * \param [in] mod scalar modulus
+  * \param [in] mod positive integer
   */
 template <const unsigned int MaxDeg, const unsigned int dim>
 void CenteredLift(
@@ -1523,7 +1525,7 @@ void CenteredLift(
 
 /** \brief Hypercomplex inverse in a modular quotient ring
   * \param [in] H existing class instance
-  * \param [in] mod scalar modulus
+  * \param [in] mod positive integer
   * \return new class instance
   */
 template <const unsigned int MaxDeg, const unsigned int dim>
@@ -1560,7 +1562,7 @@ Hypercomplex<Polynomial<MaxDeg>, dim> RingInverse(
 /** \brief Generate public key of the cryptosystem
   * \param [in] F existing class instance
   * \param [in] G existing class instance
-  * \param [in] q positive scalar integer
+  * \param [in] q positive integer
   * \return new class instance
   */
 template <const unsigned int MaxDeg, const unsigned int dim>
@@ -1578,8 +1580,8 @@ Hypercomplex<Polynomial<MaxDeg>, dim> PUBLICKEY(
   * \param [in] H existing class instance
   * \param [in] M existing class instance
   * \param [in] PHI existing class instance
-  * \param [in] p positive scalar integer
-  * \param [in] q positive scalar integer
+  * \param [in] p positive integer
+  * \param [in] q positive integer
   * \return new class instance
   */
 template <const unsigned int MaxDeg, const unsigned int dim>
@@ -1597,8 +1599,8 @@ Hypercomplex<Polynomial<MaxDeg>, dim> ENCRYPT(
 /** \brief Decrypt a message via the cryptosystem
   * \param [in] F existing class instance
   * \param [in] E existing class instance
-  * \param [in] p positive scalar integer
-  * \param [in] q positive scalar integer
+  * \param [in] p positive integer
+  * \param [in] q positive integer
   * \return new class instance
   */
 template <const unsigned int MaxDeg, const unsigned int dim>
