@@ -250,9 +250,13 @@ void CenteredLift(Polynomial<MaxDeg> *P, const int64_t mod) {
     int64_t lower = -mod/2;
     int64_t upper = mod/2;
     for (unsigned int i = 0; i <= MaxDeg; i++) {
-        // assume mod is prime (odd): <lower, upper>
-        if ((*P)[i] < lower) (*P)[i] = (*P)[i] + mod;
-        if ((*P)[i] > upper) (*P)[i] = (*P)[i] - mod;
+        if (mod % 2) {  // odd: <lower, upper>
+            if ((*P)[i] < lower) (*P)[i] = (*P)[i] + mod;
+            if ((*P)[i] > upper) (*P)[i] = (*P)[i] - mod;
+        } else {  // even: (lower, upper>
+            if ((*P)[i] <= lower) (*P)[i] = (*P)[i] + mod;
+            if ((*P)[i] > upper) (*P)[i] = (*P)[i] - mod;
+        }
     }
 }
 
