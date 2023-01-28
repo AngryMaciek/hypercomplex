@@ -3009,7 +3009,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         REQUIRE( D == M );
     }
     //
-    SECTION( "CD[1024] | N = 11" ) {
+    SECTION( "CD[1024] | N = 11", "[local]" ) {
         //
         const unsigned int dim = 1024;
         const unsigned int MaxDeg = 10;
@@ -3061,7 +3061,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         REQUIRE( D == M );
     }
     //
-    SECTION( "CD[16] | N = 1031" ) {
+    SECTION( "CD[16] | N = 1031", "[local]" ) {
         //
         const unsigned int dim = 16;
         const unsigned int MaxDeg = 1031;
