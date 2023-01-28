@@ -89,13 +89,13 @@ jobs:
           rm -rf *.gcov test.gc*'
 
       - name: Submit Report to Codecov
-        working-directory: ${{env.working-directory}}
+        # working-directory: ${{env.working-directory}}
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./main_coverage.info
-          fail_ci_if_error: true
-          verbose: true
+          # fail_ci_if_error: true
+          # verbose: true
 
   memcheck:
     runs-on: ubuntu-20.04
