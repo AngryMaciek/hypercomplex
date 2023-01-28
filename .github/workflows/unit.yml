@@ -88,9 +88,10 @@ jobs:
           gcov test.cpp
           lcov --capture --directory .
           rm -rf *.gcov test.gc*
+          ls
 
       - name: Submit Report to Codecov
-        # working-directory: ${{env.working-directory}}
+        working-directory: ${{env.working-directory}}
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
