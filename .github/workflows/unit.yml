@@ -83,6 +83,7 @@ jobs:
         run: ./test ~[local]
 
       - name: Generate Coverage Report
+        working-directory: ${{env.working-directory}}
         run: |
           gcov test.cpp
           lcov --capture --directory .
@@ -93,9 +94,9 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./main_coverage.info
-          # fail_ci_if_error: true
-          # verbose: true
+          files: .test/unit/main_coverage.info
+          fail_ci_if_error: true
+          verbose: true
 
   memcheck:
     runs-on: ubuntu-20.04
