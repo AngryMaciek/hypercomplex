@@ -47,7 +47,7 @@ jobs:
 
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}
-        run: ./test -d yes -w NoAssertions --use-colour yes --benchmark-samples 100 --benchmark-resamples 100000
+        run: ./test ~[local] -d yes -w NoAssertions --use-colour yes --benchmark-samples 100 --benchmark-resamples 100000
 
   code-coverage:
     runs-on: ubuntu-20.04
@@ -56,10 +56,13 @@ jobs:
 
     steps:
 
-      - name: Install MPFR
+      - name: Install lcov
         run: |
           sudo apt-get update -y
-          sudo apt-get install -y libmpfr-dev
+          sudo apt-get install -y lcov
+
+      - name: Install MPFR
+        run: sudo apt-get install -y libmpfr-dev
 
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -73,20 +76,26 @@ jobs:
 
       - name: Compile Test Program
         working-directory: ${{env.working-directory}}
-        run: g++ -O0 -Wall --std=c++17 --coverage -o test test.cpp -lmpfr -lgmp
+        run: g++ -O0 -fprofile-arcs -ftest-coverage -Wall --std=c++17 --coverage -o test test.cpp -lmpfr -lgmp
 
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}
-        run: ./test
+        run: ./test ~[local]
 
       - name: Generate Coverage Report
-        run: gcov -o . test.cpp
-
-      - name: Submit Report to Codecov
         working-directory: ${{env.working-directory}}
         run: |
-          CODECOV_TOKEN=${{ secrets.CODECOV_TOKEN }}
-          bash <(curl -s https://codecov.io/bash)
+          gcov test.cpp
+          lcov --capture --directory . --output-file coverage.info
+          rm -rf *.gcov test.gc*
+
+      - name: Submit Report to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: .test/unit/coverage.info
+          fail_ci_if_error: true
+          verbose: true
 
   memcheck:
     runs-on: ubuntu-20.04
@@ -120,6 +129,6 @@ jobs:
       - name: Analyze Test Program Execution
         working-directory: ${{env.working-directory}}
         run: |
-          valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind.txt ./test
+          valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind.txt ./test ~[local]
           cat valgrind.txt
           grep -q -w "All heap blocks were freed -- no leaks are possible" "valgrind.txt"

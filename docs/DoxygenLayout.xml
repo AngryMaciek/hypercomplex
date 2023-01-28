@@ -3,7 +3,10 @@
   <!-- Navigation index tabs for HTML output -->
   <navindex>
     <tab type="mainpage" visible="yes" title=""/>
-    <tab type="user" url="_hypercomplex_8hpp.html" title="File Reference"/>
+    <tab type="usergroup" title="File Reference">
+      <tab type="user" url="_hypercomplex_8hpp.html" title="Hypercomplex"/>
+      <tab type="user" url="_polynomial_8hpp.html" title="Polynomial"/>
+    </tab>
   </navindex>
 
   <!-- Layout definition for a class page -->
