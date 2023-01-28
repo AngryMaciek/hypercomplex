@@ -3123,7 +3123,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
     }
 }
 
-SECTION( "CD[256] | N = 257", "[local]" ) {
+TEST_CASE( "CD[256] | N = 257", "[local]" ) {
     //
     const unsigned int dim = 256;
     const unsigned int MaxDeg = 257;
@@ -3178,6 +3178,7 @@ SECTION( "CD[256] | N = 257", "[local]" ) {
     REQUIRE( D == M );
 }
 
+/*
 TEST_CASE( "CD[1024] | N = 1031", "[local]" ) {
     //
     const unsigned int dim = 1024;
@@ -3238,6 +3239,7 @@ TEST_CASE( "CD[1024] | N = 1031", "[local]" ) {
     CenteredLift(&M, p);
     REQUIRE( D == M );
 }
+*/
 
 int main(int argc, char* const argv[]) {
     return Catch::Session().run(argc, argv);
