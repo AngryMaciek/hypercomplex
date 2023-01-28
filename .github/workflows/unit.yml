@@ -80,7 +80,7 @@ jobs:
         run: ./test ~[local]
 
       - name: Generate Coverage Report
-        run: gcov -o . test.cpp
+        run: lcov -o . test.cpp
 
       - name: Submit Report to Codecov
         working-directory: ${{env.working-directory}}
