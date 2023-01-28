@@ -2980,7 +2980,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         Polynomial<MaxDeg> G_coefficients[dim];
         for (unsigned int i=0; i < dim; i++) {
             for (unsigned int j=0; j <= MaxDeg; j++) {
-                G_coefficients[i][j] = rand() % 3;
+                G_coefficients[i][j] = rand_r() % 3;
             }
         }
         Hypercomplex<Polynomial<MaxDeg>, dim> G(G_coefficients);
@@ -2990,14 +2990,14 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         Polynomial<MaxDeg> M_coefficients[dim];
         for (unsigned int i=0; i < dim; i++) {
             for (unsigned int j=0; j <= MaxDeg; j++) {
-                M_coefficients[i][j] = rand() % 3;
+                M_coefficients[i][j] = rand_r() % 3;
             }
         }
         Hypercomplex<Polynomial<MaxDeg>, dim> M(M_coefficients);
         Polynomial<MaxDeg> PHI_coefficients[dim];
         for (unsigned int i=0; i < dim; i++) {
             for (unsigned int j=0; j <= MaxDeg; j++) {
-                PHI_coefficients[i][j] = rand() % 3;
+                PHI_coefficients[i][j] = rand_r() % 3;
             }
         }
         Hypercomplex<Polynomial<MaxDeg>, dim> PHI(PHI_coefficients);
@@ -3032,7 +3032,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         Polynomial<MaxDeg> G_coefficients[dim];
         for (unsigned int i=0; i < dim; i++) {
             for (unsigned int j=0; j <= MaxDeg; j++) {
-                G_coefficients[i][j] = rand() % 3;
+                G_coefficients[i][j] = rand_r() % 3;
             }
         }
         Hypercomplex<Polynomial<MaxDeg>, dim> G(G_coefficients);
@@ -3042,14 +3042,14 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         Polynomial<MaxDeg> M_coefficients[dim];
         for (unsigned int i=0; i < dim; i++) {
             for (unsigned int j=0; j <= MaxDeg; j++) {
-                M_coefficients[i][j] = rand() % 3;
+                M_coefficients[i][j] = rand_r() % 3;
             }
         }
         Hypercomplex<Polynomial<MaxDeg>, dim> M(M_coefficients);
         Polynomial<MaxDeg> PHI_coefficients[dim];
         for (unsigned int i=0; i < dim; i++) {
             for (unsigned int j=0; j <= MaxDeg; j++) {
-                PHI_coefficients[i][j] = rand() % 3;
+                PHI_coefficients[i][j] = rand_r() % 3;
             }
         }
         Hypercomplex<Polynomial<MaxDeg>, dim> PHI(PHI_coefficients);
@@ -3093,7 +3093,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         Polynomial<MaxDeg> G_coefficients[dim];
         for (unsigned int i=0; i < dim; i++) {
             for (unsigned int j=0; j <= MaxDeg; j++) {
-                G_coefficients[i][j] = rand() % 3;
+                G_coefficients[i][j] = rand_r() % 3;
             }
         }
         Hypercomplex<Polynomial<MaxDeg>, dim> G(G_coefficients);
@@ -3103,14 +3103,14 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         Polynomial<MaxDeg> M_coefficients[dim];
         for (unsigned int i=0; i < dim; i++) {
             for (unsigned int j=0; j <= MaxDeg; j++) {
-                M_coefficients[i][j] = rand() % 3;
+                M_coefficients[i][j] = rand_r() % 3;
             }
         }
         Hypercomplex<Polynomial<MaxDeg>, dim> M(M_coefficients);
         Polynomial<MaxDeg> PHI_coefficients[dim];
         for (unsigned int i=0; i < dim; i++) {
             for (unsigned int j=0; j <= MaxDeg; j++) {
-                PHI_coefficients[i][j] = rand() % 3;
+                PHI_coefficients[i][j] = rand_r() % 3;
             }
         }
         Hypercomplex<Polynomial<MaxDeg>, dim> PHI(PHI_coefficients);
@@ -3149,7 +3149,7 @@ TEST_CASE( "CD[256] | N = 257", "[local]" ) {
     Polynomial<MaxDeg> G_coefficients[dim];
     for (unsigned int i=0; i < dim; i++) {
         for (unsigned int j=0; j <= MaxDeg; j++) {
-            G_coefficients[i][j] = rand() % 3;
+            G_coefficients[i][j] = rand_r() % 3;
         }
     }
     Hypercomplex<Polynomial<MaxDeg>, dim> G(G_coefficients);
@@ -3159,14 +3159,14 @@ TEST_CASE( "CD[256] | N = 257", "[local]" ) {
     Polynomial<MaxDeg> M_coefficients[dim];
     for (unsigned int i=0; i < dim; i++) {
         for (unsigned int j=0; j <= MaxDeg; j++) {
-            M_coefficients[i][j] = rand() % 3;
+            M_coefficients[i][j] = rand_r() % 3;
         }
     }
     Hypercomplex<Polynomial<MaxDeg>, dim> M(M_coefficients);
     Polynomial<MaxDeg> PHI_coefficients[dim];
     for (unsigned int i=0; i < dim; i++) {
         for (unsigned int j=0; j <= MaxDeg; j++) {
-            PHI_coefficients[i][j] = rand() % 3;
+            PHI_coefficients[i][j] = rand_r() % 3;
         }
     }
     Hypercomplex<Polynomial<MaxDeg>, dim> PHI(PHI_coefficients);
@@ -3211,7 +3211,7 @@ TEST_CASE( "CD[1024] | N = 1031", "[local]" ) {
     Polynomial<MaxDeg> G_coefficients[dim];
     for (unsigned int i=0; i < dim; i++) {
         for (unsigned int j=0; j <= MaxDeg; j++) {
-            G_coefficients[i][j] = rand() % 3;
+            G_coefficients[i][j] = rand_r() % 3;
         }
     }
     Hypercomplex<Polynomial<MaxDeg>, dim> G(G_coefficients);
@@ -3221,14 +3221,14 @@ TEST_CASE( "CD[1024] | N = 1031", "[local]" ) {
     Polynomial<MaxDeg> M_coefficients[dim];
     for (unsigned int i=0; i < dim; i++) {
         for (unsigned int j=0; j <= MaxDeg; j++) {
-            M_coefficients[i][j] = rand() % 3;
+            M_coefficients[i][j] = rand_r() % 3;
         }
     }
     Hypercomplex<Polynomial<MaxDeg>, dim> M(M_coefficients);
     Polynomial<MaxDeg> PHI_coefficients[dim];
     for (unsigned int i=0; i < dim; i++) {
         for (unsigned int j=0; j <= MaxDeg; j++) {
-            PHI_coefficients[i][j] = rand() % 3;
+            PHI_coefficients[i][j] = rand_r() % 3;
         }
     }
     Hypercomplex<Polynomial<MaxDeg>, dim> PHI(PHI_coefficients);
