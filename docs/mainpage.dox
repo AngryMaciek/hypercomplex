@@ -3,15 +3,16 @@
  * \section intro_sec Introduction
  *
  * The following library aims to deliver a simple method to construct
- * hypercomplex numbers from any of the Cayley-Dickson algebras and later
- * perform calculations in a arbitrary-precise arithmetic.
- * It is dedicated mostly to computational mathematicians and computational scientists
- * who operate on high-dimensional numbers and/or need to carry out arbitrary-precise calculations.
- * The library is well suited for wide range of computationally challenging projects:
- * from studying general algebraic properties per se to applied research
- * where hypercomplex framework serves merely as a mean to an end.
+ * hypercomplex numbers from any of the Cayley-Dickson algebras.
+ * It supports calculations in an arbitrary-precise arithmetic
+ * as well as encryption/decryption procedures for public-key
+ * lattice-based cryptosystems in high-dimensional algebras of truncated
+ * polynomial rings.
+ * The library is dedicated mostly to computational mathematicians and computational scientists
+ * whose focus is (post-quantum) cryptography and precise computation. 
  * As a header-only C++ template code it's greatest advantage is the combination of
- * speed, generic programming and convenience for the end user.
+ * speed, generic programming and convenience for the end user, making it
+ * well suited for wide range of computationally challenging projects.
  * 
  * \section install_sec Installation
  *
@@ -28,7 +29,7 @@
  * brew install mpfr
  * \endcode
  *
- * This is a _header-only_ library, meaning that the easiest way to use it
+ * The following is a _header-only_ library, meaning that the easiest way to use it
  * is to copy the core _hpp_ file alongside the main program and include it into the code
  * with the directive:
  * \code{.cpp}
@@ -45,12 +46,12 @@
  *
  * \section usecase_sec Brief overview
  *
- * The following section demonstrates basic functionality and behaviour of the library.
+ * The following section demonstrates general functionality and behaviour of the library.
  * For the full unit test suite please refer to 
  * <a href="https://github.com/AngryMaciek/hypercomplex/blob/master/.test/unit/test.cpp">this file</a>.
  *
  * Please note that throughout this whole documentation many links may point
- * to _Hypercomplex_ class instead of its _MPFR_-compliant specialisation.
+ * to the main template _Hypercomplex_ class instead of its specialisations.
  * This is because the doxygen engine unfortunately cannot distinguish
  * between template classes of the same name properly. Always check the description carefully while accessing
  * links at this page.
@@ -307,8 +308,97 @@
  *   clear_mpfr_memory();
  * \endcode
  *
- * <br>***<br>
- * All the code specified on this page may be executed upon compilation of
+ * All the code specified up to this point may be executed upon compilation of
  * <a href="https://github.com/AngryMaciek/hypercomplex/blob/master/.test/docs/test.cpp">this source code</a>.
+ *
+ * \section crypto_sec Cryptographic Application
+ *
+ * Main feature of _Hypercomplex_ is the implementation of
+ * cryptographic operations as in <a href="https://en.wikipedia.org/wiki/NTRUEncrypt">NTRU cryptosystem</a>
+ * but generalized on an arbitrary-high-dimensional algebras generated with the Cayley-Dickson construction.
+ * The library provides additional helper class for truncated polynomials
+ * (with necessary operators e.g. modular reduction, convolution-multiplication)
+ * and a partial template specialisation for hypercomplex numbers based on these objects.
+ *
+ * Briefly, let \f$N, p, q\f$ denote three selected primes such that \f$p << q\f$.
+ * The former will become a multiplicative order whereas the two latter will mark
+ * characteristics of the structures we will work on.
+ * Let \f$R = \mathbb{Z}[x] / (x^N - 1)\f$ be the underlying polynomial quotient ring
+ * (\f$R_p, R_q\f$ are modular structures, modulo \f$p,q\f$ respectively)
+ * and \f$D\f$ mark the dimension of the algebra we operate in:
+ * \f$A = \{\sum^D_{i=1} x_i \cdot e_i | x_i \in R\} \f$, where
+ * all \f$e_i\f$ are basis elements (similarly for modular algebras: \f$A_p, A_q\f$).
+ *
+ * Mathematical derivations for these structures and their operations
+ * are analogous to those presented for
+ * <a href="https://eprint.iacr.org/2009/386.pdf">QTRU</a>
+ * and
+ * <a href="https://www.math.uci.edu/~brusso/cryptographyORTU.pdf">OTRU</a>.
+ *
+ * Imagine that Alice wishes to send a message to Bob.
+ * Bob chooses \f$F \in A\f$ such that
+ * \f$F_p^{-1} \in A_p\f$ and \f$F_q^{-1} \in A_q\f$ exist, then
+ * generates his public key for the cryptosystem:
+ *
+ * \f$ H = F_q^{-1} \times G \mod q\f$
+ *
+ * Alice chooses a "blinding element" \f$\Phi \in A_q\f$ and
+ * encrypts her top secret message \f$M\f$ as:
+ *
+ * \f$ E = (p \cdot H \times \Phi + M) \mod q\f$
+ *
+ * Which Bob then decrypts with the following operations:
+ *
+ * \f$ C_1 = ((F \times E) \times F) \mod q\f$
+ *
+ * \f$ C_2 = C_1 \mod p\f$
+ *
+ * \f$ C_3 = (F_p^{-1} \times (C_2 \times F_p^{-1})) \mod p\f$
+ *
+ * If the decryption was successfull Bob receives \f$ C_3 = M\f$
+ * (up to coefficients' centered lift)
+ *
+ * Please remember that lattice-based cryptography is always burdened with a chance
+ * of decryption failure due to incorrect recovery of polynomial's coefficients
+ * at the centered lift step.
+ *
+ * With a simple example of how to create a hypercomplex number based on
+ * truncated polynomials...
+ * \code{.cpp}
+ *   int64_t X_array1[] = {2, 1, 1, 0, 2};
+ *   int64_t X_array2[] = {2, 2, 2, 1, 2};
+ *   Polynomial<5> X_polynomial1(X_array1);
+ *   Polynomial<5> X_polynomial2(X_array2);
+ *   Polynomial<5> X_coefficients[] = { X_polynomial1, X_polynomial2 };
+ *   Hypercomplex<Polynomial<5>, 2> X(X_coefficients);
+ * \endcode
+ *
+ * ... the scheme presented above may be implemented with the following functions of the library:
+ *
+ * \code{.cpp}
+ *   # Having defined: p, q, MaxDeg, dim, F, G, M, PHI
+ *
+ *   # PUBLIC KEY
+ *   CenteredLift(&F, p);
+ *   CenteredLift(&G, p);
+ *   Hypercomplex<Polynomial<MaxDeg>, dim> H = PUBLICKEY(F, G, q);
+ *
+ *   # ENCRYPTION
+ *   CenteredLift(&PHI, p);
+ *   Hypercomplex<Polynomial<MaxDeg>, dim> E = ENCRYPT(H, M, PHI, p, q);
+ *
+ *   # DECRYPTION
+ *   Hypercomplex<Polynomial<MaxDeg>, dim> C = DECRYPT(F, E, p, q);
+ * \endcode
+ *
+ * Remarkably, for a cryptosystem based on algebras with 16+ dimensions
+ * \f$F\f$ needs to contain at most one \f$ x_i \in R | x_i \neq 0\f$.
+ * This is because sedonions (and higher)
+ * are not associative, thus the decryption process will only be possible
+ * for such specific, reduced subset of private keys.
+ *
+ * Cryptographic applications of _Hypercomplex_ have been extensively tested in the
+ * test case: _Cryptosystem based on Cayley-Dickson Algebras_ of the
+ * <a href="https://github.com/AngryMaciek/hypercomplex/blob/master/.test/unit/test.cpp">following file</a>.
  *
  */
