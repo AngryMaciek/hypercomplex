@@ -3153,29 +3153,28 @@ TEST_CASE( "CD[256] | N = 257", "[local]" ) {
     }
     Hypercomplex<Polynomial<MaxDeg>, dim> G(G_coefficients);
     CenteredLift(&G, p);
-    //Hypercomplex<Polynomial<MaxDeg>, dim> H = PUBLICKEY(F, G, q);
+    Hypercomplex<Polynomial<MaxDeg>, dim> H = PUBLICKEY(F, G, q);
     // Encryption
-    //Polynomial<MaxDeg> M_coefficients[dim];
-    //for (unsigned int i=0; i < dim; i++) {
-    //    for (unsigned int j=0; j <= MaxDeg; j++) {
-    //        M_coefficients[i][j] = rand_r(&seedzero) % 3;
-    //    }
-    //}
-    //Hypercomplex<Polynomial<MaxDeg>, dim> M(M_coefficients);
-    //Polynomial<MaxDeg> PHI_coefficients[dim];
-    //for (unsigned int i=0; i < dim; i++) {
-    //    for (unsigned int j=0; j <= MaxDeg; j++) {
-    //        PHI_coefficients[i][j] = rand_r(&seedzero) % 3;
-    //    }
-    //}
-    //Hypercomplex<Polynomial<MaxDeg>, dim> PHI(PHI_coefficients);
-    //CenteredLift(&PHI, p);
-    //Hypercomplex<Polynomial<MaxDeg>, dim> E = ENCRYPT(H, M, PHI, p, q);
+    Polynomial<MaxDeg> M_coefficients[dim];
+    for (unsigned int i=0; i < dim; i++) {
+        for (unsigned int j=0; j <= MaxDeg; j++) {
+            M_coefficients[i][j] = rand_r(&seedzero) % 3;
+        }
+    }
+    Hypercomplex<Polynomial<MaxDeg>, dim> M(M_coefficients);
+    Polynomial<MaxDeg> PHI_coefficients[dim];
+    for (unsigned int i=0; i < dim; i++) {
+        for (unsigned int j=0; j <= MaxDeg; j++) {
+            PHI_coefficients[i][j] = rand_r(&seedzero) % 3;
+        }
+    }
+    Hypercomplex<Polynomial<MaxDeg>, dim> PHI(PHI_coefficients);
+    CenteredLift(&PHI, p);
+    Hypercomplex<Polynomial<MaxDeg>, dim> E = ENCRYPT(H, M, PHI, p, q);
     // Decryption
-    //Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, p, q);
-    //CenteredLift(&M, p);
-    REQUIRE(1 == 1);
-    //REQUIRE( D == M );
+    Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, p, q);
+    CenteredLift(&M, p);
+    REQUIRE( D == M );
 }
 
 /*
