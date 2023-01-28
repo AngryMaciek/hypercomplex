@@ -1560,8 +1560,8 @@ TEST_CASE( "Polynomial: CenteredLift function", "[unit]" ) {
     REQUIRE( P1[5] == 5 );
     REQUIRE( P1[6] == 6 );
     REQUIRE( P1[7] == -5 );
-    REQUIRE( P1[8] == -5 );
-    REQUIRE( P1[9] == -4 );
+    REQUIRE( P1[8] == -4 );
+    REQUIRE( P1[9] == -3 );
 }
 
 TEST_CASE( "Polynomial: RingInverse function", "[unit]" ) {
