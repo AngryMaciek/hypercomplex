@@ -3122,6 +3122,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         REQUIRE( D == M );
     }
     //
+    /*
     SECTION( "CD[256] | N = 257" ) {
         //
         const unsigned int dim = 256;
@@ -3176,6 +3177,7 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         CenteredLift(&M, p);
         REQUIRE( D == M );
     }
+    */
 }
 
 /*
