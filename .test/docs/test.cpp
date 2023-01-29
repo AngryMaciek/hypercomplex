@@ -86,26 +86,26 @@ int main(void){
     const int64_t fig1a_p = 2;
     const int64_t fig1a_q = 1151;
     // Public Key
-    Polynomial<fig1a_MaxDeg> F_coefficients[fig1a_dim];
-    F_coefficients[1][0] = 0;
-    F_coefficients[1][1] = 1;
-    F_coefficients[1][2] = 0;
-    F_coefficients[1][3] = 1;
-    F_coefficients[1][4] = 1;
-    F_coefficients[1][5] = 1;
-    F_coefficients[1][6] = 1;
-    Hypercomplex<Polynomial<fig1a_MaxDeg>, fig1a_dim> F(F_coefficients);
-    CenteredLift(&F, fig1a_p);
-    Polynomial<fig1a_MaxDeg> G_coefficients[fig1a_dim];
+    Polynomial<fig1a_MaxDeg> F1a_coefficients[fig1a_dim];
+    F1a_coefficients[1][0] = 0;
+    F1a_coefficients[1][1] = 1;
+    F1a_coefficients[1][2] = 0;
+    F1a_coefficients[1][3] = 1;
+    F1a_coefficients[1][4] = 1;
+    F1a_coefficients[1][5] = 1;
+    F1a_coefficients[1][6] = 1;
+    Hypercomplex<Polynomial<fig1a_MaxDeg>, fig1a_dim> F1a(F1a_coefficients);
+    CenteredLift(&F1a, fig1a_p);
+    Polynomial<fig1a_MaxDeg> G1a_coefficients[fig1a_dim];
     for (unsigned int i=0; i < fig1a_dim; i++) {
         for (unsigned int j=0; j <= fig1a_MaxDeg; j++) {
-            G_coefficients[i][j] = rand_r(&seedzero) % 3;
+            G1a_coefficients[i][j] = rand_r(&seedzero) % 3;
         }
     }
-    Hypercomplex<Polynomial<fig1a_MaxDeg>, fig1a_dim> G(G_coefficients);
-    CenteredLift(&G, fig1a_p);
-    Hypercomplex<Polynomial<fig1a_MaxDeg>, fig1a_dim> H = PUBLICKEY(
-        F, G, fig1a_q
+    Hypercomplex<Polynomial<fig1a_MaxDeg>, fig1a_dim> G1a(G1a_coefficients);
+    CenteredLift(&G1a, fig1a_p);
+    Hypercomplex<Polynomial<fig1a_MaxDeg>, fig1a_dim> H1a = PUBLICKEY(
+        F1a, G1a, fig1a_q
     );
     // Encryption
     //
@@ -118,97 +118,105 @@ int main(void){
     // G: 9007199254740992
     //
     // A B C D E F G
-    Polynomial<fig1a_MaxDeg> M_coefficients[fig1a_dim];
+    Polynomial<fig1a_MaxDeg> M1a_coefficients[fig1a_dim];
     //
     // A
-    M_coefficients[0][0] = 1;
-    M_coefficients[1][0] = 1;
-    M_coefficients[11][0] = 1;
-    M_coefficients[12][0] = 1;
-    M_coefficients[15][0] = 1;
-    M_coefficients[16][0] = 1;
-    M_coefficients[34][0] = 1;
-    M_coefficients[56][0] = 1;
+    M1a_coefficients[0][0] = 1;
+    M1a_coefficients[1][0] = 1;
+    M1a_coefficients[11][0] = 1;
+    M1a_coefficients[12][0] = 1;
+    M1a_coefficients[15][0] = 1;
+    M1a_coefficients[16][0] = 1;
+    M1a_coefficients[34][0] = 1;
+    M1a_coefficients[56][0] = 1;
     // B
-    M_coefficients[19][1] = 1;
-    M_coefficients[20][1] = 1;
+    M1a_coefficients[19][1] = 1;
+    M1a_coefficients[20][1] = 1;
     // C
-    M_coefficients[3][2] = 1;
-    M_coefficients[9][2] = 1;
-    M_coefficients[18][2] = 1;
-    M_coefficients[23][2] = 1;
-    M_coefficients[34][2] = 1;
-    M_coefficients[45][2] = 1;
-    M_coefficients[51][2] = 1;
-    M_coefficients[61][2] = 1;
+    M1a_coefficients[3][2] = 1;
+    M1a_coefficients[9][2] = 1;
+    M1a_coefficients[18][2] = 1;
+    M1a_coefficients[23][2] = 1;
+    M1a_coefficients[34][2] = 1;
+    M1a_coefficients[45][2] = 1;
+    M1a_coefficients[51][2] = 1;
+    M1a_coefficients[61][2] = 1;
     // D
-    M_coefficients[0][3] = 1;
-    M_coefficients[10][3] = 1;
-    M_coefficients[61][3] = 1;
-    M_coefficients[62][3] = 1;
-    M_coefficients[63][3] = 1;
+    M1a_coefficients[0][3] = 1;
+    M1a_coefficients[10][3] = 1;
+    M1a_coefficients[61][3] = 1;
+    M1a_coefficients[62][3] = 1;
+    M1a_coefficients[63][3] = 1;
     // E
-    M_coefficients[0][4] = 1;
-    M_coefficients[2][4] = 1;
+    M1a_coefficients[0][4] = 1;
+    M1a_coefficients[2][4] = 1;
     // F
-    M_coefficients[0][5] = 1;
-    M_coefficients[1][5] = 1;
-    M_coefficients[3][5] = 1;
-    M_coefficients[5][5] = 1;
-    M_coefficients[7][5] = 1;
-    M_coefficients[9][5] = 1;
-    M_coefficients[10][5] = 1;
-    M_coefficients[12][5] = 1;
-    M_coefficients[14][5] = 1;
-    M_coefficients[16][5] = 1;
-    M_coefficients[18][5] = 1;
-    M_coefficients[19][5] = 1;
-    M_coefficients[22][5] = 1;
-    M_coefficients[23][5] = 1;
-    M_coefficients[25][5] = 1;
-    M_coefficients[26][5] = 1;
-    M_coefficients[27][5] = 1;
-    M_coefficients[32][5] = 1;
-    M_coefficients[33][5] = 1;
-    M_coefficients[34][5] = 1;
-    M_coefficients[36][5] = 1;
-    M_coefficients[39][5] = 1;
-    M_coefficients[40][5] = 1;
-    M_coefficients[41][5] = 1;
-    M_coefficients[42][5] = 1;
-    M_coefficients[43][5] = 1;
-    M_coefficients[44][5] = 1;
-    M_coefficients[45][5] = 1;
-    M_coefficients[46][5] = 1;
-    M_coefficients[47][5] = 1;
-    M_coefficients[48][5] = 1;
-    M_coefficients[49][5] = 1;
-    M_coefficients[54][5] = 1;
-    M_coefficients[55][5] = 1;
-    M_coefficients[57][5] = 1;
-    M_coefficients[58][5] = 1;
-    M_coefficients[59][5] = 1;
-    M_coefficients[60][5] = 1;
-    M_coefficients[61][5] = 1;
-    M_coefficients[62][5] = 1;
+    M1a_coefficients[0][5] = 1;
+    M1a_coefficients[1][5] = 1;
+    M1a_coefficients[3][5] = 1;
+    M1a_coefficients[5][5] = 1;
+    M1a_coefficients[7][5] = 1;
+    M1a_coefficients[9][5] = 1;
+    M1a_coefficients[10][5] = 1;
+    M1a_coefficients[12][5] = 1;
+    M1a_coefficients[14][5] = 1;
+    M1a_coefficients[16][5] = 1;
+    M1a_coefficients[18][5] = 1;
+    M1a_coefficients[19][5] = 1;
+    M1a_coefficients[22][5] = 1;
+    M1a_coefficients[23][5] = 1;
+    M1a_coefficients[25][5] = 1;
+    M1a_coefficients[26][5] = 1;
+    M1a_coefficients[27][5] = 1;
+    M1a_coefficients[32][5] = 1;
+    M1a_coefficients[33][5] = 1;
+    M1a_coefficients[34][5] = 1;
+    M1a_coefficients[36][5] = 1;
+    M1a_coefficients[39][5] = 1;
+    M1a_coefficients[40][5] = 1;
+    M1a_coefficients[41][5] = 1;
+    M1a_coefficients[42][5] = 1;
+    M1a_coefficients[43][5] = 1;
+    M1a_coefficients[44][5] = 1;
+    M1a_coefficients[45][5] = 1;
+    M1a_coefficients[46][5] = 1;
+    M1a_coefficients[47][5] = 1;
+    M1a_coefficients[48][5] = 1;
+    M1a_coefficients[49][5] = 1;
+    M1a_coefficients[54][5] = 1;
+    M1a_coefficients[55][5] = 1;
+    M1a_coefficients[57][5] = 1;
+    M1a_coefficients[58][5] = 1;
+    M1a_coefficients[59][5] = 1;
+    M1a_coefficients[60][5] = 1;
+    M1a_coefficients[61][5] = 1;
+    M1a_coefficients[62][5] = 1;
     // G
-    M_coefficients[53][6] = 1;
+    M1a_coefficients[53][6] = 1;
     //
-    Hypercomplex<Polynomial<fig1a_MaxDeg>, fig1a_dim> M(M_coefficients);
+    Hypercomplex<Polynomial<fig1a_MaxDeg>, fig1a_dim> M1a(M1a_coefficients);
     //
-    Polynomial<fig1a_MaxDeg> PHI_coefficients[fig1a_dim];
+    Polynomial<fig1a_MaxDeg> PHI1a_coefficients[fig1a_dim];
     for (unsigned int i=0; i < fig1a_dim; i++) {
         for (unsigned int j=0; j <= fig1a_MaxDeg; j++) {
-            PHI_coefficients[i][j] = rand_r(&seedzero) % 3;
+            PHI1a_coefficients[i][j] = rand_r(&seedzero) % 3;
         }
     }
-    Hypercomplex<Polynomial<fig1a_MaxDeg>, fig1a_dim> PHI(PHI_coefficients);
-    CenteredLift(&PHI, fig1a_p);
-    Hypercomplex<Polynomial<fig1a_MaxDeg>, fig1a_dim> E = ENCRYPT(H, M, PHI, fig1a_p, fig1a_q);
+    Hypercomplex<Polynomial<fig1a_MaxDeg>, fig1a_dim> PHI1a(
+        PHI1a_coefficients
+    );
+    CenteredLift(&PHI1a, fig1a_p);
+    Hypercomplex<Polynomial<fig1a_MaxDeg>, fig1a_dim> E1a = ENCRYPT(
+        H1a, M1a, PHI1a, fig1a_p, fig1a_q
+    );
     // Decryption
-    Hypercomplex<Polynomial<fig1a_MaxDeg>, fig1a_dim> D = DECRYPT(F, E, fig1a_p, fig1a_q);
-    CenteredLift(&M, fig1a_p);
-    assert( D == M );
+    Hypercomplex<Polynomial<fig1a_MaxDeg>, fig1a_dim> D1a = DECRYPT(
+        F1a, E1a, fig1a_p, fig1a_q
+    );
+    CenteredLift(&M1a, fig1a_p);
+    assert( D1a == M1a );
+    //
+    // PUBLICATION: QR code
     //
     return 0;
 }
