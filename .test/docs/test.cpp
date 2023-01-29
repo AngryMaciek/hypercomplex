@@ -218,5 +218,57 @@ int main(void){
     //
     // PUBLICATION: QR code
     //
+    const unsigned int fig1b_dim = 64;
+    const unsigned int fig1b_MaxDeg = 6; // N = 7
+    const int64_t fig1b_p = 2;
+    const int64_t fig1b_q = 1151;
+    // Public Key
+    /*
+    Polynomial<fig1a_MaxDeg> F1a_coefficients[fig1a_dim];
+    F1a_coefficients[1][0] = 0;
+    F1a_coefficients[1][1] = 1;
+    F1a_coefficients[1][2] = 0;
+    F1a_coefficients[1][3] = 1;
+    F1a_coefficients[1][4] = 1;
+    F1a_coefficients[1][5] = 1;
+    F1a_coefficients[1][6] = 1;
+    Hypercomplex<Polynomial<fig1a_MaxDeg>, fig1a_dim> F1a(F1a_coefficients);
+    CenteredLift(&F1a, fig1a_p);
+    Polynomial<fig1a_MaxDeg> G1a_coefficients[fig1a_dim];
+    for (unsigned int i=0; i < fig1a_dim; i++) {
+        for (unsigned int j=0; j <= fig1a_MaxDeg; j++) {
+            G1a_coefficients[i][j] = rand_r(&seedzero) % 3;
+        }
+    }
+    Hypercomplex<Polynomial<fig1a_MaxDeg>, fig1a_dim> G1a(G1a_coefficients);
+    CenteredLift(&G1a, fig1a_p);
+    Hypercomplex<Polynomial<fig1a_MaxDeg>, fig1a_dim> H1a = PUBLICKEY(
+        F1a, G1a, fig1a_q
+    );
+    // Encryption
+    Polynomial<fig1a_MaxDeg> M1a_coefficients[fig1a_dim];
+    Hypercomplex<Polynomial<fig1a_MaxDeg>, fig1a_dim> M1a(M1a_coefficients);
+    //
+    Polynomial<fig1a_MaxDeg> PHI1a_coefficients[fig1a_dim];
+    for (unsigned int i=0; i < fig1a_dim; i++) {
+        for (unsigned int j=0; j <= fig1a_MaxDeg; j++) {
+            PHI1a_coefficients[i][j] = rand_r(&seedzero) % 3;
+        }
+    }
+    Hypercomplex<Polynomial<fig1a_MaxDeg>, fig1a_dim> PHI1a(
+        PHI1a_coefficients
+    );
+    CenteredLift(&PHI1a, fig1a_p);
+    Hypercomplex<Polynomial<fig1a_MaxDeg>, fig1a_dim> E1a = ENCRYPT(
+        H1a, M1a, PHI1a, fig1a_p, fig1a_q
+    );
+    // Decryption
+    Hypercomplex<Polynomial<fig1a_MaxDeg>, fig1a_dim> D1a = DECRYPT(
+        F1a, E1a, fig1a_p, fig1a_q
+    );
+    CenteredLift(&M1a, fig1a_p);
+    assert( D1a == M1a );
+    */
+
     return 0;
 }
