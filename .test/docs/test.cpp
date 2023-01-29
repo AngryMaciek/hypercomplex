@@ -218,57 +218,96 @@ int main(void){
     //
     // PUBLICATION: QR code
     //
-    const unsigned int fig1b_dim = 64;
-    const unsigned int fig1b_MaxDeg = 6; // N = 7
-    const int64_t fig1b_p = 2;
-    const int64_t fig1b_q = 1151;
+    const unsigned int fig1b_dim = 32;
+    const unsigned int fig1b_MaxDeg = 28; // N = 29
+    const int64_t fig1b_p = 3;
+    const int64_t fig1b_q = 1723;
     // Public Key
-    /*
-    Polynomial<fig1a_MaxDeg> F1a_coefficients[fig1a_dim];
-    F1a_coefficients[1][0] = 0;
-    F1a_coefficients[1][1] = 1;
-    F1a_coefficients[1][2] = 0;
-    F1a_coefficients[1][3] = 1;
-    F1a_coefficients[1][4] = 1;
-    F1a_coefficients[1][5] = 1;
-    F1a_coefficients[1][6] = 1;
-    Hypercomplex<Polynomial<fig1a_MaxDeg>, fig1a_dim> F1a(F1a_coefficients);
-    CenteredLift(&F1a, fig1a_p);
-    Polynomial<fig1a_MaxDeg> G1a_coefficients[fig1a_dim];
-    for (unsigned int i=0; i < fig1a_dim; i++) {
-        for (unsigned int j=0; j <= fig1a_MaxDeg; j++) {
-            G1a_coefficients[i][j] = rand_r(&seedzero) % 3;
+    Polynomial<fig1b_MaxDeg> F1b_coefficients[fig1b_dim];
+    F1b_coefficients[1][0] = 1;
+    F1b_coefficients[1][1] = 1;
+    F1b_coefficients[1][2] = 1;
+    F1b_coefficients[1][8] = 1;
+    F1b_coefficients[1][13] = 1;
+    F1b_coefficients[1][16] = 1;
+    F1b_coefficients[1][22] = 1;
+    Hypercomplex<Polynomial<fig1b_MaxDeg>, fig1b_dim> F1b(F1b_coefficients);
+    CenteredLift(&F1b, fig1b_p);
+    Polynomial<fig1b_MaxDeg> G1b_coefficients[fig1b_dim];
+    for (unsigned int i=0; i < fig1b_dim; i++) {
+        for (unsigned int j=0; j <= fig1b_MaxDeg; j++) {
+            G1b_coefficients[i][j] = rand_r(&seedzero) % 3;
         }
     }
-    Hypercomplex<Polynomial<fig1a_MaxDeg>, fig1a_dim> G1a(G1a_coefficients);
-    CenteredLift(&G1a, fig1a_p);
-    Hypercomplex<Polynomial<fig1a_MaxDeg>, fig1a_dim> H1a = PUBLICKEY(
-        F1a, G1a, fig1a_q
+    Hypercomplex<Polynomial<fig1b_MaxDeg>, fig1b_dim> G1b(G1b_coefficients);
+    CenteredLift(&G1b, fig1b_p);
+    Hypercomplex<Polynomial<fig1b_MaxDeg>, fig1b_dim> H1b = PUBLICKEY(
+        F1b, G1b, fig1b_q
     );
     // Encryption
-    Polynomial<fig1a_MaxDeg> M1a_coefficients[fig1a_dim];
-    Hypercomplex<Polynomial<fig1a_MaxDeg>, fig1a_dim> M1a(M1a_coefficients);
-    //
-    Polynomial<fig1a_MaxDeg> PHI1a_coefficients[fig1a_dim];
-    for (unsigned int i=0; i < fig1a_dim; i++) {
-        for (unsigned int j=0; j <= fig1a_MaxDeg; j++) {
-            PHI1a_coefficients[i][j] = rand_r(&seedzero) % 3;
+    int temp_M_arr[32][29] = {
+        {1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1},
+        {1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1},
+        {1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1},
+        {1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1},
+        {1, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1},
+        {1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1},
+        {1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1},
+        {0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1},
+        {0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1},
+        {1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0},
+        {0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0},
+        {1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1, 1},
+        {1, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1},
+        {0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0},
+        {1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1},
+        {1, 0, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1},
+        {1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0},
+        {1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1},
+        {1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1},
+        {1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0},
+        {1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1},
+        {1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+        {1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0},
+        {1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+        {1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0},
+        {1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0},
+        {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
+        {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
+        {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
+    };
+    Polynomial<fig1b_MaxDeg> M1b_coefficients[fig1b_dim];
+    for (unsigned int i=0; i < fig1b_dim; i++) {
+        for (unsigned int j=0; j <= fig1b_MaxDeg; j++) {
+            M1b_coefficients[i][j] = temp_M_arr[i][j];
         }
     }
-    Hypercomplex<Polynomial<fig1a_MaxDeg>, fig1a_dim> PHI1a(
-        PHI1a_coefficients
+    Hypercomplex<Polynomial<fig1b_MaxDeg>, fig1b_dim> M1b(M1b_coefficients);
+    //
+    Polynomial<fig1b_MaxDeg> PHI1b_coefficients[fig1b_dim];
+    for (unsigned int i=0; i < fig1b_dim; i++) {
+        for (unsigned int j=0; j <= fig1b_MaxDeg; j++) {
+            PHI1b_coefficients[i][j] = rand_r(&seedzero) % 3;
+        }
+    }
+    Hypercomplex<Polynomial<fig1b_MaxDeg>, fig1b_dim> PHI1b(
+        PHI1b_coefficients
     );
-    CenteredLift(&PHI1a, fig1a_p);
-    Hypercomplex<Polynomial<fig1a_MaxDeg>, fig1a_dim> E1a = ENCRYPT(
-        H1a, M1a, PHI1a, fig1a_p, fig1a_q
+    CenteredLift(&PHI1b, fig1b_p);
+    Hypercomplex<Polynomial<fig1b_MaxDeg>, fig1b_dim> E1b = ENCRYPT(
+        H1b, M1b, PHI1b, fig1b_p, fig1b_q
     );
+    std::cout << "E[QR]:" << std::endl;
+    std::cout << E1b << std::endl;
     // Decryption
-    Hypercomplex<Polynomial<fig1a_MaxDeg>, fig1a_dim> D1a = DECRYPT(
-        F1a, E1a, fig1a_p, fig1a_q
+    Hypercomplex<Polynomial<fig1b_MaxDeg>, fig1b_dim> D1b = DECRYPT(
+        F1b, E1b, fig1b_p, fig1b_q
     );
-    CenteredLift(&M1a, fig1a_p);
-    assert( D1a == M1a );
-    */
-
+    CenteredLift(&M1b, fig1b_p);
+    assert( D1b == M1b );
+    //
     return 0;
 }
