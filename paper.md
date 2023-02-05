@@ -8,7 +8,7 @@ tags:
 authors:
 - name: Maciek Bak
   orcid: 0000-0003-1361-7301
-date: 5 February 2023
+date: 6 February 2023
 bibliography: paper.bib
 ---
 
@@ -34,7 +34,16 @@ This is a highly specialised software aimed mostly for computational mathematici
 
 lorem ipsum
 
-![Examples](resources/Fig1.png)
+![
+  Examples of _Hypercomplex_ applications for cryptography.
+  (a) A list of seven, relatively-big
+  secret numbers is composed and then encoded in binary in a [64x7] matrix.
+  This is later encrypted (E) and decrypted (D) with a public-key
+  cryptosystem, allowing to transfer the numbers in a secure manner.
+  (b) Graphical representation of an encrypted/decrypted QR code,
+  encoded in a [32x29] matrix (padded image).
+  (c) Encrypted/Decrypted [128x127] meme; credits: [www.Nyan.cat](www.Nyan.cat).
+](resources/Fig1.png)
 
 # State of the field
 
