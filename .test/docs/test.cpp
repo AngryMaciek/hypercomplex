@@ -13,6 +13,7 @@
 */
 
 #include <iostream>
+#include<fstream>
 #include <cassert>
 #include "Hypercomplex.hpp"
 
@@ -308,6 +309,76 @@ int main(void){
     );
     CenteredLift(&M1b, fig1b_p);
     assert( D1b == M1b );
+    //
+    // PUBLICATION: MEME
+    //
+    const unsigned int fig1c_dim = 128;
+    const unsigned int fig1c_MaxDeg = 126; // N = 127
+    const int64_t fig1c_p = 17;
+    const int64_t fig1c_q = 16777213;
+    // Public Key
+    Polynomial<fig1c_MaxDeg> F1c_coefficients[fig1c_dim];
+    F1c_coefficients[1][0] = 1;
+    F1c_coefficients[1][1] = 1;
+    F1c_coefficients[1][2] = 1;
+    F1c_coefficients[1][8] = 1;
+    F1c_coefficients[1][13] = 1;
+    F1c_coefficients[1][16] = 1;
+    F1c_coefficients[1][22] = 1;
+    F1c_coefficients[1][24] = 1;
+    F1c_coefficients[1][29] = 1;
+    F1c_coefficients[1][31] = 1;
+    F1c_coefficients[1][76] = 1;
+    F1c_coefficients[1][87] = 1;
+    F1c_coefficients[1][88] = 1;
+    F1c_coefficients[1][94] = 1;
+    F1c_coefficients[1][111] = 1;
+    F1c_coefficients[1][122] = 1;
+    Hypercomplex<Polynomial<fig1c_MaxDeg>, fig1c_dim> F1c(F1c_coefficients);
+    CenteredLift(&F1c, fig1c_p);
+    Polynomial<fig1c_MaxDeg> G1c_coefficients[fig1c_dim];
+    for (unsigned int i=0; i < fig1c_dim; i++) {
+        for (unsigned int j=0; j <= fig1c_MaxDeg; j++) {
+            G1c_coefficients[i][j] = rand_r(&seedzero) % 3;
+        }
+    }
+    Hypercomplex<Polynomial<fig1c_MaxDeg>, fig1c_dim> G1c(G1c_coefficients);
+    CenteredLift(&G1c, fig1c_p);
+    Hypercomplex<Polynomial<fig1c_MaxDeg>, fig1c_dim> H1c = PUBLICKEY(
+        F1c, G1c, fig1c_q
+    );
+    // Encryption
+    int64_t nyanarr[fig1c_dim][fig1c_MaxDeg+1];
+    Polynomial<fig1c_MaxDeg> M1c_coefficients[fig1c_dim];
+    std::ifstream inputfile("nyan.txt");    
+    for (unsigned int i=0; i < fig1c_dim; i++) {
+        for (unsigned int j=0; j <= fig1c_MaxDeg; j++) {
+            inputfile >> M1c_coefficients[i][j];
+        }
+    }
+    Hypercomplex<Polynomial<fig1c_MaxDeg>, fig1c_dim> M1c(M1c_coefficients);
+    //
+    Polynomial<fig1c_MaxDeg> PHI1c_coefficients[fig1c_dim];
+    for (unsigned int i=0; i < fig1c_dim; i++) {
+        for (unsigned int j=0; j <= fig1c_MaxDeg; j++) {
+            PHI1c_coefficients[i][j] = rand_r(&seedzero) % 3;
+        }
+    }
+    Hypercomplex<Polynomial<fig1c_MaxDeg>, fig1c_dim> PHI1c(
+        PHI1c_coefficients
+    );
+    CenteredLift(&PHI1c, fig1c_p);
+    Hypercomplex<Polynomial<fig1c_MaxDeg>, fig1c_dim> E1c = ENCRYPT(
+        H1c, M1c, PHI1c, fig1c_p, fig1c_q
+    );
+    std::cout << "E[NYAN]:" << std::endl;
+    std::cout << E1c << std::endl;
+    // Decryption
+    Hypercomplex<Polynomial<fig1c_MaxDeg>, fig1c_dim> D1c = DECRYPT(
+        F1c, E1c, fig1c_p, fig1c_q
+    );
+    CenteredLift(&M1c, fig1c_p);
+    assert( D1c == M1c );
     //
     return 0;
 }
