@@ -6,7 +6,7 @@ tags:
 - Arbitrary-precision arithmetic
 - C++
 authors:
-- name: Maciej Bak
+- name: Maciek Bak
   orcid: 0000-0003-1361-7301
 date: 5 February 2023
 bibliography: paper.bib
@@ -39,6 +39,14 @@ lorem ipsum
 # State of the field
 
 The well-known _boost C++_ libraries deserve the most notable mention here [@boost]. Unfortunately their scope is limitted as they only provide quaterions and octonions classes (however as an upside of that specialisation all the operations are well optimised). Moreover, these libraries do not support operations on MPFR types natively. It may also be worth to mention the existence of smaller repositories like: [@quaternions] or [@cd], but, unlike our work, they often lack proper test suites, code coverage reports, documentation and are also significantly restricted in functionality which is a major drawback.
+
+# Acknowledgments
+
+I would like to express my wholehearted gratitidue towards: the members of
+a facebook group _>implying we can discuss mathematics_, who aided me
+with clarifications and suggestions related to the topic of research
+as well as a _Cryptography Stack Exchange_ user: _DanielS_, who helped me
+analyse and understand specifics of lattice-based cryptosystems.
 
 # References
 
