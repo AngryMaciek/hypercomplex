@@ -1,19 +1,14 @@
 ---
-title: 'Hypercomplex: precise calculations on hypercomplex numbers in C++'
+title: 'Hypercomplex: abstract & fast header-only C++ template library for lattice-based cryptosystems in high-dimensional algebras'
 tags:
+- Cryptography
 - Algebra
 - Arbitrary-precision arithmetic
 - C++
 authors:
 - name: Maciej Bak
   orcid: 0000-0003-1361-7301
-  affiliation: "1, 2"
-affiliations:
- - name: Biozentrum, University of Basel
-   index: 1
- - name: Swiss Institute of Bioinformatics
-   index: 2
-date: 4 February 2021
+date: 5 February 2023
 bibliography: paper.bib
 ---
 
@@ -34,6 +29,12 @@ This is a highly specialised software aimed mostly for computational mathematici
   - extensive unit testing with Catch2 framework [@catch2] alongside code coverage measurement uploaded to Codecov; current coverage: 100%,
   - source code linting with cpplint [@cpplint] - Google code style enforced,
   - automatic documentation generation and hosting on GitHub Pages: build via Doxygen [@doxygen], publishing via Actions.
+
+# Cryptographic applications
+
+lorem ipsum
+
+![Examples](resources/Fig1.png)
 
 # State of the field
 
