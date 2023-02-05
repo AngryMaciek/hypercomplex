@@ -210,6 +210,8 @@ int main(void){
     Hypercomplex<Polynomial<fig1a_MaxDeg>, fig1a_dim> E1a = ENCRYPT(
         H1a, M1a, PHI1a, fig1a_p, fig1a_q
     );
+    std::cout << "E[7]:" << std::endl;
+    std::cout << E1a << std::endl;
     // Decryption
     Hypercomplex<Polynomial<fig1a_MaxDeg>, fig1a_dim> D1a = DECRYPT(
         F1a, E1a, fig1a_p, fig1a_q
