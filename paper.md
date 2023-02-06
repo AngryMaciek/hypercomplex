@@ -14,16 +14,18 @@ bibliography: paper.bib
 
 # Summary
 
-The following work presents a *C++* library which is dedicated to performing arbitrary-precise calculations on hypercomplex numbers from the Cayley-Dickson algebras [@schafer2017introduction]. Basic arithmetical operations as well as a few miscellaneous functions are implemented. Its focus is to aid other developers in computational research.
+The following work presents a *C++* library which is dedicated to performing arbitrary-precise calculations on hypercomplex numbers from the Cayley-Dickson algebras [@schafer2017introduction]. Basic arithmetical operations as well as a few miscellaneous functions are implemented. 
+Its most important feature is the support for encryption/decryption procedures for public-key lattice-based cryptosystems in high-dimensional algebras over truncated polynomial rings.
 
 # Statement of need
 
-This is a highly specialised software aimed mostly for computational mathematicians and computational scientists who operate on high-dimensional numbers and/or need to carry out arbitrary-precise calculations. The library is well suited for wide range of computationally-challenging projects: from studying general algebraic properties _per se_ to applied research where hypercomplex framework serves merely as a mean to an end.
+This is a highly specialised software aimed mostly for computational mathematicians and computational scientists who operate on high-dimensional numbers, need to carry out arbitrary-precise calculations or whose focus is the study of lattice-based, post-quantum cryptography. The library is well suited for wide range of computationally-challenging projects: from investigating general algebraic properties _per se_ to applied research where hypercomplex framework serves merely as a mean to an end (as in previously mentioned cryptosystems).
 
 # Key features
 
 - As a header-only *C++* template code it's greatest advantage is the combination of speed, generic programming and convenience for the end user. Open Source license together with template specialisation mechanism allows contributors to add-in support for custom objects, define specific functions and extend the scope of the library.
-- One of such specialisation is already included in the library itself - a support for arbitrary high precision of calculations via GNU MPFR library [@fousse:inria-00070266], for which the operators have been overloaded such that all the instructions are carried out on specific data structures.
+- The most important specialisation, already included in the library itself, is the introduction of operations in hypercomplex algebras over truncated polynomial rings. These allow for many cryptographic applications as described in a dedicated section below. 
+- Another template class specialisation introduces the support for arbitrary high precision of calculations via GNU MPFR library [@fousse:inria-00070266], for which the operators have been overloaded such that all the instructions are carried out on specific data structures.
 - State of the art technology for software engineering:
   - CI/CD mechanism set up with GitHub Actions: automatic tests for library installation, source code inclusion, compilation and execution,
   - extensive unit testing with Catch2 framework [@catch2] alongside code coverage measurement uploaded to Codecov; current coverage: 100%,
@@ -32,7 +34,7 @@ This is a highly specialised software aimed mostly for computational mathematici
 
 # Cryptographic applications
 
-Blad we wzorze: powinno byc: A[i,j]* 2^(i,2), ORAZ powinno byc n a nie 7
+lorem ipsum
 
 ![
   Examples of _Hypercomplex_ applications for cryptography.
@@ -42,7 +44,7 @@ Blad we wzorze: powinno byc: A[i,j]* 2^(i,2), ORAZ powinno byc n a nie 7
   cryptosystem, allowing to transfer the numbers in a secure manner.
   **(b)** Graphical representation of an encrypted/decrypted QR code,
   encoded in a [32x29] matrix (padded image).
-  **(c)** Encrypted/Decrypted [128x127] meme; credits: [www.Nyan.cat](www.Nyan.cat).
+  **(c)** Encrypted/Decrypted [128x127] meme; credits: [www.nyan.cat](www.nyan.cat).
 ](img/Fig1.png)
 
 # State of the field
