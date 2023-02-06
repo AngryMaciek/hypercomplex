@@ -37,13 +37,33 @@ This is a highly specialised software aimed mostly for computational mathematici
 In the following section we shall describe the mathematical foundations for the previously mentioned family of cyptosystems.
 Let $A=1$
 
-Encrypting a message follows with:
+Generation of the public key $H$ is then given by:
+
+\begin{equation}\label{eq:publickey}
+H = F_q^{-1} \times G \mod q
+\end{equation}
+
+Encrypting a message $M$ follows with:
 
 \begin{equation}\label{eq:encryption}
 E = \Phi \times G + M \mod q
 \end{equation}
 
 Reference: \autoref{eq:encryption}.
+
+The following decryption procedure consist of three steps:
+
+\begin{equation}\label{eq:decryption}
+D_1 = (F \times E) \times F \mod q
+D_2 = D_1 \mod p
+D_3 = F_p^{-1} \times (D_2 \times F_p^{-1}) \mod p
+\end{equation}
+
+If the decryption was successfull Bob receives $D_3 = M$ (up to coefficients' centered lift)
+Please remember that lattice-based cryptography is always burdened with a chance of decryption failure due to incorrect recovery of polynomial's coefficients at the centered lift step.
+
+Three examples of matrix encryption-decryption are presented in the Figure 1.
+All of the data and code required to reproduce these results is available in the code repository.
 
 ![
   Examples of _Hypercomplex_ applications for cryptography.
