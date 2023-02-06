@@ -32,18 +32,18 @@ This is a highly specialised software aimed mostly for computational mathematici
 
 # Cryptographic applications
 
-lorem ipsum
+Blad we wzorze: powinno byc: A[i,j]* 2^(i,2), ORAZ powinno byc n a nie 7
 
 ![
   Examples of _Hypercomplex_ applications for cryptography.
-  (a) A list of seven, relatively-big
-  secret numbers is composed and then encoded in binary in a [64x7] matrix.
+  **(a)** Message (M) composed of seven, relatively-big
+  secret numbers is encoded in binary in a [64x7] matrix.
   This is later encrypted (E) and decrypted (D) with a public-key
   cryptosystem, allowing to transfer the numbers in a secure manner.
-  (b) Graphical representation of an encrypted/decrypted QR code,
+  **(b)** Graphical representation of an encrypted/decrypted QR code,
   encoded in a [32x29] matrix (padded image).
-  (c) Encrypted/Decrypted [128x127] meme; credits: [www.Nyan.cat](www.Nyan.cat).
-](resources/Fig1.png)
+  **(c)** Encrypted/Decrypted [128x127] meme; credits: [www.Nyan.cat](www.Nyan.cat).
+](img/Fig1.png)
 
 # State of the field
 
