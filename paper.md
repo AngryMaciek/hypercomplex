@@ -49,14 +49,20 @@ lorem ipsum
 
 # State of the field
 
-The well-known _boost C++_ libraries deserve the most notable mention here [@boost]. Unfortunately their scope is limitted as they only provide quaterions and octonions classes (however as an upside of that specialisation all the operations are well optimised). Moreover, these libraries do not support operations on MPFR types natively. It may also be worth to mention the existence of smaller repositories like: [@quaternions] or [@cd], but, unlike our work, they often lack proper test suites, code coverage reports, documentation and are also significantly restricted in functionality which is a major drawback.
+When it comes to a general hypercomplex framework the well-known _boost C++_ libraries deserve the most notable mention here [@boost]. Unfortunately their scope is limitted as they only provide quaterions and octonions classes (however as an upside - all the operations are well optimised). Moreover, these libraries do not support operations on MPFR types natively. It may also be worth to mention the existence of smaller repositories like: [@quaternions] or [@cd], but, unlike our work, they often lack proper test suites, code coverage reports, documentation and are also significantly restricted in functionality which is a major drawback.
+
+However, (most importantly) to our best knowledge there is currently no high-quality open-source library which natively supports cryptosystems based on truncated polynomial rings.
+Previous research described distinct versions of NTRU [c]: 4-dimensional QTRU [c], 8-dimensional OTRU [c]; some proposed 16-dimenisional STRU, which correctness has not yet been verified [c].
+Despite these efforts no generalization has been provided yet.
+Our work is a first to: present that these procedures are vaild in arbitrary-high-dimensional Cayley-Dickson algebras (provided a careful choice of parameters of the system)
+and to provide reproducible examples of a successful encryption/decryption procedures.
 
 # Acknowledgments
 
-I would like to express my wholehearted gratitidue towards: the members of
-a facebook group _>implying we can discuss mathematics_, who aided me
+We would like to express our wholehearted gratitidue towards: the members of
+a facebook group _>implying we can discuss mathematics_, who aided us
 with clarifications and suggestions related to the topic of research
-as well as a _Cryptography Stack Exchange_ user: _DanielS_, who helped me
+as well as a _Cryptography Stack Exchange_ user: _DanielS_, who helped us
 analyse and understand specifics of lattice-based cryptosystems.
 
 # References
