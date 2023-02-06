@@ -34,23 +34,16 @@ This is a highly specialised software aimed mostly for computational mathematici
 
 # Cryptographic applications
 
+In the following section we shall describe the mathematical foundations for the previously mentioned family of cyptosystems.
+Let $A=1$
 
-Let $f(x) = e^{\pi/x}$
+Encrypting a message follows with:
 
-Double dollars make self-standing equations:
-
-$$\Theta(x) = \left\{\begin{array}{l}
-0\textrm{ if } x < 0\cr
-1\textrm{ else}
-\end{array}\right.$$
-
-You can also use plain \LaTeX for equations
-
-\begin{equation}\label{eq:fourier}
-\hat f(\omega) = \int_{-\infty}^{\infty} f(x) e^{i\omega x} dx
+\begin{equation}\label{eq:encryption}
+E = \Phi \times G + M \mod q
 \end{equation}
 
-and refer to \autoref{eq:fourier} from text.
+Reference: \autoref{eq:encryption}.
 
 ![
   Examples of _Hypercomplex_ applications for cryptography.
