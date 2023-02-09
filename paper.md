@@ -40,7 +40,7 @@ Let $\mathcal{R}_p$ and $\mathcal{R}_q$ denote derived modular structures with c
 Every element of $\mathcal{R}$, $\mathcal{R}_p$ and $\mathcal{R}_q$ may be denoted as:
 
 \begin{equation}\label{eq:element}
-f = \sum_{i=0}^{N-1} f_i x_i \eq [f_0, \ldots ,f_{N-1}]
+f = \sum_{i=0}^{N-1} f_i x_i = [f_0, \ldots ,f_{N-1}]
 \end{equation}
 
 Addition operation $+$ refers to a regular element-wise addition of polynomial coefficients (with respect to the modulus for $\mathcal{R}_p$ and $\mathcal{R}_q$).
