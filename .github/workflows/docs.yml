@@ -22,9 +22,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Copy Library File
+      - name: Copy Library Files
         working-directory: ${{env.test-directory}}
-        run: cp ../../hypercomplex/Hypercomplex.hpp Hypercomplex.hpp
+        run: |
+          cp ../../hypercomplex/Hypercomplex.hpp Hypercomplex.hpp
+          cp ../../hypercomplex/Polynomial.hpp Polynomial.hpp
 
       - name: Compile Test Program
         working-directory: ${{env.test-directory}}

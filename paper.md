@@ -1,43 +1,153 @@
 ---
-title: 'Hypercomplex: precise calculations on hypercomplex numbers in C++'
+title: 'Hypercomplex: abstract & fast header-only C++ template library for lattice-based cryptosystems in high-dimensional algebras'
 tags:
+- Cryptography
 - Algebra
 - Arbitrary-precision arithmetic
 - C++
 authors:
-- name: Maciej Bak
+- name: Maciek Bak
   orcid: 0000-0003-1361-7301
-  affiliation: "1, 2"
-affiliations:
- - name: Biozentrum, University of Basel
-   index: 1
- - name: Swiss Institute of Bioinformatics
-   index: 2
-date: 4 February 2021
+date: 6 February 2023
 bibliography: paper.bib
 ---
 
 # Summary
 
-The following work presents a *C++* library which is dedicated to performing arbitrary-precise calculations on hypercomplex numbers from the Cayley-Dickson algebras [@schafer2017introduction]. Basic arithmetical operations as well as a few miscellaneous functions are implemented. Its focus is to aid other developers in computational research.
+The following work presents a *C++* library which is dedicated to performing arbitrary-precise calculations on hypercomplex numbers from the Cayley-Dickson algebras [@schafer2017introduction]. Basic arithmetical operations as well as a few miscellaneous functions are implemented. 
+Its most important feature is the support for encryption/decryption procedures for public-key lattice-based cryptosystems in high-dimensional algebras over truncated polynomial rings.
 
 # Statement of need
 
-This is a highly specialised software aimed mostly for computational mathematicians and computational scientists who operate on high-dimensional numbers and/or need to carry out arbitrary-precise calculations. The library is well suited for wide range of computationally-challenging projects: from studying general algebraic properties _per se_ to applied research where hypercomplex framework serves merely as a mean to an end.
+This is a highly specialised software aimed mostly for computational mathematicians and computational scientists who operate on high-dimensional numbers, need to carry out arbitrary-precise calculations or whose focus is the study of lattice-based, post-quantum cryptography (PQC). The library is well suited for wide range of computationally-challenging projects: from investigating general algebraic properties _per se_ to applied research where hypercomplex framework serves merely as a mean to an end (as in previously mentioned cryptosystems).
 
 # Key features
 
 - As a header-only *C++* template code it's greatest advantage is the combination of speed, generic programming and convenience for the end user. Open Source license together with template specialisation mechanism allows contributors to add-in support for custom objects, define specific functions and extend the scope of the library.
-- One of such specialisation is already included in the library itself - a support for arbitrary high precision of calculations via GNU MPFR library [@fousse:inria-00070266], for which the operators have been overloaded such that all the instructions are carried out on specific data structures.
+- The most important specialisation, already included in the library itself, is the introduction of operations in hypercomplex algebras over truncated polynomial rings. These allow for many cryptographic applications as described in a dedicated section below. 
+- Another template class specialisation introduces the support for arbitrary high precision of calculations via GNU MPFR library [@fousse:inria-00070266], for which the operators have been overloaded such that all the instructions are carried out on specific data structures.
 - State of the art technology for software engineering:
   - CI/CD mechanism set up with GitHub Actions: automatic tests for library installation, source code inclusion, compilation and execution,
   - extensive unit testing with Catch2 framework [@catch2] alongside code coverage measurement uploaded to Codecov; current coverage: 100%,
   - source code linting with cpplint [@cpplint] - Google code style enforced,
   - automatic documentation generation and hosting on GitHub Pages: build via Doxygen [@doxygen], publishing via Actions.
 
+# Cryptographic applications
+
+In the following section we shall describe the mathematical foundations for the previously mentioned family of cyptosystems.
+Consider a polynomial convolution ring $\mathcal{R} = \mathbb{Z}[x] / (x^N - 1)$ with $N > 2$ being prime.
+Let $\mathcal{R}_p$ and $\mathcal{R}_q$ denote derived modular structures with coefficients from $\mathbb{Z}/\mathbb{Z}_p$ and $\mathbb{Z}/\mathbb{Z}_q$, respectively.
+Every element of $\mathcal{R}$, $\mathcal{R}_p$, $\mathcal{R}_q$ may be writted down as:
+
+\begin{equation}\label{eq:element}
+f = \sum_{i=0}^{N-1} f_i x_i \equiv [f_0, \ldots ,f_{N-1}]
+\end{equation}
+
+Addition operation $+$ refers to a regular element-wise addition of coefficients (modular for $\mathcal{R}_p$ and $\mathcal{R}_q$).
+Multiplication $\star$ within this structure is defined as:
+
+\begin{equation}\label{eq:ringmul}
+f \star g = \sum_{i=0}^k f_i g_{k-i} + \sum_{i=k+1}^{N-1} f_i g_{N+k-i}
+\end{equation}
+
+With a final reduction modulo $p$ or $q$ in the modular quotient rings.
+
+Based on the above let us pick an integer $\lambda \geq 0$ and define three corresponding algebras, generated by the Cayley-Dickson process:
+
+\begin{equation}\label{eq:algebras}
+\begin{aligned}
+\mathcal{A^\lambda} = \{ x_0 + \sum_{i=1}^{2^\lambda-1} x_i e_i | x_i \in \mathcal{R}\}\\
+\mathcal{A_p^\lambda} = \{ x_0 + \sum_{i=1}^{2^\lambda-1} x_i e_i | x_i \in \mathcal{R_p}\}\\
+\mathcal{A_q^\lambda} = \{ x_0 + \sum_{i=1}^{2^\lambda-1} x_i e_i | x_i \in \mathcal{R_q}\}
+\end{aligned}
+\end{equation}
+
+Note that $\forall x\in \mathcal{A^\lambda}: x = (a, b) | a, b \in \mathcal{A^{\lambda-1}}$.
+
+Addition operation $+$ refers to ring addition defined above.  
+Multiplication $\times$ is defined recursively based on conjugation operation $^*$ as below:
+
+\begin{equation}\label{eq:recursivemultiplication}
+\begin{aligned}
+\mathcal{A^\lambda} \ni x^* =
+\begin{cases}
+  x, & \lambda = 0\\
+  (a, b)^* = (a^*, -b), & \lambda > 0
+\end{cases}\\
+\\
+(a, b) \times (c, d) = (ac - d^*b, da+bc^*)
+\end{aligned}
+\end{equation}
+
+Which holds for the modular algebras too given a final reduction modulus $p$ or $q$.
+
+Based on the above let us define a general scheme for
+hypercomplex-based cyptosystems. Having agreed on $(N, p, q)$ Bob
+selects $F, G \in \mathcal{A^\lambda} : \exists F_p^{-1}\in\mathcal{A_p^\lambda} \wedge \exists F_q^{-1}\in\mathcal{A_q^\lambda}$.  
+A procedure to generate the public key $H\in\mathcal{A_q^\lambda}$ is then given by:
+
+\begin{equation}\label{eq:publickey}
+H = F_q^{-1} \times G \mod q
+\end{equation}
+
+Alice encrypts her message $M\in\mathcal{A_p^\lambda}$
+into $E\in\mathcal{A_q^\lambda}$ with the use of a
+blinding element $\Phi\in\mathcal{A_q^\lambda}$ according to:
+
+\begin{equation}\label{eq:encryption}
+E = p \otimes H \times \Phi + M \mod q
+\end{equation}
+
+The following decryption consist of three steps:
+
+\begin{equation}\label{eq:decryption}
+\begin{aligned}
+\mathcal{A_q^\lambda} \ni D_1 = (F \times E) \times F \mod q\\
+\mathcal{A_p^\lambda} \ni D_2 = D_1 \mod p\\
+\mathcal{A_p^\lambda} \ni D_3 = F_p^{-1} \times (D_2 \times F_p^{-1}) \mod p\\
+\end{aligned}
+\end{equation}
+
+If the decryption was successfull Bob receives $D_3 = M$ (up to coefficients' centered lift in $\mathcal{A_p^\lambda}$).
+Please remember that lattice-based cryptography is always burdened with a chance of decryption failure due to incorrect recovery of polynomial's coefficients.
+For a more detailed deriviation of similar
+cryptosystems please see QTRU[@QTRU] and OTRU[@OTRU] paper.
+
+Three examples of matrix encryption-decryption are presented in the Figure 1.
+All of the data and code required to reproduce these results is available in the code repository.
+
+![
+  Examples of _Hypercomplex_ applications for cryptography.
+  **(a)** Message (M) composed of seven, relatively-big
+  secret numbers is encoded in binary in a [64x7] matrix.
+  This is later encrypted (E) and decrypted (D) with a public-key
+  cryptosystem, allowing to transfer the numbers in a secure manner.
+  **(b)** Graphical representation of an encrypted/decrypted QR code,
+  encoded in a [32x29] matrix (padded image).
+  **(c)** Encrypted/Decrypted [128x127] meme; credits: [www.nyan.cat](www.nyan.cat).
+](img/Fig1.png)
+
+&nbsp;
+&nbsp;
+&nbsp;
+
 # State of the field
 
-The well-known _boost C++_ libraries deserve the most notable mention here [@boost]. Unfortunately their scope is limitted as they only provide quaterions and octonions classes (however as an upside of that specialisation all the operations are well optimised). Moreover, these libraries do not support operations on MPFR types natively. It may also be worth to mention the existence of smaller repositories like: [@quaternions] or [@cd], but, unlike our work, they often lack proper test suites, code coverage reports, documentation and are also significantly restricted in functionality which is a major drawback.
+When it comes to a general hypercomplex framework the well-known _boost C++_ libraries deserve the most notable mention here [@boost]. Unfortunately their scope is limitted as they only provide quaterions and octonions classes (however as an upside - all the operations are well optimised). Moreover, these libraries do not support operations on MPFR types natively. It may also be worth to mention the existence of smaller repositories like: [@quaternions] or [@cd], but, unlike our work, they often lack proper test suites, code coverage reports, documentation and are also significantly restricted in functionality which is a major drawback.
+
+However, (most importantly) to our best knowledge there is currently no high-quality open-source library which natively supports cryptosystems based on truncated polynomial rings.
+Previous research described distinct versions of NTRU [@NTRU], among others: 4-dimensional QTRU [@QTRU], 8-dimensional OTRU [@OTRU]; some proposed 16-dimenisional STRU [@STRU], which correctness has not yet been verified.
+Despite these efforts no generalization has been provided yet.
+Our work is a first to: present that these procedures are vaild in arbitrary-high-dimensional Cayley-Dickson algebras (provided a careful choice of parameters of the system)
+and to provide reproducible examples of a successful encryption/decryption procedures.
+
+# Acknowledgments
+
+We would like to express our wholehearted gratitidue towards: the members of
+a facebook group _>implying we can discuss mathematics_, who aided us
+with clarifications and suggestions related to the topic of research
+as well as a _Cryptography Stack Exchange_ user: _DanielS_, who helped us
+analyse and understand specifics of lattice-based cryptosystems.
 
 # References
 
