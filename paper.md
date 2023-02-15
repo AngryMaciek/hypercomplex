@@ -127,6 +127,10 @@ All of the data and code required to reproduce these results is available in the
   **(c)** Encrypted/Decrypted [128x127] meme; credits: [www.nyan.cat](www.nyan.cat).
 ](img/Fig1.png)
 
+&nbsp;
+&nbsp;
+&nbsp;
+
 # State of the field
 
 When it comes to a general hypercomplex framework the well-known _boost C++_ libraries deserve the most notable mention here [@boost]. Unfortunately their scope is limitted as they only provide quaterions and octonions classes (however as an upside - all the operations are well optimised). Moreover, these libraries do not support operations on MPFR types natively. It may also be worth to mention the existence of smaller repositories like: [@quaternions] or [@cd], but, unlike our work, they often lack proper test suites, code coverage reports, documentation and are also significantly restricted in functionality which is a major drawback.
