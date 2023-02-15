@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-- Initial Release
+## [2.0.0] - 2023-02-16
 
-[unreleased]: https://github.com/AngryMaciek/hypercomplex
+### Added
+
+- initial release of the project
+
+[unreleased]: https://github.com/AngryMaciek/hypercomplex/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/AngryMaciek/hypercomplex/releases/tag/v2.0.0
