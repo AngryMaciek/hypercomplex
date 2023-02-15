@@ -19,7 +19,7 @@ Its most important feature is the support for encryption/decryption procedures f
 
 # Statement of need
 
-This is a highly specialised software aimed mostly for computational mathematicians and computational scientists who operate on high-dimensional numbers, need to carry out arbitrary-precise calculations or whose focus is the study of lattice-based, post-quantum cryptography. The library is well suited for wide range of computationally-challenging projects: from investigating general algebraic properties _per se_ to applied research where hypercomplex framework serves merely as a mean to an end (as in previously mentioned cryptosystems).
+This is a highly specialised software aimed mostly for computational mathematicians and computational scientists who operate on high-dimensional numbers, need to carry out arbitrary-precise calculations or whose focus is the study of lattice-based, post-quantum cryptography (PQC). The library is well suited for wide range of computationally-challenging projects: from investigating general algebraic properties _per se_ to applied research where hypercomplex framework serves merely as a mean to an end (as in previously mentioned cryptosystems).
 
 # Key features
 
@@ -83,8 +83,8 @@ Which holds for the modular algebras too given a final reduction modulus $p$ or 
 
 Based on the above let us define a general scheme for
 hypercomplex-based cyptosystems. Having agreed on $(N, p, q)$ Bob
-selects $F, G \in \mathcal{A^\lambda} : \exists F_p^{-1}\in\mathcal{A_p^\lambda} \wedge \exists F_q^{-1}\in\mathcal{A_q^\lambda}$.
-Then a procedure to generate the public key $H\in\mathcal{A_q^\lambda}$ is then given by:
+selects $F, G \in \mathcal{A^\lambda} : \exists F_p^{-1}\in\mathcal{A_p^\lambda} \wedge \exists F_q^{-1}\in\mathcal{A_q^\lambda}$.  
+A procedure to generate the public key $H\in\mathcal{A_q^\lambda}$ is then given by:
 
 \begin{equation}\label{eq:publickey}
 H = F_q^{-1} \times G \mod q
@@ -110,6 +110,8 @@ The following decryption consist of three steps:
 
 If the decryption was successfull Bob receives $D_3 = M$ (up to coefficients' centered lift in $\mathcal{A_p^\lambda}$).
 Please remember that lattice-based cryptography is always burdened with a chance of decryption failure due to incorrect recovery of polynomial's coefficients.
+For a more detailed deriviation of similar
+cryptosystems please see QTRU[@QTRU] and OTRU[@OTRU] paper.
 
 Three examples of matrix encryption-decryption are presented in the Figure 1.
 All of the data and code required to reproduce these results is available in the code repository.
@@ -130,7 +132,7 @@ All of the data and code required to reproduce these results is available in the
 When it comes to a general hypercomplex framework the well-known _boost C++_ libraries deserve the most notable mention here [@boost]. Unfortunately their scope is limitted as they only provide quaterions and octonions classes (however as an upside - all the operations are well optimised). Moreover, these libraries do not support operations on MPFR types natively. It may also be worth to mention the existence of smaller repositories like: [@quaternions] or [@cd], but, unlike our work, they often lack proper test suites, code coverage reports, documentation and are also significantly restricted in functionality which is a major drawback.
 
 However, (most importantly) to our best knowledge there is currently no high-quality open-source library which natively supports cryptosystems based on truncated polynomial rings.
-Previous research described distinct versions of NTRU [c]: 4-dimensional QTRU [c], 8-dimensional OTRU [c]; some proposed 16-dimenisional STRU, which correctness has not yet been verified [c].
+Previous research described distinct versions of NTRU [@NTRU], among others: 4-dimensional QTRU [@QTRU], 8-dimensional OTRU [@OTRU]; some proposed 16-dimenisional STRU [@STRU], which correctness has not yet been verified.
 Despite these efforts no generalization has been provided yet.
 Our work is a first to: present that these procedures are vaild in arbitrary-high-dimensional Cayley-Dickson algebras (provided a careful choice of parameters of the system)
 and to provide reproducible examples of a successful encryption/decryption procedures.
