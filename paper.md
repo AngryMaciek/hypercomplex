@@ -8,6 +8,10 @@ tags:
 authors:
 - name: Maciek Bak
   orcid: 0000-0003-1361-7301
+  affiliation: 1
+affiliations:
+ - name: Independent Researcher, Switzerland
+   index: 1
 date: 6 February 2023
 bibliography: paper.bib
 ---
