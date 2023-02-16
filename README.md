@@ -11,7 +11,9 @@
 
 <img src="img/logo.png" alt="drawing" height="30"/>
 
-Header-only *C++* template library for precise operations on hypercomplex numbers from the [Cayley-Dickson algebras](https://en.wikipedia.org/wiki/Cayley%E2%80%93Dickson_construction).
+Header-only *C++*
+template library for lattice-based cryptosystems in
+high-dimensional algebras.
 
 Full documentation & API are available at [this link](https://angrymaciek.github.io/hypercomplex).  
 Please refer to the [contributing guidelines](CONTRIBUTING.md) if you are interested in contributing to this repository.  
