@@ -401,4 +401,8 @@
  * test case: _Cryptosystem based on Cayley-Dickson Algebras_ of the
  * <a href="https://github.com/AngryMaciek/hypercomplex/blob/master/.test/unit/test.cpp">following file</a>.
  *
+ * All tests underlying Figure 1 in the publication is available
+ * test case: _Cryptosystem based on Cayley-Dickson Algebras_ of the
+ * <a href="https://github.com/AngryMaciek/hypercomplex/blob/master/.test/docs/test.cpp">here</a>.
+ *
  */
