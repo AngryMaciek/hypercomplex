@@ -113,10 +113,9 @@ Please remember that lattice-based cryptography is always burdened with a chance
 Also, for $\lambda \geq 4$ note that $\mathcal{A^\lambda}$ is not alternative
 nor associative thus successful decryption relies on a careful initial choice of $F$
 (e.g. $F: \exists! i\in\{0, \ldots ,2^\lambda-1\}: F_i \neq 0$).
-
-
 For a more detailed deriviation of similar
-cryptosystems please see QTRU[@QTRU] and OTRU[@OTRU] paper.
+cryptosystems please see publications
+presenting QTRU[@QTRU] and OTRU[@OTRU].
 
 Three examples of matrix encryption-decryption are presented in the Figure 1.
 All of the data and code required to reproduce these results is available in the code repository.

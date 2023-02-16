@@ -313,7 +313,7 @@
  *
  * \section crypto_sec Cryptographic Application
  *
- * Main feature of _Hypercomplex_ is the implementation of
+ * The main feature of _Hypercomplex_ is an implementation of
  * cryptographic operations as in <a href="https://en.wikipedia.org/wiki/NTRUEncrypt">NTRU cryptosystem</a>
  * but generalized on an arbitrary-high-dimensional algebras generated with the Cayley-Dickson construction.
  * The library provides additional helper class for truncated polynomials
@@ -326,8 +326,8 @@
  * Let \f$R = \mathbb{Z}[x] / (x^N - 1)\f$ be the underlying polynomial quotient ring
  * (\f$R_p, R_q\f$ are modular structures, modulo \f$p,q\f$ respectively)
  * and \f$D\f$ mark the dimension of the algebra we operate in:
- * \f$A = \{\sum^D_{i=1} x_i \cdot e_i | x_i \in R\} \f$, where
- * all \f$e_i\f$ are basis elements (similarly for modular algebras: \f$A_p, A_q\f$).
+ * \f$A = \{x_0 + \sum^{D-1}_{i=1} x_i \cdot e_i | x_i \in R\} \f$, where
+ * all \f$e_i\f$ are imaginary basis elements (similarly for modular algebras: \f$A_p, A_q\f$).
  *
  * Mathematical derivations for these structures and their operations
  * are analogous to those presented for
@@ -391,11 +391,11 @@
  *   Hypercomplex<Polynomial<MaxDeg>, dim> C = DECRYPT(F, E, p, q);
  * \endcode
  *
- * Remarkably, for a cryptosystem based on algebras with 16+ dimensions
+ * Remarkably, for a cryptosystem based on an algebra of \f$D \geq 16\f$ dimensions
  * \f$F\f$ needs to contain at most one \f$ x_i \in R | x_i \neq 0\f$.
  * This is because sedonions (and higher)
  * are not associative, thus the decryption process will only be possible
- * for such specific, reduced subset of private keys.
+ * for a specific, reduced subset of private keys.
  *
  * Cryptographic applications of _Hypercomplex_ have been extensively tested in the
  * test case: _Cryptosystem based on Cayley-Dickson Algebras_ of the
