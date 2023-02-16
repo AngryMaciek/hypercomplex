@@ -110,6 +110,11 @@ The following decryption consist of three steps:
 
 If the decryption was successfull Bob receives $D_3 = M$ (up to coefficients' centered lift in $\mathcal{A_p^\lambda}$).
 Please remember that lattice-based cryptography is always burdened with a chance of decryption failure due to incorrect recovery of polynomial's coefficients.
+Also, for $\lambda \geq 4$ note that $\mathcal{A^\lambda}$ is not alternative
+nor associative thus successful decryption relies on a careful initial choice of $F$
+(e.g. $F: \exists! i\in\{0, \ldots ,2^\lambda-1\}: F_i \neq 0$).
+
+
 For a more detailed deriviation of similar
 cryptosystems please see QTRU[@QTRU] and OTRU[@OTRU] paper.
 
@@ -121,13 +126,13 @@ All of the data and code required to reproduce these results is available in the
   **(a)** Message (M) composed of seven, relatively-big
   secret numbers is encoded in binary in a [64x7] matrix.
   This is later encrypted (E) and decrypted (D) with a public-key
-  cryptosystem, allowing to transfer the numbers in a secure manner.
+  cryptosystem, allowing to transfer the numbers in a secure manner;
+  $p=2, q=1151$.
   **(b)** Graphical representation of an encrypted/decrypted QR code,
-  encoded in a [32x29] matrix (padded image).
-  **(c)** Encrypted/Decrypted [128x127] meme; credits: [www.nyan.cat](www.nyan.cat).
+  encoded in a [32x29] matrix (padded image); $p=3, q=1723$.
+  **(c)** Encrypted/Decrypted [128x127] meme; $p=17, q=16777213$; credits: [www.nyan.cat](www.nyan.cat).
 ](img/Fig1.png)
 
-&nbsp;
 &nbsp;
 &nbsp;
 
