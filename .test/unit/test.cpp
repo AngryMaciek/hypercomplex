@@ -1261,7 +1261,6 @@ TEST_CASE( "Hypercomplex: MPFR lib test", "[unit]" ) {
     }
 
     SECTION( "Revision test" ) {
-
         mpfr_t A[8];
         mpfr_init2(A[0], get_mpfr_precision());
         mpfr_init2(A[1], get_mpfr_precision());
@@ -1279,12 +1278,10 @@ TEST_CASE( "Hypercomplex: MPFR lib test", "[unit]" ) {
         mpfr_set_d(A[5], -0.5, MPFR_RNDN);
         mpfr_set_d(A[6], -0.5, MPFR_RNDN);
         mpfr_set_d(A[7], -1.5, MPFR_RNDN);
-
         Hypercomplex<mpfr_t, 8> Hx(A);
         std::cout << "Hx^30 = "; 
-        mpfr_out_str(stdout, 10, 0, (Hx^30)[0], MPFR_RNDN);
+        REQUIRE_NOTHROW(mpfr_out_str(stdout, 10, 0, (Hx^30)[0], MPFR_RNDN));
         std::cout << std::endl;
-
         mpfr_clear(A[0]);
         mpfr_clear(A[1]);
         mpfr_clear(A[2]);
