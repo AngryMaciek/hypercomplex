@@ -1259,6 +1259,42 @@ TEST_CASE( "Hypercomplex: MPFR lib test", "[unit]" ) {
             clear_mpfr_memory();
         }
     }
+
+    SECTION( "Revision test" ) {
+
+        mpfr_t A[8];
+        mpfr_init2(A[0], get_mpfr_precision());
+        mpfr_init2(A[1], get_mpfr_precision());
+        mpfr_init2(A[2], get_mpfr_precision());
+        mpfr_init2(A[3], get_mpfr_precision());
+        mpfr_init2(A[4], get_mpfr_precision());
+        mpfr_init2(A[5], get_mpfr_precision());
+        mpfr_init2(A[6], get_mpfr_precision());
+        mpfr_init2(A[7], get_mpfr_precision());
+        mpfr_set_d(A[0], 1.5, MPFR_RNDN);
+        mpfr_set_d(A[1], 2.5, MPFR_RNDN);
+        mpfr_set_d(A[2], 0.0, MPFR_RNDN);
+        mpfr_set_d(A[3], -1.5, MPFR_RNDN);
+        mpfr_set_d(A[4], 0.5, MPFR_RNDN);
+        mpfr_set_d(A[5], -0.5, MPFR_RNDN);
+        mpfr_set_d(A[6], -0.5, MPFR_RNDN);
+        mpfr_set_d(A[7], -1.5, MPFR_RNDN);
+
+        Hypercomplex<mpfr_t, 8> Hx(A);
+        std::cout << "Hx^30 = "; 
+        mpfr_out_str(stdout, 10, 0, (Hx^30)[0], MPFR_RNDN);
+        std::cout << std::endl;
+
+        mpfr_clear(A[0]);
+        mpfr_clear(A[1]);
+        mpfr_clear(A[2]);
+        mpfr_clear(A[3]);
+        mpfr_clear(A[4]);
+        mpfr_clear(A[5]);
+        mpfr_clear(A[6]);
+        mpfr_clear(A[7]);
+        clear_mpfr_memory();
+    }
 }
 
 TEST_CASE( "Hypercomplex: MPFR: const objects", "[unit]" ) {
