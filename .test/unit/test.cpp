@@ -12,6 +12,8 @@
 ###############################################################################
 */
 
+// https://github.com/catchorg/Catch2/issues/2421
+#define CATCH_CONFIG_NO_POSIX_SIGNALS
 #define CATCH_CONFIG_RUNNER
 #include "catch.hpp"
 #include "hypercomplex/Hypercomplex.hpp"
