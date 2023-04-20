@@ -1,8 +1,9 @@
 FROM condaforge/mambaforge:latest
 
-RUN apt-get update && apt-get install -yq libgl1-mesa-glx \
-&& apt-get clean \
-&& rm -rf /var/lib/apt/lists/* /tmp/*
+RUN \
+apt-get update -y \
+&& apt-get install libmpfr-dev -y \
+&& apt-get clean
 
 # Package conda-build needs to be installed in base env.
 # https://github.com/conda/conda-build/issues/3813
