@@ -2,7 +2,7 @@ FROM condaforge/mambaforge:latest
 
 RUN \
 apt-get update -y \
-&& apt-get install libmpfr-dev -y \
+&& apt-get install sudo g++ libmpfr-dev -y \
 && apt-get clean
 
 # Package conda-build needs to be installed in base env.
