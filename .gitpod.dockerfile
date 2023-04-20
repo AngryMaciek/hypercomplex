@@ -1,15 +1,18 @@
-FROM condaforge/mambaforge:latest
+# Based on:
+# https://www.gitpod.io/docs/configure/workspaces/workspace-image#custom-base-image
+FROM ubuntu:latest
 
-RUN \
-apt-get update -y \
-&& apt-get install sudo g++ libmpfr-dev -y \
-&& apt-get clean
+# Install:
+# - git (and git-lfs), for git operations (to e.g. push your work).
+#   Also required for setting up your configured dotfiles in the workspace.
+# - sudo, while not required, is recommended to be installed, since the
+#   workspace user (`gitpod`) is non-root and won't be able to install
+#   and use `sudo` to install any other tools in a live workspace.
+RUN apt-get update && apt-get install -yq \
+    git git-lfs sudo g++ libmpfr-dev \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 
-# Package conda-build needs to be installed in base env.
-# https://github.com/conda/conda-build/issues/3813
-# However, installing through YAML configuration of Gitpod
-# results in permission denied error; this needs to be executed
-# on the conteiner build level.
-# ~AngryMaciek
-RUN conda install -c conda-forge \
-  "conda-build >= 3.23.3" "boa >= 0.14.0" "conda-verify >= 3.1.1"
+# Create the gitpod user. UID must be 33333.
+RUN useradd -l -u 33333 -G sudo -md /home/gitpod -s /bin/bash -p gitpod gitpod
+
+USER gitpod
