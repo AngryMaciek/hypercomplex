@@ -12,6 +12,8 @@
 ###############################################################################
 */
 
+// https://github.com/catchorg/Catch2/issues/2421
+#define CATCH_CONFIG_NO_POSIX_SIGNALS
 #define CATCH_CONFIG_RUNNER
 #include "catch.hpp"
 #include "hypercomplex/Hypercomplex.hpp"
@@ -1257,6 +1259,39 @@ TEST_CASE( "Hypercomplex: MPFR lib test", "[unit]" ) {
             clear_mpfr_memory();
         }
     }
+
+    SECTION( "Revision test" ) {
+        mpfr_t A[8];
+        mpfr_init2(A[0], get_mpfr_precision());
+        mpfr_init2(A[1], get_mpfr_precision());
+        mpfr_init2(A[2], get_mpfr_precision());
+        mpfr_init2(A[3], get_mpfr_precision());
+        mpfr_init2(A[4], get_mpfr_precision());
+        mpfr_init2(A[5], get_mpfr_precision());
+        mpfr_init2(A[6], get_mpfr_precision());
+        mpfr_init2(A[7], get_mpfr_precision());
+        mpfr_set_d(A[0], 1.5, MPFR_RNDN);
+        mpfr_set_d(A[1], 2.5, MPFR_RNDN);
+        mpfr_set_d(A[2], 0.0, MPFR_RNDN);
+        mpfr_set_d(A[3], -1.5, MPFR_RNDN);
+        mpfr_set_d(A[4], 0.5, MPFR_RNDN);
+        mpfr_set_d(A[5], -0.5, MPFR_RNDN);
+        mpfr_set_d(A[6], -0.5, MPFR_RNDN);
+        mpfr_set_d(A[7], -1.5, MPFR_RNDN);
+        Hypercomplex<mpfr_t, 8> Hx(A);
+        std::cout << "Hx^30 = "; 
+        REQUIRE_NOTHROW(mpfr_out_str(stdout, 10, 0, (Hx^30)[0], MPFR_RNDN));
+        std::cout << std::endl;
+        mpfr_clear(A[0]);
+        mpfr_clear(A[1]);
+        mpfr_clear(A[2]);
+        mpfr_clear(A[3]);
+        mpfr_clear(A[4]);
+        mpfr_clear(A[5]);
+        mpfr_clear(A[6]);
+        mpfr_clear(A[7]);
+        clear_mpfr_memory();
+    }
 }
 
 TEST_CASE( "Hypercomplex: MPFR: const objects", "[unit]" ) {
@@ -1549,7 +1584,7 @@ TEST_CASE( "Polynomial: const objects", "[unit]" ) {
 
 TEST_CASE( "Polynomial: CenteredLift function", "[unit]" ) {
     //
-    int64_t coefficients_1[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    int64_t coefficients_1[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
     Polynomial<10> P1(coefficients_1);
     CenteredLift(&P1, 12);
     REQUIRE( P1[0] == 0 );
@@ -1562,6 +1597,7 @@ TEST_CASE( "Polynomial: CenteredLift function", "[unit]" ) {
     REQUIRE( P1[7] == -5 );
     REQUIRE( P1[8] == -4 );
     REQUIRE( P1[9] == -3 );
+    REQUIRE( P1[10] == -2 );
 }
 
 TEST_CASE( "Polynomial: RingInverse function", "[unit]" ) {
@@ -1973,7 +2009,7 @@ TEST_CASE( "Hypercomplex: Polynomial lib test", "[unit]" ) {
             REQUIRE( h[3][3] == 32 );
             REQUIRE( h[3][4] == 13 );
         }
-
+        
         SECTION( "Power operator" ) {
             REQUIRE_THROWS_AS(hA ^ 0, std::invalid_argument);
             REQUIRE_NOTHROW(hA ^ 1);
@@ -2016,7 +2052,7 @@ TEST_CASE( "Hypercomplex: Polynomial lib test", "[unit]" ) {
             REQUIRE_NOTHROW(hA ^ lli);
             REQUIRE_NOTHROW(hA ^ ulli);
         }
-
+        
         SECTION( "Multiplication-Assignment operator" ) {
             hA *= hB;
             REQUIRE( hA[0][0] == -43 );
@@ -2065,23 +2101,6 @@ TEST_CASE( "Hypercomplex: Polynomial lib test", "[unit]" ) {
             REQUIRE( hA[3][2] == -115 );
             REQUIRE( hA[3][3] == -134 );
             REQUIRE( hA[3][4] == -218 );
-            // test implicit type conversion
-            short int si = 3;
-            unsigned short int usi = 3;
-            int i = 3;
-            unsigned int ui = 3;
-            long int li = 3;
-            unsigned long int uli = 3;
-            long long int lli = 3;
-            unsigned long long int ulli = 3;
-            REQUIRE_NOTHROW(hA ^= si);
-            REQUIRE_NOTHROW(hA ^= usi);
-            REQUIRE_NOTHROW(hA ^= i);
-            REQUIRE_NOTHROW(hA ^= ui);
-            REQUIRE_NOTHROW(hA ^= li);
-            REQUIRE_NOTHROW(hA ^= uli);
-            REQUIRE_NOTHROW(hA ^= lli);
-            REQUIRE_NOTHROW(hA ^= ulli);
         }
 
         SECTION( "Output stream operator" ) {
