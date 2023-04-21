@@ -29,6 +29,9 @@
  * brew install mpfr
  * \endcode
  *
+ * One may test the installation by running unit tests for the library.
+ * This can be achieved by navigating into the repository directory and executing: `bash gitpodtest.sh`
+ *
  * The following is a _header-only_ library, meaning that the easiest way to use it
  * is to copy the core _hpp_ file alongside the main program and include it into the code
  * with the directive:
