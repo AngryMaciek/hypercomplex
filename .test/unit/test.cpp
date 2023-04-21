@@ -1985,7 +1985,7 @@ TEST_CASE( "Hypercomplex: Polynomial lib test", "[unit]" ) {
             REQUIRE( hA[2] == polynomial3 % 2 );
             REQUIRE( hA[3] == polynomial4 % 2 );
         }
-        
+
         SECTION( "Multiplication operator" ) {
             Hypercomplex<Polynomial<MaxDeg>, dim> h = hA * hB;
             REQUIRE( h[0][0] == -43 );
