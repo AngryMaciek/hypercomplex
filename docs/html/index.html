@@ -89,7 +89,8 @@ Installation</h1>
 <div class="line"><span class="preprocessor"># macOS (Homebrew package manager)</span></div>
 <div class="line">brew update</div>
 <div class="line">brew install mpfr</div>
-</div><!-- fragment --><p >The following is a <em>header-only</em> library, meaning that the easiest way to use it is to copy the core <em>hpp</em> file alongside the main program and include it into the code with the directive: </p><div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="_hypercomplex_8hpp.html">Hypercomplex.hpp</a>&quot;</span></div>
+</div><!-- fragment --><p >One may test the installation by running unit tests for the library. This can be achieved by navigating into the repository directory and executing: <code>bash gitpodtest.sh</code></p>
+<p >The following is a <em>header-only</em> library, meaning that the easiest way to use it is to copy the core <em>hpp</em> file alongside the main program and include it into the code with the directive: </p><div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="_hypercomplex_8hpp.html">Hypercomplex.hpp</a>&quot;</span></div>
 <div class="ttc" id="a_hypercomplex_8hpp_html"><div class="ttname"><a href="_hypercomplex_8hpp.html">Hypercomplex.hpp</a></div></div>
 </div><!-- fragment --><p >Remember to specify a proper langauge standard for the compiler as well as linking with <em>GNU MP</em> and <em>GNU MPFR</em> libraries, as in the command below: </p><div class="fragment"><div class="line">g++ --std=c++17 test.cpp -o test -lmpfr -lgmp</div>
 </div><!-- fragment --><h1><a class="anchor" id="usecase_sec"></a>
