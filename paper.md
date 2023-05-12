@@ -148,6 +148,7 @@ Previous research described distinct versions of NTRU [@NTRU], among others: 4-d
 Despite these efforts no generalization has been provided yet.
 Our work is a first to: present that these procedures are vaild in arbitrary-high-dimensional Cayley-Dickson algebras (provided a careful choice of parameters of the system)
 and to provide reproducible examples of a successful encryption/decryption procedures.
+Finally, it has not escaped our notice that the specific polynomial-based hypercomplex multiplication scheme we presented immediately suggests a possible hashing mechanism for string messages.
 
 # Acknowledgments
 
