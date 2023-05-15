@@ -18,23 +18,23 @@ bibliography: paper.bib
 
 # Summary
 
-The following work presents a *C++* library which is dedicated to performing arbitrary-precise calculations on hypercomplex numbers from the Cayley-Dickson algebras [@schafer2017introduction]. Basic arithmetical operations as well as a few miscellaneous functions are implemented. 
+The following work presents a C++ library that is dedicated to performing arbitrary-precise calculations on hypercomplex numbers from the Cayley-Dickson algebras [@schafer2017introduction]. Basic arithmetical operations as well as a few miscellaneous functions are implemented. 
 Its most important feature is the support for encryption/decryption procedures for public-key lattice-based cryptosystems in high-dimensional algebras over truncated polynomial rings.
 
 # Statement of need
 
-This is a highly specialised software aimed mostly for computational mathematicians and computational scientists who operate on high-dimensional numbers, need to carry out arbitrary-precise calculations or whose focus is the study of lattice-based, post-quantum cryptography (PQC). The library is well suited for wide range of computationally-challenging projects: from investigating general algebraic properties _per se_ to applied research where hypercomplex framework serves merely as a mean to an end (as in previously mentioned cryptosystems).
+This is a highly specialised software package aimed mostly at computational mathematicians and computational scientists who operate on high-dimensional numbers, need to carry out arbitrary-precise calculations, or whose focus is the study of lattice-based, post-quantum cryptography (PQC). The library is well suited for a wide range of computationally-challenging projects, from investigating general algebraic properties per se to applied research where a hypercomplex framework serves merely as a mean to an end (as in previously mentioned cryptosystems).
 
 # Key features
 
-- As a header-only *C++* template code, it's greatest advantage is the combination of speed, generic programming, and convenience for the end user. Open Source license together with template specialisation mechanism allows contributors to add support for custom objects, define specific functions and extend the scope of the library.
+- As a header-only C++ template code, its greatest advantage is the combination of speed, generic programming, and convenience for the end user. An open source license together with a template specialisation mechanism allows contributors to add support for custom objects, define specific functions, and extend the scope of the library.
 - The most important specialisation, already included in the library itself, is the introduction of operations in hypercomplex algebras over truncated polynomial rings. These allow for many cryptographic applications as described in a dedicated section below. 
-- Another template class specialisation introduces the support for arbitrary high precision of calculations via GNU MPFR library [@fousse:inria-00070266], for which the operators have been overloaded such that all the instructions are carried out on specific data structures.
+- Another template class specialisation introduces support for arbitrary high precision of calculations via the GNU MPFR library [@fousse:inria-00070266], for which the operators have been overloaded such that all the instructions are carried out on specific data structures.
 - State of the art technology for software engineering:
-  - CI/CD mechanism set up with GitHub Actions: automatic tests for library installation, source code inclusion, compilation and execution,
-  - extensive unit testing with Catch2 framework [@catch2] alongside code coverage measurement uploaded to Codecov; current coverage: 100%,
-  - source code linting with cpplint [@cpplint] - Google code style enforced,
-  - automatic documentation generation and hosting on GitHub Pages: build via Doxygen [@doxygen], publishing via GitHub Actions.
+  - CI/CD mechanism set up with GitHub Actions: automatic tests for library installation, source code inclusion, compilation, and execution,
+  - extensive unit testing with the Catch2 framework [@catch2] alongside code coverage measurement uploaded to Codecov; current coverage: 100%,
+  - source code linting with cpplint [@cpplint] - Google code style enforced, and
+  - automatic documentation generation and hosting on GitHub Pages: building via Doxygen [@doxygen], publishing via GitHub Actions.
 
 # Cryptographic applications
 
@@ -120,7 +120,7 @@ nor associative; thus successful decryption relies on a careful initial choice o
 (e.g. $F: \exists! i\in\{0, \ldots ,2^\lambda-1\}: F_i \neq 0$).
 For a more detailed coverage of similar
 cryptosystems please see publications
-presenting QTRU[@QTRU] and OTRU[@OTRU].
+presenting QTRU [@QTRU] and OTRU [@OTRU].
 
 Three examples of matrix encryption-decryption are presented in the Figure 1.
 All of the data and code required to reproduce these results is available in the code repository.
@@ -142,12 +142,12 @@ All of the data and code required to reproduce these results is available in the
 
 # State of the field
 
-When it comes to a general hypercomplex framework the well-known _boost C++_ libraries deserve the most notable mention here [@boost]. Unfortunately their scope is limited as they only implement classes for quaterions and octonions (however, as an upside, all the operations are well optimised). Moreover, these libraries do not support operations on MPFR types natively. It may also be worth to mention the existence of smaller projects like [@quaternions] or [@cd], but, unlike our work, they often lack proper test suites, code coverage reports, documentation and are also significantly restricted in functionality which is a major drawback.
+When it comes to a general hypercomplex framework, the well-known _boost C++_ libraries deserve the most notable mention here [@boost]. Unfortunately their scope is limited as they only implement classes for quaterions and octonions (however, as an upside, all the operations are well optimised). Moreover, these libraries do not support operations on MPFR types natively. It may also be worth mentioning the existence of smaller projects like [@quaternions] and [@cd], but, unlike our work, they often lack proper test suites, code coverage reports, and documentation, and are also significantly restricted in functionality, which is a major drawback.
 
-However, (most importantly) to our best knowledge there is currently no high-quality open-source library which natively supports cryptosystems based on truncated polynomial rings.
-Previous research described distinct versions of NTRU [@NTRU], among others: 4-dimensional QTRU [@QTRU], 8-dimensional OTRU [@OTRU]; and a proposed 16-dimenisional STRU [@STRU], correctness of which has not yet been verified.
+However, (most importantly) to our best knowledge, there is currently no high-quality open-source library that natively supports cryptosystems based on truncated polynomial rings.
+Previous research described distinct versions of NTRU [@NTRU], among others: 4-dimensional QTRU [@QTRU], 8-dimensional OTRU [@OTRU]; and a proposed 16-dimenisional STRU [@STRU], the correctness of which has not yet been verified.
 Despite these efforts, no generalization has been provided yet.
-Our work is a first to present that these procedures are vaild in arbitrarily high-dimensional Cayley-Dickson algebras (provided a careful choice of parameters of the system)
+Our work is the first to present that these procedures are vaild in arbitrarily high-dimensional Cayley-Dickson algebras (provided a careful choice of parameters of the system)
 and to provide reproducible examples of a successful encryption/decryption procedures.
 Finally, it has not escaped our notice that the specific polynomial-based hypercomplex multiplication scheme we presented immediately suggests a possible hashing mechanism for string messages.
 
