@@ -23,7 +23,7 @@ Its most important feature is the support for encryption/decryption procedures f
 
 # Statement of need
 
-This is a highly specialised software package aimed mostly at computational mathematicians and computational scientists who operate on high-dimensional numbers, need to carry out arbitrary-precise calculations, or whose focus is the study of lattice-based, post-quantum cryptography (PQC). The library is well suited for a wide range of computationally-challenging projects, from investigating general algebraic properties per se to applied research where a hypercomplex framework serves merely as a mean to an end (as in previously mentioned cryptosystems).
+This is a highly specialised software package aimed mostly at computational mathematicians and scientists who operate on high-dimensional numbers, need to carry out arbitrary-precise calculations, or whose focus is the study of lattice-based, post-quantum cryptography (PQC). The library is well suited for a wide range of computationally-challenging projects, from investigating general algebraic properties per se to applied research where a hypercomplex framework serves merely as a mean to an end (as in previously mentioned cryptosystems).
 
 # Key features
 
