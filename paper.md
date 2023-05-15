@@ -29,7 +29,7 @@ This is a highly specialised software package aimed mostly at computational math
 
 - As a header-only C++ template code, its greatest advantage is the combination of speed, generic programming, and convenience for the end user. An open source license together with a template specialisation mechanism allows contributors to add support for custom objects, define specific functions, and extend the scope of the library.
 - The most important specialisation, already included in the library itself, is the introduction of operations in hypercomplex algebras over truncated polynomial rings. These allow for many cryptographic applications as described in a dedicated section below. 
-- Another template class specialisation introduces support for arbitrary high precision of calculations via the GNU MPFR library [@fousse:inria-00070266], for which the operators have been overloaded such that all the instructions are carried out on specific data structures.
+- A template class specialisation introduces support for arbitrary high precision of calculations via the GNU MPFR library [@fousse:inria-00070266], for which the operators have been overloaded such that all the instructions are carried out on specific data structures.
 - State of the art technology for software engineering:
   - CI/CD mechanism set up with GitHub Actions: automatic tests for library installation, source code inclusion, compilation, and execution,
   - extensive unit testing with the Catch2 framework [@catch2] alongside code coverage measurement uploaded to Codecov; current coverage: 100%,
