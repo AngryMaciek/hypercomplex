@@ -66,7 +66,7 @@ Based on the above, let us pick an integer $\lambda \geq 0$ and define three cor
 \end{aligned}
 \end{equation}
 
-where the ddition operation $+$ refers to ring addition defined above.  
+where the addition operation $+$ refers to ring addition defined above.  
 
 Note that $\forall x\in \mathcal{A^\lambda}: x = (a, b)$, where $a, b \in \mathcal{A^{\lambda-1}}$.
 
