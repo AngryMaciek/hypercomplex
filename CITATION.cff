@@ -1,0 +1,29 @@
+cff-version: "1.2.0"
+authors:
+- family-names: Bak
+  given-names: Maciek
+  orcid: "https://orcid.org/0000-0003-1361-7301"
+doi: 10.5281/zenodo.7938823
+message: If you use this software, please cite our article in the
+  Journal of Open Source Software.
+preferred-citation:
+  authors:
+  - family-names: Bak
+    given-names: Maciek
+    orcid: "https://orcid.org/0000-0003-1361-7301"
+  date-published: 2023-05-15
+  doi: 10.21105/joss.05272
+  issn: 2475-9066
+  issue: 85
+  journal: Journal of Open Source Software
+  publisher:
+    name: Open Journals
+  start: 5272
+  title: "Hypercomplex: abstract & fast header-only C++ template library
+    for lattice-based cryptosystems in high-dimensional algebras"
+  type: article
+  url: "https://joss.theoj.org/papers/10.21105/joss.05272"
+  volume: 8
+title: "Hypercomplex: abstract & fast header-only C++ template library
+  for lattice-based cryptosystems in high-dimensional algebras"
+

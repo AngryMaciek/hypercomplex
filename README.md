@@ -8,6 +8,7 @@
 [![docs](https://github.com/AngryMaciek/hypercomplex/workflows/docs/badge.svg?branch=master)](https://github.com/AngryMaciek/hypercomplex/actions?query=workflow%3Adocs)
 [![GitHub issues](https://img.shields.io/github/issues/AngryMaciek/hypercomplex)](https://github.com/AngryMaciek/hypercomplex/issues)
 [![GitHub license](https://img.shields.io/github/license/AngryMaciek/hypercomplex)](https://github.com/AngryMaciek/hypercomplex/blob/master/LICENSE)
+[![DOI](https://joss.theoj.org/papers/10.21105/joss.05272/status.svg)](https://doi.org/10.21105/joss.05272)
 
 <img src="img/logo.png" alt="drawing" height="30"/>
 
@@ -19,5 +20,7 @@ Full documentation & API are available at [this link](https://angrymaciek.github
 Please refer to the [contributing guidelines](CONTRIBUTING.md) if you are interested in contributing to this repository.  
 Please mind the [code of conduct](CODE_OF_CONDUCT.md) for all interactions with the community.  
 For suggestions regarding the code please use the [issue tracker](https://github.com/AngryMaciek/hypercomplex/issues).  
+
+The following work has been [published in the Journal of Open Source Software](https://joss.theoj.org/papers/10.21105/joss.05272).
 
 _© 2020 Maciej Bak_
