@@ -43,6 +43,44 @@ using Polynomial4_Hypercomplex3 = Hypercomplex<Polynomial<4>, 3>;
 
 using TestTypes = std::tuple<float, double, long double>;
 
+TEST_CASE(
+    "Compilation-time custom functions",
+    "[unit]"
+) {
+    //
+    SECTION( "INTCONSTEXPRABS" ) {
+        REQUIRE( INTCONSTEXPRABS(-10) == 10 );
+        REQUIRE( INTCONSTEXPRABS(0) == 0 );
+        REQUIRE( INTCONSTEXPRABS(10) == 10 );
+    }
+
+    SECTION( "INTCONSTEXPRSGN" ) {
+        REQUIRE( INTCONSTEXPRSGN(-10) == -1 );
+        REQUIRE( INTCONSTEXPRSGN(0) == 1 );
+        REQUIRE( INTCONSTEXPRSGN(10) == 1 );
+    }
+
+    SECTION( "MULTABLE" ) {
+        constexpr std::array<std::array<int64_t, 4>, 4> M = MULTABLE<4>();
+        REQUIRE( M[0][0] == 1 );
+        REQUIRE( M[0][1] == 2 );
+        REQUIRE( M[0][2] == 3 );
+        REQUIRE( M[0][3] == 4 );
+        REQUIRE( M[1][0] == 2 );
+        REQUIRE( M[1][1] == -1 );
+        REQUIRE( M[1][2] == 4 );
+        REQUIRE( M[1][3] == -3 );
+        REQUIRE( M[2][0] == 3 );
+        REQUIRE( M[2][1] == -4 );
+        REQUIRE( M[2][2] == -1 );
+        REQUIRE( M[2][3] == 2 );
+        REQUIRE( M[3][0] == 4 );
+        REQUIRE( M[3][1] == 3 );
+        REQUIRE( M[3][2] == -2 );
+        REQUIRE( M[3][3] == -1 );
+    }
+}
+
 TEMPLATE_LIST_TEST_CASE(
     "Hypercomplex: Class Structure",
     "[unit]",
@@ -101,24 +139,11 @@ TEMPLATE_LIST_TEST_CASE(
             REQUIRE( imaginary_h1[3] == h1[3] );
         }
 
-        SECTION( "Hypercomplex exponentiation" ) {
-            Approx target1 = Approx(-1.678).epsilon(0.01);
-            Approx target2 = Approx(1.913).epsilon(0.01);
-            TestType target3 = 0.0;
-            Approx target4 = Approx(-0.956).epsilon(0.01);
-            Hypercomplex<TestType, dim> exp_h1 = exp(h1);
-            REQUIRE( exp_h1[0] == target1 );
-            REQUIRE( exp_h1[1] == target2 );
-            REQUIRE( exp_h1[2] == target3 );
-            REQUIRE( exp_h1[3] == target4 );
-            TestType B[] = {5.0, 0.0, 0.0, 0.0};
-            Hypercomplex<TestType, dim> h2(B);
-            Hypercomplex<TestType, dim> exp_h2 = exp(h2);
-            Approx target5 = Approx(148.413).epsilon(0.01);
-            REQUIRE( exp_h2[0] == target5 );
-            REQUIRE( exp_h2[1] == 0.0 );
-            REQUIRE( exp_h2[2] == 0.0 );
-            REQUIRE( exp_h2[3] == 0.0 );
+        SECTION( "Optimised multiplication" ) {
+            Hypercomplex<TestType, dim> h1_x_h1 = h1 * h1;
+            Hypercomplex<TestType, dim> h1_mul_h1 = 
+                Hypercomplex<TestType, dim>::MUL(h1, h1);
+            REQUIRE( h1_x_h1 == h1_mul_h1 );
         }
     }
 
@@ -665,6 +690,18 @@ TEST_CASE( "Hypercomplex: MPFR lib test", "[unit]" ) {
             mpfr_clear(A[3]);
             clear_mpfr_memory();
             REQUIRE( true );
+        }
+
+        SECTION( "Optimised multiplication" ) {
+            Hypercomplex<mpfr_t, 4> h1_x_h1 = h1 * h1;
+            Hypercomplex<mpfr_t, 4> h1_mul_h1 = 
+                Hypercomplex<mpfr_t, 4>::MUL(h1, h1);
+            REQUIRE( h1_x_h1 == h1_mul_h1 );
+            mpfr_clear(A[0]);
+            mpfr_clear(A[1]);
+            mpfr_clear(A[2]);
+            mpfr_clear(A[3]);
+            clear_mpfr_memory();
         }
     }
 
@@ -1745,6 +1782,13 @@ TEST_CASE( "Hypercomplex: Polynomial lib test", "[unit]" ) {
             Polynomial<10> P2x(coefficients_2x);
             REQUIRE( H[0] == P1x );
             REQUIRE( H[1] == P2x );
+        }
+
+        SECTION( "Optimised multiplication" ) {
+            Hypercomplex<Polynomial<MaxDeg>, dim> h1_x_h1 = h1 * h1;
+            Hypercomplex<Polynomial<MaxDeg>, dim> h1_mul_h1 = 
+                Hypercomplex<Polynomial<MaxDeg>, dim>::MUL(h1, h1);
+            REQUIRE( h1_x_h1 == h1_mul_h1 );
         }
     }
 

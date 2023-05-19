@@ -19,6 +19,7 @@
 #define HYPERCOMPLEX_HYPERCOMPLEX_HPP_
 
 #include <mpfr.h>
+#include <array>
 #include <cassert>
 #include <cmath>
 #include <iostream>
@@ -33,6 +34,40 @@
 ###############################################################################
 */
 
+/** \brief Compile-time absolute value function
+  * \param [in] x integer argument
+  * \return absolute value of the argument
+  */
+constexpr int64_t INTCONSTEXPRABS(int64_t x) { return x < 0 ? -x : x; }
+
+/** \brief Compile-time signum function
+  * \param [in] x integer argument
+  * \return signum of the argument
+  */
+constexpr char INTCONSTEXPRSGN(int64_t x) { return x < 0 ? -1 : 1; }
+
+/** \brief Compile-time function to generate basis multiplication table
+  * \return Two-dimensional array of integers
+  */
+template <const unsigned int dim>
+constexpr std::array<std::array<int64_t, dim>, dim> MULTABLE() {
+    std::array<std::array<int64_t, dim>, dim> M{};
+    M[0][0] = 1;
+    unsigned int n = 1;
+    while (n != dim) {
+        for (unsigned int i=0; i < n; i++) {
+            for (unsigned int j=0; j < n; j++) {
+                M[i][n+j] = M[j][i] > 0 ? M[j][i] + n : M[j][i] - n;
+                M[i+n][j] = M[i][j] > 0 ? M[i][j] + n : M[i][j] - n;
+                M[i+n][j] = M[i+n][j] * (j ? -1 : 1);
+                M[i+n][j+n] = -M[j][i] * (j ? -1 : 1);
+            }
+        }
+        n *= 2;
+    }
+    return M;
+}
+
 /** Main class of the library
   */
 template <typename T, const unsigned int dim>
@@ -40,7 +75,65 @@ class Hypercomplex {
  private:
     T arr[dim]; // NOLINT
 
+    /** \brief Generate basis multiplication values at compile-time (private)
+      */
+    static constexpr std::array<std::array<int64_t, dim>, dim> BASEPRODABS() {
+        constexpr std::array<std::array<int64_t, dim>, dim>
+        multable = MULTABLE<dim>();
+        std::array<std::array<int64_t, dim>, dim> temp{};
+        for (unsigned int i=0; i < dim; i++) {
+            for (unsigned int j=0; j < dim; j++) {
+                temp[i][j] = INTCONSTEXPRABS(multable[i][j]) - 1;
+            }
+        }
+        return temp;
+    }
+    static constexpr std::array<std::array<int64_t, dim>, dim>
+    baseprodabs = BASEPRODABS();
+
+    /** \brief Generate basis multiplication signs at compile-time (private)
+      */
+    static constexpr std::array<std::array<char, dim>, dim> BASEPRODSGN() {
+        constexpr std::array<std::array<int64_t, dim>, dim>
+        multable = MULTABLE<dim>();
+        std::array<std::array<char, dim>, dim> temp{};
+        for (unsigned int i=0; i < dim; i++) {
+            for (unsigned int j=0; j < dim; j++) {
+                temp[i][j] = INTCONSTEXPRSGN(multable[i][j]);
+            }
+        }
+        return temp;
+    }
+    static constexpr std::array<std::array<char, dim>, dim>
+    baseprodsgn = BASEPRODSGN();
+
  public:
+    /** \brief Optimised multiplication function
+      * \param [in] H1 LHS operand
+      * \param [in] H2 RHS operand
+      * \return new class instance
+      */
+    static Hypercomplex MUL(
+        const Hypercomplex &H1,
+        const Hypercomplex &H2
+    ) {
+        T temp[dim]; // NOLINT
+        for (unsigned int i=0; i < dim; i++) temp[i] = T();
+        for (unsigned int i=0; i < dim; i++) {
+            for (unsigned int j=0; j < dim; j++) {
+                if (Hypercomplex::baseprodsgn[i][j] == 1) {
+                    temp[Hypercomplex::baseprodabs[i][j]] =
+                        temp[Hypercomplex::baseprodabs[i][j]] + H1[i] * H2[j];
+                } else {
+                    temp[Hypercomplex::baseprodabs[i][j]] =
+                        temp[Hypercomplex::baseprodabs[i][j]] - H1[i] * H2[j];
+                }
+            }
+        }
+        Hypercomplex H(temp);
+        return H;
+    }
+
     /** \brief This is the main constructor
       * \param [in] ARR array of numbers
       * 
@@ -78,9 +171,6 @@ class Hypercomplex {
 
     /** \brief Calculate inverse of a given number
       * \return new class instance
-      * 
-      * Note that the return type is the same as
-      * template parameter.
       */
     Hypercomplex inv() const;
 
@@ -617,7 +707,77 @@ class Hypercomplex<mpfr_t, dim> {
  private:
     mpfr_t arr[dim]; // NOLINT
 
+    /** \brief Generate basis multiplication values at compile-time (private)
+      */
+    static constexpr std::array<std::array<int64_t, dim>, dim> BASEPRODABS() {
+        constexpr std::array<std::array<int64_t, dim>, dim>
+        multable = MULTABLE<dim>();
+        std::array<std::array<int64_t, dim>, dim> temp{};
+        for (unsigned int i=0; i < dim; i++) {
+            for (unsigned int j=0; j < dim; j++) {
+                temp[i][j] = INTCONSTEXPRABS(multable[i][j]) - 1;
+            }
+        }
+        return temp;
+    }
+    static constexpr std::array<std::array<int64_t, dim>, dim>
+    baseprodabs = BASEPRODABS();
+
+    /** \brief Generate basis multiplication signs at compile-time (private)
+      */
+    static constexpr std::array<std::array<char, dim>, dim> BASEPRODSGN() {
+        constexpr std::array<std::array<int64_t, dim>, dim>
+        multable = MULTABLE<dim>();
+        std::array<std::array<char, dim>, dim> temp{};
+        for (unsigned int i=0; i < dim; i++) {
+            for (unsigned int j=0; j < dim; j++) {
+                temp[i][j] = INTCONSTEXPRSGN(multable[i][j]);
+            }
+        }
+        return temp;
+    }
+    static constexpr std::array<std::array<char, dim>, dim>
+    baseprodsgn = BASEPRODSGN();
+
  public:
+    /** \brief Optimised multiplication function
+    * \param [in] H1 LHS operand
+    * \param [in] H2 RHS operand
+    * \return new class instance
+    */
+    static Hypercomplex MUL(
+        const Hypercomplex &H1,
+        const Hypercomplex &H2
+    ) {
+        mpfr_t prod;
+        mpfr_init2(prod, MPFR_global_precision);
+        mpfr_t temparr[dim]; // NOLINT
+        for (unsigned int i=0; i < dim; i++)
+            mpfr_init2(temparr[i], MPFR_global_precision);
+        for (unsigned int i=0; i < dim; i++) mpfr_set_zero(temparr[i], 0);
+        for (unsigned int i=0; i < dim; i++) {
+            for (unsigned int j=0; j < dim; j++) {
+                mpfr_mul(prod, H1[i], H2[j], MPFR_RNDN);
+                if (Hypercomplex::baseprodsgn[i][j] == 1) {
+                    mpfr_add(
+                        temparr[Hypercomplex::baseprodabs[i][j]],
+                        temparr[Hypercomplex::baseprodabs[i][j]],
+                        prod,
+                        MPFR_RNDN);
+                } else {
+                    mpfr_sub(
+                        temparr[Hypercomplex::baseprodabs[i][j]],
+                        temparr[Hypercomplex::baseprodabs[i][j]],
+                        prod,
+                        MPFR_RNDN);
+                }
+            }
+        }
+        Hypercomplex H(temparr);
+        for (unsigned int i=0; i < dim; i++) mpfr_clear(temparr[i]);
+        return H;
+    }
+
     /** \brief This is the main constructor
       * \param [in] ARR array of MPFR numbers
       * 
@@ -1115,7 +1275,60 @@ class Hypercomplex<Polynomial<MaxDeg>, dim> {
  private:
     Polynomial<MaxDeg> arr[dim];
 
+    /** \brief Generate basis multiplication values at compile-time (private)
+      */
+    static constexpr std::array<std::array<int64_t, dim>, dim> BASEPRODABS() {
+        constexpr std::array<std::array<int64_t, dim>, dim>
+        multable = MULTABLE<dim>();
+        std::array<std::array<int64_t, dim>, dim> temp{};
+        for (unsigned int i=0; i < dim; i++) {
+            for (unsigned int j=0; j < dim; j++) {
+                temp[i][j] = INTCONSTEXPRABS(multable[i][j]) - 1;
+            }
+        }
+        return temp;
+    }
+    static constexpr std::array<std::array<int64_t, dim>, dim>
+    baseprodabs = BASEPRODABS();
+
+    /** \brief Generate basis multiplication signs at compile-time (private)
+      */
+    static constexpr std::array<std::array<char, dim>, dim> BASEPRODSGN() {
+        constexpr std::array<std::array<int64_t, dim>, dim>
+        multable = MULTABLE<dim>();
+        std::array<std::array<char, dim>, dim> temp{};
+        for (unsigned int i=0; i < dim; i++) {
+            for (unsigned int j=0; j < dim; j++) {
+                temp[i][j] = INTCONSTEXPRSGN(multable[i][j]);
+            }
+        }
+        return temp;
+    }
+    static constexpr std::array<std::array<char, dim>, dim>
+    baseprodsgn = BASEPRODSGN();
+
  public:
+    /** \brief Optimised multiplication function
+    * \param [in] H1 LHS operand
+    * \param [in] H2 RHS operand
+    * \return new class instance
+    */
+    static Hypercomplex MUL(
+        const Hypercomplex &H1,
+        const Hypercomplex &H2
+    ) {
+        Polynomial<MaxDeg> temp[dim];
+        for (unsigned int i=0; i < dim; i++) {
+            for (unsigned int j=0; j < dim; j++) {
+                temp[baseprodabs[i][j]] =
+                    temp[baseprodabs[i][j]] +
+                    baseprodsgn[i][j] * (H1[i] * H2[j]);
+            }
+        }
+        Hypercomplex<Polynomial<MaxDeg>, dim> H(temp);
+        return H;
+    }
+
      /** \brief This is the main constructor
       * \param [in] ARR array of Polynomial instances
       * 
