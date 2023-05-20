@@ -43,7 +43,7 @@ jobs:
 
       - name: Compile Test Program
         working-directory: ${{env.working-directory}}
-        run: g++ -O0 -Wall --std=c++17 -o test test.cpp -lmpfr -lgmp
+        run: g++ -O0 -Wall --std=c++17 -o test test.cpp -lmpfr -lgmp -fconstexpr-steps=4294967295
 
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}
@@ -76,7 +76,7 @@ jobs:
 
       - name: Compile Test Program
         working-directory: ${{env.working-directory}}
-        run: g++ -O0 -fprofile-arcs -ftest-coverage -Wall --std=c++17 --coverage -o test test.cpp -lmpfr -lgmp
+        run: g++ -O0 -fprofile-arcs -ftest-coverage -Wall --std=c++17 --coverage -o test test.cpp -lmpfr -lgmp -fconstexpr-steps=4294967295
 
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}
@@ -124,7 +124,7 @@ jobs:
 
       - name: Compile Test Program
         working-directory: ${{env.working-directory}}
-        run: g++ -O0 -Wall --std=c++17 -o test test.cpp -lmpfr -lgmp
+        run: g++ -O0 -Wall --std=c++17 -o test test.cpp -lmpfr -lgmp -fconstexpr-steps=4294967295
 
       - name: Analyze Test Program Execution
         working-directory: ${{env.working-directory}}
