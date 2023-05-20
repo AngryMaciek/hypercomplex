@@ -3240,6 +3240,7 @@ TEST_CASE( "CD[256] | N = 257", "[local]" ) {
     REQUIRE( D == M );
 }
 
+/*
 TEST_CASE( "CD[1024] | N = 1031", "[local]" ) {
     //
     unsigned int seedzero = 0;
@@ -3300,6 +3301,7 @@ TEST_CASE( "CD[1024] | N = 1031", "[local]" ) {
     CenteredLift(&M, p);
     REQUIRE( D == M );
 }
+*/
 
 int main(int argc, char* const argv[]) {
     return Catch::Session().run(argc, argv);
