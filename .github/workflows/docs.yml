@@ -14,10 +14,10 @@ jobs:
 
     steps:
 
-      - name: Install MPFR
+      - name: Install Clang & MPFR
         run: |
           sudo apt-get update -y
-          sudo apt-get install -y libmpfr-dev
+          sudo apt-get install -y libmpfr-dev clang
 
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -30,7 +30,7 @@ jobs:
 
       - name: Compile Test Program
         working-directory: ${{env.test-directory}}
-        run: g++ --std=c++17 test.cpp -o test -lmpfr -lgmp
+        run: clang++ --std=c++17 test.cpp -o test -lmpfr -lgmp
 
       - name: Execute Test Program
         working-directory: ${{env.test-directory}}
