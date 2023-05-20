@@ -86,13 +86,13 @@ jobs:
         working-directory: ${{env.working-directory}}
         run: |
           llvm-profdata merge -sparse default.profraw -o default.profdata
-          llvm-cov export --instr-profile=default.profdata ./test > coverage.json
+          llvm-cov show ./test -instr-profile=default.profdata > coverage.txt
 
       - name: Submit Report to Codecov
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: .test/unit/coverage.json
+          files: .test/unit/coverage.txt
           fail_ci_if_error: true
           verbose: true
 
