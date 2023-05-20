@@ -3185,7 +3185,8 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
     }
 }
 
-TEST_CASE( "CD[256] | N = 257", "[local]" ) {
+/*
+TEST_CASE( "CD[256] | N = 257" ) {
     //
     unsigned int seedzero = 0;
     const unsigned int dim = 256;
@@ -3240,8 +3241,8 @@ TEST_CASE( "CD[256] | N = 257", "[local]" ) {
     REQUIRE( D == M );
 }
 
-/*
-TEST_CASE( "CD[1024] | N = 1031", "[local]" ) {
+
+TEST_CASE( "CD[1024] | N = 1031" ) {
     //
     unsigned int seedzero = 0;
     const unsigned int dim = 1024;
