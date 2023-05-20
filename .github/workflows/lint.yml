@@ -1,12 +1,6 @@
 name: cpplint
 
-on:
-  push:
-    branches:
-      - "*"
-  pull_request:
-    branches:
-      - master
+on: [push]
 
 jobs:
   cpplint:
