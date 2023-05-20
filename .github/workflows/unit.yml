@@ -61,8 +61,8 @@ jobs:
           sudo apt-get update -y
           sudo apt-get install -y lcov
 
-      - name: Install Clang & MPFR
-        run: sudo apt-get install -y libmpfr-dev clang
+      - name: Install Clang & MPFR & LLVM
+        run: sudo apt-get install -y libmpfr-dev clang llvm
 
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -76,7 +76,7 @@ jobs:
 
       - name: Compile Test Program
         working-directory: ${{env.working-directory}}
-        run: clang++ -O0 -fprofile-arcs -ftest-coverage -Wall --std=c++17 --coverage -o test test.cpp -lmpfr -lgmp -fconstexpr-steps=4294967295
+        run: clang++ -O0 -fprofile-instr-generate -fcoverage-mapping -Wall --std=c++17 --coverage -o test test.cpp -lmpfr -lgmp -fconstexpr-steps=4294967295
 
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}
@@ -85,15 +85,14 @@ jobs:
       - name: Generate Coverage Report
         working-directory: ${{env.working-directory}}
         run: |
-          lcov --capture --directory . --output-file coverage.info
-          ls -al
-          rm -rf *.gcov test.gc*
+          llvm-profdata merge -sparse default.profraw -o default.profdata
+          llvm-cov export --instr-profile=default.profdata ./test > coverage.json
 
       - name: Submit Report to Codecov
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: .test/unit/coverage.info
+          files: .test/unit/coverage.json
           fail_ci_if_error: true
           verbose: true
 
