@@ -85,8 +85,8 @@ jobs:
       - name: Generate Coverage Report
         working-directory: ${{env.working-directory}}
         run: |
-          gcov test.cpp
           lcov --capture --directory . --output-file coverage.info
+          ls -al
           rm -rf *.gcov test.gc*
 
       - name: Submit Report to Codecov
