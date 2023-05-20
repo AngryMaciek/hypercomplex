@@ -1785,7 +1785,8 @@ Hypercomplex<Polynomial<MaxDeg>, dim> PUBLICKEY(
     const int64_t &q
 ) {
     Hypercomplex<Polynomial<MaxDeg>, dim> invFq = RingInverse(F, q);
-    Hypercomplex<Polynomial<MaxDeg>, dim> H = invFq * G % q;
+    Hypercomplex<Polynomial<MaxDeg>, dim>
+    H = Hypercomplex<Polynomial<MaxDeg>, dim>::MUL(invFq, G) % q;
     return H;
 }
 
@@ -1805,7 +1806,8 @@ Hypercomplex<Polynomial<MaxDeg>, dim> ENCRYPT(
     const int64_t &p,
     const int64_t &q
 ) {
-    Hypercomplex<Polynomial<MaxDeg>, dim> E = (p * H * PHI + M) % q;
+    Hypercomplex<Polynomial<MaxDeg>, dim>
+    E = (p * Hypercomplex<Polynomial<MaxDeg>, dim>::MUL(H, PHI) + M) % q;
     return E;
 }
 
@@ -1824,10 +1826,15 @@ Hypercomplex<Polynomial<MaxDeg>, dim> DECRYPT(
     const int64_t &q
 ) {
     Hypercomplex<Polynomial<MaxDeg>, dim> invFp = RingInverse(F, p);
-    Hypercomplex<Polynomial<MaxDeg>, dim> A = (F * E * F) % q;
+    Hypercomplex<Polynomial<MaxDeg>, dim>
+    A = Hypercomplex<Polynomial<MaxDeg>, dim>::MUL(
+        Hypercomplex<Polynomial<MaxDeg>, dim>::MUL(F, E), F) % q;
     CenteredLift(&A, q);
     Hypercomplex<Polynomial<MaxDeg>, dim> B = A % p;
-    Hypercomplex<Polynomial<MaxDeg>, dim> C = (invFp * (B * invFp)) % p;
+    Hypercomplex<Polynomial<MaxDeg>, dim>
+    C = Hypercomplex<Polynomial<MaxDeg>, dim>::MUL(
+        invFp,
+        Hypercomplex<Polynomial<MaxDeg>, dim>::MUL(B, invFp)) % p;
     CenteredLift(&C, p);
     return C;
 }
