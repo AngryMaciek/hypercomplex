@@ -46,6 +46,7 @@ constexpr int64_t INTCONSTEXPRABS(int64_t x) { return x < 0 ? -x : x; }
   */
 constexpr char INTCONSTEXPRSGN(int64_t x) { return x < 0 ? -1 : 1; }
 
+// NOREGION
 /** \brief Compile-time function to generate basis multiplication table
   * \return Two-dimensional array of integers
   */
@@ -67,6 +68,7 @@ constexpr std::array<std::array<int64_t, dim>, dim> MULTABLE() {
     }
     return M;
 }
+// ENDREGION
 
 /** Main class of the library
   */

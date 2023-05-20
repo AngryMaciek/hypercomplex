@@ -61,7 +61,7 @@ TEST_CASE(
     }
 
     SECTION( "MULTABLE" ) {
-        std::array<std::array<int64_t, 4>, 4> M = MULTABLE<4>();
+        constexpr std::array<std::array<int64_t, 4>, 4> M = MULTABLE<4>();
         REQUIRE( M[0][0] == 1 );
         REQUIRE( M[0][1] == 2 );
         REQUIRE( M[0][2] == 3 );
