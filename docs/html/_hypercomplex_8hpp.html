@@ -88,6 +88,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;mpfr.h&gt;</code><br />
+<code>#include &lt;array&gt;</code><br />
 <code>#include &lt;cassert&gt;</code><br />
 <code>#include &lt;cmath&gt;</code><br />
 <code>#include &lt;iostream&gt;</code><br />
@@ -107,6 +108,16 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:affbbecdd0ff18ce5db605931d1cb0b2f"><td class="memItemLeft" align="right" valign="top">constexpr int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_hypercomplex_8hpp.html#affbbecdd0ff18ce5db605931d1cb0b2f">INTCONSTEXPRABS</a> (int64_t x)</td></tr>
+<tr class="memdesc:affbbecdd0ff18ce5db605931d1cb0b2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compile-time absolute value function.  <a href="_hypercomplex_8hpp.html#affbbecdd0ff18ce5db605931d1cb0b2f">More...</a><br /></td></tr>
+<tr class="separator:affbbecdd0ff18ce5db605931d1cb0b2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6abf4141fd9e546fdae44e63e39f6b06"><td class="memItemLeft" align="right" valign="top">constexpr char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_hypercomplex_8hpp.html#a6abf4141fd9e546fdae44e63e39f6b06">INTCONSTEXPRSGN</a> (int64_t x)</td></tr>
+<tr class="memdesc:a6abf4141fd9e546fdae44e63e39f6b06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compile-time signum function.  <a href="_hypercomplex_8hpp.html#a6abf4141fd9e546fdae44e63e39f6b06">More...</a><br /></td></tr>
+<tr class="separator:a6abf4141fd9e546fdae44e63e39f6b06"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a108050ea71910e3247883d48b03484cd"><td class="memTemplParams" colspan="2">template&lt;const unsigned int dim&gt; </td></tr>
+<tr class="memitem:a108050ea71910e3247883d48b03484cd"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::array&lt; std::array&lt; int64_t, dim &gt;, dim &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_hypercomplex_8hpp.html#a108050ea71910e3247883d48b03484cd">MULTABLE</a> ()</td></tr>
+<tr class="memdesc:a108050ea71910e3247883d48b03484cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compile-time function to generate basis multiplication table.  <a href="_hypercomplex_8hpp.html#a108050ea71910e3247883d48b03484cd">More...</a><br /></td></tr>
+<tr class="separator:a108050ea71910e3247883d48b03484cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a29619ebaa017a1a612e767372c88a465"><td class="memTemplParams" colspan="2">template&lt;typename T , const unsigned int dim&gt; </td></tr>
 <tr class="memitem:a29619ebaa017a1a612e767372c88a465"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_hypercomplex_8hpp.html#a29619ebaa017a1a612e767372c88a465">operator==</a> (const <a class="el" href="class_hypercomplex.html">Hypercomplex</a>&lt; T, dim &gt; &amp;H1, const <a class="el" href="class_hypercomplex.html">Hypercomplex</a>&lt; T, dim &gt; &amp;H2)</td></tr>
 <tr class="memdesc:a29619ebaa017a1a612e767372c88a465"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equality operator.  <a href="_hypercomplex_8hpp.html#a29619ebaa017a1a612e767372c88a465">More...</a><br /></td></tr>
@@ -587,6 +598,106 @@ template&lt;typename T , const unsigned int dim&gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>new class instance </dd></dl>
+
+</div>
+</div>
+<a id="affbbecdd0ff18ce5db605931d1cb0b2f" name="affbbecdd0ff18ce5db605931d1cb0b2f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#affbbecdd0ff18ce5db605931d1cb0b2f">&#9670;&#160;</a></span>INTCONSTEXPRABS()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr int64_t INTCONSTEXPRABS </td>
+          <td>(</td>
+          <td class="paramtype">int64_t&#160;</td>
+          <td class="paramname"><em>x</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compile-time absolute value function. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>integer argument </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>absolute value of the argument </dd></dl>
+
+</div>
+</div>
+<a id="a6abf4141fd9e546fdae44e63e39f6b06" name="a6abf4141fd9e546fdae44e63e39f6b06"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6abf4141fd9e546fdae44e63e39f6b06">&#9670;&#160;</a></span>INTCONSTEXPRSGN()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr char INTCONSTEXPRSGN </td>
+          <td>(</td>
+          <td class="paramtype">int64_t&#160;</td>
+          <td class="paramname"><em>x</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compile-time signum function. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>integer argument </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>signum of the argument </dd></dl>
+
+</div>
+</div>
+<a id="a108050ea71910e3247883d48b03484cd" name="a108050ea71910e3247883d48b03484cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a108050ea71910e3247883d48b03484cd">&#9670;&#160;</a></span>MULTABLE()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;const unsigned int dim&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr std::array&lt; std::array&lt; int64_t, dim &gt;, dim &gt; MULTABLE </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compile-time function to generate basis multiplication table. </p>
+<dl class="section return"><dt>Returns</dt><dd>Two-dimensional array of integers </dd></dl>
 
 </div>
 </div>
