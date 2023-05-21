@@ -18,7 +18,7 @@ jobs:
         run: |
           if [ "$RUNNER_OS" == "Linux" ]; then
             sudo apt-get update -y
-            sudo apt-get install -y libmpfr-dev clang
+            sudo apt-get install -y libmpfr-dev
           elif [ "$RUNNER_OS" == "macOS" ]; then
             brew update
             brew install mpfr
@@ -31,7 +31,7 @@ jobs:
         run: make --version
 
       - name: Display compiler version
-        run: clang++ --version
+        run: g++ --version
 
       - name: Copy Header-Only Library
         working-directory: ${{env.lib-directory}}
@@ -39,7 +39,7 @@ jobs:
 
       - name: Compile Test Program
         working-directory: ${{env.test-directory}}
-        run: clang++ --std=c++17 test.cpp -o test -lmpfr -lgmp
+        run: g++ --std=c++17 test.cpp -o test -lmpfr -lgmp
 
       - name: Execute Test Program
         working-directory: ${{env.test-directory}}

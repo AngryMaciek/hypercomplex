@@ -13,11 +13,11 @@ jobs:
 
     steps:
 
-      - name: Install Clang & MPFR
+      - name: Install MPFR
         run: |
           if [ "$RUNNER_OS" == "Linux" ]; then
             sudo apt-get update -y
-            sudo apt-get install -y libmpfr-dev clang
+            sudo apt-get install -y libmpfr-dev
           elif [ "$RUNNER_OS" == "macOS" ]; then
             brew update
             brew install mpfr
@@ -31,11 +31,11 @@ jobs:
         run: cp -r ../../hypercomplex hypercomplex
 
       - name: Display compiler version
-        run: clang++ --version
+        run: g++ --version
 
       - name: Compile Test Program
         working-directory: ${{env.working-directory}}
-        run: clang++ --std=c++17 test.cpp -o test -lmpfr -lgmp
+        run: g++ --std=c++17 test.cpp -o test -lmpfr -lgmp
 
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}

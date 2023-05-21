@@ -15,11 +15,11 @@ jobs:
 
     steps:
 
-      - name: Install Clang & MPFR
+      - name: Install MPFR
         run: |
           if [ "$RUNNER_OS" == "Linux" ]; then
             sudo apt-get update -y
-            sudo apt-get install -y libmpfr-dev clang
+            sudo apt-get install -y libmpfr-dev
           elif [ "$RUNNER_OS" == "macOS" ]; then
             brew update
             brew install mpfr
@@ -33,11 +33,11 @@ jobs:
         run: cp -r ../../hypercomplex hypercomplex
 
       - name: Display compiler version
-        run: clang++ --version
+        run: g++ --version
 
       - name: Compile Test Program
         working-directory: ${{env.working-directory}}
-        run: clang++ -O0 -Wall --std=c++17 -o test test.cpp -lmpfr -lgmp -fconstexpr-steps=4294967295
+        run: g++ -O0 -Wall --std=c++17 -o test test.cpp -lmpfr -lgmp -fconstexpr-steps=4294967295
 
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}
@@ -55,8 +55,8 @@ jobs:
           sudo apt-get update -y
           sudo apt-get install -y lcov
 
-      - name: Install Clang & MPFR & LLVM
-        run: sudo apt-get install -y libmpfr-dev clang llvm
+      - name: Install MPFR
+        run: sudo apt-get install -y libmpfr-dev
 
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -70,7 +70,7 @@ jobs:
 
       - name: Compile Test Program
         working-directory: ${{env.working-directory}}
-        run: clang++ -O0 -fprofile-instr-generate -fcoverage-mapping -Wall --std=c++17 --coverage -o test test.cpp -lmpfr -lgmp -fconstexpr-steps=4294967295
+        run: g++ -O0 -fprofile-arcs -ftest-coverage -Wall --std=c++17 --coverage -o test test.cpp -lmpfr -lgmp
 
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}
@@ -79,14 +79,15 @@ jobs:
       - name: Generate Coverage Report
         working-directory: ${{env.working-directory}}
         run: |
-          llvm-profdata merge -sparse default.profraw -o default.profdata
-          llvm-cov show ./test -instr-profile=default.profdata > coverage.txt
+          gcov test.cpp
+          lcov --capture --directory . --output-file coverage.info
+          rm -rf *.gcov test.gc*
 
       - name: Submit Report to Codecov
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: .test/unit/coverage.txt
+          files: .test/unit/coverage.info
           fail_ci_if_error: true
           verbose: true
 
@@ -97,10 +98,10 @@ jobs:
 
     steps:
 
-      - name: Install Clang & MPFR
+      - name: Install MPFR
         run: |
           sudo apt-get update -y
-          sudo apt-get install -y libmpfr-dev clang
+          sudo apt-get install -y libmpfr-dev
 
       - name: Install Valgrind
         run: sudo apt install -y valgrind
@@ -113,11 +114,11 @@ jobs:
         run: cp -r ../../hypercomplex hypercomplex
 
       - name: Display compiler version
-        run: clang++ --version
+        run: g++ --version
 
       - name: Compile Test Program
         working-directory: ${{env.working-directory}}
-        run: clang++ -O0 -Wall --std=c++17 -o test test.cpp -lmpfr -lgmp -fconstexpr-steps=4294967295
+        run: g++ -O0 -Wall --std=c++17 -o test test.cpp -lmpfr -lgmp
 
       - name: Analyze Test Program Execution
         working-directory: ${{env.working-directory}}
