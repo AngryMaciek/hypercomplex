@@ -51,7 +51,7 @@ where the addition operation $+$ refers to a regular element-wise addition of co
 Multiplication $\star$ within this structure is defined as:
 
 \begin{equation}\label{eq:ringmul}
-f \star g = \sum_{i=0}^k f_i g_{k-i} + \sum_{i=k+1}^{N-1} f_i g_{N+k-i}
+f \star g = \sum_{i=0}^{N-1} (\sum_{k=0}^i f_k g_{i-k} + \sum_{k=i+1}^{N-1} f_k g_{N+i-k})x^i
 \end{equation}
 
 with a final reduction modulo $p$ or $q$ in the modular quotient rings.
