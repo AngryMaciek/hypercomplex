@@ -40,18 +40,18 @@ This is a highly specialised software package aimed mostly at computational math
 
 In the following section we shall describe the mathematical foundations for the previously mentioned family of cyptosystems.
 Consider a polynomial convolution ring $\mathcal{R} = \mathbb{Z}[x] / (x^N - 1)$ with $N > 2$ being prime.
-Let $\mathcal{R}_p$ and $\mathcal{R}_q$ denote derived modular structures with coefficients from $\mathbb{Z}/\mathbb{Z}_p$ and $\mathbb{Z}/\mathbb{Z}_q$, respectively.
+Let $\mathcal{R}_p$ and $\mathcal{R}_q$ denote derived modular structures with coefficients from $\mathbb{Z}/p\mathbb{Z}$ and $\mathbb{Z}/q\mathbb{Z}$, respectively.
 Every element of $\mathcal{R}$, $\mathcal{R}_p$, $\mathcal{R}_q$ may be writted down as:
 
 \begin{equation}\label{eq:element}
-f = \sum_{i=0}^{N-1} f_i x_i \equiv [f_0, \ldots ,f_{N-1}]
+f = \sum_{i=0}^{N-1} f_i x^i \equiv [f_0, \ldots ,f_{N-1}]
 \end{equation}
 
 where the addition operation $+$ refers to a regular element-wise addition of coefficients (modular for $\mathcal{R}_p$ and $\mathcal{R}_q$).
 Multiplication $\star$ within this structure is defined as:
 
 \begin{equation}\label{eq:ringmul}
-f \star g = \sum_{i=0}^k f_i g_{k-i} + \sum_{i=k+1}^{N-1} f_i g_{N+k-i}
+f \star g = \sum_{i=0}^{N-1} (\sum_{k=0}^i f_k g_{i-k} + \sum_{k=i+1}^{N-1} f_k g_{N+i-k})x^i
 \end{equation}
 
 with a final reduction modulo $p$ or $q$ in the modular quotient rings.
