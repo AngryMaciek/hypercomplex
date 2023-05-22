@@ -43,6 +43,14 @@ using Polynomial4_Hypercomplex3 = Hypercomplex<Polynomial<4>, 3>;
 
 using TestTypes = std::tuple<float, double, long double>;
 
+TEST_CASE(
+    "Public class methods to generate static class arrays",
+    "[unit]"
+) {
+    REQUIRE_NOTHROW ( Hypercomplex<int, 4096>::init() );
+    REQUIRE_NOTHROW ( Hypercomplex<int, 4096>::clear() );
+}
+
 TEMPLATE_LIST_TEST_CASE(
     "Hypercomplex: Class Structure",
     "[unit]",
@@ -53,7 +61,6 @@ TEMPLATE_LIST_TEST_CASE(
         const unsigned int dim = 4;
         TestType A[] = {1.0, 2.0, 0.0, -1.0};
         TestType invalidA[] = {1.0, 2.0, 0.0};
-        Hypercomplex<TestType, dim>::init();
         Hypercomplex<TestType, dim> h1(A);
         REQUIRE_THROWS_AS(
             Hypercomplex3<TestType>(invalidA),
@@ -102,6 +109,26 @@ TEMPLATE_LIST_TEST_CASE(
             REQUIRE( imaginary_h1[3] == h1[3] );
         }
 
+        SECTION( "Hypercomplex exponentiation" ) {
+            Approx target1 = Approx(-1.678).epsilon(0.01);
+            Approx target2 = Approx(1.913).epsilon(0.01);
+            TestType target3 = 0.0;
+            Approx target4 = Approx(-0.956).epsilon(0.01);
+            Hypercomplex<TestType, dim> exp_h1 = exp(h1);
+            REQUIRE( exp_h1[0] == target1 );
+            REQUIRE( exp_h1[1] == target2 );
+            REQUIRE( exp_h1[2] == target3 );
+            REQUIRE( exp_h1[3] == target4 );
+            TestType B[] = {5.0, 0.0, 0.0, 0.0};
+            Hypercomplex<TestType, dim> h2(B);
+            Hypercomplex<TestType, dim> exp_h2 = exp(h2);
+            Approx target5 = Approx(148.413).epsilon(0.01);
+            REQUIRE( exp_h2[0] == target5 );
+            REQUIRE( exp_h2[1] == 0.0 );
+            REQUIRE( exp_h2[2] == 0.0 );
+            REQUIRE( exp_h2[3] == 0.0 );
+        }
+
         SECTION( "Optimised multiplication" ) {
             Hypercomplex<TestType, dim> h1_x_h1 = h1 * h1;
             Hypercomplex<TestType, dim> h1_mul_h1 = 
@@ -113,7 +140,6 @@ TEMPLATE_LIST_TEST_CASE(
     SECTION( "Main constructor: exception" ) {
         TestType A1[] = {10.10};
         TestType A0[] = {};
-        Hypercomplex<TestType, 1>::init();
         REQUIRE_NOTHROW(Hypercomplex1<TestType>(A1));
         REQUIRE_THROWS_AS(
             Hypercomplex0<TestType>(A0),
@@ -124,7 +150,6 @@ TEMPLATE_LIST_TEST_CASE(
     SECTION( "Copy constructor" ) {
         const unsigned int dim = 4;
         TestType A[] = {1.0, 2.0, 0.0, -1.0};
-        Hypercomplex<TestType, dim>::init();
         Hypercomplex<TestType, dim> h1(A);
         Hypercomplex<TestType, dim> h2(h1);
         Hypercomplex<TestType, dim> h3 = h2;
@@ -142,7 +167,6 @@ TEMPLATE_LIST_TEST_CASE(
     SECTION( "Destructor" ) {
         const unsigned int dim = 4;
         TestType A[] = {1.0, 2.0, 0.0, -1.0};
-        Hypercomplex<TestType, dim>::init();
         // dynamic memory allocation for memory leak test:
         Hypercomplex<TestType, dim>* h = new Hypercomplex<TestType, dim>(A);
         delete h;
@@ -162,8 +186,6 @@ TEMPLATE_LIST_TEST_CASE(
     TestType B[] = {-0.5, 1.0, 0.0, 6.0};
     TestType C[] = {10.0, -10.0};
 
-    Hypercomplex<TestType, dim4>::init();
-    Hypercomplex<TestType, dim2>::init();
     Hypercomplex<TestType, dim4> h1(A);
     Hypercomplex<TestType, dim4> h2(B);
     Hypercomplex<TestType, dim2> h3(C);
@@ -382,7 +404,6 @@ TEMPLATE_LIST_TEST_CASE( "Hypercomplex: Special", "[usecase]", TestTypes ) {
         TestType A[] = {1.51, -1.13, 2.28, -10.77, -2.63, -9.11, 0.01, 4.02};
         TestType B[] = {-7.32, -0.70, 0.91, 99.32, 8.09, -9.33, 0.84, -5.32};
         TestType C[] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-        Hypercomplex<TestType, 8>::init();
         Hypercomplex<TestType, 8> h1(A);
         Hypercomplex<TestType, 8> h2(B);
         Hypercomplex<TestType, 8> result(C);
@@ -422,7 +443,6 @@ TEST_CASE( "Hypercomplex: Expansion", "[unit]" ) {
     // as such it cannot be tested within TEMPLATE_LIST_TEST_CASE
     // framework of Catch2
     double A[] = {1.0, 2.0, 0.0, -1.0};
-    Hypercomplex<double, 4>::init();
     Hypercomplex<double, 4> h1(A);
     Hypercomplex<double, 8> hexpanded = h1.expand<8>();
     REQUIRE( hexpanded[0] == h1[0] );
@@ -525,7 +545,6 @@ TEST_CASE( "Hypercomplex: MPFR lib test", "[unit]" ) {
         mpfr_set_d(A[1], 2.0, MPFR_RNDN);
         mpfr_set_d(A[2], 0.0, MPFR_RNDN);
         mpfr_set_d(A[3], -1.0, MPFR_RNDN);
-        Hypercomplex<mpfr_t, 4>::init();
         Hypercomplex<mpfr_t, 4> h1(A);
         REQUIRE_THROWS_AS(
             MPFR_Hypercomplex3(A),
@@ -1325,7 +1344,6 @@ TEST_CASE( "Hypercomplex: MPFR: const objects", "[unit]" ) {
     mpfr_set_d(B[1], 1.0, MPFR_RNDN);
     mpfr_set_d(B[2], 0.0, MPFR_RNDN);
     mpfr_set_d(B[3], 6.0, MPFR_RNDN);
-    Hypercomplex<mpfr_t, dim>::init();
     const Hypercomplex<mpfr_t, dim> const_h1(A);
     const Hypercomplex<mpfr_t, dim> const_h2(B);
     REQUIRE_NOTHROW(const_h1._());
@@ -1689,7 +1707,6 @@ TEST_CASE( "Hypercomplex: Polynomial lib test", "[unit]" ) {
         Polynomial<MaxDeg> invalid[] = {
             polynomial1, polynomial2, polynomial3
         };
-        Hypercomplex<Polynomial<MaxDeg>, dim>::init();
         Hypercomplex<Polynomial<MaxDeg>, dim> h1(coefficients);
         REQUIRE_THROWS_AS(
             Polynomial4_Hypercomplex3(invalid),
@@ -1770,8 +1787,7 @@ TEST_CASE( "Hypercomplex: Polynomial lib test", "[unit]" ) {
         int64_t array1[] = {0, 0, 2, 0, 2};
         Polynomial<MaxDeg> polynomial1(array1);
         Polynomial<MaxDeg> coefficients1[] = { polynomial1 };
-        Polynomial<MaxDeg> coefficients0[] = {};
-        Hypercomplex<Polynomial<MaxDeg>, 1>::init();
+        Polynomial<MaxDeg>* coefficients0;
         REQUIRE_NOTHROW(Polynomial4_Hypercomplex1(coefficients1));
         REQUIRE_THROWS_AS(
             Polynomial4_Hypercomplex0(coefficients0),
@@ -1787,7 +1803,6 @@ TEST_CASE( "Hypercomplex: Polynomial lib test", "[unit]" ) {
         Polynomial<MaxDeg> polynomial1(array1);
         Polynomial<MaxDeg> polynomial2(array2);
         Polynomial<MaxDeg> coefficients[] = { polynomial1, polynomial2 };
-        Hypercomplex<Polynomial<MaxDeg>, dim>::init();
         Hypercomplex<Polynomial<MaxDeg>, dim> h1(coefficients);
         Hypercomplex<Polynomial<MaxDeg>, dim> h2(h1);
         Hypercomplex<Polynomial<MaxDeg>, dim> h3 = h2;
@@ -1810,7 +1825,6 @@ TEST_CASE( "Hypercomplex: Polynomial lib test", "[unit]" ) {
         Polynomial<MaxDeg> polynomial1(array1);
         Polynomial<MaxDeg> polynomial2(array2);
         Polynomial<MaxDeg> coefficients[] = { polynomial1, polynomial2 };
-        Hypercomplex<Polynomial<MaxDeg>, dim>::init();
         // dynamic memory allocation for memory leak test:
         Hypercomplex<Polynomial<MaxDeg>, dim>* h = 
             new Hypercomplex<Polynomial<MaxDeg>, dim>(coefficients);
@@ -1858,7 +1872,6 @@ TEST_CASE( "Hypercomplex: Polynomial lib test", "[unit]" ) {
             polynomial9, polynomial10, polynomial11, polynomial12
         };
         //
-        Hypercomplex<Polynomial<MaxDeg>, dim>::init();
         Hypercomplex<Polynomial<MaxDeg>, dim> hA(coefficientsA);
         Hypercomplex<Polynomial<MaxDeg>, dim> hB(coefficientsB);
         Hypercomplex<Polynomial<MaxDeg>, dim> hC(coefficientsC);
@@ -2140,7 +2153,6 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         const unsigned int MaxDeg = 10;
         const int64_t p = 3;
         const int64_t q = 37;
-        Hypercomplex<Polynomial<MaxDeg>, dim>::init();
         // Public Key
         int64_t F_array1[] = {2, 1, 1, 0, 2, 0, 1, 0, 0, 1, 2};
         Polynomial<MaxDeg> F_polynomial1(F_array1);
@@ -2198,7 +2210,6 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         const unsigned int MaxDeg = 10;
         const int64_t p = 3;
         const int64_t q = 127;
-        Hypercomplex<Polynomial<MaxDeg>, dim>::init();
         // Public Key
         int64_t F_array1[] = {1, 2, 2, 1, 2, 1, 1, 1, 0, 1, 2};
         int64_t F_array2[] = {1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1};
@@ -2274,7 +2285,6 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         const unsigned int MaxDeg = 10;
         const int64_t p = 3;
         const int64_t q = 127;
-        Hypercomplex<Polynomial<MaxDeg>, dim>::init();
         // Public Key
         int64_t F_array1[] = {1, 0, 0, 1, 2, 1, 0, 0, 0, 0, 2};
         int64_t F_array2[] = {0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0};
@@ -2402,7 +2412,6 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         const unsigned int MaxDeg = 10;
         const int64_t p = 3;
         const int64_t q = 997;
-        Hypercomplex<Polynomial<MaxDeg>, dim>::init();
         // Public Key
         int64_t F_array1[] = {0, 1, 0, 0, 2, 0, 0, 0, 0, 0, 1};
         int64_t F_array2[] = {0, 0, 1, 0, 0, 0, 2, 0, 0, 2, 0};
@@ -2618,7 +2627,6 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         const unsigned int MaxDeg = 10;
         const int64_t p = 3;
         const int64_t q = 997;
-        Hypercomplex<Polynomial<MaxDeg>, dim>::init();
         // Public Key
         int64_t F_array1[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
         int64_t F_array2[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -3003,14 +3011,13 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         CenteredLift(&M, p);
         REQUIRE( D == M );
     }
-    //    
+    //
     SECTION( "CD[128] | N = 11" ) {
         //
         const unsigned int dim = 128;
         const unsigned int MaxDeg = 10;
         const int64_t p = 3;
         const int64_t q = 2221;
-        Hypercomplex<Polynomial<MaxDeg>, dim>::init();
         // Public Key
         Polynomial<MaxDeg> F_coefficients[dim];
         F_coefficients[9][0] = 1;
@@ -3062,7 +3069,6 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         const unsigned int MaxDeg = 10;
         const int64_t p = 3;
         const int64_t q = 5011;
-        Hypercomplex<Polynomial<MaxDeg>, dim>::init();
         // Public Key
         Polynomial<MaxDeg> F_coefficients[dim];
         F_coefficients[9][0] = 1;
@@ -3114,7 +3120,6 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         const unsigned int MaxDeg = 1031;
         const int64_t p = 3;
         const int64_t q = 15013;
-        Hypercomplex<Polynomial<MaxDeg>, dim>::init();
         // Public Key
         Polynomial<MaxDeg> F_coefficients[dim];
         F_coefficients[9][0] = 1;
@@ -3226,7 +3231,6 @@ TEST_CASE( "CD[256] | N = 257" ) {
     REQUIRE( D == M );
 }
 
-
 TEST_CASE( "CD[1024] | N = 1031" ) {
     //
     unsigned int seedzero = 0;
@@ -3290,5 +3294,36 @@ TEST_CASE( "CD[1024] | N = 1031" ) {
 */
 
 int main(int argc, char* const argv[]) {
-    return Catch::Session().run(argc, argv);
+
+    Hypercomplex<float, 4>::init();
+    Hypercomplex<double, 4>::init();
+    Hypercomplex<long double, 4>::init();
+    Hypercomplex<mpfr_t, 4>::init();
+    Hypercomplex<Polynomial<4>, 4>::init();
+    Hypercomplex<Polynomial<10>, 1>::init();
+    Hypercomplex<Polynomial<10>, 2>::init();
+    Hypercomplex<Polynomial<10>, 4>::init();
+    Hypercomplex<Polynomial<10>, 8>::init();
+    Hypercomplex<Polynomial<10>, 16>::init();
+    Hypercomplex<Polynomial<10>, 128>::init();
+    Hypercomplex<Polynomial<10>, 1024>::init();
+    Hypercomplex<Polynomial<1031>, 16>::init();
+
+    int catch2 = Catch::Session().run(argc, argv);
+
+    Hypercomplex<float, 4>::clear();
+    Hypercomplex<double, 4>::clear();
+    Hypercomplex<long double, 4>::clear();
+    Hypercomplex<mpfr_t, 4>::clear();
+    Hypercomplex<Polynomial<4>, 4>::clear();
+    Hypercomplex<Polynomial<10>, 1>::clear();
+    Hypercomplex<Polynomial<10>, 2>::clear();
+    Hypercomplex<Polynomial<10>, 4>::clear();
+    Hypercomplex<Polynomial<10>, 8>::clear();
+    Hypercomplex<Polynomial<10>, 16>::clear();
+    Hypercomplex<Polynomial<10>, 128>::clear();
+    Hypercomplex<Polynomial<10>, 1024>::clear();
+    Hypercomplex<Polynomial<1031>, 16>::clear();
+
+    return catch2;
 }

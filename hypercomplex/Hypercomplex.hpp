@@ -19,7 +19,6 @@
 #define HYPERCOMPLEX_HYPERCOMPLEX_HPP_
 
 #include <mpfr.h>
-#include <array>
 #include <cassert>
 #include <cmath>
 #include <iostream>
@@ -40,14 +39,15 @@ template <typename T, const unsigned int dim>
 class Hypercomplex {
  private:
     T arr[dim]; // NOLINT
-    static inline int64_t baseprodabs[dim][dim];
-    static inline bool baseprodpos[dim][dim];
+    static inline int64_t** baseprodabs;
+    static inline bool** baseprodpos;
 
  public:
     /** \brief Basis multiplication table initialiser
     */
     static void init() {
-        int64_t M[dim][dim];
+        int64_t** M = new int64_t*[dim];
+        for (unsigned int i = 0; i < dim; i++) M[i] = new int64_t[dim];
         M[0][0] = 1;
         unsigned int n = 1;
         while (n != dim) {
@@ -61,12 +61,33 @@ class Hypercomplex {
             }
             n *= 2;
         }
+        baseprodabs = new int64_t*[dim];
+        baseprodpos = new bool*[dim];
+        for (unsigned int i = 0; i < dim; i++) {
+            baseprodabs[i] = new int64_t[dim];
+            baseprodpos[i] = new bool[dim];
+        }
         for (unsigned int i=0; i < dim; i++) {
             for (unsigned int j=0; j < dim; j++) {
                 baseprodabs[i][j] = std::abs(M[i][j]) - 1;
                 baseprodpos[i][j] = (0 < M[i][j]);
             }
         }
+        for (unsigned int i = 0; i < dim; i++) {
+            delete[] M[i];
+        }
+        delete[] M;
+    }
+
+    /** \brief Cleanup function: free all memory
+    */
+    static void clear() {
+        for (unsigned int i = 0; i < dim; i++) {
+            delete[] baseprodabs[i];
+            delete[] baseprodpos[i];
+        }
+        delete[] baseprodabs;
+        delete[] baseprodpos;
     }
 
     /** \brief Optimised multiplication function
@@ -667,14 +688,15 @@ template <const unsigned int dim>
 class Hypercomplex<mpfr_t, dim> {
  private:
     mpfr_t arr[dim]; // NOLINT
-    static inline int64_t baseprodabs[dim][dim];
-    static inline bool baseprodpos[dim][dim];
+    static inline int64_t** baseprodabs;
+    static inline bool** baseprodpos;
 
  public:
     /** \brief Basis multiplication table initialiser
     */
     static void init() {
-        int64_t M[dim][dim];
+        int64_t** M = new int64_t*[dim];
+        for (unsigned int i = 0; i < dim; i++) M[i] = new int64_t[dim];
         M[0][0] = 1;
         unsigned int n = 1;
         while (n != dim) {
@@ -688,12 +710,33 @@ class Hypercomplex<mpfr_t, dim> {
             }
             n *= 2;
         }
+        baseprodabs = new int64_t*[dim];
+        baseprodpos = new bool*[dim];
+        for (unsigned int i = 0; i < dim; i++) {
+            baseprodabs[i] = new int64_t[dim];
+            baseprodpos[i] = new bool[dim];
+        }
         for (unsigned int i=0; i < dim; i++) {
             for (unsigned int j=0; j < dim; j++) {
                 baseprodabs[i][j] = std::abs(M[i][j]) - 1;
                 baseprodpos[i][j] = (0 < M[i][j]);
             }
         }
+        for (unsigned int i = 0; i < dim; i++) {
+            delete[] M[i];
+        }
+        delete[] M;
+    }
+
+    /** \brief Cleanup function: free all memory
+    */
+    static void clear() {
+        for (unsigned int i = 0; i < dim; i++) {
+            delete[] baseprodabs[i];
+            delete[] baseprodpos[i];
+        }
+        delete[] baseprodabs;
+        delete[] baseprodpos;
     }
 
     /** \brief Optimised multiplication function
@@ -731,6 +774,7 @@ class Hypercomplex<mpfr_t, dim> {
         }
         Hypercomplex H(temparr);
         for (unsigned int i=0; i < dim; i++) mpfr_clear(temparr[i]);
+        mpfr_clear(prod);
         return H;
     }
 
@@ -1230,14 +1274,15 @@ template <const unsigned int MaxDeg, const unsigned int dim>
 class Hypercomplex<Polynomial<MaxDeg>, dim> {
  private:
     Polynomial<MaxDeg> arr[dim];
-    static inline int64_t baseprodabs[dim][dim];
-    static inline bool baseprodpos[dim][dim];
+    static inline int64_t** baseprodabs;
+    static inline bool** baseprodpos;
 
  public:
     /** \brief Basis multiplication table initialiser
     */
     static void init() {
-        int64_t M[dim][dim];
+        int64_t** M = new int64_t*[dim];
+        for (unsigned int i = 0; i < dim; i++) M[i] = new int64_t[dim];
         M[0][0] = 1;
         unsigned int n = 1;
         while (n != dim) {
@@ -1251,12 +1296,33 @@ class Hypercomplex<Polynomial<MaxDeg>, dim> {
             }
             n *= 2;
         }
+        baseprodabs = new int64_t*[dim];
+        baseprodpos = new bool*[dim];
+        for (unsigned int i = 0; i < dim; i++) {
+            baseprodabs[i] = new int64_t[dim];
+            baseprodpos[i] = new bool[dim];
+        }
         for (unsigned int i=0; i < dim; i++) {
             for (unsigned int j=0; j < dim; j++) {
                 baseprodabs[i][j] = std::abs(M[i][j]) - 1;
                 baseprodpos[i][j] = (0 < M[i][j]);
             }
         }
+        for (unsigned int i = 0; i < dim; i++) {
+            delete[] M[i];
+        }
+        delete[] M;
+    }
+
+    /** \brief Cleanup function: free all memory
+    */
+    static void clear() {
+        for (unsigned int i = 0; i < dim; i++) {
+            delete[] baseprodabs[i];
+            delete[] baseprodpos[i];
+        }
+        delete[] baseprodabs;
+        delete[] baseprodpos;
     }
 
     /** \brief Optimised multiplication function
