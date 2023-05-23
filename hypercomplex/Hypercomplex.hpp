@@ -39,7 +39,7 @@ template <typename T, const unsigned int dim>
 class Hypercomplex {
  private:
     T arr[dim]; // NOLINT
-    static inline int64_t** baseprodabs;
+    static inline uint64_t** baseprodabs;
     static inline bool** baseprodpos;
 
  public:
@@ -61,10 +61,10 @@ class Hypercomplex {
             }
             n *= 2;
         }
-        baseprodabs = new int64_t*[dim];
+        baseprodabs = new uint64_t*[dim];
         baseprodpos = new bool*[dim];
         for (unsigned int i = 0; i < dim; i++) {
-            baseprodabs[i] = new int64_t[dim];
+            baseprodabs[i] = new uint64_t[dim];
             baseprodpos[i] = new bool[dim];
         }
         for (unsigned int i=0; i < dim; i++) {
@@ -688,7 +688,7 @@ template <const unsigned int dim>
 class Hypercomplex<mpfr_t, dim> {
  private:
     mpfr_t arr[dim]; // NOLINT
-    static inline int64_t** baseprodabs;
+    static inline uint64_t** baseprodabs;
     static inline bool** baseprodpos;
 
  public:
@@ -710,10 +710,10 @@ class Hypercomplex<mpfr_t, dim> {
             }
             n *= 2;
         }
-        baseprodabs = new int64_t*[dim];
+        baseprodabs = new uint64_t*[dim];
         baseprodpos = new bool*[dim];
         for (unsigned int i = 0; i < dim; i++) {
-            baseprodabs[i] = new int64_t[dim];
+            baseprodabs[i] = new uint64_t[dim];
             baseprodpos[i] = new bool[dim];
         }
         for (unsigned int i=0; i < dim; i++) {
@@ -1274,7 +1274,7 @@ template <const unsigned int MaxDeg, const unsigned int dim>
 class Hypercomplex<Polynomial<MaxDeg>, dim> {
  private:
     Polynomial<MaxDeg> arr[dim];
-    static inline int64_t** baseprodabs;
+    static inline uint64_t** baseprodabs;
     static inline bool** baseprodpos;
 
  public:
@@ -1296,10 +1296,10 @@ class Hypercomplex<Polynomial<MaxDeg>, dim> {
             }
             n *= 2;
         }
-        baseprodabs = new int64_t*[dim];
+        baseprodabs = new uint64_t*[dim];
         baseprodpos = new bool*[dim];
         for (unsigned int i = 0; i < dim; i++) {
-            baseprodabs[i] = new int64_t[dim];
+            baseprodabs[i] = new uint64_t[dim];
             baseprodpos[i] = new bool[dim];
         }
         for (unsigned int i=0; i < dim; i++) {

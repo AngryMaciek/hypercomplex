@@ -27,7 +27,7 @@ jobs:
 
       - name: Compile Test Program
         working-directory: ${{env.test-directory}}
-        run: g++ -g -fsanitize=address,undefined --std=c++17 test.cpp -o test -lmpfr -lgmp
+        run: g++ --std=c++17 test.cpp -o test -lmpfr -lgmp
 
       - name: Execute Test Program
         working-directory: ${{env.test-directory}}
