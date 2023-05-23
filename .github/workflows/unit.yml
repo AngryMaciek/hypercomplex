@@ -37,7 +37,7 @@ jobs:
 
       - name: Compile Test Program
         working-directory: ${{env.working-directory}}
-        run: g++ -O0 -Wall --std=c++17 -o test test.cpp -lmpfr -lgmp -fconstexpr-steps=4294967295
+        run: g++ -O0 -Wall --std=c++17 -o test test.cpp -lmpfr -lgmp
 
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}
