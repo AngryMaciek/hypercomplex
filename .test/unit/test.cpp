@@ -1787,7 +1787,7 @@ TEST_CASE( "Hypercomplex: Polynomial lib test", "[unit]" ) {
         int64_t array1[] = {0, 0, 2, 0, 2};
         Polynomial<MaxDeg> polynomial1(array1);
         Polynomial<MaxDeg> coefficients1[] = { polynomial1 };
-        Polynomial<MaxDeg>* coefficients0;
+        Polynomial<MaxDeg>* coefficients0 = 0;
         REQUIRE_NOTHROW(Polynomial4_Hypercomplex1(coefficients1));
         REQUIRE_THROWS_AS(
             Polynomial4_Hypercomplex0(coefficients0),
