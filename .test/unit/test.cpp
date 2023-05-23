@@ -3294,7 +3294,7 @@ TEST_CASE( "CD[1024] | N = 1031" ) {
 */
 
 int main(int argc, char* const argv[]) {
-
+    //
     Hypercomplex<float, 4>::init();
     Hypercomplex<double, 4>::init();
     Hypercomplex<long double, 4>::init();
@@ -3308,9 +3308,9 @@ int main(int argc, char* const argv[]) {
     Hypercomplex<Polynomial<10>, 128>::init();
     Hypercomplex<Polynomial<10>, 1024>::init();
     Hypercomplex<Polynomial<1031>, 16>::init();
-
+    //
     int catch2 = Catch::Session().run(argc, argv);
-
+    //
     Hypercomplex<float, 4>::clear();
     Hypercomplex<double, 4>::clear();
     Hypercomplex<long double, 4>::clear();
@@ -3324,6 +3324,6 @@ int main(int argc, char* const argv[]) {
     Hypercomplex<Polynomial<10>, 128>::clear();
     Hypercomplex<Polynomial<10>, 1024>::clear();
     Hypercomplex<Polynomial<1031>, 16>::clear();
-
+    //
     return catch2;
 }
