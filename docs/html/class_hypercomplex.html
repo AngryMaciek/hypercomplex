@@ -79,6 +79,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="class_hypercomplex-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Hypercomplex&lt; T, dim &gt; Class Template Reference</div></div>
 </div><!--header-->
@@ -137,6 +138,20 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a5693f454f81d59fbd951aa111bcd8843"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_hypercomplex.html">Hypercomplex</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hypercomplex.html#a5693f454f81d59fbd951aa111bcd8843">operator/=</a> (const <a class="el" href="class_hypercomplex.html">Hypercomplex</a> &amp;H)</td></tr>
 <tr class="memdesc:a5693f454f81d59fbd951aa111bcd8843"><td class="mdescLeft">&#160;</td><td class="mdescRight">Division-Assignment operator.  <a href="class_hypercomplex.html#a5693f454f81d59fbd951aa111bcd8843">More...</a><br /></td></tr>
 <tr class="separator:a5693f454f81d59fbd951aa111bcd8843"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a15291cd83909b370a2cc9b7af07332a2"><td class="memItemLeft" align="right" valign="top"><a id="a15291cd83909b370a2cc9b7af07332a2" name="a15291cd83909b370a2cc9b7af07332a2"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>init</b> ()</td></tr>
+<tr class="memdesc:a15291cd83909b370a2cc9b7af07332a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basis multiplication table initialiser. <br /></td></tr>
+<tr class="separator:a15291cd83909b370a2cc9b7af07332a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1c9386db6f8fff67bff899c6d4218cc"><td class="memItemLeft" align="right" valign="top"><a id="ac1c9386db6f8fff67bff899c6d4218cc" name="ac1c9386db6f8fff67bff899c6d4218cc"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>clear</b> ()</td></tr>
+<tr class="memdesc:ac1c9386db6f8fff67bff899c6d4218cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cleanup function: free all memory. <br /></td></tr>
+<tr class="separator:ac1c9386db6f8fff67bff899c6d4218cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b0cc11c9b24add2a6261d74812ac575"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_hypercomplex.html">Hypercomplex</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hypercomplex.html#a9b0cc11c9b24add2a6261d74812ac575">MUL</a> (const <a class="el" href="class_hypercomplex.html">Hypercomplex</a> &amp;H1, const <a class="el" href="class_hypercomplex.html">Hypercomplex</a> &amp;H2)</td></tr>
+<tr class="memdesc:a9b0cc11c9b24add2a6261d74812ac575"><td class="mdescLeft">&#160;</td><td class="mdescRight">Optimised multiplication function.  <a href="class_hypercomplex.html#a9b0cc11c9b24add2a6261d74812ac575">More...</a><br /></td></tr>
+<tr class="separator:a9b0cc11c9b24add2a6261d74812ac575"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;typename T, const unsigned int dim&gt;<br />
@@ -282,8 +297,55 @@ template&lt;typename T , const unsigned int dim&gt; </div>
 </div><div class="memdoc">
 
 <p>Calculate inverse of a given number. </p>
-<dl class="section return"><dt>Returns</dt><dd>new class instance</dd></dl>
-<p>Note that the return type is the same as template parameter. </p>
+<dl class="section return"><dt>Returns</dt><dd>new class instance </dd></dl>
+
+</div>
+</div>
+<a id="a9b0cc11c9b24add2a6261d74812ac575" name="a9b0cc11c9b24add2a6261d74812ac575"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b0cc11c9b24add2a6261d74812ac575">&#9670;&#160;</a></span>MUL()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , const unsigned int dim&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="class_hypercomplex.html">Hypercomplex</a> <a class="el" href="class_hypercomplex.html">Hypercomplex</a>&lt; T, dim &gt;::MUL </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_hypercomplex.html">Hypercomplex</a>&lt; T, dim &gt; &amp;&#160;</td>
+          <td class="paramname"><em>H1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_hypercomplex.html">Hypercomplex</a>&lt; T, dim &gt; &amp;&#160;</td>
+          <td class="paramname"><em>H2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Optimised multiplication function. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">H1</td><td>LHS operand </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">H2</td><td>RHS operand </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>new class instance </dd></dl>
 
 </div>
 </div>
