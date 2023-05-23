@@ -86,6 +86,7 @@ int main(void){
     const unsigned int fig1a_MaxDeg = 6; // N = 7
     const int64_t fig1a_p = 2;
     const int64_t fig1a_q = 1151;
+    Hypercomplex<Polynomial<fig1a_MaxDeg>, fig1a_dim>::init();
     // Public Key
     Polynomial<fig1a_MaxDeg> F1a_coefficients[fig1a_dim];
     F1a_coefficients[1][0] = 0;
@@ -218,6 +219,7 @@ int main(void){
     );
     CenteredLift(&M1a, fig1a_p);
     assert( D1a == M1a );
+    Hypercomplex<Polynomial<fig1a_MaxDeg>, fig1a_dim>::clear();
     //
     // PUBLICATION: QR code
     //
@@ -225,6 +227,7 @@ int main(void){
     const unsigned int fig1b_MaxDeg = 28; // N = 29
     const int64_t fig1b_p = 3;
     const int64_t fig1b_q = 1723;
+    Hypercomplex<Polynomial<fig1b_MaxDeg>, fig1b_dim>::init();
     // Public Key
     Polynomial<fig1b_MaxDeg> F1b_coefficients[fig1b_dim];
     F1b_coefficients[1][0] = 1;
@@ -311,6 +314,7 @@ int main(void){
     );
     CenteredLift(&M1b, fig1b_p);
     assert( D1b == M1b );
+    Hypercomplex<Polynomial<fig1b_MaxDeg>, fig1b_dim>::clear();
     //
     // PUBLICATION: MEME
     //
@@ -318,6 +322,7 @@ int main(void){
     const unsigned int fig1c_MaxDeg = 126; // N = 127
     const int64_t fig1c_p = 17;
     const int64_t fig1c_q = 16777213;
+    Hypercomplex<Polynomial<fig1c_MaxDeg>, fig1c_dim>::init();
     // Public Key
     Polynomial<fig1c_MaxDeg> F1c_coefficients[fig1c_dim];
     F1c_coefficients[1][0] = 1;
@@ -350,7 +355,6 @@ int main(void){
         F1c, G1c, fig1c_q
     );
     // Encryption
-    int64_t nyanarr[fig1c_dim][fig1c_MaxDeg+1];
     Polynomial<fig1c_MaxDeg> M1c_coefficients[fig1c_dim];
     std::ifstream inputfile("nyan.txt");    
     for (unsigned int i=0; i < fig1c_dim; i++) {
@@ -381,6 +385,7 @@ int main(void){
     );
     CenteredLift(&M1c, fig1c_p);
     assert( D1c == M1c );
+    Hypercomplex<Polynomial<fig1c_MaxDeg>, fig1c_dim>::clear();
     //
     return 0;
 }
