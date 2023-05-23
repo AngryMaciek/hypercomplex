@@ -148,7 +148,10 @@ Brief overview</h1>
  \(H_A \times H_B = (a,b)(c,d) := (ac-\bar{d}b,da+b\bar{c})\). <br  />
  (Multiplication of hypercomplex numbers is indeed implemented as a recursive operator with the base condition of multiplying real numbers.) <br  />
  <b>Disclaimer:</b> Various distinct definitions of the multiplication formula exist: <a href="https://en.wikipedia.org/wiki/Cayley%E2%80%93Dickson_construction">here</a>, <a href="https://ncatlab.org/nlab/show/Cayley-Dickson+construction">here</a> or <a href="http://www.zipcon.net/~swhite/docs/math/quaternions/Cayley-Dickson.html">here</a>. <br  />
- They all lead to a proper norm upon multiplying a number with it's conjugate and the choice is arbitrary (feel free to modify the code, if needed).</li>
+ They all lead to a proper norm upon multiplying a number with it's conjugate and the choice is arbitrary (feel free to modify the code, if needed). <br  />
+ In addition to the overloaded operator, hypercomplex multiplication is also available as a class method. <br  />
+ Depending on the dimenion of algebra and compiler's optimisation settings it could be 5-50x faster than the overloaded operator. <br  />
+</li>
 <li>Knowing that inverse elements of hypercomplex numbers exist a division operation is implementat as a multiplication with an inverse of the right operand: <br  />
  Let \(H_A\) and \(H_B\) be elements from a Cayley-Dickson algebra of dimension \(2^n\), \(H_B \neq 0\). <br  />
  \(\frac{H_A}{H_B} := H_A \times H_B^{-1}\) <br  />
