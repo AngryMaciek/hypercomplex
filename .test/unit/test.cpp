@@ -15,6 +15,7 @@
 // https://github.com/catchorg/Catch2/issues/2421
 #define CATCH_CONFIG_NO_POSIX_SIGNALS
 #define CATCH_CONFIG_RUNNER
+#define CATCH_CONFIG_ENABLE_BENCHMARKING
 #include "catch.hpp"
 #include "hypercomplex/Hypercomplex.hpp"
 #include "hypercomplex/Polynomial.hpp"
@@ -400,17 +401,6 @@ TEMPLATE_LIST_TEST_CASE(
 
 TEMPLATE_LIST_TEST_CASE( "Hypercomplex: Special", "[usecase]", TestTypes ) {
     //
-    SECTION( "Multiplication optimization" ) {
-        TestType A[] = {1.51, -1.13, 2.28, -10.77, -2.63, -9.11, 0.01, 4.02};
-        TestType B[] = {-7.32, -0.70, 0.91, 99.32, 8.09, -9.33, 0.84, -5.32};
-        TestType C[] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-        Hypercomplex<TestType, 8> h1(A);
-        Hypercomplex<TestType, 8> h2(B);
-        Hypercomplex<TestType, 8> result(C);
-        for (unsigned int i=0; i < 10000; i++) result = h1 * h2;
-        REQUIRE( true == true );
-    }
-
     SECTION( "Const objects" ) {
         const unsigned int dim = 4;
         const unsigned int cui = 2;
@@ -436,6 +426,34 @@ TEMPLATE_LIST_TEST_CASE( "Hypercomplex: Special", "[usecase]", TestTypes ) {
         REQUIRE_NOTHROW(Im(const_h1));
         REQUIRE_NOTHROW(exp(const_h1));
     }
+}
+
+TEST_CASE( "Multiplication optimization" ) {
+    float A[] = {
+        1.51, -1.13, 2.28, -10.77, -2.63, -9.11, 0.01, 4.02,
+        1.21, 1.13, 6.28, -17.77, 2.63, 0.11, 0.02, 1.02,
+        1.52, -1.11, 0.28, -11.77, 0.03, -1.11, 1.01, 3.02,
+        2.51, -1.15, 12.28, -11.77, 2.23, 9.22, 0.21, 2.02
+    };
+    float B[] = {
+        -7.32, -0.70, 0.91, 99.32, 8.09, -9.33, 0.84, -5.32,
+        7.32, 0.71, -0.11, -99.32, -8.09, 9.33, 0.84, 5.42,
+        4.32, -4.70, 4.91, 4.32, 4.09, -9.44, 4.84, 4.32,
+        1.32, 0.70, 0.11, 1.32, 1.29, 1.23, 2.84, 0.32
+    };
+    Hypercomplex<float, 32> h1(A);
+    Hypercomplex<float, 32> h2(B);
+    BENCHMARK( "recursive" ) {
+        for (unsigned int i=0; i < 10000; i++)
+            h1 * h2;
+        return true;
+    };
+    BENCHMARK( "iterative" ) {
+        for (unsigned int i=0; i < 10000; i++)
+            Hypercomplex<float, 32>::MUL(h1, h2);
+        return true;
+    };
+    REQUIRE( true );
 }
 
 TEST_CASE( "Hypercomplex: Expansion", "[unit]" ) {
@@ -3298,6 +3316,7 @@ int main(int argc, char* const argv[]) {
     Hypercomplex<float, 4>::init();
     Hypercomplex<double, 4>::init();
     Hypercomplex<long double, 4>::init();
+    Hypercomplex<float, 32>::init();
     Hypercomplex<mpfr_t, 4>::init();
     Hypercomplex<Polynomial<4>, 4>::init();
     Hypercomplex<Polynomial<10>, 1>::init();
@@ -3314,6 +3333,7 @@ int main(int argc, char* const argv[]) {
     Hypercomplex<float, 4>::clear();
     Hypercomplex<double, 4>::clear();
     Hypercomplex<long double, 4>::clear();
+    Hypercomplex<float, 32>::clear();
     Hypercomplex<mpfr_t, 4>::clear();
     Hypercomplex<Polynomial<4>, 4>::clear();
     Hypercomplex<Polynomial<10>, 1>::clear();
