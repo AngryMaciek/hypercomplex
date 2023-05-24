@@ -29,9 +29,6 @@
  * brew install mpfr
  * \endcode
  *
- * One may test the installation by running unit tests for the library.
- * This can be achieved by navigating into the repository directory and executing: `bash gitpodtest.sh`
- *
  * The following is a _header-only_ library, meaning that the easiest way to use it
  * is to copy the core _hpp_ file alongside the main program and include it into the code
  * with the directive:
@@ -182,7 +179,9 @@
  *   <a href="https://en.wikipedia.org/wiki/Cayley%E2%80%93Dickson_construction">here</a>,
  *   <a href="https://ncatlab.org/nlab/show/Cayley-Dickson+construction">here</a> or 
  *   <a href="http://www.zipcon.net/~swhite/docs/math/quaternions/Cayley-Dickson.html">here</a>.  
- *   They all lead to a proper norm upon multiplying a number with it's conjugate and the choice is arbitrary (feel free to modify the code, if needed).
+ *   They all lead to a proper norm upon multiplying a number with it's conjugate and the choice is arbitrary (feel free to modify the code, if needed).  
+ *   In addition to the overloaded operator, hypercomplex multiplication is also available as a class method.  
+ *   Depending on the dimenion of algebra and compiler's optimisation settings it could be 5-50x faster than the overloaded operator.  
  * * Knowing that inverse elements of hypercomplex numbers exist a division operation is implementat as a multiplication with an inverse of the right operand:  
  *   Let \f$H_A\f$ and \f$H_B\f$ be elements from a Cayley-Dickson algebra of dimension \f$2^n\f$, \f$H_B \neq 0\f$.  
  *   \f$\frac{H_A}{H_B} := H_A \times H_B^{-1}\f$  

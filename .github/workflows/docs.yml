@@ -1,14 +1,11 @@
 name: docs
 
-on:
-  push:
-    branches:
-      - master
+on: [push]
 
 jobs:
 
   gh-pages:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     env:
       test-directory: .test/docs
 

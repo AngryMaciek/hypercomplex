@@ -1,12 +1,6 @@
 name: Catch2
 
-on:
-  push:
-    branches:
-      - "*"
-  pull_request:
-    branches:
-      - master
+on: [push]
 
 jobs:
 
@@ -14,7 +8,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-12, ubuntu-20.04]
+        os: [macos-12, ubuntu-22.04]
       fail-fast: false
     env:
       working-directory: .test/unit
@@ -47,10 +41,10 @@ jobs:
 
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}
-        run: ./test ~[local] -d yes -w NoAssertions --use-colour yes --benchmark-samples 100 --benchmark-resamples 100000
+        run: ./test -d yes -w NoAssertions --use-colour yes --benchmark-samples 100 --benchmark-resamples 100000
 
   code-coverage:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     env:
       working-directory: .test/unit
 
@@ -72,15 +66,15 @@ jobs:
         run: cp -r ../../hypercomplex hypercomplex
 
       - name: Display compiler version
-        run: g++ --version
+        run: clang++ --version
 
       - name: Compile Test Program
         working-directory: ${{env.working-directory}}
-        run: g++ -O0 -fprofile-arcs -ftest-coverage -Wall --std=c++17 --coverage -o test test.cpp -lmpfr -lgmp
+        run: g++ -O0 -fprofile-arcs -ftest-coverage -fno-elide-constructors -Wall --std=c++17 --coverage -o test test.cpp -lmpfr -lgmp
 
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}
-        run: ./test ~[local]
+        run: ./test
 
       - name: Generate Coverage Report
         working-directory: ${{env.working-directory}}
@@ -98,7 +92,7 @@ jobs:
           verbose: true
 
   memcheck:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     env:
       working-directory: .test/unit
 
@@ -129,6 +123,6 @@ jobs:
       - name: Analyze Test Program Execution
         working-directory: ${{env.working-directory}}
         run: |
-          valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind.txt ./test ~[local]
+          valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind.txt ./test ~[benchmark]
           cat valgrind.txt
           grep -q -w "All heap blocks were freed -- no leaks are possible" "valgrind.txt"

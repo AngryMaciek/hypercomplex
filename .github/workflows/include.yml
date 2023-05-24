@@ -1,19 +1,13 @@
 name: Include
 
-on:
-  push:
-    branches:
-      - "*"
-  pull_request:
-    branches:
-      - master
+on: [push]
 
 jobs:
   Include:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-12, ubuntu-20.04]
+        os: [macos-12, ubuntu-22.04]
     env:
       working-directory: .test/include
 

@@ -39,8 +39,83 @@ template <typename T, const unsigned int dim>
 class Hypercomplex {
  private:
     T arr[dim]; // NOLINT
+    static inline uint64_t** baseprodabs;
+    static inline bool** baseprodpos;
 
  public:
+    /** \brief Basis multiplication table initialiser
+    */
+    static void init() {
+        int64_t** M = new int64_t*[dim];
+        for (unsigned int i = 0; i < dim; i++) M[i] = new int64_t[dim];
+        M[0][0] = 1;
+        unsigned int n = 1;
+        while (n != dim) {
+            for (unsigned int i=0; i < n; i++) {
+                for (unsigned int j=0; j < n; j++) {
+                    M[i][n+j] = M[j][i] > 0 ? M[j][i] + n : M[j][i] - n;
+                    M[i+n][j] = M[i][j] > 0 ? M[i][j] + n : M[i][j] - n;
+                    M[i+n][j] = M[i+n][j] * (j ? -1 : 1);
+                    M[i+n][j+n] = -M[j][i] * (j ? -1 : 1);
+                }
+            }
+            n *= 2;
+        }
+        baseprodabs = new uint64_t*[dim];
+        baseprodpos = new bool*[dim];
+        for (unsigned int i = 0; i < dim; i++) {
+            baseprodabs[i] = new uint64_t[dim];
+            baseprodpos[i] = new bool[dim];
+        }
+        for (unsigned int i=0; i < dim; i++) {
+            for (unsigned int j=0; j < dim; j++) {
+                baseprodabs[i][j] = std::abs(M[i][j]) - 1;
+                baseprodpos[i][j] = (0 < M[i][j]);
+            }
+        }
+        for (unsigned int i = 0; i < dim; i++) {
+            delete[] M[i];
+        }
+        delete[] M;
+    }
+
+    /** \brief Cleanup function: free all memory
+    */
+    static void clear() {
+        for (unsigned int i = 0; i < dim; i++) {
+            delete[] baseprodabs[i];
+            delete[] baseprodpos[i];
+        }
+        delete[] baseprodabs;
+        delete[] baseprodpos;
+    }
+
+    /** \brief Optimised multiplication function
+      * \param [in] H1 LHS operand
+      * \param [in] H2 RHS operand
+      * \return new class instance
+      */
+    static Hypercomplex MUL(
+        const Hypercomplex &H1,
+        const Hypercomplex &H2
+    ) {
+        T temp[dim]; // NOLINT
+        for (unsigned int i=0; i < dim; i++) temp[i] = T();
+        for (unsigned int i=0; i < dim; i++) {
+            for (unsigned int j=0; j < dim; j++) {
+                if (Hypercomplex::baseprodpos[i][j]) {
+                    temp[Hypercomplex::baseprodabs[i][j]] =
+                        temp[Hypercomplex::baseprodabs[i][j]] + H1[i] * H2[j];
+                } else {
+                    temp[Hypercomplex::baseprodabs[i][j]] =
+                        temp[Hypercomplex::baseprodabs[i][j]] - H1[i] * H2[j];
+                }
+            }
+        }
+        Hypercomplex H(temp);
+        return H;
+    }
+
     /** \brief This is the main constructor
       * \param [in] ARR array of numbers
       * 
@@ -78,9 +153,6 @@ class Hypercomplex {
 
     /** \brief Calculate inverse of a given number
       * \return new class instance
-      * 
-      * Note that the return type is the same as
-      * template parameter.
       */
     Hypercomplex inv() const;
 
@@ -616,8 +688,96 @@ template <const unsigned int dim>
 class Hypercomplex<mpfr_t, dim> {
  private:
     mpfr_t arr[dim]; // NOLINT
+    static inline uint64_t** baseprodabs;
+    static inline bool** baseprodpos;
 
  public:
+    /** \brief Basis multiplication table initialiser
+    */
+    static void init() {
+        int64_t** M = new int64_t*[dim];
+        for (unsigned int i = 0; i < dim; i++) M[i] = new int64_t[dim];
+        M[0][0] = 1;
+        unsigned int n = 1;
+        while (n != dim) {
+            for (unsigned int i=0; i < n; i++) {
+                for (unsigned int j=0; j < n; j++) {
+                    M[i][n+j] = M[j][i] > 0 ? M[j][i] + n : M[j][i] - n;
+                    M[i+n][j] = M[i][j] > 0 ? M[i][j] + n : M[i][j] - n;
+                    M[i+n][j] = M[i+n][j] * (j ? -1 : 1);
+                    M[i+n][j+n] = -M[j][i] * (j ? -1 : 1);
+                }
+            }
+            n *= 2;
+        }
+        baseprodabs = new uint64_t*[dim];
+        baseprodpos = new bool*[dim];
+        for (unsigned int i = 0; i < dim; i++) {
+            baseprodabs[i] = new uint64_t[dim];
+            baseprodpos[i] = new bool[dim];
+        }
+        for (unsigned int i=0; i < dim; i++) {
+            for (unsigned int j=0; j < dim; j++) {
+                baseprodabs[i][j] = std::abs(M[i][j]) - 1;
+                baseprodpos[i][j] = (0 < M[i][j]);
+            }
+        }
+        for (unsigned int i = 0; i < dim; i++) {
+            delete[] M[i];
+        }
+        delete[] M;
+    }
+
+    /** \brief Cleanup function: free all memory
+    */
+    static void clear() {
+        for (unsigned int i = 0; i < dim; i++) {
+            delete[] baseprodabs[i];
+            delete[] baseprodpos[i];
+        }
+        delete[] baseprodabs;
+        delete[] baseprodpos;
+    }
+
+    /** \brief Optimised multiplication function
+    * \param [in] H1 LHS operand
+    * \param [in] H2 RHS operand
+    * \return new class instance
+    */
+    static Hypercomplex MUL(
+        const Hypercomplex &H1,
+        const Hypercomplex &H2
+    ) {
+        mpfr_t prod;
+        mpfr_init2(prod, MPFR_global_precision);
+        mpfr_t temparr[dim]; // NOLINT
+        for (unsigned int i=0; i < dim; i++)
+            mpfr_init2(temparr[i], MPFR_global_precision);
+        for (unsigned int i=0; i < dim; i++) mpfr_set_zero(temparr[i], 0);
+        for (unsigned int i=0; i < dim; i++) {
+            for (unsigned int j=0; j < dim; j++) {
+                mpfr_mul(prod, H1[i], H2[j], MPFR_RNDN);
+                if (Hypercomplex::baseprodpos[i][j]) {
+                    mpfr_add(
+                        temparr[Hypercomplex::baseprodabs[i][j]],
+                        temparr[Hypercomplex::baseprodabs[i][j]],
+                        prod,
+                        MPFR_RNDN);
+                } else {
+                    mpfr_sub(
+                        temparr[Hypercomplex::baseprodabs[i][j]],
+                        temparr[Hypercomplex::baseprodabs[i][j]],
+                        prod,
+                        MPFR_RNDN);
+                }
+            }
+        }
+        Hypercomplex H(temparr);
+        for (unsigned int i=0; i < dim; i++) mpfr_clear(temparr[i]);
+        mpfr_clear(prod);
+        return H;
+    }
+
     /** \brief This is the main constructor
       * \param [in] ARR array of MPFR numbers
       * 
@@ -1114,8 +1274,82 @@ template <const unsigned int MaxDeg, const unsigned int dim>
 class Hypercomplex<Polynomial<MaxDeg>, dim> {
  private:
     Polynomial<MaxDeg> arr[dim];
+    static inline uint64_t** baseprodabs;
+    static inline bool** baseprodpos;
 
  public:
+    /** \brief Basis multiplication table initialiser
+    */
+    static void init() {
+        int64_t** M = new int64_t*[dim];
+        for (unsigned int i = 0; i < dim; i++) M[i] = new int64_t[dim];
+        M[0][0] = 1;
+        unsigned int n = 1;
+        while (n != dim) {
+            for (unsigned int i=0; i < n; i++) {
+                for (unsigned int j=0; j < n; j++) {
+                    M[i][n+j] = M[j][i] > 0 ? M[j][i] + n : M[j][i] - n;
+                    M[i+n][j] = M[i][j] > 0 ? M[i][j] + n : M[i][j] - n;
+                    M[i+n][j] = M[i+n][j] * (j ? -1 : 1);
+                    M[i+n][j+n] = -M[j][i] * (j ? -1 : 1);
+                }
+            }
+            n *= 2;
+        }
+        baseprodabs = new uint64_t*[dim];
+        baseprodpos = new bool*[dim];
+        for (unsigned int i = 0; i < dim; i++) {
+            baseprodabs[i] = new uint64_t[dim];
+            baseprodpos[i] = new bool[dim];
+        }
+        for (unsigned int i=0; i < dim; i++) {
+            for (unsigned int j=0; j < dim; j++) {
+                baseprodabs[i][j] = std::abs(M[i][j]) - 1;
+                baseprodpos[i][j] = (0 < M[i][j]);
+            }
+        }
+        for (unsigned int i = 0; i < dim; i++) {
+            delete[] M[i];
+        }
+        delete[] M;
+    }
+
+    /** \brief Cleanup function: free all memory
+    */
+    static void clear() {
+        for (unsigned int i = 0; i < dim; i++) {
+            delete[] baseprodabs[i];
+            delete[] baseprodpos[i];
+        }
+        delete[] baseprodabs;
+        delete[] baseprodpos;
+    }
+
+    /** \brief Optimised multiplication function
+    * \param [in] H1 LHS operand
+    * \param [in] H2 RHS operand
+    * \return new class instance
+    */
+    static Hypercomplex MUL(
+        const Hypercomplex &H1,
+        const Hypercomplex &H2
+    ) {
+        Polynomial<MaxDeg> temp[dim];
+        for (unsigned int i=0; i < dim; i++) {
+            for (unsigned int j=0; j < dim; j++) {
+                if (Hypercomplex::baseprodpos[i][j]) {
+                    temp[Hypercomplex::baseprodabs[i][j]] =
+                        temp[Hypercomplex::baseprodabs[i][j]] + H1[i] * H2[j];
+                } else {
+                    temp[Hypercomplex::baseprodabs[i][j]] =
+                        temp[Hypercomplex::baseprodabs[i][j]] - H1[i] * H2[j];
+                }
+            }
+        }
+        Hypercomplex<Polynomial<MaxDeg>, dim> H(temp);
+        return H;
+    }
+
      /** \brief This is the main constructor
       * \param [in] ARR array of Polynomial instances
       * 
@@ -1572,7 +1806,8 @@ Hypercomplex<Polynomial<MaxDeg>, dim> PUBLICKEY(
     const int64_t &q
 ) {
     Hypercomplex<Polynomial<MaxDeg>, dim> invFq = RingInverse(F, q);
-    Hypercomplex<Polynomial<MaxDeg>, dim> H = invFq * G % q;
+    Hypercomplex<Polynomial<MaxDeg>, dim>
+    H = Hypercomplex<Polynomial<MaxDeg>, dim>::MUL(invFq, G) % q;
     return H;
 }
 
@@ -1592,7 +1827,8 @@ Hypercomplex<Polynomial<MaxDeg>, dim> ENCRYPT(
     const int64_t &p,
     const int64_t &q
 ) {
-    Hypercomplex<Polynomial<MaxDeg>, dim> E = (p * H * PHI + M) % q;
+    Hypercomplex<Polynomial<MaxDeg>, dim>
+    E = (p * Hypercomplex<Polynomial<MaxDeg>, dim>::MUL(H, PHI) + M) % q;
     return E;
 }
 
@@ -1611,10 +1847,15 @@ Hypercomplex<Polynomial<MaxDeg>, dim> DECRYPT(
     const int64_t &q
 ) {
     Hypercomplex<Polynomial<MaxDeg>, dim> invFp = RingInverse(F, p);
-    Hypercomplex<Polynomial<MaxDeg>, dim> A = (F * E * F) % q;
+    Hypercomplex<Polynomial<MaxDeg>, dim>
+    A = Hypercomplex<Polynomial<MaxDeg>, dim>::MUL(
+        Hypercomplex<Polynomial<MaxDeg>, dim>::MUL(F, E), F) % q;
     CenteredLift(&A, q);
     Hypercomplex<Polynomial<MaxDeg>, dim> B = A % p;
-    Hypercomplex<Polynomial<MaxDeg>, dim> C = (invFp * (B * invFp)) % p;
+    Hypercomplex<Polynomial<MaxDeg>, dim>
+    C = Hypercomplex<Polynomial<MaxDeg>, dim>::MUL(
+        invFp,
+        Hypercomplex<Polynomial<MaxDeg>, dim>::MUL(B, invFp)) % p;
     CenteredLift(&C, p);
     return C;
 }
