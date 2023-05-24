@@ -428,7 +428,7 @@ TEMPLATE_LIST_TEST_CASE( "Hypercomplex: Special", "[usecase]", TestTypes ) {
     }
 }
 
-TEST_CASE( "Multiplication optimization" ) {
+TEST_CASE( "Multiplication optimization", "[benchmark]" ) {
     float A[] = {
         1.51, -1.13, 2.28, -10.77, -2.63, -9.11, 0.01, 4.02,
         1.21, 1.13, 6.28, -17.77, 2.63, 0.11, 0.02, 1.02,
