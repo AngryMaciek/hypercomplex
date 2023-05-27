@@ -38,7 +38,7 @@
 template <typename T, const unsigned int dim>
 class Hypercomplex {
  private:
-    T arr[dim]; // NOLINT
+    T* arr = new T[dim]; // NOLINT
     static inline uint64_t** baseprodabs;
     static inline bool** baseprodpos;
 
@@ -363,6 +363,7 @@ Hypercomplex<T, dim>::Hypercomplex(const Hypercomplex<T, dim> &H) {
 // Hypercomplex destructor
 template <typename T, const unsigned int dim>
 Hypercomplex<T, dim>::~Hypercomplex() {
+    delete[] arr;
 }
 
 // calculate norm of the number
@@ -687,7 +688,7 @@ void clear_mpfr_memory() {
 template <const unsigned int dim>
 class Hypercomplex<mpfr_t, dim> {
  private:
-    mpfr_t arr[dim]; // NOLINT
+    mpfr_t* arr = new mpfr_t[dim]; // NOLINT
     static inline uint64_t** baseprodabs;
     static inline bool** baseprodpos;
 
@@ -812,6 +813,7 @@ class Hypercomplex<mpfr_t, dim> {
 
     ~Hypercomplex() {
         for (unsigned int i=0; i < dim; i++) mpfr_clear(arr[i]);
+        delete[] arr;
     }
 
     /** \brief Dimensionality getter
@@ -1273,7 +1275,7 @@ Hypercomplex<mpfr_t, dim> exp(const Hypercomplex<mpfr_t, dim> &H) {
 template <const unsigned int MaxDeg, const unsigned int dim>
 class Hypercomplex<Polynomial<MaxDeg>, dim> {
  private:
-    Polynomial<MaxDeg> arr[dim];
+    Polynomial<MaxDeg>* arr = new Polynomial<MaxDeg>[dim];
     static inline uint64_t** baseprodabs;
     static inline bool** baseprodpos;
 
@@ -1377,6 +1379,7 @@ class Hypercomplex<Polynomial<MaxDeg>, dim> {
     Hypercomplex() = delete;
 
     ~Hypercomplex() {
+        delete[] arr;
     }
 
     /** \brief Dimensionality getter

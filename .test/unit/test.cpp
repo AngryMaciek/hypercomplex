@@ -399,33 +399,31 @@ TEMPLATE_LIST_TEST_CASE(
     }
 }
 
-TEMPLATE_LIST_TEST_CASE( "Hypercomplex: Special", "[usecase]", TestTypes ) {
+TEMPLATE_LIST_TEST_CASE( "Hypercomplex: const", "[unit]", TestTypes ) {
     //
-    SECTION( "Const objects" ) {
-        const unsigned int dim = 4;
-        const unsigned int cui = 2;
-        const TestType A[] = {1.0, 2.0, 0.0, -1.0};
-        const TestType B[] = {-0.5, 1.0, 0.0, 6.0};
-        const Hypercomplex<TestType, dim> const_h1(A);
-        const Hypercomplex<TestType, dim> const_h2(B);
-        REQUIRE_NOTHROW(const_h1._());
-        REQUIRE_NOTHROW(const_h1.norm());
-        REQUIRE_NOTHROW(const_h1.inv());
-        REQUIRE_NOTHROW(~const_h1);
-        REQUIRE_NOTHROW(-const_h1);
-        REQUIRE_NOTHROW(const_h1[0]);
-        REQUIRE_NOTHROW(const_h1 == const_h2);
-        REQUIRE_NOTHROW(const_h1 != const_h2);
-        REQUIRE_NOTHROW(const_h1 + const_h2);
-        REQUIRE_NOTHROW(const_h1 - const_h2);
-        REQUIRE_NOTHROW(const_h1 * const_h2);
-        REQUIRE_NOTHROW(const_h1 / const_h2);
-        REQUIRE_NOTHROW(const_h1 ^ cui);
-        REQUIRE_NOTHROW(std::cout << const_h1 << std::endl);
-        REQUIRE_NOTHROW(Re(const_h1));
-        REQUIRE_NOTHROW(Im(const_h1));
-        REQUIRE_NOTHROW(exp(const_h1));
-    }
+    const unsigned int dim = 4;
+    const unsigned int cui = 2;
+    const TestType A[] = {1.0, 2.0, 0.0, -1.0};
+    const TestType B[] = {-0.5, 1.0, 0.0, 6.0};
+    const Hypercomplex<TestType, dim> const_h1(A);
+    const Hypercomplex<TestType, dim> const_h2(B);
+    REQUIRE_NOTHROW(const_h1._());
+    REQUIRE_NOTHROW(const_h1.norm());
+    REQUIRE_NOTHROW(const_h1.inv());
+    REQUIRE_NOTHROW(~const_h1);
+    REQUIRE_NOTHROW(-const_h1);
+    REQUIRE_NOTHROW(const_h1[0]);
+    REQUIRE_NOTHROW(const_h1 == const_h2);
+    REQUIRE_NOTHROW(const_h1 != const_h2);
+    REQUIRE_NOTHROW(const_h1 + const_h2);
+    REQUIRE_NOTHROW(const_h1 - const_h2);
+    REQUIRE_NOTHROW(const_h1 * const_h2);
+    REQUIRE_NOTHROW(const_h1 / const_h2);
+    REQUIRE_NOTHROW(const_h1 ^ cui);
+    REQUIRE_NOTHROW(std::cout << const_h1 << std::endl);
+    REQUIRE_NOTHROW(Re(const_h1));
+    REQUIRE_NOTHROW(Im(const_h1));
+    REQUIRE_NOTHROW(exp(const_h1));
 }
 
 TEST_CASE( "Multiplication optimization", "[benchmark]" ) {
@@ -2161,7 +2159,7 @@ TEST_CASE( "Hypercomplex: Polynomial lib test", "[unit]" ) {
     }
 }
 
-TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
+TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[crypto]" ) {
     //
     unsigned int seedzero = 0;
     //
@@ -3348,4 +3346,5 @@ int main(int argc, char* const argv[]) {
     Hypercomplex<Polynomial<257>, 256>::clear();
     Hypercomplex<Polynomial<1031>, 1024>::clear();
     //
+    return catch2;
 }
