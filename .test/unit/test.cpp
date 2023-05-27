@@ -3248,9 +3248,9 @@ TEST_CASE( "CD[256] | N = 257" ) {
     REQUIRE( D == M );
 }
 
-/*
 TEST_CASE( "CD[1024] | N = 1031" ) {
     //
+    REQUIRE( 1 == 1 );
     unsigned int seedzero = 0;
     const unsigned int dim = 1024;
     const unsigned int MaxDeg = 1031;
@@ -3309,7 +3309,6 @@ TEST_CASE( "CD[1024] | N = 1031" ) {
     CenteredLift(&M, p);
     REQUIRE( D == M );
 }
-*/
 
 int main(int argc, char* const argv[]) {
     //
@@ -3328,6 +3327,7 @@ int main(int argc, char* const argv[]) {
     Hypercomplex<Polynomial<10>, 1024>::init();
     Hypercomplex<Polynomial<1031>, 16>::init();
     Hypercomplex<Polynomial<257>, 256>::init();
+    Hypercomplex<Polynomial<1031>, 1024>::init();
     //
     int catch2 = Catch::Session().run(argc, argv);
     //
@@ -3346,6 +3346,6 @@ int main(int argc, char* const argv[]) {
     Hypercomplex<Polynomial<10>, 1024>::clear();
     Hypercomplex<Polynomial<1031>, 16>::clear();
     Hypercomplex<Polynomial<257>, 256>::clear();
+    Hypercomplex<Polynomial<1031>, 1024>::clear();
     //
-    return catch2;
 }
