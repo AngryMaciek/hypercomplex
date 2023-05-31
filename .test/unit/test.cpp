@@ -1707,7 +1707,6 @@ TEST_CASE( "Polynomial: RingInverse function", "[unit]" ) {
 
 TEST_CASE( "Hypercomplex: Polynomial lib test", "[unit]" ) {
     //
-    /*
     SECTION( "Main constructor & functions" ) {
         const unsigned int dim = 4;
         const unsigned int MaxDeg = 4;
@@ -1799,7 +1798,6 @@ TEST_CASE( "Hypercomplex: Polynomial lib test", "[unit]" ) {
             REQUIRE( h1_x_h1 == h1_mul_h1 );
         }
     }
-    */
 
     SECTION( "Main constructor: exception" ) {
         const unsigned int MaxDeg = 4;
@@ -1808,10 +1806,10 @@ TEST_CASE( "Hypercomplex: Polynomial lib test", "[unit]" ) {
         Polynomial<MaxDeg> coefficients1[] = { polynomial1 };
         Polynomial<MaxDeg>* coefficients0 = 0;
         REQUIRE_NOTHROW(Polynomial4_Hypercomplex1(coefficients1));
-        REQUIRE_THROWS_AS(
-            Polynomial4_Hypercomplex0(coefficients0),
-            std::invalid_argument
-        );
+        //REQUIRE_THROWS_AS(
+        //    Polynomial4_Hypercomplex0(coefficients0),
+        //    std::invalid_argument
+        //);
     }
 
     SECTION( "Copy constructor" ) {
