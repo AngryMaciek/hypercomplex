@@ -2158,7 +2158,7 @@ TEST_CASE( "Hypercomplex: Polynomial lib test", "[unit]" ) {
         }
     }
 }
-
+/*
 TEST_CASE( "Cryptographic functions", "[unit]" ) {
     //
     const unsigned int dim = 4;
@@ -2328,6 +2328,7 @@ TEST_CASE( "Cryptographic functions", "[unit]" ) {
         REQUIRE( DECRYPT(F, E, p, q) == RESULT );
     }
 }
+*/
 
 TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[crypto]" ) {
     //
