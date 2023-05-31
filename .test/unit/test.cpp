@@ -1799,6 +1799,7 @@ TEST_CASE( "Hypercomplex: Polynomial lib test", "[unit]" ) {
             REQUIRE( h1_x_h1 == h1_mul_h1 );
         }
     }
+    */
 
     SECTION( "Main constructor: exception" ) {
         const unsigned int MaxDeg = 4;
@@ -1812,7 +1813,6 @@ TEST_CASE( "Hypercomplex: Polynomial lib test", "[unit]" ) {
             std::invalid_argument
         );
     }
-    */
 
     SECTION( "Copy constructor" ) {
         const unsigned int dim = 2;
