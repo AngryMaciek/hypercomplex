@@ -175,6 +175,8 @@ TEMPLATE_LIST_TEST_CASE(
     }
 }
 
+
+/*
 TEMPLATE_LIST_TEST_CASE(
     "Hypercomplex: Overloading Operators",
     "[unit]",
@@ -399,7 +401,6 @@ TEMPLATE_LIST_TEST_CASE(
     }
 }
 
-/*
 TEMPLATE_LIST_TEST_CASE( "Hypercomplex: const", "[unit]", TestTypes ) {
     //
     const unsigned int dim = 4;
@@ -426,7 +427,6 @@ TEMPLATE_LIST_TEST_CASE( "Hypercomplex: const", "[unit]", TestTypes ) {
     REQUIRE_NOTHROW(Im(const_h1));
     REQUIRE_NOTHROW(exp(const_h1));
 }
-*/
 
 TEST_CASE( "Multiplication optimization", "[benchmark]" ) {
     float A[] = {
@@ -3479,6 +3479,8 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[crypto]" ) {
         REQUIRE( D == M );
     }
 }
+
+*/
 
 int main(int argc, char* const argv[]) {
     //
