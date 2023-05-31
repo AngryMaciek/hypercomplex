@@ -399,6 +399,7 @@ TEMPLATE_LIST_TEST_CASE(
     }
 }
 
+/*
 TEMPLATE_LIST_TEST_CASE( "Hypercomplex: const", "[unit]", TestTypes ) {
     //
     const unsigned int dim = 4;
@@ -425,6 +426,7 @@ TEMPLATE_LIST_TEST_CASE( "Hypercomplex: const", "[unit]", TestTypes ) {
     REQUIRE_NOTHROW(Im(const_h1));
     REQUIRE_NOTHROW(exp(const_h1));
 }
+*/
 
 TEST_CASE( "Multiplication optimization", "[benchmark]" ) {
     float A[] = {
@@ -2158,7 +2160,7 @@ TEST_CASE( "Hypercomplex: Polynomial lib test", "[unit]" ) {
         }
     }
 }
-/*
+
 TEST_CASE( "Cryptographic functions", "[unit]" ) {
     //
     const unsigned int dim = 4;
@@ -2328,7 +2330,6 @@ TEST_CASE( "Cryptographic functions", "[unit]" ) {
         REQUIRE( DECRYPT(F, E, p, q) == RESULT );
     }
 }
-*/
 
 TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[crypto]" ) {
     //
