@@ -1806,10 +1806,10 @@ TEST_CASE( "Hypercomplex: Polynomial lib test", "[unit]" ) {
         Polynomial<MaxDeg> coefficients1[] = { polynomial1 };
         Polynomial<MaxDeg>* coefficients0 = 0;
         REQUIRE_NOTHROW(Polynomial4_Hypercomplex1(coefficients1));
-        //REQUIRE_THROWS_AS(
-        //    Polynomial4_Hypercomplex0(coefficients0),
-        //    std::invalid_argument
-        //);
+        REQUIRE_THROWS_AS(
+            Polynomial4_Hypercomplex0(coefficients0),
+            std::invalid_argument
+        );
     }
 
     SECTION( "Copy constructor" ) {
