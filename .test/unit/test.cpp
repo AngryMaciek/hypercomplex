@@ -399,33 +399,31 @@ TEMPLATE_LIST_TEST_CASE(
     }
 }
 
-TEMPLATE_LIST_TEST_CASE( "Hypercomplex: Special", "[usecase]", TestTypes ) {
+TEMPLATE_LIST_TEST_CASE( "Hypercomplex: const", "[unit]", TestTypes ) {
     //
-    SECTION( "Const objects" ) {
-        const unsigned int dim = 4;
-        const unsigned int cui = 2;
-        const TestType A[] = {1.0, 2.0, 0.0, -1.0};
-        const TestType B[] = {-0.5, 1.0, 0.0, 6.0};
-        const Hypercomplex<TestType, dim> const_h1(A);
-        const Hypercomplex<TestType, dim> const_h2(B);
-        REQUIRE_NOTHROW(const_h1._());
-        REQUIRE_NOTHROW(const_h1.norm());
-        REQUIRE_NOTHROW(const_h1.inv());
-        REQUIRE_NOTHROW(~const_h1);
-        REQUIRE_NOTHROW(-const_h1);
-        REQUIRE_NOTHROW(const_h1[0]);
-        REQUIRE_NOTHROW(const_h1 == const_h2);
-        REQUIRE_NOTHROW(const_h1 != const_h2);
-        REQUIRE_NOTHROW(const_h1 + const_h2);
-        REQUIRE_NOTHROW(const_h1 - const_h2);
-        REQUIRE_NOTHROW(const_h1 * const_h2);
-        REQUIRE_NOTHROW(const_h1 / const_h2);
-        REQUIRE_NOTHROW(const_h1 ^ cui);
-        REQUIRE_NOTHROW(std::cout << const_h1 << std::endl);
-        REQUIRE_NOTHROW(Re(const_h1));
-        REQUIRE_NOTHROW(Im(const_h1));
-        REQUIRE_NOTHROW(exp(const_h1));
-    }
+    const unsigned int dim = 4;
+    const unsigned int cui = 2;
+    const TestType A[] = {1.0, 2.0, 0.0, -1.0};
+    const TestType B[] = {-0.5, 1.0, 0.0, 6.0};
+    const Hypercomplex<TestType, dim> const_h1(A);
+    const Hypercomplex<TestType, dim> const_h2(B);
+    REQUIRE_NOTHROW(const_h1._());
+    REQUIRE_NOTHROW(const_h1.norm());
+    REQUIRE_NOTHROW(const_h1.inv());
+    REQUIRE_NOTHROW(~const_h1);
+    REQUIRE_NOTHROW(-const_h1);
+    REQUIRE_NOTHROW(const_h1[0]);
+    REQUIRE_NOTHROW(const_h1 == const_h2);
+    REQUIRE_NOTHROW(const_h1 != const_h2);
+    REQUIRE_NOTHROW(const_h1 + const_h2);
+    REQUIRE_NOTHROW(const_h1 - const_h2);
+    REQUIRE_NOTHROW(const_h1 * const_h2);
+    REQUIRE_NOTHROW(const_h1 / const_h2);
+    REQUIRE_NOTHROW(const_h1 ^ cui);
+    REQUIRE_NOTHROW(std::cout << const_h1 << std::endl);
+    REQUIRE_NOTHROW(Re(const_h1));
+    REQUIRE_NOTHROW(Im(const_h1));
+    REQUIRE_NOTHROW(exp(const_h1));
 }
 
 TEST_CASE( "Multiplication optimization", "[benchmark]" ) {
@@ -1706,6 +1704,7 @@ TEST_CASE( "Polynomial: RingInverse function", "[unit]" ) {
     }
 }
 
+
 TEST_CASE( "Hypercomplex: Polynomial lib test", "[unit]" ) {
     //
     SECTION( "Main constructor & functions" ) {
@@ -2161,7 +2160,177 @@ TEST_CASE( "Hypercomplex: Polynomial lib test", "[unit]" ) {
     }
 }
 
-TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
+TEST_CASE( "Cryptographic functions", "[unit]" ) {
+    //
+    const unsigned int dim = 4;
+    const unsigned int MaxDeg = 4;
+    const int64_t p = 3;
+    const int64_t q = 37;
+    //
+    SECTION( "PUBLICKEY" ) {
+        int64_t F_array1[] = {1, 10, 1, 14, 22};
+        int64_t F_array2[] = {294, 0, 19, 0, 4};
+        int64_t F_array3[] = {2, 0, 88, 12, 0};
+        int64_t F_array4[] = {4, 0, 0, 0, 0};
+        Polynomial<MaxDeg> F_polynomial1(F_array1);
+        Polynomial<MaxDeg> F_polynomial2(F_array2);
+        Polynomial<MaxDeg> F_polynomial3(F_array3);
+        Polynomial<MaxDeg> F_polynomial4(F_array4);
+        Polynomial<MaxDeg> F_coefficients[] = {
+            F_polynomial1,
+            F_polynomial2,
+            F_polynomial3,
+            F_polynomial4
+        };
+        Hypercomplex<Polynomial<MaxDeg>, dim> F(F_coefficients);
+        int64_t G_array1[] = {18, 2, 11, 0, 2};
+        int64_t G_array2[] = {0, 2, 32, 2, 53};
+        int64_t G_array3[] = {0, 0, 0, 32, 12};
+        int64_t G_array4[] = {0, 44, 0, 0, 0};
+        Polynomial<MaxDeg> G_polynomial1(G_array1);
+        Polynomial<MaxDeg> G_polynomial2(G_array2);
+        Polynomial<MaxDeg> G_polynomial3(G_array3);
+        Polynomial<MaxDeg> G_polynomial4(G_array4);
+        Polynomial<MaxDeg> G_coefficients[] = {
+            G_polynomial1,
+            G_polynomial2,
+            G_polynomial3,
+            G_polynomial4
+        };
+        Hypercomplex<Polynomial<MaxDeg>, dim> G(G_coefficients);
+        int64_t RESULT_array1[] = {15, 4, 11, 8, 34};
+        int64_t RESULT_array2[] = {30, 23, 9, 2, 9};
+        int64_t RESULT_array3[] = {36, 11, 14, 20, 17};
+        int64_t RESULT_array4[] = {27, 16, 10, 24, 24};
+        Polynomial<MaxDeg> RESULT_polynomial1(RESULT_array1);
+        Polynomial<MaxDeg> RESULT_polynomial2(RESULT_array2);
+        Polynomial<MaxDeg> RESULT_polynomial3(RESULT_array3);
+        Polynomial<MaxDeg> RESULT_polynomial4(RESULT_array4);
+        Polynomial<MaxDeg> RESULT_coefficients[] = {
+            RESULT_polynomial1,
+            RESULT_polynomial2,
+            RESULT_polynomial3,
+            RESULT_polynomial4
+        };
+        Hypercomplex<Polynomial<MaxDeg>, dim> RESULT(RESULT_coefficients);
+        REQUIRE( PUBLICKEY(F, G, q) == RESULT );
+    }
+    //
+    SECTION( "ENCRYPT" ) {
+        int64_t H_array1[] = {15, 4, 11, 8, 34};
+        int64_t H_array2[] = {30, 23, 9, 2, 9};
+        int64_t H_array3[] = {36, 11, 14, 20, 17};
+        int64_t H_array4[] = {27, 16, 10, 24, 24};
+        Polynomial<MaxDeg> H_polynomial1(H_array1);
+        Polynomial<MaxDeg> H_polynomial2(H_array2);
+        Polynomial<MaxDeg> H_polynomial3(H_array3);
+        Polynomial<MaxDeg> H_polynomial4(H_array4);
+        Polynomial<MaxDeg> H_coefficients[] = {
+            H_polynomial1,
+            H_polynomial2,
+            H_polynomial3,
+            H_polynomial4
+        };
+        Hypercomplex<Polynomial<MaxDeg>, dim> H(H_coefficients);
+        int64_t M_array1[] = {1, 1, 0, 0, 0};
+        int64_t M_array2[] = {0, 1, 1, 0, 0};
+        int64_t M_array3[] = {0, 0, 0, 1, 0};
+        int64_t M_array4[] = {0, 0, 0, 0, 1};
+        Polynomial<MaxDeg> M_polynomial1(M_array1);
+        Polynomial<MaxDeg> M_polynomial2(M_array2);
+        Polynomial<MaxDeg> M_polynomial3(M_array3);
+        Polynomial<MaxDeg> M_polynomial4(M_array4);
+        Polynomial<MaxDeg> M_coefficients[] = {
+            M_polynomial1,
+            M_polynomial2,
+            M_polynomial3,
+            M_polynomial4
+        };
+        Hypercomplex<Polynomial<MaxDeg>, dim> M(M_coefficients);
+        int64_t PHI_array1[] = {2, 3, 9, 2, 1};
+        int64_t PHI_array2[] = {7, 4, 12, 2, 84};
+        int64_t PHI_array3[] = {2, 4, 5, 11, 2};
+        int64_t PHI_array4[] = {0, 3, 13, 5, 8};
+        Polynomial<MaxDeg> PHI_polynomial1(PHI_array1);
+        Polynomial<MaxDeg> PHI_polynomial2(PHI_array2);
+        Polynomial<MaxDeg> PHI_polynomial3(PHI_array3);
+        Polynomial<MaxDeg> PHI_polynomial4(PHI_array4);
+        Polynomial<MaxDeg> PHI_coefficients[] = {
+            PHI_polynomial1,
+            PHI_polynomial2,
+            PHI_polynomial3,
+            PHI_polynomial4
+        };
+        Hypercomplex<Polynomial<MaxDeg>, dim> PHI(PHI_coefficients);
+        int64_t RESULT_array1[] = {14, 23, 20, 21, 31};
+        int64_t RESULT_array2[] = {30, 32, 6, 34, 5};
+        int64_t RESULT_array3[] = {3, 11, 26, 5, 36};
+        int64_t RESULT_array4[] = {6, 20, 27, 34, 5};
+        Polynomial<MaxDeg> RESULT_polynomial1(RESULT_array1);
+        Polynomial<MaxDeg> RESULT_polynomial2(RESULT_array2);
+        Polynomial<MaxDeg> RESULT_polynomial3(RESULT_array3);
+        Polynomial<MaxDeg> RESULT_polynomial4(RESULT_array4);
+        Polynomial<MaxDeg> RESULT_coefficients[] = {
+            RESULT_polynomial1,
+            RESULT_polynomial2,
+            RESULT_polynomial3,
+            RESULT_polynomial4
+        };
+        Hypercomplex<Polynomial<MaxDeg>, dim> RESULT(RESULT_coefficients);
+        REQUIRE( ENCRYPT(H, M, PHI, p, q) == RESULT );
+    }
+    //
+    SECTION( "DECRYPT" ) {
+        int64_t F_array1[] = {1, 10, 1, 14, 22};
+        int64_t F_array2[] = {294, 0, 19, 0, 4};
+        int64_t F_array3[] = {2, 0, 88, 12, 0};
+        int64_t F_array4[] = {4, 0, 0, 0, 0};
+        Polynomial<MaxDeg> F_polynomial1(F_array1);
+        Polynomial<MaxDeg> F_polynomial2(F_array2);
+        Polynomial<MaxDeg> F_polynomial3(F_array3);
+        Polynomial<MaxDeg> F_polynomial4(F_array4);
+        Polynomial<MaxDeg> F_coefficients[] = {
+            F_polynomial1,
+            F_polynomial2,
+            F_polynomial3,
+            F_polynomial4
+        };
+        Hypercomplex<Polynomial<MaxDeg>, dim> F(F_coefficients);
+        int64_t E_array1[] = {14, 23, 20, 21, 31};
+        int64_t E_array2[] = {30, 32, 6, 34, 5};
+        int64_t E_array3[] = {3, 11, 26, 5, 36};
+        int64_t E_array4[] = {6, 20, 27, 34, 5};
+        Polynomial<MaxDeg> E_polynomial1(E_array1);
+        Polynomial<MaxDeg> E_polynomial2(E_array2);
+        Polynomial<MaxDeg> E_polynomial3(E_array3);
+        Polynomial<MaxDeg> E_polynomial4(E_array4);
+        Polynomial<MaxDeg> E_coefficients[] = {
+            E_polynomial1,
+            E_polynomial2,
+            E_polynomial3,
+            E_polynomial4
+        };
+        Hypercomplex<Polynomial<MaxDeg>, dim> E(E_coefficients);
+        int64_t RESULT_array1[] = {-1, -1, -1, 0, -1};
+        int64_t RESULT_array2[] = {-1, 1, 1, 0, 0};
+        int64_t RESULT_array3[] = {-1, 1, 0, -1, 1};
+        int64_t RESULT_array4[] = {0, 1, -1, 1, 0};
+        Polynomial<MaxDeg> RESULT_polynomial1(RESULT_array1);
+        Polynomial<MaxDeg> RESULT_polynomial2(RESULT_array2);
+        Polynomial<MaxDeg> RESULT_polynomial3(RESULT_array3);
+        Polynomial<MaxDeg> RESULT_polynomial4(RESULT_array4);
+        Polynomial<MaxDeg> RESULT_coefficients[] = {
+            RESULT_polynomial1,
+            RESULT_polynomial2,
+            RESULT_polynomial3,
+            RESULT_polynomial4
+        };
+        Hypercomplex<Polynomial<MaxDeg>, dim> RESULT(RESULT_coefficients);
+        REQUIRE( DECRYPT(F, E, p, q) == RESULT );
+    }
+}
+
+TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[crypto]" ) {
     //
     unsigned int seedzero = 0;
     //
@@ -3191,125 +3360,124 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[usecase]" ) {
         CenteredLift(&M, p);
         REQUIRE( D == M );
     }
-}
-
-/*
-TEST_CASE( "CD[256] | N = 257" ) {
     //
-    unsigned int seedzero = 0;
-    const unsigned int dim = 256;
-    const unsigned int MaxDeg = 257;
-    const int64_t p = 3;
-    const int64_t q = 20011;
-    // Public Key
-    Polynomial<MaxDeg> F_coefficients[dim];
-    F_coefficients[9][0] = 1;
-    F_coefficients[9][1] = 2;
-    F_coefficients[9][2] = 2;
-    F_coefficients[9][10] = 1;
-    F_coefficients[9][142] = 2;
-    F_coefficients[9][191] = 2;
-    F_coefficients[9][199] = 2;
-    F_coefficients[9][200] = 2;
-    F_coefficients[9][201] = 1;
-    F_coefficients[9][202] = 1;
-    F_coefficients[9][203] = 2;
-    F_coefficients[9][255] = 1;
-    Hypercomplex<Polynomial<MaxDeg>, dim> F(F_coefficients);
-    CenteredLift(&F, p);
-    Polynomial<MaxDeg> G_coefficients[dim];
-    for (unsigned int i=0; i < dim; i++) {
-        for (unsigned int j=0; j <= MaxDeg; j++) {
-            G_coefficients[i][j] = rand_r(&seedzero) % 3;
+    SECTION( "CD[256] | N = 257" ) {
+        //
+        unsigned int seedzero = 0;
+        const unsigned int dim = 256;
+        const unsigned int MaxDeg = 257;
+        const int64_t p = 3;
+        const int64_t q = 20011;
+        // Public Key
+        Polynomial<MaxDeg> F_coefficients[dim];
+        F_coefficients[9][0] = 1;
+        F_coefficients[9][1] = 2;
+        F_coefficients[9][2] = 2;
+        F_coefficients[9][10] = 1;
+        F_coefficients[9][142] = 2;
+        F_coefficients[9][191] = 2;
+        F_coefficients[9][199] = 2;
+        F_coefficients[9][200] = 2;
+        F_coefficients[9][201] = 1;
+        F_coefficients[9][202] = 1;
+        F_coefficients[9][203] = 2;
+        F_coefficients[9][255] = 1;
+        Hypercomplex<Polynomial<MaxDeg>, dim> F(F_coefficients);
+        CenteredLift(&F, p);
+        Polynomial<MaxDeg> G_coefficients[dim];
+        for (unsigned int i=0; i < dim; i++) {
+            for (unsigned int j=0; j <= MaxDeg; j++) {
+                G_coefficients[i][j] = rand_r(&seedzero) % 3;
+            }
         }
-    }
-    Hypercomplex<Polynomial<MaxDeg>, dim> G(G_coefficients);
-    CenteredLift(&G, p);
-    Hypercomplex<Polynomial<MaxDeg>, dim> H = PUBLICKEY(F, G, q);
-    // Encryption
-    Polynomial<MaxDeg> M_coefficients[dim];
-    for (unsigned int i=0; i < dim; i++) {
-        for (unsigned int j=0; j <= MaxDeg; j++) {
-            M_coefficients[i][j] = rand_r(&seedzero) % 3;
+        Hypercomplex<Polynomial<MaxDeg>, dim> G(G_coefficients);
+        CenteredLift(&G, p);
+        Hypercomplex<Polynomial<MaxDeg>, dim> H = PUBLICKEY(F, G, q);
+        // Encryption
+        Polynomial<MaxDeg> M_coefficients[dim];
+        for (unsigned int i=0; i < dim; i++) {
+            for (unsigned int j=0; j <= MaxDeg; j++) {
+                M_coefficients[i][j] = rand_r(&seedzero) % 3;
+            }
         }
-    }
-    Hypercomplex<Polynomial<MaxDeg>, dim> M(M_coefficients);
-    Polynomial<MaxDeg> PHI_coefficients[dim];
-    for (unsigned int i=0; i < dim; i++) {
-        for (unsigned int j=0; j <= MaxDeg; j++) {
-            PHI_coefficients[i][j] = rand_r(&seedzero) % 3;
+        Hypercomplex<Polynomial<MaxDeg>, dim> M(M_coefficients);
+        Polynomial<MaxDeg> PHI_coefficients[dim];
+        for (unsigned int i=0; i < dim; i++) {
+            for (unsigned int j=0; j <= MaxDeg; j++) {
+                PHI_coefficients[i][j] = rand_r(&seedzero) % 3;
+            }
         }
+        Hypercomplex<Polynomial<MaxDeg>, dim> PHI(PHI_coefficients);
+        CenteredLift(&PHI, p);
+        Hypercomplex<Polynomial<MaxDeg>, dim> E = ENCRYPT(H, M, PHI, p, q);
+        // Decryption
+        Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, p, q);
+        CenteredLift(&M, p);
+        REQUIRE( D == M );
     }
-    Hypercomplex<Polynomial<MaxDeg>, dim> PHI(PHI_coefficients);
-    CenteredLift(&PHI, p);
-    Hypercomplex<Polynomial<MaxDeg>, dim> E = ENCRYPT(H, M, PHI, p, q);
-    // Decryption
-    Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, p, q);
-    CenteredLift(&M, p);
-    REQUIRE( D == M );
-}
-
-TEST_CASE( "CD[1024] | N = 1031" ) {
     //
-    unsigned int seedzero = 0;
-    const unsigned int dim = 1024;
-    const unsigned int MaxDeg = 1031;
-    const int64_t p = 3;
-    const int64_t q = 100003;
-    // Public Key
-    Polynomial<MaxDeg> F_coefficients[dim];
-    F_coefficients[9][0] = 1;
-    F_coefficients[9][1] = 2;
-    F_coefficients[9][2] = 2;
-    F_coefficients[9][10] = 1;
-    F_coefficients[9][142] = 2;
-    F_coefficients[9][199] = 1;
-    F_coefficients[9][200] = 1;
-    F_coefficients[9][287] = 1;
-    F_coefficients[9][344] = 1;
-    F_coefficients[9][390] = 1;
-    F_coefficients[9][502] = 1;
-    F_coefficients[9][511] = 2;
-    F_coefficients[9][512] = 2;
-    F_coefficients[9][599] = 2;
-    F_coefficients[9][612] = 2;
-    F_coefficients[9][619] = 2;
-    F_coefficients[9][640] = 1;
-    F_coefficients[9][1029] = 1;
-    Hypercomplex<Polynomial<MaxDeg>, dim> F(F_coefficients);
-    CenteredLift(&F, p);
-    Polynomial<MaxDeg> G_coefficients[dim];
-    for (unsigned int i=0; i < dim; i++) {
-        for (unsigned int j=0; j <= MaxDeg; j++) {
-            G_coefficients[i][j] = rand_r(&seedzero) % 3;
+    SECTION( "CD[1024] | N = 1031" ) {
+        //
+        REQUIRE( 1 == 1 );
+        unsigned int seedzero = 0;
+        const unsigned int dim = 1024;
+        const unsigned int MaxDeg = 1031;
+        const int64_t p = 3;
+        const int64_t q = 100003;
+        // Public Key
+        Polynomial<MaxDeg> F_coefficients[dim];
+        F_coefficients[9][0] = 1;
+        F_coefficients[9][1] = 2;
+        F_coefficients[9][2] = 2;
+        F_coefficients[9][10] = 1;
+        F_coefficients[9][142] = 2;
+        F_coefficients[9][199] = 1;
+        F_coefficients[9][200] = 1;
+        F_coefficients[9][287] = 1;
+        F_coefficients[9][344] = 1;
+        F_coefficients[9][390] = 1;
+        F_coefficients[9][502] = 1;
+        F_coefficients[9][511] = 2;
+        F_coefficients[9][512] = 2;
+        F_coefficients[9][599] = 2;
+        F_coefficients[9][612] = 2;
+        F_coefficients[9][619] = 2;
+        F_coefficients[9][640] = 1;
+        F_coefficients[9][1029] = 1;
+        Hypercomplex<Polynomial<MaxDeg>, dim> F(F_coefficients);
+        CenteredLift(&F, p);
+        Polynomial<MaxDeg> G_coefficients[dim];
+        for (unsigned int i=0; i < dim; i++) {
+            for (unsigned int j=0; j <= MaxDeg; j++) {
+                G_coefficients[i][j] = rand_r(&seedzero) % 3;
+            }
         }
-    }
-    Hypercomplex<Polynomial<MaxDeg>, dim> G(G_coefficients);
-    CenteredLift(&G, p);
-    Hypercomplex<Polynomial<MaxDeg>, dim> H = PUBLICKEY(F, G, q);
-    // Encryption
-    Polynomial<MaxDeg> M_coefficients[dim];
-    for (unsigned int i=0; i < dim; i++) {
-        for (unsigned int j=0; j <= MaxDeg; j++) {
-            M_coefficients[i][j] = rand_r(&seedzero) % 3;
+        Hypercomplex<Polynomial<MaxDeg>, dim> G(G_coefficients);
+        CenteredLift(&G, p);
+        Hypercomplex<Polynomial<MaxDeg>, dim> H = PUBLICKEY(F, G, q);
+        // Encryption
+        Polynomial<MaxDeg> M_coefficients[dim];
+        for (unsigned int i=0; i < dim; i++) {
+            for (unsigned int j=0; j <= MaxDeg; j++) {
+                M_coefficients[i][j] = rand_r(&seedzero) % 3;
+            }
         }
-    }
-    Hypercomplex<Polynomial<MaxDeg>, dim> M(M_coefficients);
-    Polynomial<MaxDeg> PHI_coefficients[dim];
-    for (unsigned int i=0; i < dim; i++) {
-        for (unsigned int j=0; j <= MaxDeg; j++) {
-            PHI_coefficients[i][j] = rand_r(&seedzero) % 3;
+        Hypercomplex<Polynomial<MaxDeg>, dim> M(M_coefficients);
+        Polynomial<MaxDeg> PHI_coefficients[dim];
+        for (unsigned int i=0; i < dim; i++) {
+            for (unsigned int j=0; j <= MaxDeg; j++) {
+                PHI_coefficients[i][j] = rand_r(&seedzero) % 3;
+            }
         }
+        Hypercomplex<Polynomial<MaxDeg>, dim> PHI(PHI_coefficients);
+        CenteredLift(&PHI, p);
+        Hypercomplex<Polynomial<MaxDeg>, dim> E = ENCRYPT(H, M, PHI, p, q);
+        // Decryption
+        Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, p, q);
+        CenteredLift(&M, p);
+        REQUIRE( D == M );
     }
-    Hypercomplex<Polynomial<MaxDeg>, dim> PHI(PHI_coefficients);
-    CenteredLift(&PHI, p);
-    Hypercomplex<Polynomial<MaxDeg>, dim> E = ENCRYPT(H, M, PHI, p, q);
-    // Decryption
-    Hypercomplex<Polynomial<MaxDeg>, dim> D = DECRYPT(F, E, p, q);
-    CenteredLift(&M, p);
-    REQUIRE( D == M );
 }
-*/
 
 int main(int argc, char* const argv[]) {
     //
@@ -3327,6 +3495,8 @@ int main(int argc, char* const argv[]) {
     Hypercomplex<Polynomial<10>, 128>::init();
     Hypercomplex<Polynomial<10>, 1024>::init();
     Hypercomplex<Polynomial<1031>, 16>::init();
+    Hypercomplex<Polynomial<257>, 256>::init();
+    Hypercomplex<Polynomial<1031>, 1024>::init();
     //
     int catch2 = Catch::Session().run(argc, argv);
     //
@@ -3344,6 +3514,8 @@ int main(int argc, char* const argv[]) {
     Hypercomplex<Polynomial<10>, 128>::clear();
     Hypercomplex<Polynomial<10>, 1024>::clear();
     Hypercomplex<Polynomial<1031>, 16>::clear();
+    Hypercomplex<Polynomial<257>, 256>::clear();
+    Hypercomplex<Polynomial<1031>, 1024>::clear();
     //
     return catch2;
 }

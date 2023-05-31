@@ -40,7 +40,7 @@ int64_t RingInverse(const int64_t x, const int64_t mod) {
 template <const unsigned int MaxDeg>
 class Polynomial {
  private:
-    int64_t coefficients[MaxDeg+1];
+    int64_t* coefficients = new int64_t[MaxDeg+1];
 
  public:
     /** \brief This is the main constructor
@@ -72,7 +72,9 @@ class Polynomial {
         for (unsigned int i=0; i <= MaxDeg; i++) coefficients[i] = 0;
     }
 
-    ~Polynomial() {}
+    ~Polynomial() {
+        delete[] coefficients;
+    }
 
     /** \brief Assignment operator
       * \param [in] P existing class instance

@@ -39,7 +39,7 @@
  * Remember to specify a proper langauge standard for the compiler as well as
  * linking with _GNU MP_ and _GNU MPFR_ libraries, as in the command below:
  * \code
- * g++ --std=c++17 test.cpp -o test -lmpfr -lgmp
+ * g++ -02 --std=c++17 test.cpp -o test -lmpfr -lgmp
  * \endcode
  * 
  *
