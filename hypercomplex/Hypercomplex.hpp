@@ -347,8 +347,12 @@ Hypercomplex<T, dim> exp(const Hypercomplex<T, dim> &H);
 // Hypercomplex main constructor
 template <typename T, const unsigned int dim>
 Hypercomplex<T, dim>::Hypercomplex(const T* ARR) {
-    if (dim == 0) throw std::invalid_argument("invalid dimension");
+    if (dim == 0) {
+        delete[] arr;
+        throw std::invalid_argument("invalid dimension");
+    }
     if ((dim & (dim - 1)) != 0) {
+        delete[] arr;
         throw std::invalid_argument("invalid dimension");
     }
     for (unsigned int i=0; i < dim; i++) arr[i] = ARR[i];

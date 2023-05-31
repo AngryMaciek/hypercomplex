@@ -147,10 +147,10 @@ TEMPLATE_LIST_TEST_CASE(
         TestType A1[] = {10.10};
         TestType A0[] = {};
         REQUIRE_NOTHROW(Hypercomplex1<TestType>(A1));
-        //REQUIRE_THROWS_AS(
-        //    Hypercomplex0<TestType>(A0),
-        //    std::invalid_argument
-        //);
+        REQUIRE_THROWS_AS(
+            Hypercomplex0<TestType>(A0),
+            std::invalid_argument
+        );
     }
 
     /*
