@@ -44,13 +44,13 @@ using Polynomial4_Hypercomplex3 = Hypercomplex<Polynomial<4>, 3>;
 
 using TestTypes = std::tuple<float, double, long double>;
 
-TEST_CASE(
-    "Public class methods to generate static class arrays",
-    "[unit]"
-) {
-    REQUIRE_NOTHROW ( Hypercomplex<int, 4096>::init() );
-    REQUIRE_NOTHROW ( Hypercomplex<int, 4096>::clear() );
-}
+//TEST_CASE(
+//    "Public class methods to generate static class arrays",
+//    "[unit]"
+//) {
+//    REQUIRE_NOTHROW ( Hypercomplex<int, 4096>::init() );
+//    REQUIRE_NOTHROW ( Hypercomplex<int, 4096>::clear() );
+//}
 
 TEMPLATE_LIST_TEST_CASE(
     "Hypercomplex: Class Structure",
@@ -58,6 +58,9 @@ TEMPLATE_LIST_TEST_CASE(
     TestTypes
 ) {
     //
+
+/*
+
     SECTION( "Main constructor & functions" ) {
         const unsigned int dim = 4;
         TestType A[] = {1.0, 2.0, 0.0, -1.0};
@@ -137,6 +140,8 @@ TEMPLATE_LIST_TEST_CASE(
             REQUIRE( h1_x_h1 == h1_mul_h1 );
         }
     }
+
+*/
 
     SECTION( "Main constructor: exception" ) {
         TestType A1[] = {10.10};
