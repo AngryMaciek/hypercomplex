@@ -790,8 +790,12 @@ class Hypercomplex<mpfr_t, dim> {
       * * dimensionality of the algebra
       */
     explicit Hypercomplex(const mpfr_t* ARR) {
-        if (dim == 0) throw std::invalid_argument("invalid dimension");
+        if (dim == 0) {
+            delete[] arr;
+            throw std::invalid_argument("invalid dimension");
+        }
         if ((dim & (dim - 1)) != 0) {
+            delete[] arr;
             throw std::invalid_argument("invalid dimension");
         }
         for (unsigned int i=0; i < dim; i++)
@@ -1363,8 +1367,12 @@ class Hypercomplex<Polynomial<MaxDeg>, dim> {
       * * dimensionality of the algebra
       */
     explicit Hypercomplex(const Polynomial<MaxDeg>* ARR) {
-        if (dim == 0) throw std::invalid_argument("invalid dimension");
+        if (dim == 0) {
+            throw std::invalid_argument("invalid dimension");
+            delete[] arr;
+        }
         if ((dim & (dim - 1)) != 0) {
+            delete[] arr;
             throw std::invalid_argument("invalid dimension");
         }
         for (unsigned int i=0; i < dim; i++) arr[i] = ARR[i];

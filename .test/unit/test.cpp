@@ -44,13 +44,13 @@ using Polynomial4_Hypercomplex3 = Hypercomplex<Polynomial<4>, 3>;
 
 using TestTypes = std::tuple<float, double, long double>;
 
-//TEST_CASE(
-//    "Public class methods to generate static class arrays",
-//    "[unit]"
-//) {
-//    REQUIRE_NOTHROW ( Hypercomplex<int, 4096>::init() );
-//    REQUIRE_NOTHROW ( Hypercomplex<int, 4096>::clear() );
-//}
+TEST_CASE(
+    "Public class methods to generate static class arrays",
+    "[unit]"
+) {
+    REQUIRE_NOTHROW ( Hypercomplex<int, 4096>::init() );
+    REQUIRE_NOTHROW ( Hypercomplex<int, 4096>::clear() );
+}
 
 TEMPLATE_LIST_TEST_CASE(
     "Hypercomplex: Class Structure",
@@ -58,9 +58,6 @@ TEMPLATE_LIST_TEST_CASE(
     TestTypes
 ) {
     //
-
-/*
-
     SECTION( "Main constructor & functions" ) {
         const unsigned int dim = 4;
         TestType A[] = {1.0, 2.0, 0.0, -1.0};
@@ -141,8 +138,6 @@ TEMPLATE_LIST_TEST_CASE(
         }
     }
 
-*/
-
     SECTION( "Main constructor: exception" ) {
         TestType A1[] = {10.10};
         TestType A0[] = {};
@@ -152,8 +147,6 @@ TEMPLATE_LIST_TEST_CASE(
             std::invalid_argument
         );
     }
-
-    /*
 
     SECTION( "Copy constructor" ) {
         const unsigned int dim = 4;
@@ -180,13 +173,8 @@ TEMPLATE_LIST_TEST_CASE(
         delete h;
         REQUIRE( true );
     }
-
-*/
-
 }
 
-
-/*
 TEMPLATE_LIST_TEST_CASE(
     "Hypercomplex: Overloading Operators",
     "[unit]",
@@ -3489,8 +3477,6 @@ TEST_CASE( "Cryptosystem based on Cayley-Dickson Algebras", "[crypto]" ) {
         REQUIRE( D == M );
     }
 }
-
-*/
 
 int main(int argc, char* const argv[]) {
     //
