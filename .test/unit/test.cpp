@@ -1705,10 +1705,9 @@ TEST_CASE( "Polynomial: RingInverse function", "[unit]" ) {
 }
 
 
-/*
-
 TEST_CASE( "Hypercomplex: Polynomial lib test", "[unit]" ) {
     //
+    /*
     SECTION( "Main constructor & functions" ) {
         const unsigned int dim = 4;
         const unsigned int MaxDeg = 4;
@@ -1813,6 +1812,7 @@ TEST_CASE( "Hypercomplex: Polynomial lib test", "[unit]" ) {
             std::invalid_argument
         );
     }
+    */
 
     SECTION( "Copy constructor" ) {
         const unsigned int dim = 2;
@@ -2161,8 +2161,6 @@ TEST_CASE( "Hypercomplex: Polynomial lib test", "[unit]" ) {
         }
     }
 }
-
-*/
 
 TEST_CASE( "Cryptographic functions", "[unit]" ) {
     //
