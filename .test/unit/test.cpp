@@ -143,7 +143,6 @@ TEMPLATE_LIST_TEST_CASE(
 
 */
 
-    /*
     SECTION( "Main constructor: exception" ) {
         TestType A1[] = {10.10};
         TestType A0[] = {};
@@ -153,6 +152,8 @@ TEMPLATE_LIST_TEST_CASE(
             std::invalid_argument
         );
     }
+
+    /*
 
     SECTION( "Copy constructor" ) {
         const unsigned int dim = 4;
@@ -170,7 +171,6 @@ TEMPLATE_LIST_TEST_CASE(
         REQUIRE( h2[0] == h3[0] );
         REQUIRE( h3[0] == h1[0] );
     }
-    */
 
     SECTION( "Destructor" ) {
         const unsigned int dim = 4;
@@ -180,6 +180,9 @@ TEMPLATE_LIST_TEST_CASE(
         delete h;
         REQUIRE( true );
     }
+
+*/
+
 }
 
 
