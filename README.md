@@ -18,5 +18,3 @@ Full documentation & API are available at [this link](https://angrymaciek.github
 Please refer to the [contributing guidelines](CONTRIBUTING.md) if you are interested in contributing to this repository.  
 
 The following work has been [published in the Journal of Open Source Software](https://joss.theoj.org/papers/10.21105/joss.05272).
-
-_© 2020 Maciej Bak_
