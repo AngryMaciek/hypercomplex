@@ -1,0 +1,45 @@
+repos:
+
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.4.0
+  hooks:
+
+    - id: no-commit-to-branch
+      name: "[01/09] Forbid committing to `master` branch"
+      args: [--branch=master]
+      always_run: true
+
+    - id: check-merge-conflict
+      name: "[02/09] Check for merge conflict strings"
+      always_run: true
+
+    - id: check-case-conflict
+      name: "[03/09] Guard against case-insensitive filesystems"
+      always_run: true
+
+    - id: fix-byte-order-marker
+      name: "[04/09] Remove UTF-8 byte order marker (BOM)"
+      always_run: true
+
+    - id: check-added-large-files
+      name: "[05/09] Forbid commiting files bigger than 1MB"
+      args: [— maxkb=1024]
+      always_run: true
+
+    - id: trailing-whitespace
+      name: "[06/09] Check for trailing whitespaces"
+      args: [--markdown-linebreak-ext=md]
+      always_run: true
+
+    - id: end-of-file-fixer
+      name: "[07/09] Ensure 1 newline at the end of each file"
+      always_run: true
+
+    - id: mixed-line-ending
+      name: "[08/09] Correct mixed line endings"
+      always_run: true
+
+    - id: check-yaml
+      name: "[09/09] Check YAML files syntax"
+      files: \.ya?ml$
+      always_run: true
