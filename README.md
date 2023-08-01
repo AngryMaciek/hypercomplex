@@ -1,4 +1,5 @@
 [![Contribute with Gitpod](https://img.shields.io/badge/Contribute%20with-Gitpod-908a85?logo=gitpod)](https://gitpod.io/#https://github.com/AngryMaciek/hypercomplex)
+[![pre-commit](https://img.shields.io/badge/pre--commit-+-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit)
 [![build](https://github.com/AngryMaciek/hypercomplex/workflows/Include/badge.svg?branch=master)](https://github.com/AngryMaciek/hypercomplex/actions?query=workflow%3AInclude)
 [![build](https://github.com/AngryMaciek/hypercomplex/workflows/Install/badge.svg?branch=master)](https://github.com/AngryMaciek/hypercomplex/actions?query=workflow%3AInstall)
 [![build](https://github.com/AngryMaciek/hypercomplex/workflows/Catch2/badge.svg?branch=master)](https://github.com/AngryMaciek/hypercomplex/actions?query=workflow%3ACatch2)
