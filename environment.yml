@@ -1,0 +1,26 @@
+###############################################################################
+#
+#   Software to be installed in the environment
+#
+#   AUTHOR: Maciek_Bak
+#   AFFILIATION: Department_of_Mathematics_City_University_of_London
+#   CONTACT: wsciekly.maciek@gmail.com
+#   CREATED: 01-08-2023
+#   LICENSE: Apache 2.0
+#
+###############################################################################
+---
+
+  name: hypercomplex-dev
+
+  channels:
+    - conda-forge
+
+  dependencies:
+    - compilers=1.6.0
+    - cpplint=1.6.0
+    - make=4.3
+    - mpfr=4.2.0
+    - pre-commit=3.2.1
+
+...

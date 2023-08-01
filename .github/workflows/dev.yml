@@ -1,0 +1,26 @@
+name: dev
+
+on: [push]
+
+jobs:
+
+  ubuntu:
+    runs-on: ubuntu-22.04
+
+    steps:
+
+      - name: Display compiler version
+        run: g++ --version
+
+      - name: Install MPFR
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y libmpfr-dev
+
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Make!
+        run: |
+          cd hypercomplex
+          make --help
