@@ -1,0 +1,22 @@
+name: release
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  release-on-push:
+    runs-on: ubuntu-22.04
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+
+      - uses: rymndhng/release-on-push-action@master
+        with:
+          bump_version_scheme: norelease
+          use_github_release_notes: true
+          tag_prefix: "v"
+          release_name: "v<RELEASE_VERSION>"
+          max_commits: 100
