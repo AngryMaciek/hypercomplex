@@ -17,5 +17,6 @@ jobs:
         with:
           bump_version_scheme: norelease
           use_github_release_notes: true
-          tag_prefix: ""
+          tag_prefix: "v"
+          release_name: "v<RELEASE_VERSION>"
           max_commits: 100
