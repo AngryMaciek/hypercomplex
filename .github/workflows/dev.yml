@@ -18,9 +18,37 @@ jobs:
           sudo apt-get install -y libmpfr-dev
 
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Make!
         run: |
           cd hypercomplex
-          make --help
+          make help
+
+  conda:
+    runs-on: ubuntu-22.04
+
+    steps:
+
+      - name: Setup Miniconda & Environment
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          python-version: 3.11
+          auto-update-conda: true
+          activate-environment: hypercomplex-dev
+          environment-file: environment.yml
+          auto-activate-base: false
+
+      - name: Conda Info
+        shell: bash -l {0}
+        run: |
+          conda info -a
+          conda list
+
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Make!
+        run: |
+          cd hypercomplex
+          make help
