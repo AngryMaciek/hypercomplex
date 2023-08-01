@@ -9,6 +9,9 @@ jobs:
 
     steps:
 
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
       - name: Display compiler version
         run: g++ --version
 
@@ -16,9 +19,6 @@ jobs:
         run: |
           sudo apt-get update -y
           sudo apt-get install -y libmpfr-dev
-
-      - name: Checkout Repository
-        uses: actions/checkout@v3
 
       - name: Make!
         run: |
@@ -29,6 +29,9 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
       - name: Setup Miniconda & Environment
         uses: conda-incubator/setup-miniconda@v2
@@ -44,9 +47,6 @@ jobs:
         run: |
           conda info -a
           conda list
-
-      - name: Checkout Repository
-        uses: actions/checkout@v3
 
       - name: Make!
         run: |
