@@ -19,6 +19,7 @@
   dependencies:
     - compilers=1.6.0
     - cpplint=1.6.0
+    - doxygen=1.9.7
     - make=4.3
     - mpfr=4.2.0
     - pre-commit=3.2.1
