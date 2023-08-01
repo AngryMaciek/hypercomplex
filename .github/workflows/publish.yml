@@ -1,13 +1,14 @@
-name: docs
+name: publish
 
 on:
   push:
-    branches:
-      - master
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
 
   gh-pages:
+
     runs-on: ubuntu-22.04
     env:
       test-directory: .test/docs
