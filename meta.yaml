@@ -26,7 +26,7 @@ requirements:
     - mpfr
 
 build:
-  skip: true
+  script: cp $SRC_DIR/hypercomplex/* $PREFIX/include
 
 files:
   - path: hypercomplex/

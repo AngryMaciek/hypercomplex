@@ -106,9 +106,9 @@ jobs:
           auto-update-conda: true
           auto-activate-base: true
 
-      - name: Install conda-build
+      - name: Install conda build suite
         shell: bash -l {0}
-        run: conda install conda-build
+        run: conda install conda-build conda-verify numpy
 
       - name: Conda Info
         shell: bash -l {0}
@@ -118,7 +118,7 @@ jobs:
 
       - name: Build Anaconda Package
         shell: bash -l {0}
-        run: conda build .
+        run: conda build
 
       - name: Install the Package
         shell: bash -l {0}
