@@ -9,6 +9,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-12, ubuntu-22.04]
+      fail-fast: false
     env:
       working-directory: .test/include
 
@@ -47,6 +48,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-12, ubuntu-22.04]
+      fail-fast: false
     env:
       test-directory: .test/install
       lib-directory: "hypercomplex"
@@ -93,6 +95,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-12, ubuntu-22.04]
+      fail-fast: false
 
     steps:
 
@@ -124,4 +127,10 @@ jobs:
         shell: bash -l {0}
         run: conda install -c ${CONDA_PREFIX}/conda-bld/ -c conda-forge hypercomplex --yes
 
-      # test installed package!
+      - name: Compile Test Program
+        shell: bash -l {0}
+        run: g++ --std=c++17 .test/install/test.cpp -o test -lmpfr -lgmp
+
+      - name: Execute Test Program
+        shell: bash -l {0}
+        run: ./test
