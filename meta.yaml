@@ -23,6 +23,7 @@ requirements:
   run:
     - compilers
     - mpfr
+    - glib=2.66.0
 
 build:
   script: |
