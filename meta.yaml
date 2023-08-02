@@ -23,11 +23,9 @@ requirements:
     - mpfr
 
 build:
-  script: cp $SRC_DIR/hypercomplex/* $PREFIX/include
-
-files:
-  - path: hypercomplex/
-    prefix: include
+  script: |
+    mkdir -p $PREFIX/include
+    cp $SRC_DIR/hypercomplex/* $PREFIX/include
 
 about:
   home: https://github.com/AngryMaciek/hypercomplex
