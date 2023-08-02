@@ -1,6 +1,6 @@
 [![Contribute with Gitpod](https://img.shields.io/badge/Contribute%20with-Gitpod-908a85?logo=gitpod)](https://gitpod.io/#https://github.com/AngryMaciek/hypercomplex)
 [![pre-commit](https://img.shields.io/badge/pre--commit-+-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit)
-[![user](https://github.com/AngryMaciek/hypercomplex/workflows/Install&Include/badge.svg?branch=master)](https://github.com/AngryMaciek/hypercomplex/actions?query=workflow%3AInstall&Include)
+[![user](https://github.com/AngryMaciek/hypercomplex/workflows/Install&Include/badge.svg?branch=master)](https://github.com/AngryMaciek/hypercomplex/actions?query=workflow%3AInstall%26Include)
 [![catch2](https://github.com/AngryMaciek/hypercomplex/workflows/Catch2/badge.svg?branch=master)](https://github.com/AngryMaciek/hypercomplex/actions?query=workflow%3ACatch2)
 [![codecov](https://codecov.io/gh/AngryMaciek/hypercomplex/branch/master/graph/badge.svg?token=SSKOK4XR1M)](https://codecov.io/gh/AngryMaciek/hypercomplex)
 [![Cpp17](https://img.shields.io/badge/C%2B%2B-17-blue)](https://en.wikipedia.org/wiki/C%2B%2B17)
