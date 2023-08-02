@@ -122,6 +122,6 @@ jobs:
 
       - name: Install the Package
         shell: bash -l {0}
-        run: conda install -c ${CONDA_PREFIX}/conda-bld/ hypercomplex --yes
+        run: conda install -c ${CONDA_PREFIX}/conda-bld/ -c conda-forge hypercomplex --yes
 
       # test installed package!
