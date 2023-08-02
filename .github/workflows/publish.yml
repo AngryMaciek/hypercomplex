@@ -53,7 +53,7 @@ jobs:
           destination_dir: 'docs'
           keep_files: true
 
-  conda:
+  anaconda:
     runs-on: ubuntu-22.04
 
     steps:
@@ -90,4 +90,9 @@ jobs:
         shell: bash -l {0}
         run: conda build . -c conda-forge
 
-      # push to cloud
+      - name: Publish to Anaconda.org
+        uses: m0nhawk/conda-package-publish-action@master
+        with:
+          subDir: '.'
+          AnacondaUsername: AngryMaciek
+          AnacondaPassword: ${{ secrets.ANACONDA_PASSWORD }}
