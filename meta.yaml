@@ -1,0 +1,47 @@
+###############################################################################
+#
+#   conda-build recipe for the package
+#
+#   AUTHOR: Maciek_Bak
+#   AFFILIATION: Department_of_Mathematics_City_University_of_London
+#   CONTACT: wsciekly.maciek@gmail.com
+#   CREATED: 01-08-2023
+#   LICENSE: Apache 2.0
+#
+###############################################################################
+---
+package:
+  name: hypercomplex
+  version: 2.0.6
+
+source:
+  path: .
+
+channels:
+  - conda-forge
+
+requirements:
+  run:
+    - cpp
+    - mpfr
+
+build:
+  skip: true
+
+files:
+  - path: hypercomplex/
+    prefix: include
+
+about:
+  home: https://github.com/AngryMaciek/hypercomplex
+  summary: |
+    Abstract & fast header-only C++ template library for lattice-based
+    cryptosystems in high-dimensional algebras
+  license: Apache-2.0
+  license_file: LICENSE
+
+extra:
+  maintainers:
+   - Maciek Bak
+
+...

@@ -22,8 +22,8 @@ repos:
       always_run: true
 
     - id: check-added-large-files
-      name: "[05/09] Forbid commiting files bigger than 1MB"
-      args: [— maxkb=1024]
+      name: "[05/09] Forbid commiting files bigger than 2MB"
+      args: [— maxkb=2048]
       always_run: true
 
     - id: trailing-whitespace
@@ -33,6 +33,7 @@ repos:
 
     - id: end-of-file-fixer
       name: "[07/09] Ensure 1 newline at the end of each file"
+      exclude: VERSION
       always_run: true
 
     - id: mixed-line-ending
@@ -42,4 +43,5 @@ repos:
     - id: check-yaml
       name: "[09/09] Check YAML files syntax"
       files: \.ya?ml$
+      exclude: ^meta.yaml
       always_run: true
