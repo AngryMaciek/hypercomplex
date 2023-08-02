@@ -23,7 +23,7 @@ requirements:
   run:
     - compilers
     - mpfr
-    - glib=2.66.0
+    - sysroot_linux=2.17
 
 build:
   script: |
