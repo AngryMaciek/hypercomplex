@@ -87,3 +87,41 @@ jobs:
       - name: Remove Copied Library
         working-directory: ${{env.lib-directory}}
         run: sudo make uninstall
+
+  Conda:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-12, ubuntu-22.04]
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup Miniconda & Environment
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          python-version: 3.11
+          auto-update-conda: true
+          auto-activate-base: true
+
+      - name: Install conda-build
+        shell: bash -l {0}
+        run: conda install conda-build
+
+      - name: Conda Info
+        shell: bash -l {0}
+        run: |
+          conda info -a
+          conda list
+
+      - name: Build Anaconda Package
+        shell: bash -l {0}
+        run: conda build .
+
+      - name: Install the Package
+        shell: bash -l {0}
+        run: conda install -c ${CONDA_PREFIX}/conda-bld/ hypercomplex --yes
+
+      # test installed package!
