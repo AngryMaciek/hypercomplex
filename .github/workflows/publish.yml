@@ -52,3 +52,42 @@ jobs:
           publish_dir: 'docs'
           destination_dir: 'docs'
           keep_files: true
+
+  conda:
+    runs-on: ubuntu-22.04
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup Miniconda & Environment
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          python-version: 3.11
+          auto-update-conda: true
+          auto-activate-base: true
+
+      - name: Install conda build suite
+        shell: bash -l {0}
+        run: conda install conda-build conda-verify numpy
+
+      - name: Conda Info
+        shell: bash -l {0}
+        run: |
+          conda info -a
+          conda list
+
+      - name: Render version into the build recipe
+        shell: bash -l {0}
+        run: |
+          VERSION=$(<VERSION)
+          echo $VERSION
+          sed -i "s/{{ version }}/$VERSION/" meta.yaml
+          cat meta.yaml
+
+      - name: Build Anaconda Package
+        shell: bash -l {0}
+        run: conda build . -c conda-forge
+
+      # push to cloud

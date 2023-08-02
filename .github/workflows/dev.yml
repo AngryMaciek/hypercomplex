@@ -52,3 +52,61 @@ jobs:
         run: |
           cd hypercomplex
           make help
+
+
+
+
+
+
+  Conda:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-12, ubuntu-22.04]
+      fail-fast: false
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup Miniconda & Environment
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          python-version: 3.11
+          auto-update-conda: true
+          auto-activate-base: true
+
+      - name: Install conda build suite
+        shell: bash -l {0}
+        run: conda install conda-build conda-verify numpy
+
+      - name: Conda Info
+        shell: bash -l {0}
+        run: |
+          conda info -a
+          conda list
+
+      - name: Render version into the build recipe
+        shell: bash -l {0}
+        run: |
+          VERSION=$(<VERSION)
+          echo $VERSION
+          sed -i "s/{{ version }}/$VERSION/" meta.yaml
+          cat meta.yaml
+
+      - name: Build Anaconda Package
+        shell: bash -l {0}
+        run: conda build . -c conda-forge
+
+      - name: Install the Package
+        shell: bash -l {0}
+        run: conda install -c ${CONDA_PREFIX}/conda-bld/ -c conda-forge hypercomplex --yes
+
+      - name: Compile Test Program
+        shell: bash -l {0}
+        run: g++ --std=c++17 .test/install/test.cpp -o test -lmpfr -lgmp
+
+      - name: Execute Test Program
+        shell: bash -l {0}
+        run: ./test
