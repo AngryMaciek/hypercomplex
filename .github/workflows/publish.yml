@@ -53,7 +53,7 @@ jobs:
           destination_dir: 'docs'
           keep_files: true
 
-  anaconda:
+  Anaconda:
     runs-on: ubuntu-22.04
 
     steps:
@@ -95,3 +95,23 @@ jobs:
           subDir: '.'
           AnacondaUsername: AngryMaciek
           AnacondaPassword: ${{ secrets.ANACONDA_PASSWORD }}
+
+  DockerHub:
+    runs-on: ubuntu-22.04
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Build & Publish image to DockerHub
+        env:
+          docker_username: angrymaciek
+          docker_password: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          repo_name="hypercomplex"
+          tag=${GITHUB_REF##*/}
+          docker build -t angrymaciek/${repo_name}:latest .
+          docker tag angrymaciek/${repo_name} angrymaciek/${repo_name}:${tag}
+          echo $docker_password | docker login -u $docker_username --password-stdin
+          docker push angrymaciek/${repo_name}:${tag}

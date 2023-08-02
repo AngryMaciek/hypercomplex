@@ -27,7 +27,7 @@ requirements:
 build:
   script: |
     mkdir -p $PREFIX/include
-    cp $SRC_DIR/hypercomplex/* $PREFIX/include
+    cp -r $SRC_DIR/hypercomplex $PREFIX/include/Hypercomplex
 
 about:
   home: https://github.com/AngryMaciek/hypercomplex
