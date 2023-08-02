@@ -10,9 +10,11 @@
 #
 ###############################################################################
 ---
+{% set version = "0.0.0" %} # for local build only
+
 package:
   name: hypercomplex
-  version: 2.0.6
+  version: {{ version }}
 
 source:
   path: .

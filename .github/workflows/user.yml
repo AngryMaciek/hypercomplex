@@ -119,6 +119,14 @@ jobs:
           conda info -a
           conda list
 
+      - name: Render version into the build recipe
+        shell: bash -l {0}
+        run: |
+          VERSION=$(<VERSION)
+          echo $VERSION
+          sed -i "s/{{ version }}/$VERSION/" meta.yaml
+          cat meta.yaml
+
       - name: Build Anaconda Package
         shell: bash -l {0}
         run: conda build . -c conda-forge
