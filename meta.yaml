@@ -22,7 +22,7 @@ channels:
 
 requirements:
   run:
-    - cpp
+    - compilers
     - mpfr
 
 build:
