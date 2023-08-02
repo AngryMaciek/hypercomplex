@@ -52,3 +52,66 @@ jobs:
           publish_dir: 'docs'
           destination_dir: 'docs'
           keep_files: true
+
+  Anaconda:
+    runs-on: ubuntu-22.04
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup Miniconda & Environment
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          python-version: 3.11
+          auto-update-conda: true
+          auto-activate-base: true
+
+      - name: Install conda build suite
+        shell: bash -l {0}
+        run: conda install conda-build conda-verify numpy
+
+      - name: Conda Info
+        shell: bash -l {0}
+        run: |
+          conda info -a
+          conda list
+
+      - name: Render version into the build recipe
+        shell: bash -l {0}
+        run: |
+          VERSION=$(<VERSION)
+          VERSION="${VERSION:1}"
+          sed -i "s/{{ version }}/$VERSION/" meta.yaml
+
+      - name: Build Anaconda Package
+        shell: bash -l {0}
+        run: conda build . -c conda-forge
+
+      - name: Publish to Anaconda.org
+        uses: m0nhawk/conda-package-publish-action@master
+        with:
+          subDir: '.'
+          AnacondaUsername: AngryMaciek
+          AnacondaPassword: ${{ secrets.ANACONDA_PASSWORD }}
+
+  DockerHub:
+    runs-on: ubuntu-22.04
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Build & Publish image to DockerHub
+        env:
+          docker_username: angrymaciek
+          docker_password: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          repo_name="hypercomplex"
+          tag=${GITHUB_REF##*/}
+          docker build -t angrymaciek/${repo_name}:latest .
+          docker tag angrymaciek/${repo_name} angrymaciek/${repo_name}:${tag}
+          echo $docker_password | docker login -u $docker_username --password-stdin
+          docker push angrymaciek/${repo_name}:${tag}

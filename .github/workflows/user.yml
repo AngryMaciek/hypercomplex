@@ -1,4 +1,4 @@
-name: Include&Install
+name: Install&Include
 
 on: [push]
 
@@ -9,6 +9,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-12, ubuntu-22.04]
+      fail-fast: false
     env:
       working-directory: .test/include
 
@@ -47,6 +48,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-12, ubuntu-22.04]
+      fail-fast: false
     env:
       test-directory: .test/install
       lib-directory: "hypercomplex"
@@ -87,3 +89,48 @@ jobs:
       - name: Remove Copied Library
         working-directory: ${{env.lib-directory}}
         run: sudo make uninstall
+
+  Conda:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-12, ubuntu-22.04]
+      fail-fast: false
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup Miniconda & Environment
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          python-version: 3.11
+          auto-update-conda: true
+          auto-activate-base: true
+
+      - name: Install conda build suite
+        shell: bash -l {0}
+        run: conda install conda-build conda-verify numpy
+
+      - name: Conda Info
+        shell: bash -l {0}
+        run: |
+          conda info -a
+          conda list
+
+      - name: Build Anaconda Package
+        shell: bash -l {0}
+        run: conda build . -c conda-forge
+
+      - name: Install the Package
+        shell: bash -l {0}
+        run: conda install -c ${CONDA_PREFIX}/conda-bld/ -c conda-forge hypercomplex --yes
+
+      - name: Compile Test Program
+        shell: bash -l {0}
+        run: g++ --std=c++17 -I$CONDA_PREFIX/include -L$CONDA_PREFIX/lib .test/install/test.cpp -o test -lmpfr -lgmp
+
+      - name: Execute Test Program
+        shell: bash -l {0}
+        run: ./test

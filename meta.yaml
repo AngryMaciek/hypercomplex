@@ -1,0 +1,45 @@
+###############################################################################
+#
+#   conda-build recipe for the package
+#
+#   AUTHOR: Maciek_Bak
+#   AFFILIATION: Department_of_Mathematics_City_University_of_London
+#   CONTACT: wsciekly.maciek@gmail.com
+#   CREATED: 01-08-2023
+#   LICENSE: Apache 2.0
+#
+###############################################################################
+---
+{% set version = "0.0.0" %} # for local build only
+
+package:
+  name: hypercomplex
+  version: {{ version }}
+
+source:
+  path: .
+
+requirements:
+  run:
+    - compilers
+    - mpfr
+    - sysroot_linux-64=2.28
+
+build:
+  script: |
+    mkdir -p $PREFIX/include
+    cp -r $SRC_DIR/hypercomplex $PREFIX/include/Hypercomplex
+
+about:
+  home: https://github.com/AngryMaciek/hypercomplex
+  summary: |
+    Header-only C++ template library for lattice-based
+    cryptosystems in high-dimensional algebras
+  license: Apache-2.0
+  license_file: LICENSE
+
+extra:
+  maintainers:
+   - Maciek Bak
+
+...
