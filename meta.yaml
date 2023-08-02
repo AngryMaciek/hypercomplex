@@ -32,7 +32,7 @@ build:
 about:
   home: https://github.com/AngryMaciek/hypercomplex
   summary: |
-    Abstract & fast header-only C++ template library for lattice-based
+    Header-only C++ template library for lattice-based
     cryptosystems in high-dimensional algebras
   license: Apache-2.0
   license_file: LICENSE

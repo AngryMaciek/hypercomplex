@@ -129,7 +129,7 @@ jobs:
 
       - name: Compile Test Program
         shell: bash -l {0}
-        run: g++ --std=c++17 .test/install/test.cpp -o test -lmpfr -lgmp
+        run: g++ --std=c++17 -I$CONDA_PREFIX/include -L$CONDA_PREFIX/lib .test/install/test.cpp -o test -lmpfr -lgmp
 
       - name: Execute Test Program
         shell: bash -l {0}
