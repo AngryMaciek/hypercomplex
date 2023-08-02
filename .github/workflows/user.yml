@@ -1,4 +1,4 @@
-name: Include&Install
+name: Install&Include
 
 on: [push]
 
