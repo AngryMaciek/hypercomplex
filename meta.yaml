@@ -17,9 +17,6 @@ package:
 source:
   path: .
 
-channels:
-  - conda-forge
-
 requirements:
   run:
     - compilers

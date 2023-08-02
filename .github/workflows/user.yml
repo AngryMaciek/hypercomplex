@@ -118,7 +118,7 @@ jobs:
 
       - name: Build Anaconda Package
         shell: bash -l {0}
-        run: conda build .
+        run: conda build . -c conda-forge
 
       - name: Install the Package
         shell: bash -l {0}
