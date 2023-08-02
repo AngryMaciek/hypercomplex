@@ -7,6 +7,8 @@
 [![cpplint](https://github.com/AngryMaciek/hypercomplex/workflows/cpplint/badge.svg)](https://github.com/AngryMaciek/hypercomplex/actions?query=workflow%3Acpplint)
 [![CodeFactor](https://www.codefactor.io/repository/github/angrymaciek/hypercomplex/badge)](https://www.codefactor.io/repository/github/angrymaciek/hypercomplex)
 [![publish](https://github.com/AngryMaciek/hypercomplex/workflows/publish/badge.svg)](https://github.com/AngryMaciek/hypercomplex/actions?query=workflow%3Apublish)
+[![conda](https://anaconda.org/angrymaciek/hypercomplex/badges/version.svg)](https://anaconda.org/AngryMaciek/hypercomplex)
+[![DockerHub](https://badgen.net/badge/icon/2.0.6/docker?icon=docker&label=DockerHub&color=blue)](https://hub.docker.com/r/angrymaciek/capsule)
 [![DOI](https://joss.theoj.org/papers/10.21105/joss.05272/status.svg)](https://doi.org/10.21105/joss.05272)
 
 <img src="img/logo.png" alt="drawing" height="30"/>
