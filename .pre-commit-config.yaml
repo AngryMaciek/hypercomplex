@@ -43,5 +43,5 @@ repos:
     - id: check-yaml
       name: "[09/09] Check YAML files syntax"
       files: \.ya?ml$
-      exclude: ^meta.yaml
+      exclude: "^meta.yaml|.github/ISSUE_TEMPLATE/BLANK_TEMPLATE.yml"
       always_run: true
