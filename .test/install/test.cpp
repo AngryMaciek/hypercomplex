@@ -15,7 +15,7 @@
 #include <Hypercomplex/Hypercomplex.hpp>
 
 int main(void){
-    double A[] = {1.0, 2.0, 0.0, -1.0};
-    Hypercomplex<double, 4> h(A);
+    double A[] = {0.0};
+    Hypercomplex<double, 1> h(A);
     return 0;
 }
