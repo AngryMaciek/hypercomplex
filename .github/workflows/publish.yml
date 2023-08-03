@@ -96,7 +96,9 @@ jobs:
           ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_TOKEN }}
         run: |
           conda config --set anaconda_upload yes
-          anaconda upload --user AngryMaciek hypercomplex
+          tag=${GITHUB_REF##*/}
+          tag="${tag:1}"
+          anaconda upload --user AngryMaciek $CONDA_PREFIX/conda-bld/noarch/hypercomplex-$tag-0.tar.bz2
 
   DockerHub:
     runs-on: ubuntu-22.04
