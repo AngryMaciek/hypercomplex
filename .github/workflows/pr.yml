@@ -5,7 +5,7 @@ on:
   # is opened, synchronize, or reopened. We explicity override here so that
   # PR titles are re-linted when the PR text content is edited.
   # _target applies to PR from forks.
-  pull_request:
+  pull_request_target:
     types: [opened, edited, reopened, synchronize]
 
 jobs:
@@ -63,23 +63,23 @@ jobs:
           GIT='git --git-dir='$PWD'/.git'
           NEW_COMMIT_VERSION="$(cat hypercomplex/VERSION | grep -oE '[0-9.]+')"
           $GIT checkout HEAD~1
-          PREVIOUS_COMMIT_VERSION="$(cat VERSION | grep -oE '[0-9.]+')"
+          PREVIOUS_COMMIT_VERSION="$(cat hypercomplex/VERSION | grep -oE '[0-9.]+')"
           $GIT checkout -
-          if [[ "$NEW_COMMIT_VERSION" == "$PREVIOUS_COMMIT_VERSION" ]]
+          if [[ "$NEW_COMMIT_VERSION" !== "$PREVIOUS_COMMIT_VERSION" ]]
           then
               IFS='.' read -r NEW_MAJOR NEW_MINOR NEW_PATCH <<< "$NEW_COMMIT_VERSION"
               IFS='.' read -r PREVIOUS_MAJOR PREVIOUS_MINOR PREVIOUS_PATCH <<< "$PREVIOUS_COMMIT_VERSION"
-              if [[ "$NEW_MAJOR" != "$PREVIOUS_MAJOR" ]]
+              if [[ "$NEW_PATCH" != "$PREVIOUS_PATCH" ]]
               then
-                  echo "LABEL=release:major" >> $GITHUB_ENV
+                  echo "LABEL=release:patch" >> $GITHUB_ENV
               fi
               if [[ "$NEW_MINOR" != "$PREVIOUS_MINOR" ]]
               then
                   echo "LABEL=release:minor" >> $GITHUB_ENV
               fi
-              if [[ "$NEW_PATCH" != "$PREVIOUS_PATCH" ]]
+              if [[ "$NEW_MAJOR" != "$PREVIOUS_MAJOR" ]]
               then
-                  echo "LABEL=release:patch" >> $GITHUB_ENV
+                  echo "LABEL=release:major" >> $GITHUB_ENV
               fi
           fi
 
