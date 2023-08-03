@@ -80,9 +80,11 @@ jobs:
                   export LABEL="release:patch"
               fi
           fi
+          echo $LABEL
 
       - name: Add version bump label
         if: env.LABEL
-        uses: actions-ecosystem/action-add-labels@v1
-        with:
-          labels: $LABEL
+        #uses: actions-ecosystem/action-add-labels@v1
+        #with:
+        #  labels: $LABEL
+        run: echo $LABEL
