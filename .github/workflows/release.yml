@@ -10,7 +10,7 @@ jobs:
   release-on-push:
     runs-on: ubuntu-22.04
     env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.CHANGELOG_TOKEN }}
 
     steps:
 
