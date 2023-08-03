@@ -71,15 +71,15 @@ jobs:
               IFS='.' read -r PREVIOUS_MAJOR PREVIOUS_MINOR PREVIOUS_PATCH <<< "$PREVIOUS_COMMIT_VERSION"
               if [[ "$NEW_MAJOR" != "$PREVIOUS_MAJOR" ]]
               then
-                  echo "LABEL=release:major" >> $GITHUB_OUTPUT
+                  echo "LABEL=release:major" >> $GITHUB_ENV
               fi
               if [[ "$NEW_MINOR" != "$PREVIOUS_MINOR" ]]
               then
-                  echo "LABEL=release:minor" >> $GITHUB_OUTPUT
+                  echo "LABEL=release:minor" >> $GITHUB_ENV
               fi
               if [[ "$NEW_PATCH" != "$PREVIOUS_PATCH" ]]
               then
-                  echo "LABEL=release:patch" >> $GITHUB_OUTPUT
+                  echo "LABEL=release:patch" >> $GITHUB_ENV
               fi
           fi
           echo $LABEL
@@ -89,4 +89,4 @@ jobs:
         #uses: actions-ecosystem/action-add-labels@v1
         #with:
         #  labels: $LABEL
-        run: echo $LABEL
+        run: echo "${{ env.LABEL }}"
