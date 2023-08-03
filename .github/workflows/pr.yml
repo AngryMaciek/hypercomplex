@@ -47,6 +47,8 @@ jobs:
 
   version-bump-label:
     runs-on: ubuntu-22.04
+    env:
+      LABEL: ""
 
     steps:
 
@@ -69,15 +71,15 @@ jobs:
               IFS='.' read -r PREVIOUS_MAJOR PREVIOUS_MINOR PREVIOUS_PATCH <<< "$PREVIOUS_COMMIT_VERSION"
               if [[ "$NEW_MAJOR" != "$PREVIOUS_MAJOR" ]]
               then
-                  export LABEL="release:major"
+                  LABEL="release:major"
               fi
               if [[ "$NEW_MINOR" != "$PREVIOUS_MINOR" ]]
               then
-                  export LABEL="release:minor"
+                  LABEL="release:minor"
               fi
               if [[ "$NEW_PATCH" != "$PREVIOUS_PATCH" ]]
               then
-                  export LABEL="release:patch"
+                  LABEL="release:patch"
               fi
           fi
           echo $LABEL
