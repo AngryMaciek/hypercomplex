@@ -42,11 +42,11 @@ $(INCLUDE_PREFIX)/Hypercomplex:
 	mkdir -p $@;
 
 # Copy the header-only library file into the right directory
-$(INCLUDE_PREFIX)/Hypercomplex/$(SRC1): $(SRC1) $(INCLUDE_PREFIX)/Hypercomplex
+$(INCLUDE_PREFIX)/Hypercomplex/$(SRC1): hypercomplex/$(SRC1) $(INCLUDE_PREFIX)/Hypercomplex
 	cp $< $@
 
 # Copy the helper library file into the right directory
-$(INCLUDE_PREFIX)/Hypercomplex/$(SRC2): $(SRC2) $(INCLUDE_PREFIX)/Hypercomplex
+$(INCLUDE_PREFIX)/Hypercomplex/$(SRC2): hypercomplex/$(SRC2) $(INCLUDE_PREFIX)/Hypercomplex
 	cp $< $@
 
 # =========================================================
@@ -63,10 +63,10 @@ uninstall:
 
 # Prepare, compile, test, cleanup
 test:
-	mkdir ../.test/unit/hypercomplex; \
-	cp Hypercomplex.hpp ../.test/unit/hypercomplex/Hypercomplex.hpp; \
-	cp Polynomial.hpp ../.test/unit/hypercomplex/Polynomial.hpp; \
-	cd ../.test/unit; \
+	mkdir .test/unit/hypercomplex; \
+	cp hypercomplex/Hypercomplex.hpp .test/unit/hypercomplex/Hypercomplex.hpp; \
+	cp hypercomplex/Polynomial.hpp .test/unit/hypercomplex/Polynomial.hpp; \
+	cd .test/unit; \
 	g++ -O0 -Wall --std=c++17 -o test test.cpp -lmpfr -lgmp; \
 	./test [unit] -d yes -w NoAssertions --use-colour yes --benchmark-samples 100 --benchmark-resamples 100000; \
 	rm -rf hypercomplex test
@@ -77,8 +77,8 @@ test:
 
 # Run static code analysis
 lint:
-	cpplint Hypercomplex.hpp
-	cpplint Polynomial.hpp
+	cpplint hypercomplex/Hypercomplex.hpp
+	cpplint hypercomplex/Polynomial.hpp
 
 # =========================================================
 # Docs
@@ -86,5 +86,4 @@ lint:
 
 # Generate doxygen documentation
 docs:
-	cd ..; \
 	doxygen Doxyfile
