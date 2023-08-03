@@ -24,7 +24,7 @@ LABEL maintainer.email="wsciekly.maciek@gmail.com"
 ##### INSTALL SYSTEM-LEVEL DEPENDENCIES #####
 RUN install_packages \
   ca-certificates doxygen g++ gnupg2 git gosu libmpfr-dev make python3 python3-pip valgrind \
-  && pip install cpplint pre-commit
+  && pip install --no-cache-dir cpplint pre-commit
 
 ##### SET ENVIROMENTAL VARIABLES #####
 ENV LANG C.UTF-8
