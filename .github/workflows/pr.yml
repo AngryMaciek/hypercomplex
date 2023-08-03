@@ -82,11 +82,9 @@ jobs:
                   echo "LABEL=release:patch" >> $GITHUB_ENV
               fi
           fi
-          echo $LABEL
 
       - name: Add version bump label
-        #if: env.LABEL
-        #uses: actions-ecosystem/action-add-labels@v1
-        #with:
-        #  labels: $LABEL
-        run: echo "${{ env.LABEL }}"
+        if: ${{env.LABEL != ''}}
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: "${{ env.LABEL }}"
