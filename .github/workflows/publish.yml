@@ -13,13 +13,16 @@ jobs:
 
     steps:
 
+      - name: Display Compiler Version
+        run: g++ --version
+
       - name: Install MPFR
         run: |
           sudo apt-get update -y
           sudo apt-get install -y libmpfr-dev
 
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Copy Library Files
         working-directory: ${{env.test-directory}}
@@ -27,7 +30,7 @@ jobs:
           cp ../../hypercomplex/Hypercomplex.hpp Hypercomplex.hpp
           cp ../../hypercomplex/Polynomial.hpp Polynomial.hpp
 
-      - name: Compile Test Program
+      - name: Compile Docs Test Program
         working-directory: ${{env.test-directory}}
         run: g++ --std=c++17 test.cpp -o test -lmpfr -lgmp
 
@@ -57,7 +60,7 @@ jobs:
     steps:
 
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Miniconda & Environment
         uses: conda-incubator/setup-miniconda@v2

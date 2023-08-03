@@ -3,13 +3,14 @@ name: cpplint
 on: [push]
 
 jobs:
+
   cpplint:
     runs-on: ubuntu-22.04
 
     steps:
 
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install cpplint
         run: pip install cpplint

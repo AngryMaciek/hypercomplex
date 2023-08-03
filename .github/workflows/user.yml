@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
 
-  Include:
+  include:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -15,6 +15,9 @@ jobs:
 
     steps:
 
+      - name: Display Compiler Version
+        run: g++ --version
+
       - name: Install MPFR
         run: |
           if [ "$RUNNER_OS" == "Linux" ]; then
@@ -26,14 +29,11 @@ jobs:
           fi
 
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Copy Library Directory
         working-directory: ${{env.working-directory}}
         run: cp -r ../../hypercomplex hypercomplex
-
-      - name: Display compiler version
-        run: g++ --version
 
       - name: Compile Test Program
         working-directory: ${{env.working-directory}}
@@ -43,7 +43,7 @@ jobs:
         working-directory: ${{env.working-directory}}
         run: ./test
 
-  Install:
+  install:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -54,6 +54,9 @@ jobs:
 
     steps:
 
+      - name: Display Compiler Version
+        run: g++ --version
+
       - name: Install MPFR
         run: |
           if [ "$RUNNER_OS" == "Linux" ]; then
@@ -65,15 +68,9 @@ jobs:
           fi
 
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Display Make version
-        run: make --version
-
-      - name: Display compiler version
-        run: g++ --version
-
-      - name: Copy Header-Only Library
+      - name: Install Library
         run: sudo make install
 
       - name: Compile Test Program
@@ -84,10 +81,10 @@ jobs:
         working-directory: ${{env.test-directory}}
         run: ./test
 
-      - name: Remove Copied Library
+      - name: Uninstall Library
         run: sudo make uninstall
 
-  Conda:
+  conda:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -97,7 +94,7 @@ jobs:
     steps:
 
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Miniconda & Environment
         uses: conda-incubator/setup-miniconda@v2
@@ -106,7 +103,7 @@ jobs:
           auto-update-conda: true
           auto-activate-base: true
 
-      - name: Install conda build suite
+      - name: Install Conda Build Suite
         shell: bash -l {0}
         run: conda install conda-build conda-verify numpy
 
@@ -116,11 +113,11 @@ jobs:
           conda info -a
           conda list
 
-      - name: Build Anaconda Package
+      - name: Build Conda Package
         shell: bash -l {0}
         run: conda build . -c conda-forge
 
-      - name: Install the Package
+      - name: Install Package
         shell: bash -l {0}
         run: conda install -c ${CONDA_PREFIX}/conda-bld/ -c conda-forge hypercomplex --yes
 
