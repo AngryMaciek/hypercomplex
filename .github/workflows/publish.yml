@@ -71,7 +71,7 @@ jobs:
 
       - name: Install conda build suite
         shell: bash -l {0}
-        run: conda install conda-build conda-verify numpy
+        run: conda install anaconda-client conda-build conda-verify numpy
 
       - name: Conda Info
         shell: bash -l {0}
@@ -90,12 +90,13 @@ jobs:
         shell: bash -l {0}
         run: conda build . -c conda-forge
 
-      - name: Publish to Anaconda.org
-        uses: m0nhawk/conda-package-publish-action@master
-        with:
-          subDir: '.'
-          AnacondaUsername: AngryMaciek
-          AnacondaPassword: ${{ secrets.ANACONDA_PASSWORD }}
+      - name: Upload to Anaconda.org
+        shell: bash -l {0}
+        env:
+          ANACONDA_TOKEN: ${{ secrets.ANACONDA_TOKEN }}
+        run: |
+          conda config --set anaconda_upload yes
+          conda upload --user AngryMaciek hypercomplex --token ANACONDA_TOKEN
 
   DockerHub:
     runs-on: ubuntu-22.04
@@ -130,7 +131,7 @@ jobs:
         uses: requarks/changelog-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${${GITHUB_REF##*/}:1}
+          tag: ${{ github.ref_name }}
           excludeTypes: docs,other
           includeRefIssues: false
           reverseOrder: true
