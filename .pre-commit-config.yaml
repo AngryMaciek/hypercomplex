@@ -33,7 +33,7 @@ repos:
 
     - id: end-of-file-fixer
       name: "[07/09] Ensure 1 newline at the end of each file"
-      exclude: VERSION
+      exclude: hypercomplex/VERSION
       always_run: true
 
     - id: mixed-line-ending
