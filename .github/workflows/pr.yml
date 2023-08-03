@@ -60,7 +60,6 @@ jobs:
         run: |
           GIT='git --git-dir='$PWD'/.git'
           NEW_COMMIT_VERSION="$(cat hypercomplex/VERSION | grep -oE '[0-9.]+')"
-          echo NEW_COMMIT_VERSION $NEW_COMMIT_VERSION
           $GIT checkout HEAD~1
           PREVIOUS_COMMIT_VERSION="$(cat hypercomplex/VERSION | grep -oE '[0-9.]+')"
           echo PREVIOUS_COMMIT_VERSION $PREVIOUS_COMMIT_VERSION
