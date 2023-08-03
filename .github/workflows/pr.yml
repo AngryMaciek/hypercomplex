@@ -72,15 +72,23 @@ jobs:
               IFS='.' read -r PREVIOUS_MAJOR PREVIOUS_MINOR PREVIOUS_PATCH <<< "$PREVIOUS_COMMIT_VERSION"
               if [[ "$NEW_MAJOR" != "$PREVIOUS_MAJOR" ]]
               then
-                  echo "::set-output name=LABEL::release:major"
+                  echo "LABEL=release:major" >> $GITHUB_OUTPUT
               fi
               if [[ "$NEW_MINOR" != "$PREVIOUS_MINOR" ]]
               then
-                  echo "::set-output name=LABEL::release:minor"
+                  echo "LABEL=release:minor" >> $GITHUB_OUTPUT
               fi
               if [[ "$NEW_PATCH" != "$PREVIOUS_PATCH" ]]
               then
-                  echo "::set-output name=LABEL::release:patch"
+                  echo "LABEL=release:patch" >> $GITHUB_OUTPUT
               fi
           fi
           echo $LABEL
+
+      - name: Add version bump label
+        needs: verbump
+        #if: env.LABEL
+        #uses: actions-ecosystem/action-add-labels@v1
+        #with:
+        #  labels: $LABEL
+        run: echo $LABEL
