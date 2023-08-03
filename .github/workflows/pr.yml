@@ -1,0 +1,90 @@
+name: pr
+
+on:
+  # By default, a workflow only runs when a pull_request's activity type
+  # is opened, synchronize, or reopened. We explicity override here so that
+  # PR titles are re-linted when the PR text content is edited.
+  # _target applies to PR from forks.
+  pull_request_target:
+    types: [opened, edited, reopened, synchronize]
+
+jobs:
+
+  size-label:
+    runs-on: ubuntu-22.04
+
+    steps:
+
+      - uses: pascalgn/size-label-action@v0.4.3
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        with:
+          sizes: >
+            {
+              "0": "XS",
+              "25": "S",
+              "150": "M",
+              "500": "L",
+              "1000": "XL"
+            }
+
+  conventional-title:
+    runs-on: ubuntu-22.04
+
+    steps:
+
+      - uses: morrisoncole/pr-lint-action@v1.7.0
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          title-regex: "^(feat|fix|docs|style|refactor|perf|test|build|ci|chore): .{1,}"
+          on-failed-regex-fail-action: true
+          on-failed-regex-create-review: true
+          on-failed-regex-request-changes: true
+          on-failed-regex-comment:
+            "Please stick to Conventional Commits syntax for PR titles ;)"
+          on-succeeded-regex-dismiss-review-comment:
+            "Thank you <3"
+
+  version-bump-label:
+    runs-on: ubuntu-22.04
+    env:
+      LABEL: ""
+
+    steps:
+
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+            fetch-depth: 0
+            token: ${{ secrets.CHANGELOG_TOKEN }}
+
+      - name: Check version bump
+        run: |
+          GIT='git --git-dir='$PWD'/.git'
+          NEW_COMMIT_VERSION="$(cat hypercomplex/VERSION | grep -oE '[0-9.]+')"
+          $GIT checkout HEAD~1
+          PREVIOUS_COMMIT_VERSION="$(cat hypercomplex/VERSION | grep -oE '[0-9.]+')"
+          $GIT checkout -
+          if [[ "$NEW_COMMIT_VERSION" !== "$PREVIOUS_COMMIT_VERSION" ]]
+          then
+              IFS='.' read -r NEW_MAJOR NEW_MINOR NEW_PATCH <<< "$NEW_COMMIT_VERSION"
+              IFS='.' read -r PREVIOUS_MAJOR PREVIOUS_MINOR PREVIOUS_PATCH <<< "$PREVIOUS_COMMIT_VERSION"
+              if [[ "$NEW_PATCH" != "$PREVIOUS_PATCH" ]]
+              then
+                  echo "LABEL=release:patch" >> $GITHUB_ENV
+              fi
+              if [[ "$NEW_MINOR" != "$PREVIOUS_MINOR" ]]
+              then
+                  echo "LABEL=release:minor" >> $GITHUB_ENV
+              fi
+              if [[ "$NEW_MAJOR" != "$PREVIOUS_MAJOR" ]]
+              then
+                  echo "LABEL=release:major" >> $GITHUB_ENV
+              fi
+          fi
+
+      - name: Add version bump label
+        if: ${{env.LABEL != ''}}
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: "${{ env.LABEL }}"

@@ -1,7 +1,7 @@
 #
 # Makefile for installation & development of the library.
 #
-# Maciej Bak
+# Maciek Bak
 # Department of Mathematics, City University of London
 # 22.10.2019
 #
@@ -84,7 +84,7 @@ lint:
 # Docs
 # =========================================================
 
-# Generate doxygen documentation 
+# Generate doxygen documentation
 docs:
 	cd ..; \
 	doxygen Doxyfile

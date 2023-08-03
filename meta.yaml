@@ -19,16 +19,20 @@ package:
 source:
   path: .
 
+build:
+  noarch: generic
+  script: |
+    mkdir -p $PREFIX/include
+    cp -r $SRC_DIR/hypercomplex $PREFIX/include/Hypercomplex
+
 requirements:
+  # Hypercomplex is a library
+  # we do not build it thus no 'build' and 'host' sections,
+  # only 'run', which will be compilation of users program
   run:
     - compilers
     - mpfr
     - sysroot_linux-64=2.28
-
-build:
-  script: |
-    mkdir -p $PREFIX/include
-    cp -r $SRC_DIR/hypercomplex $PREFIX/include/Hypercomplex
 
 about:
   home: https://github.com/AngryMaciek/hypercomplex

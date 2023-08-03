@@ -1,11 +1,11 @@
-// Copyright 2022 <Maciej Bak>
+// Copyright 2022 <Maciek Bak>
 /*! \file */
 /*
 ###############################################################################
 #
 #   Polynomial helper class and functions for the cryptosystems.
 #
-#   AUTHOR: Maciej_Bak
+#   AUTHOR: Maciek_Bak
 #   AFFILIATION: Department_of_Mathematics_City_University_of_London
 #   CONTACT: wsciekly.maciek@gmail.com
 #   CREATED: 02-12-2022
@@ -45,7 +45,7 @@ class Polynomial {
  public:
     /** \brief This is the main constructor
       * \param [in] arr array of integers
-      * 
+      *
       * Template parameters are:
       * * maximum degree of the polynomial
       */
@@ -55,7 +55,7 @@ class Polynomial {
 
     /** \brief This is the copy constructor
       * \param [in] P existing class instance
-      * 
+      *
       * Template parameters are:
       * * maximum degree of the polynomial
       */
@@ -64,7 +64,7 @@ class Polynomial {
     }
 
     /** \brief This is the default constructor
-      * 
+      *
       * Template parameters are:
       * * maximum degree of the polynomial
       */

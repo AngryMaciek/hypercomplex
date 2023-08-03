@@ -1,10 +1,9 @@
-# Mac directory config
+# macOS directory config
 .DS_Store
 
 # local documentation
 docs/html
 docs/latex
 
-# Sage notebooks
-Hypercomplex.html
-Hypercomplex.ipynb
+# compiled binaries
+test
