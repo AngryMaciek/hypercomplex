@@ -83,7 +83,7 @@ jobs:
           echo $LABEL
 
       - name: Add version bump label
-        if: env.LABEL
+        #if: env.LABEL
         #uses: actions-ecosystem/action-add-labels@v1
         #with:
         #  labels: $LABEL
