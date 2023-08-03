@@ -84,11 +84,3 @@ jobs:
               fi
           fi
           echo $LABEL
-
-      - name: Add version bump label
-        needs: verbump
-        #if: env.LABEL
-        #uses: actions-ecosystem/action-add-labels@v1
-        #with:
-        #  labels: $LABEL
-        run: echo "${{ needs.verbump.outputs.LABEL }}"
