@@ -59,6 +59,7 @@ jobs:
             token: ${{ secrets.CHANGELOG_TOKEN }}
 
       - name: Check version bump
+        id: verbump
         run: |
           GIT='git --git-dir='$PWD'/.git'
           NEW_COMMIT_VERSION="$(cat hypercomplex/VERSION | grep -oE '[0-9.]+')"
@@ -71,22 +72,23 @@ jobs:
               IFS='.' read -r PREVIOUS_MAJOR PREVIOUS_MINOR PREVIOUS_PATCH <<< "$PREVIOUS_COMMIT_VERSION"
               if [[ "$NEW_MAJOR" != "$PREVIOUS_MAJOR" ]]
               then
-                  export LABEL="release:major"
+                  echo "::set-output name=LABEL::release:major"
               fi
               if [[ "$NEW_MINOR" != "$PREVIOUS_MINOR" ]]
               then
-                  export LABEL="release:minor"
+                  echo "::set-output name=LABEL::release:minor"
               fi
               if [[ "$NEW_PATCH" != "$PREVIOUS_PATCH" ]]
               then
-                  export LABEL="release:patch"
+                  echo "::set-output name=LABEL::release:patch"
               fi
           fi
           echo $LABEL
 
       - name: Add version bump label
+        needs: verbump
         #if: env.LABEL
         #uses: actions-ecosystem/action-add-labels@v1
         #with:
         #  labels: $LABEL
-        run: echo $LABEL
+        run: echo ${{ needs.verbump.outputs.LABEL }}"
