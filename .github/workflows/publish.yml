@@ -96,7 +96,7 @@ jobs:
           ANACONDA_TOKEN: ${{ secrets.ANACONDA_TOKEN }}
         run: |
           conda config --set anaconda_upload yes
-          conda upload --user AngryMaciek hypercomplex --token ANACONDA_TOKEN
+          anaconda upload --user AngryMaciek hypercomplex --token ANACONDA_TOKEN
 
   DockerHub:
     runs-on: ubuntu-22.04
@@ -126,6 +126,8 @@ jobs:
 
       - name: Checkout Repository
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.CHANGELOG_TOKEN }}
 
       - name: Update CHANGELOG
         uses: requarks/changelog-action@v1
@@ -140,5 +142,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           branch: master
+          commit_user_name: AngryMaciek
+          commit_user_email: wsciekly.maciek@gmail.com
           commit_message: 'docs: CHANGELOG.md auto update'
           push_options: --force
