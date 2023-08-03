@@ -1,11 +1,11 @@
-// Copyright 2020 <Maciej Bak>
+// Copyright 2020 <Maciek Bak>
 /*! \file */
 /*
 ###############################################################################
 #
 #   Hypercomplex header-only library.
 #
-#   AUTHOR: Maciej_Bak
+#   AUTHOR: Maciek_Bak
 #   AFFILIATION: Department_of_Mathematics_City_University_of_London
 #   CONTACT: wsciekly.maciek@gmail.com
 #   CREATED: 22-10-2020
@@ -118,7 +118,7 @@ class Hypercomplex {
 
     /** \brief This is the main constructor
       * \param [in] ARR array of numbers
-      * 
+      *
       * Template parameters are:
       * * base type of numbers in the argument array
       * * dimensionality of the algebra
@@ -127,7 +127,7 @@ class Hypercomplex {
 
     /** \brief This is the copy constructor
       * \param [in] H existing class instance
-      * 
+      *
       * Template parameters are:
       * * base type of numbers in the argument array
       * * dimensionality of the algebra
@@ -145,7 +145,7 @@ class Hypercomplex {
 
     /** \brief Calculate Euclidean norm of a number
       * \return calculated norm
-      * 
+      *
       * Note that the return type is the same as
       * template parameter.
       */
@@ -158,7 +158,7 @@ class Hypercomplex {
 
     /** \brief Cast a number into a higher dimension
       * \return new class instance
-      * 
+      *
       * New dimension is passed as a function template parameter,
       * as the return class is not the same as the caller's class.
       */
@@ -184,7 +184,7 @@ class Hypercomplex {
     /** \brief Access operator (const)
       * \param [in] i index for the element to access
       * \return i-th element of the number
-      * 
+      *
       * Note that the return type is the same as
       * template parameter.
       */
@@ -193,7 +193,7 @@ class Hypercomplex {
     /** \brief Access operator (non-const)
       * \param [in] i index for the element to access
       * \return i-th element of the number
-      * 
+      *
       * Note that the return type is the same as
       * template parameter.
       */
@@ -785,7 +785,7 @@ class Hypercomplex<mpfr_t, dim> {
 
     /** \brief This is the main constructor
       * \param [in] ARR array of MPFR numbers
-      * 
+      *
       * Template parameters are:
       * * dimensionality of the algebra
       */
@@ -806,7 +806,7 @@ class Hypercomplex<mpfr_t, dim> {
 
     /** \brief This is the copy constructor
       * \param [in] H existing class instance
-      * 
+      *
       * Template parameters are:
       * * dimensionality of the algebra
       */
@@ -832,7 +832,7 @@ class Hypercomplex<mpfr_t, dim> {
     /** \brief Calculate Euclidean norm of a number
       * \param [in,out] norm MPFR variable for the calculated norm
       * \return exit status
-      * 
+      *
       * Note that the interface of this method is different
       * than for the fully template class.
       * Following the MPFR logic: function takes as an
@@ -884,7 +884,7 @@ class Hypercomplex<mpfr_t, dim> {
 
     /** \brief Cast a number into a higher dimension
       * \return new class instance
-      * 
+      *
       * New dimension is passed as a function template parameter,
       * as the return class is not the same as the caller's class.
       */
@@ -1362,7 +1362,7 @@ class Hypercomplex<Polynomial<MaxDeg>, dim> {
 
      /** \brief This is the main constructor
       * \param [in] ARR array of Polynomial instances
-      * 
+      *
       * Template parameters are:
       * * dimensionality of the algebra
       */
@@ -1380,7 +1380,7 @@ class Hypercomplex<Polynomial<MaxDeg>, dim> {
 
     /** \brief This is the copy constructor
       * \param [in] H existing class instance
-      * 
+      *
       * Template parameters are:
       * * dimensionality of the algebra
       */
@@ -1416,7 +1416,7 @@ class Hypercomplex<Polynomial<MaxDeg>, dim> {
 
     /** \brief Cast a number into a higher dimension
       * \return new class instance
-      * 
+      *
       * New dimension is passed as a function template parameter,
       * as the return class is not the same as the caller's class.
       */
