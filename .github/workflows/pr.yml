@@ -47,13 +47,11 @@ jobs:
 
   version-bump-label:
     runs-on: ubuntu-22.04
-    env:
-      LABEL: ""
 
     steps:
 
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
             fetch-depth: 0
             token: ${{ secrets.CHANGELOG_TOKEN }}
@@ -64,8 +62,10 @@ jobs:
           NEW_COMMIT_VERSION="$(cat hypercomplex/VERSION | grep -oE '[0-9.]+')"
           $GIT checkout HEAD~1
           PREVIOUS_COMMIT_VERSION="$(cat hypercomplex/VERSION | grep -oE '[0-9.]+')"
+          echo PREVIOUS_COMMIT_VERSION $PREVIOUS_COMMIT_VERSION
+          echo NEW_COMMIT_VERSION $NEW_COMMIT_VERSION
           $GIT checkout -
-          if [[ "$NEW_COMMIT_VERSION" !== "$PREVIOUS_COMMIT_VERSION" ]]
+          if [[ "$NEW_COMMIT_VERSION" != "$PREVIOUS_COMMIT_VERSION" ]]
           then
               IFS='.' read -r NEW_MAJOR NEW_MINOR NEW_PATCH <<< "$NEW_COMMIT_VERSION"
               IFS='.' read -r PREVIOUS_MAJOR PREVIOUS_MINOR PREVIOUS_PATCH <<< "$PREVIOUS_COMMIT_VERSION"

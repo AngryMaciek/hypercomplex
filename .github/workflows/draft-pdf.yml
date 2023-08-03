@@ -6,7 +6,6 @@ jobs:
 
   paper:
     runs-on: ubuntu-22.04
-    name: Paper Draft
 
     steps:
 

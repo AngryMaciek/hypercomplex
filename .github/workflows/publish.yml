@@ -13,13 +13,16 @@ jobs:
 
     steps:
 
+      - name: Display Compiler Version
+        run: g++ --version
+
       - name: Install MPFR
         run: |
           sudo apt-get update -y
           sudo apt-get install -y libmpfr-dev
 
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Copy Library Files
         working-directory: ${{env.test-directory}}
@@ -27,7 +30,7 @@ jobs:
           cp ../../hypercomplex/Hypercomplex.hpp Hypercomplex.hpp
           cp ../../hypercomplex/Polynomial.hpp Polynomial.hpp
 
-      - name: Compile Test Program
+      - name: Compile Docs Test Program
         working-directory: ${{env.test-directory}}
         run: g++ --std=c++17 test.cpp -o test -lmpfr -lgmp
 
@@ -57,7 +60,7 @@ jobs:
     steps:
 
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Miniconda & Environment
         uses: conda-incubator/setup-miniconda@v2
@@ -114,3 +117,27 @@ jobs:
           docker tag angrymaciek/${repo_name} angrymaciek/${repo_name}:${tag}
           echo $docker_password | docker login -u $docker_username --password-stdin
           docker push angrymaciek/${repo_name}:${tag}
+
+  CHANGELOG:
+    runs-on: ubuntu-22.04
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Update CHANGELOG
+        uses: requarks/changelog-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${${GITHUB_REF##*/}:1}
+          excludeTypes: docs,other
+          includeRefIssues: false
+          reverseOrder: true
+
+      - name: Commit CHANGELOG.md
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          branch: master
+          commit_message: 'docs: CHANGELOG.md auto update'
+          push_options: --force

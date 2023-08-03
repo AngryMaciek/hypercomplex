@@ -1,0 +1,43 @@
+name: pr-open
+
+on:
+  pull_request_target:
+    types: [opened]
+
+jobs:
+
+  pr-open-comment:
+    runs-on: ubuntu-22.04
+
+    steps:
+
+      - name: Checkout the codebase
+        uses: actions/checkout@v3
+
+      - name: Delay
+        run: sleep 30s
+
+      - name: Render comment template
+        id: render_template
+        uses: chuhlomin/render-template@v1.6
+        with:
+          template: .github/pr_open_comment.md
+          vars: |
+            author: ${{ github.event.pull_request.user.login }}
+
+      - name: Create a bot comment
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: AngryMaciek/hypercomplex
+          issue-number: ${{ github.event.pull_request.number }}
+          body: ${{ steps.render_template.outputs.result }}
+
+  assignee-reviewer:
+    runs-on: ubuntu-22.04
+
+    steps:
+
+      - uses: kentaro-m/auto-assign-action@v1.2.5
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
