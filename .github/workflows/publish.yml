@@ -117,3 +117,27 @@ jobs:
           docker tag angrymaciek/${repo_name} angrymaciek/${repo_name}:${tag}
           echo $docker_password | docker login -u $docker_username --password-stdin
           docker push angrymaciek/${repo_name}:${tag}
+
+  CHANGELOG:
+    runs-on: ubuntu-22.04
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Update CHANGELOG
+        uses: requarks/changelog-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${${GITHUB_REF##*/}:1}
+          excludeTypes: docs,other
+          includeRefIssues: false
+          reverseOrder: true
+
+      - name: Commit CHANGELOG.md
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          branch: master
+          commit_message: 'docs: CHANGELOG.md auto update'
+          push_options: --force
