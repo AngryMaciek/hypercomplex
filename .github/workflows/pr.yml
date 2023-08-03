@@ -69,27 +69,20 @@ jobs:
               IFS='.' read -r PREVIOUS_MAJOR PREVIOUS_MINOR PREVIOUS_PATCH <<< "$PREVIOUS_COMMIT_VERSION"
               if [[ "$NEW_MAJOR" != "$PREVIOUS_MAJOR" ]]
               then
-                  LABEL="release:major"
+                  export LABEL="release:major"
               fi
               if [[ "$NEW_MINOR" != "$PREVIOUS_MINOR" ]]
               then
-                  LABEL="release:minor"
+                  export LABEL="release:minor"
               fi
               if [[ "$NEW_PATCH" != "$PREVIOUS_PATCH" ]]
               then
-                  LABEL="release:patch"
+                  export LABEL="release:patch"
               fi
           fi
-          echo $NEW_COMMIT_VERSION
-          echo $PREVIOUS_COMMIT_VERSION
-          echo $LABEL
 
-
-
-
-
-
-      #- name: add label
-      #  uses: actions-ecosystem/action-add-labels@v1
-      #  with:
-      #    labels: bug
+      - name: Add version bump label
+        if: env.LABEL
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: $LABEL
