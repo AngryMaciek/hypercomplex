@@ -65,11 +65,17 @@ jobs:
           $GIT checkout -
           if [[ "$NEW_COMMIT_VERSION" != "$PREVIOUS_COMMIT_VERSION" ]]
           then
-              $GIT tag v$NEW_COMMIT_VERSION
+              IFS='.' read -r NEW_MAJOR NEW_MINOR NEW_PATCH <<< "$NEW_COMMIT_VERSION"
+              IFS='.' read -r PREVIOUS_MAJOR PREVIOUS_MINOR PREVIOUS_PATCH <<< "$PREVIOUS_COMMIT_VERSION"
           fi
           echo $NEW_COMMIT_VERSION
           echo $PREVIOUS_COMMIT_VERSION
-
+          echo $NEW_MAJOR
+          echo $NEW_MINOR
+          echo $NEW_PATCH
+          echo $PREVIOUS_MAJOR
+          echo $PREVIOUS_MINOR
+          echo $PREVIOUS_PATCH
 
 
 
