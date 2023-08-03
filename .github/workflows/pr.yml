@@ -63,10 +63,10 @@ jobs:
           $GIT checkout HEAD~1
           PREVIOUS_COMMIT_VERSION="$(grep -E '__version__ = ".+"' hypercomplex/VERSION | grep -oE '[0-9.]+')"
           $GIT checkout -
-          if [[ "$NEW_COMMIT_VERSION" != "$PREVIOUS_COMMIT_VERSION" ]]
-          then
-              $GIT tag v$NEW_COMMIT_VERSION
-          fi
+          # if [[ "$NEW_COMMIT_VERSION" != "$PREVIOUS_COMMIT_VERSION" ]]
+          # then
+          #     $GIT tag v$NEW_COMMIT_VERSION
+          # fi
           echo $NEW_COMMIT_VERSION
           echo $PREVIOUS_COMMIT_VERSION
 
