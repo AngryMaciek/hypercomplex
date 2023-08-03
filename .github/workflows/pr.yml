@@ -4,8 +4,7 @@ on:
   # By default, a workflow only runs when a pull_request's activity type
   # is opened, synchronize, or reopened. We explicity override here so that
   # PR titles are re-linted when the PR text content is edited.
-  # _target applies to PR from forks.
-  pull_request_target:
+  pull_request:
     types: [opened, edited, reopened, synchronize]
 
 jobs:
