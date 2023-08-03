@@ -65,7 +65,18 @@ jobs:
           $GIT checkout -
           if [[ "$NEW_COMMIT_VERSION" != "$PREVIOUS_COMMIT_VERSION" ]]
           then
-              echo 123
+              $GIT tag v$NEW_COMMIT_VERSION
           fi
           echo $NEW_COMMIT_VERSION
           echo $PREVIOUS_COMMIT_VERSION
+
+
+
+
+
+
+
+      #- name: add label
+      #  uses: actions-ecosystem/action-add-labels@v1
+      #  with:
+      #    labels: bug
