@@ -1,0 +1,31 @@
+name: issue-open
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+
+  issue-open-comment:
+    runs-on: ubuntu-22.04
+
+    steps:
+
+      - name: Checkout the codebase
+        uses: actions/checkout@v3
+
+      - name: Render comment template
+        id: render_template
+        uses: chuhlomin/render-template@v1.6
+        with:
+          template: .github/issue_open_comment.md
+          vars: |
+            author: ${{ github.event.issue.user.login }}
+
+      - name: Create a bot comment
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: AngryMaciek/hypercomplex
+          issue-number: ${{ github.event.issue.number }}
+          body: ${{ steps.render_template.outputs.result }}
