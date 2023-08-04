@@ -20,7 +20,7 @@ ifeq ($(UNAME_S),Darwin)
     INCLUDE_PREFIX = /usr/local/include
 endif
 
-.PHONY: help install uninstall test lint docs build clean
+.PHONY: help install uninstall test lint docs build clean image container
 
 # =============================================================================
 # Print available commands
@@ -35,6 +35,8 @@ help:
 	@echo "docs - generate project's documentation (requires doxygen)"
 	@echo "build - build conda package (requires conda-build)"
 	@echo "clean - remove all dev artifacts"
+	@echo "image - build Docker image (requires Docker deamon running)"
+	@echo "container - start interactive Docker container (requires image)"
 
 # =============================================================================
 # Install
@@ -109,3 +111,34 @@ clean:
 	@find . -type f -name '*.DS_Store' -delete
 	@rm -rf docs/html docs/latex
 	@rm -f test
+
+# =============================================================================
+# Image
+# =============================================================================
+
+# Build Docker image
+image:
+	@# Build docker image
+	@if [ $$(docker ps &> /dev/null; echo $$?) -eq 0 ]; then\
+		docker rm hypercomplex &> /dev/null;\
+		sleep 1;\
+		docker rmi hypercomplex:latest &> /dev/null;\
+		docker build -t hypercomplex:latest -f Dockerfile .;\
+	else \
+		echo "Docker deamon is not running OR the current user requires higher privileges.";\
+	fi
+
+# =============================================================================
+# Container
+# =============================================================================
+
+# start Docker container
+container:
+	@# Run a docker container
+	@if [ $$((docker images | grep hypercomplex) &> /dev/null; echo $$?) -eq 0 ] \
+	; then\
+		docker rm hypercomplex &> /dev/null;\
+		docker run --name hypercomplex -e HOSTUID=`id -u $$USER` -p 8888:8888 -it -v $$PWD:/hypercomplex hypercomplex:latest;\
+	else \
+		echo "Docker deamon isn't running OR hypercomplex image isn't available OR the current user requires higher privileges.";\
+	fi

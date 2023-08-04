@@ -53,6 +53,25 @@ an isolated environment, just for this project:
    If you have no experience with Conda environments, read about them
    [under this address](https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html).
 
+### local Docker container
+
+We have additionally prepared a development/execution Docker image which one may use in order to
+work on our project in a fully encapsulated environment (that is: a container).  
+Assuming the Docker Engine is running locally please build the image with:
+```
+docker build -t hypercomplex:latest -f Dockerfile-dev .
+```
+Once the process is finished start & enter the container with:
+```
+docker run --name hypercomplex -e HOSTUID=`id -u $USER` -p 8888:8888 -v {HOST_PATH_TO_HYPERCOMPLEX}:/hypercomplex -it fuzzyreg:latest
+```
+Watch out! Due to Docker's specifics they need to be executed as `root` user;
+[alternatively, see here](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user).
+
+Recall that all data generated inside the container (with the exception of the mounted volume) are **not** persistent.  
+If you'd like your data don't perish into oblivion after you stop the container
+check out [Docker documentation on storage mechanisms](https://docs.docker.com/storage/).
+
 ### Ephemeral development environment
 
 (╯°□°)╯︵ ┻━┻  
