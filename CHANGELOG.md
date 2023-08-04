@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.0.14] - 2023-08-05
+### :memo: Documentation Changes
+- [`e8433b8`](https://github.com/AngryMaciek/hypercomplex/commit/e8433b8ac00ebf71a6406bb8836a3c44e9010652) - docs: clean changelog/dev/docs *(PR [#69](https://github.com/AngryMaciek/hypercomplex/pull/69) by [@AngryMaciek](https://github.com/AngryMaciek))*
+
+
 ## [v2.0.13] - 2023-08-03
 ### :bug: Bug Fixes
 - [`b3ee0dd`](https://github.com/AngryMaciek/hypercomplex/commit/b3ee0dd58feef4e7793afc452e1e5e6f3ebe13e9) - adjust conda pkg options *(PR [#68](https://github.com/AngryMaciek/hypercomplex/pull/68) by [@AngryMaciek](https://github.com/AngryMaciek))*
@@ -23,3 +28,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [v2.0.11]: https://github.com/AngryMaciek/hypercomplex/compare/v2.0.10...v2.0.11
 [v2.0.12]: https://github.com/AngryMaciek/hypercomplex/compare/v2.0.11...v2.0.12
 [v2.0.13]: https://github.com/AngryMaciek/hypercomplex/compare/v2.0.12...v2.0.13
+[v2.0.14]: https://github.com/AngryMaciek/hypercomplex/compare/v2.0.13...v2.0.14
