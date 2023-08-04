@@ -9,14 +9,14 @@
  * lattice-based cryptosystems in high-dimensional algebras of truncated
  * polynomial rings.
  * The library is dedicated mostly to computational mathematicians and computational scientists
- * whose focus is (post-quantum) cryptography and precise computation. 
+ * whose focus is (post-quantum) cryptography and precise computation.
  * As a header-only C++ template code it's greatest advantage is the combination of
  * speed, generic programming and convenience for the end user, making it
  * well suited for wide range of computationally challenging projects.
- * 
+ *
  * \section install_sec Installation
  *
- * As a prerequisite it is essential to install the 
+ * As a prerequisite it is essential to install the
  * <a href="https://www.mpfr.org/">MPFR library</a> first.
  * This should be rather straightforward with the following commands:
  * \code
@@ -39,15 +39,28 @@
  * Remember to specify a proper langauge standard for the compiler as well as
  * linking with _GNU MP_ and _GNU MPFR_ libraries, as in the command below:
  * \code
- * g++ -02 --std=c++17 test.cpp -o test -lmpfr -lgmp
+ * g++ -O2 --std=c++17 test.cpp -o test -lmpfr -lgmp
  * \endcode
- * 
+ *
+ *
+ * Alternatively, if you work with conda environments this library is installable with:
+ * \code
+ * conda install -c angrymaciek hypercomplex
+ * \endcode
+ *
+ * However, please note that during compilation time it might be necessary to
+ * provide additional flags which point to the headers and other libs for the linker.
+ *
+ * The command above would be adjusted to:
+ * \code
+ * g++ -O2 --std=c++17 -I$CONDA_PREFIX/include -L$CONDA_PREFIX/lib test.cpp -o test -lmpfr -lgmp
+ * \endcode
  *
  *
  * \section usecase_sec Brief overview
  *
  * The following section demonstrates general functionality and behaviour of the library.
- * For the full unit test suite please refer to 
+ * For the full unit test suite please refer to
  * <a href="https://github.com/AngryMaciek/hypercomplex/blob/master/.test/unit/test.cpp">this file</a>.
  *
  * Please note that throughout this whole documentation many links may point
@@ -165,26 +178,26 @@
  * \endcode
  *
  * Arithmetic operations on hypercomplex numbers are not complicated at all.
- * * Addition is carried out over respective elements:  
+ * * Addition is carried out over respective elements:
  *   \f$\forall_{H_A, H_B}: [H_A+H_B]^{(i)} := H_A^{(i)} + H_B^{(i)}\f$
- * * Subtraction is carried out over respective elements:  
+ * * Subtraction is carried out over respective elements:
  *   \f$\forall_{H_A, H_B}: [H_A-H_B]^{(i)} := H_A^{(i)} - H_B^{(i)}\f$
- * * A general formula for multiplication of hypercomplex numbers may be derived as follows:  
- *   Let \f$H_A\f$ and \f$H_B\f$ be elements from a Cayley-Dickson algebra of dimension \f$2^n\f$.  
- *   Both numbers may be interpreted as ordered pairs of elements from a \f$2^{(n-1)}\f$-dimensional algebra: \f$H_A = (a,b)\f$ and \f$H_B = (c,d)\f$.  
- *   Such a representation yields a recursive multiplication algorithm:  
- *   \f$H_A \times H_B = (a,b)(c,d) := (ac-\bar{d}b,da+b\bar{c})\f$.  
- *   (Multiplication of hypercomplex numbers is indeed implemented as a recursive operator with the base condition of multiplying real numbers.)  
+ * * A general formula for multiplication of hypercomplex numbers may be derived as follows:
+ *   Let \f$H_A\f$ and \f$H_B\f$ be elements from a Cayley-Dickson algebra of dimension \f$2^n\f$.
+ *   Both numbers may be interpreted as ordered pairs of elements from a \f$2^{(n-1)}\f$-dimensional algebra: \f$H_A = (a,b)\f$ and \f$H_B = (c,d)\f$.
+ *   Such a representation yields a recursive multiplication algorithm:
+ *   \f$H_A \times H_B = (a,b)(c,d) := (ac-\bar{d}b,da+b\bar{c})\f$.
+ *   (Multiplication of hypercomplex numbers is indeed implemented as a recursive operator with the base condition of multiplying real numbers.)
  *   **Disclaimer:** Various distinct definitions of the multiplication formula exist:
  *   <a href="https://en.wikipedia.org/wiki/Cayley%E2%80%93Dickson_construction">here</a>,
- *   <a href="https://ncatlab.org/nlab/show/Cayley-Dickson+construction">here</a> or 
- *   <a href="http://www.zipcon.net/~swhite/docs/math/quaternions/Cayley-Dickson.html">here</a>.  
- *   They all lead to a proper norm upon multiplying a number with it's conjugate and the choice is arbitrary (feel free to modify the code, if needed).  
- *   In addition to the overloaded operator, hypercomplex multiplication is also available as a class method.  
- *   Depending on the dimenion of algebra and compiler's optimisation settings it could be 5-50x faster than the overloaded operator.  
- * * Knowing that inverse elements of hypercomplex numbers exist a division operation is implementat as a multiplication with an inverse of the right operand:  
- *   Let \f$H_A\f$ and \f$H_B\f$ be elements from a Cayley-Dickson algebra of dimension \f$2^n\f$, \f$H_B \neq 0\f$.  
- *   \f$\frac{H_A}{H_B} := H_A \times H_B^{-1}\f$  
+ *   <a href="https://ncatlab.org/nlab/show/Cayley-Dickson+construction">here</a> or
+ *   <a href="http://www.zipcon.net/~swhite/docs/math/quaternions/Cayley-Dickson.html">here</a>.
+ *   They all lead to a proper norm upon multiplying a number with it's conjugate and the choice is arbitrary (feel free to modify the code, if needed).
+ *   In addition to the overloaded operator, hypercomplex multiplication is also available as a class method.
+ *   Depending on the dimenion of algebra and compiler's optimisation settings it could be 5-50x faster than the overloaded operator.
+ * * Knowing that inverse elements of hypercomplex numbers exist a division operation is implementat as a multiplication with an inverse of the right operand:
+ *   Let \f$H_A\f$ and \f$H_B\f$ be elements from a Cayley-Dickson algebra of dimension \f$2^n\f$, \f$H_B \neq 0\f$.
+ *   \f$\frac{H_A}{H_B} := H_A \times H_B^{-1}\f$
  *   Notice the order of the operands, as commutativity is no longer a given.
  *
  * To test these operations we may execute the code below:
@@ -226,7 +239,7 @@
  * \f$e^H = e^{Re(H)+Im(H)} := e^{Re(H)} \times (cos||Im(H)||_2 + \frac{Im(H)}{||Im(H)||_2} \times sin||Im(H)||_2)\f$
  *
  * Regardless of the algebra hypercomplex numbers in the equation above are multiplied by scalars,
- * therefore associativity and commutativity still holds for these formulas.  
+ * therefore associativity and commutativity still holds for these formulas.
  * For that reason the exponentiation function is highly optimized,
  * implemented efficiently with as few operations and variables as possible.
  *
@@ -247,7 +260,7 @@
  * It is strongly advised to read the <a href="https://www.mpfr.org/mpfr-current/mpfr.pdf">library manual</a> beforehand
  * (sections 1 and 4 as a must-read). Please do not mix this library with another _MPFR_-dependant
  * code in the same translation unit.
- * 
+ *
  * We start with setting a global precision for all objects.
  * \code{.cpp}
  *   set_mpfr_precision(200);
@@ -304,7 +317,7 @@
  *   mpfr_clear(A[7]);
  * \endcode
  *
- * Also, following that, to call a wrapper function which 
+ * Also, following that, to call a wrapper function which
  * cleans all internally-reserved memory:
  * \code{.cpp}
  *   clear_mpfr_memory();
