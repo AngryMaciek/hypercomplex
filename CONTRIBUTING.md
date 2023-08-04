@@ -53,6 +53,12 @@ an isolated environment, just for this project:
    If you have no experience with Conda environments, read about them
    [under this address](https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html).
 
+PS. Remember that if you work in a conda environment and use internal compilers
+it may be necessary to provide additional paths to the headers and for the linker
+at the compilation time (flags: `-I` and `-L`), thus you may be required to
+adjust the commands in the _Makefile_(!) Please see the "Conda" CI workflows,
+this note applies there too.
+
 ### local Docker container
 
 We have additionally prepared a development/execution Docker image which one may use in order to
