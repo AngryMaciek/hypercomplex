@@ -56,8 +56,8 @@ an isolated environment, just for this project:
 PS. Remember that if you work in a conda environment and use internal compilers
 it may be necessary to provide additional paths to the headers and for the linker
 at the compilation time (flags: `-I` and `-L`), thus you may be required to
-adjust the commands in the _Makefile_(!) Please see the "Conda" CI workflows,
-this note applies there too.
+adjust the commands in the _Makefile_(!) Please see the "conda" CI jobs,
+they are related to building a conda package but this note applies to these tests too.
 
 ### local Docker container
 
