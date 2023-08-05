@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.0.16] - 2023-08-05
+### :construction_worker: Build System
+- [`20c5789`](https://github.com/AngryMaciek/hypercomplex/commit/20c5789c8c9339b2332edf49f60a21bcd36ede69) - fix gh-pages ci workflow *(PR [#72](https://github.com/AngryMaciek/hypercomplex/pull/72) by [@AngryMaciek](https://github.com/AngryMaciek))*
+
+
 ## [v2.0.15] - 2023-08-05
 ### :recycle: Refactors
 - [`58ff626`](https://github.com/AngryMaciek/hypercomplex/commit/58ff6269209bc4a925d413399d940925b2b8d5f1) - small structural changes to the library *(PR [#70](https://github.com/AngryMaciek/hypercomplex/pull/70) by [@AngryMaciek](https://github.com/AngryMaciek))*
@@ -36,3 +41,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [v2.0.14]: https://github.com/AngryMaciek/hypercomplex/compare/v2.0.13...v2.0.14
 
 [v2.0.15]: https://github.com/AngryMaciek/hypercomplex/compare/v2.0.14...v2.0.15
+[v2.0.16]: https://github.com/AngryMaciek/hypercomplex/compare/v2.0.15...v2.0.16
