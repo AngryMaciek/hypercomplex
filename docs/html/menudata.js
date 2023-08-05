@@ -26,4 +26,5 @@ var menudata={children:[
 {text:"Main Page",url:"index.html"},
 {text:"File Reference",url:"usergroup0.html",children:[
 {text:"Hypercomplex",url:"_hypercomplex_8hpp.html"},
+{text:"Hypercomplex_MPFR",url:"_hypercomplex___m_p_f_r_8hpp.html"},
 {text:"Polynomial",url:"_polynomial_8hpp.html"}]}]}

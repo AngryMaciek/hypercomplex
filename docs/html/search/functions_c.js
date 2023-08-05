@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['set_5fmpfr_5fprecision_0',['set_mpfr_precision',['../_hypercomplex_8hpp.html#a0d24a46323a0a313a012f2c74cc112a8',1,'Hypercomplex.hpp']]]
+  ['set_5fmpfr_5fprecision_0',['set_mpfr_precision',['../_hypercomplex___m_p_f_r_8hpp.html#a87e255563ccdfe35cefc1624b8178c93',1,'Hypercomplex_MPFR.hpp']]]
 ];

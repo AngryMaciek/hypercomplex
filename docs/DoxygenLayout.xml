@@ -5,6 +5,7 @@
     <tab type="mainpage" visible="yes" title=""/>
     <tab type="usergroup" title="File Reference">
       <tab type="user" url="_hypercomplex_8hpp.html" title="Hypercomplex"/>
+      <tab type="user" url="_hypercomplex___m_p_f_r_8hpp.html" title="Hypercomplex_MPFR"/>
       <tab type="user" url="_polynomial_8hpp.html" title="Polynomial"/>
     </tab>
   </navindex>

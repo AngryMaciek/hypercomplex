@@ -109,28 +109,28 @@ $(function() {
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="_polynomial_8hpp.html#a1dd3a3950d63574bd47995c9429256e2">   29</a></span>int64_t <a class="code hl_function" href="_polynomial_8hpp.html#a1dd3a3950d63574bd47995c9429256e2">RingInverse</a>(<span class="keyword">const</span> int64_t x, <span class="keyword">const</span> int64_t mod) {</div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    int64_t y = x % mod;</div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="keywordflow">if</span> (y &lt; 0) y += mod;</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i=1; i &lt; mod; i++) {</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keywordflow">for</span> (uint64_t i=1; i &lt; mod; i++) {</div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <span class="keywordflow">if</span> ((y*i) % mod == 1) <span class="keywordflow">return</span> i;</div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    }</div>
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="keywordflow">throw</span> std::invalid_argument(<span class="stringliteral">&quot;non-invertible element&quot;</span>);</div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>}</div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="keyword">template</span> &lt;const <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> MaxDeg&gt;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="keyword">template</span> &lt;const u<span class="keywordtype">int</span>64_t MaxDeg&gt;</div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="class_polynomial.html">   41</a></span><span class="keyword">class </span><a class="code hl_class" href="class_polynomial.html">Polynomial</a> {</div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> <span class="keyword">private</span>:</div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    int64_t* coefficients = <span class="keyword">new</span> int64_t[MaxDeg+1];</div>
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> <span class="keyword">public</span>:</div>
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="class_polynomial.html#a91c6dabfdd7e061c40aee967574d6277">   52</a></span>    <span class="keyword">explicit</span> <a class="code hl_function" href="class_polynomial.html#a91c6dabfdd7e061c40aee967574d6277">Polynomial</a>(<span class="keyword">const</span> int64_t* arr) {</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i=0; i &lt;= MaxDeg; i++) coefficients[i] = arr[i];</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        <span class="keywordflow">for</span> (uint64_t i=0; i &lt;= MaxDeg; i++) coefficients[i] = arr[i];</div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    }</div>
 <div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="class_polynomial.html#a8214bcae2f76460adc3abd46eff1c915">   62</a></span>    <a class="code hl_function" href="class_polynomial.html#a8214bcae2f76460adc3abd46eff1c915">Polynomial</a>(<span class="keyword">const</span> <a class="code hl_class" href="class_polynomial.html">Polynomial</a> &amp;P) {</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i=0; i &lt;= MaxDeg; i++) coefficients[i] = P[i];</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        <span class="keywordflow">for</span> (uint64_t i=0; i &lt;= MaxDeg; i++) coefficients[i] = P[i];</div>
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    }</div>
 <div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
 <div class="line"><a id="l00071" name="l00071"></a><span class="lineno"><a class="line" href="class_polynomial.html#a1667b8e7a33c32bc14eda25cf8cface4">   71</a></span>    <a class="code hl_function" href="class_polynomial.html#a1667b8e7a33c32bc14eda25cf8cface4">Polynomial</a>() {</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i=0; i &lt;= MaxDeg; i++) coefficients[i] = 0;</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        <span class="keywordflow">for</span> (uint64_t i=0; i &lt;= MaxDeg; i++) coefficients[i] = 0;</div>
 <div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    }</div>
 <div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
 <div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    <a class="code hl_class" href="class_polynomial.html">~Polynomial</a>() {</div>
@@ -141,41 +141,41 @@ $(function() {
 <div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        <span class="comment">// self-assignment guard</span></div>
 <div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        <span class="keywordflow">if</span> (<span class="keyword">this</span> == &amp;P) <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
 <div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        <span class="comment">// reassign</span></div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i=0; i &lt;= MaxDeg; i++) coefficients[i] = P[i];</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        <span class="keywordflow">for</span> (uint64_t i=0; i &lt;= MaxDeg; i++) coefficients[i] = P[i];</div>
 <div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        <span class="comment">// return the existing object so we can chain this operator</span></div>
 <div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
 <div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    }</div>
 <div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno"><a class="line" href="class_polynomial.html#a63d435f5b4017a2439803abb9bab27b9">   95</a></span>    <a class="code hl_class" href="class_polynomial.html">Polynomial</a> <a class="code hl_function" href="class_polynomial.html#a63d435f5b4017a2439803abb9bab27b9">operator-</a>()<span class="keyword"> const </span>{</div>
 <div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        int64_t temparr[MaxDeg+1];</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i=0; i &lt;= MaxDeg; i++) temparr[i] = -coefficients[i];</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        <span class="keywordflow">for</span> (uint64_t i=0; i &lt;= MaxDeg; i++) temparr[i] = -coefficients[i];</div>
 <div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        <a class="code hl_class" href="class_polynomial.html">Polynomial&lt;MaxDeg&gt;</a> P(temparr);</div>
 <div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>        <span class="keywordflow">return</span> P;</div>
 <div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    }</div>
 <div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno"><a class="line" href="class_polynomial.html#a3cd44d51da4a73ea65f3fe3e145f28a4">  106</a></span>    int64_t <span class="keyword">const</span> &amp; <a class="code hl_function" href="class_polynomial.html#a3cd44d51da4a73ea65f3fe3e145f28a4">operator[]</a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno"><a class="line" href="class_polynomial.html#abf62a29e534dad5e6f40324a7a670a77">  106</a></span>    int64_t <span class="keyword">const</span> &amp; <a class="code hl_function" href="class_polynomial.html#abf62a29e534dad5e6f40324a7a670a77">operator[]</a>(<span class="keyword">const</span> uint64_t i)<span class="keyword"> const </span>{</div>
 <div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        assert(0 &lt;= i &amp;&amp; i &lt;= MaxDeg);</div>
 <div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>        <span class="keywordflow">return</span> coefficients[i];</div>
 <div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    }</div>
 <div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span> </div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno"><a class="line" href="class_polynomial.html#a3fbc2b909192f3d288aaf43e6b155be6">  115</a></span>    int64_t &amp; <a class="code hl_function" href="class_polynomial.html#a3fbc2b909192f3d288aaf43e6b155be6">operator[]</a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i) {</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno"><a class="line" href="class_polynomial.html#aeab7252128f262a78fd7a08a36d8647c">  115</a></span>    int64_t &amp; <a class="code hl_function" href="class_polynomial.html#aeab7252128f262a78fd7a08a36d8647c">operator[]</a>(<span class="keyword">const</span> uint64_t i) {</div>
 <div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>        assert(0 &lt;= i &amp;&amp; i &lt;= MaxDeg);</div>
 <div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        <span class="keywordflow">return</span> coefficients[i];</div>
 <div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    }</div>
 <div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>};</div>
 <div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span><span class="keyword">template</span> &lt;const <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> MaxDeg&gt;</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span><span class="keyword">template</span> &lt;const u<span class="keywordtype">int</span>64_t MaxDeg&gt;</div>
 <div class="line"><a id="l00127" name="l00127"></a><span class="lineno"><a class="line" href="_polynomial_8hpp.html#ab39eb7534930ff0adc53ded03c96679b">  127</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="_polynomial_8hpp.html#ab39eb7534930ff0adc53ded03c96679b">operator==</a>(</div>
 <div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    <span class="keyword">const</span> <a class="code hl_class" href="class_polynomial.html">Polynomial&lt;MaxDeg&gt;</a> &amp;P1,</div>
 <div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>    <span class="keyword">const</span> <a class="code hl_class" href="class_polynomial.html">Polynomial&lt;MaxDeg&gt;</a> &amp;P2</div>
 <div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>) {</div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i=0; i &lt;= MaxDeg; i++) {</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    <span class="keywordflow">for</span> (uint64_t i=0; i &lt;= MaxDeg; i++) {</div>
 <div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>        <span class="keywordflow">if</span> (P1[i] != P2[i]) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>    }</div>
 <div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>}</div>
 <div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span> </div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span><span class="keyword">template</span> &lt;const <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> MaxDeg&gt;</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span><span class="keyword">template</span> &lt;const u<span class="keywordtype">int</span>64_t MaxDeg&gt;</div>
 <div class="line"><a id="l00143" name="l00143"></a><span class="lineno"><a class="line" href="_polynomial_8hpp.html#aa5bc05fb2661093163b44bfdb2f07db6">  143</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="_polynomial_8hpp.html#aa5bc05fb2661093163b44bfdb2f07db6">operator!=</a>(</div>
 <div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>    <span class="keyword">const</span> <a class="code hl_class" href="class_polynomial.html">Polynomial&lt;MaxDeg&gt;</a> &amp;P1,</div>
 <div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>    <span class="keyword">const</span> <a class="code hl_class" href="class_polynomial.html">Polynomial&lt;MaxDeg&gt;</a> &amp;P2</div>
@@ -183,65 +183,65 @@ $(function() {
 <div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>    <span class="keywordflow">return</span> !(P1 == P2);</div>
 <div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>}</div>
 <div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span> </div>
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span><span class="keyword">template</span> &lt;const <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> MaxDeg&gt;</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span><span class="keyword">template</span> &lt;const u<span class="keywordtype">int</span>64_t MaxDeg&gt;</div>
 <div class="line"><a id="l00156" name="l00156"></a><span class="lineno"><a class="line" href="_polynomial_8hpp.html#a1259d353e8e4d57bf2342b46f238f5c5">  156</a></span>std::ostream&amp; <a class="code hl_function" href="_polynomial_8hpp.html#a1259d353e8e4d57bf2342b46f238f5c5">operator&lt;&lt; </a>(std::ostream &amp;os, <span class="keyword">const</span> <a class="code hl_class" href="class_polynomial.html">Polynomial&lt;MaxDeg&gt;</a> &amp;P) {</div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>    <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i=0; i &lt; MaxDeg; i++) os &lt;&lt; P[i] &lt;&lt; <span class="stringliteral">&quot;,&quot;</span>;</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>    <span class="keywordflow">for</span> (uint64_t i=0; i &lt; MaxDeg; i++) os &lt;&lt; P[i] &lt;&lt; <span class="stringliteral">&quot;,&quot;</span>;</div>
 <div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>    os &lt;&lt; P[MaxDeg];</div>
 <div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>    <span class="keywordflow">return</span> os;</div>
 <div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>}</div>
 <div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span> </div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span><span class="keyword">template</span> &lt;const <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> MaxDeg&gt;</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span><span class="keyword">template</span> &lt;const u<span class="keywordtype">int</span>64_t MaxDeg&gt;</div>
 <div class="line"><a id="l00168" name="l00168"></a><span class="lineno"><a class="line" href="_polynomial_8hpp.html#ada08bad24346623f552dd5483b3b2b44">  168</a></span><a class="code hl_class" href="class_polynomial.html">Polynomial&lt;MaxDeg&gt;</a> <a class="code hl_function" href="_polynomial_8hpp.html#ada08bad24346623f552dd5483b3b2b44">operator*</a>(<span class="keyword">const</span> int64_t x, <span class="keyword">const</span> <a class="code hl_class" href="class_polynomial.html">Polynomial&lt;MaxDeg&gt;</a> &amp;P) {</div>
 <div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>    int64_t temparr[MaxDeg+1];</div>
-<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>    <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i=0; i &lt;= MaxDeg; i++) temparr[i] = P[i] * x;</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>    <span class="keywordflow">for</span> (uint64_t i=0; i &lt;= MaxDeg; i++) temparr[i] = P[i] * x;</div>
 <div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>    <a class="code hl_class" href="class_polynomial.html">Polynomial&lt;MaxDeg&gt;</a> p(temparr);</div>
 <div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>    <span class="keywordflow">return</span> p;</div>
 <div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>}</div>
 <div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span> </div>
-<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span><span class="keyword">template</span> &lt;const <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> MaxDeg&gt;</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span><span class="keyword">template</span> &lt;const u<span class="keywordtype">int</span>64_t MaxDeg&gt;</div>
 <div class="line"><a id="l00181" name="l00181"></a><span class="lineno"><a class="line" href="_polynomial_8hpp.html#a775a48e6b08ae2950870cdd5106d1235">  181</a></span><a class="code hl_class" href="class_polynomial.html">Polynomial&lt;MaxDeg&gt;</a> <a class="code hl_function" href="_polynomial_8hpp.html#a775a48e6b08ae2950870cdd5106d1235">operator+</a>(</div>
 <div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>    <span class="keyword">const</span> <a class="code hl_class" href="class_polynomial.html">Polynomial&lt;MaxDeg&gt;</a> &amp;P1,</div>
 <div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>    <span class="keyword">const</span> <a class="code hl_class" href="class_polynomial.html">Polynomial&lt;MaxDeg&gt;</a> &amp;P2</div>
 <div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>) {</div>
 <div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>    int64_t temparr[MaxDeg+1];</div>
-<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>    <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i=0; i &lt;= MaxDeg; i++) temparr[i] = P1[i] + P2[i];</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>    <span class="keywordflow">for</span> (uint64_t i=0; i &lt;= MaxDeg; i++) temparr[i] = P1[i] + P2[i];</div>
 <div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>    <a class="code hl_class" href="class_polynomial.html">Polynomial&lt;MaxDeg&gt;</a> p(temparr);</div>
 <div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>    <span class="keywordflow">return</span> p;</div>
 <div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>}</div>
 <div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span> </div>
-<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span><span class="keyword">template</span> &lt;const <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> MaxDeg&gt;</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span><span class="keyword">template</span> &lt;const u<span class="keywordtype">int</span>64_t MaxDeg&gt;</div>
 <div class="line"><a id="l00197" name="l00197"></a><span class="lineno"><a class="line" href="_polynomial_8hpp.html#a756820e0ec0f934daca2246fdbd8f071">  197</a></span><a class="code hl_class" href="class_polynomial.html">Polynomial&lt;MaxDeg&gt;</a> <a class="code hl_function" href="_polynomial_8hpp.html#a756820e0ec0f934daca2246fdbd8f071">operator-</a>(</div>
 <div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>    <span class="keyword">const</span> <a class="code hl_class" href="class_polynomial.html">Polynomial&lt;MaxDeg&gt;</a> &amp;P1,</div>
 <div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>    <span class="keyword">const</span> <a class="code hl_class" href="class_polynomial.html">Polynomial&lt;MaxDeg&gt;</a> &amp;P2</div>
 <div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>) {</div>
 <div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>    int64_t temparr[MaxDeg+1];</div>
-<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>    <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i=0; i &lt;= MaxDeg; i++) temparr[i] = P1[i] - P2[i];</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>    <span class="keywordflow">for</span> (uint64_t i=0; i &lt;= MaxDeg; i++) temparr[i] = P1[i] - P2[i];</div>
 <div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>    <a class="code hl_class" href="class_polynomial.html">Polynomial&lt;MaxDeg&gt;</a> p(temparr);</div>
 <div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>    <span class="keywordflow">return</span> p;</div>
 <div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>}</div>
 <div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span> </div>
-<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span><span class="keyword">template</span> &lt;const <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> MaxDeg&gt;</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span><span class="keyword">template</span> &lt;const u<span class="keywordtype">int</span>64_t MaxDeg&gt;</div>
 <div class="line"><a id="l00213" name="l00213"></a><span class="lineno"><a class="line" href="_polynomial_8hpp.html#a5b98895946924af3819a4de97bed579e">  213</a></span><a class="code hl_class" href="class_polynomial.html">Polynomial&lt;MaxDeg&gt;</a> <a class="code hl_function" href="_polynomial_8hpp.html#ada08bad24346623f552dd5483b3b2b44">operator*</a>(</div>
 <div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>    <span class="keyword">const</span> <a class="code hl_class" href="class_polynomial.html">Polynomial&lt;MaxDeg&gt;</a> &amp;P1,</div>
 <div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>    <span class="keyword">const</span> <a class="code hl_class" href="class_polynomial.html">Polynomial&lt;MaxDeg&gt;</a> &amp;P2</div>
 <div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>) {</div>
 <div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>    int64_t prod[2*MaxDeg+1];</div>
 <div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>    int64_t conv[MaxDeg+1];</div>
-<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>    <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i=0; i &lt; 2*MaxDeg+1; i++) prod[i] = 0;</div>
-<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>    <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i=0; i &lt;= MaxDeg; i++) conv[i] = 0;</div>
-<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>    <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i=0; i &lt;= MaxDeg; i++) {</div>
-<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>        <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> j=0; j &lt;= MaxDeg; j++)</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>    <span class="keywordflow">for</span> (uint64_t i=0; i &lt; 2*MaxDeg+1; i++) prod[i] = 0;</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>    <span class="keywordflow">for</span> (uint64_t i=0; i &lt;= MaxDeg; i++) conv[i] = 0;</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>    <span class="keywordflow">for</span> (uint64_t i=0; i &lt;= MaxDeg; i++) {</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>        <span class="keywordflow">for</span> (uint64_t j=0; j &lt;= MaxDeg; j++)</div>
 <div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>            prod[i+j] += P1[i]*P2[j];</div>
 <div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>    }</div>
-<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>    <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i=0; i &lt; 2*MaxDeg+1; i++) conv[i%(MaxDeg+1)] += prod[i];</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>    <span class="keywordflow">for</span> (uint64_t i=0; i &lt; 2*MaxDeg+1; i++) conv[i%(MaxDeg+1)] += prod[i];</div>
 <div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>    <a class="code hl_class" href="class_polynomial.html">Polynomial&lt;MaxDeg&gt;</a> p(conv);</div>
 <div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>    <span class="keywordflow">return</span> p;</div>
 <div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>}</div>
 <div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span> </div>
-<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span><span class="keyword">template</span> &lt;const <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> MaxDeg&gt;</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span><span class="keyword">template</span> &lt;const u<span class="keywordtype">int</span>64_t MaxDeg&gt;</div>
 <div class="line"><a id="l00236" name="l00236"></a><span class="lineno"><a class="line" href="_polynomial_8hpp.html#af487fd9106ac42a95572f44669c8bdd2">  236</a></span><a class="code hl_class" href="class_polynomial.html">Polynomial&lt;MaxDeg&gt;</a> <a class="code hl_function" href="_polynomial_8hpp.html#af487fd9106ac42a95572f44669c8bdd2">operator%</a>(<span class="keyword">const</span> <a class="code hl_class" href="class_polynomial.html">Polynomial&lt;MaxDeg&gt;</a> &amp;P, <span class="keyword">const</span> int64_t x) {</div>
 <div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>    int64_t temparr[MaxDeg+1];</div>
-<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>    <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i=0; i &lt;= MaxDeg; i++) {</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>    <span class="keywordflow">for</span> (uint64_t i=0; i &lt;= MaxDeg; i++) {</div>
 <div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>        temparr[i] = P[i] % x;</div>
 <div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>        <span class="keywordflow">if</span> (temparr[i] &lt; 0) temparr[i] += x;</div>
 <div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>    }</div>
@@ -249,11 +249,11 @@ $(function() {
 <div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>    <span class="keywordflow">return</span> p;</div>
 <div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>}</div>
 <div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span> </div>
-<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span><span class="keyword">template</span> &lt;const <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> MaxDeg&gt;</div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span><span class="keyword">template</span> &lt;const u<span class="keywordtype">int</span>64_t MaxDeg&gt;</div>
 <div class="line"><a id="l00251" name="l00251"></a><span class="lineno"><a class="line" href="_polynomial_8hpp.html#a947a92ea5edd042a91568b97821bfd47">  251</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="_polynomial_8hpp.html#a947a92ea5edd042a91568b97821bfd47">CenteredLift</a>(<a class="code hl_class" href="class_polynomial.html">Polynomial&lt;MaxDeg&gt;</a> *P, <span class="keyword">const</span> int64_t mod) {</div>
 <div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>    int64_t lower = -mod/2;</div>
 <div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>    int64_t upper = mod/2;</div>
-<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>    <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i = 0; i &lt;= MaxDeg; i++) {</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>    <span class="keywordflow">for</span> (uint64_t i = 0; i &lt;= MaxDeg; i++) {</div>
 <div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>        <span class="keywordflow">if</span> (mod % 2) {  <span class="comment">// odd: &lt;lower, upper&gt;</span></div>
 <div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>            <span class="keywordflow">if</span> ((*P)[i] &lt; lower) (*P)[i] = (*P)[i] + mod;</div>
 <div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>            <span class="keywordflow">if</span> ((*P)[i] &gt; upper) (*P)[i] = (*P)[i] - mod;</div>
@@ -264,7 +264,7 @@ $(function() {
 <div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>    }</div>
 <div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>}</div>
 <div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span> </div>
-<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span><span class="keyword">template</span> &lt;const <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> MaxDeg&gt;</div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span><span class="keyword">template</span> &lt;const u<span class="keywordtype">int</span>64_t MaxDeg&gt;</div>
 <div class="line"><a id="l00271" name="l00271"></a><span class="lineno"><a class="line" href="_polynomial_8hpp.html#a4416945734f6b3cab026aa3baa51e4fe">  271</a></span><a class="code hl_class" href="class_polynomial.html">Polynomial&lt;MaxDeg&gt;</a> <a class="code hl_function" href="_polynomial_8hpp.html#a1dd3a3950d63574bd47995c9429256e2">RingInverse</a>(</div>
 <div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>    <span class="keyword">const</span> <a class="code hl_class" href="class_polynomial.html">Polynomial&lt;MaxDeg&gt;</a> &amp;P,</div>
 <div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>    <span class="keyword">const</span> int64_t &amp;mod</div>
@@ -284,11 +284,11 @@ $(function() {
 <div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>    <a class="code hl_class" href="class_polynomial.html">Polynomial&lt;MaxDeg+1&gt;</a> r;</div>
 <div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>    r[0] = mod-1;</div>
 <div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>    r[MaxDeg+1] = 1;</div>
-<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> deg_r = MaxDeg+1;</div>
-<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>    <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i=0; i &lt;= MaxDeg; i++) temp[i] = P_[i];</div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>    uint64_t deg_r = MaxDeg+1;</div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>    <span class="keywordflow">for</span> (uint64_t i=0; i &lt;= MaxDeg; i++) temp[i] = P_[i];</div>
 <div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>    <a class="code hl_class" href="class_polynomial.html">Polynomial&lt;MaxDeg+1&gt;</a> newr(temp);</div>
-<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> deg_newr = 0;</div>
-<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>    <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i=0; i &lt;= MaxDeg+1; i++) {</div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>    uint64_t deg_newr = 0;</div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>    <span class="keywordflow">for</span> (uint64_t i=0; i &lt;= MaxDeg+1; i++) {</div>
 <div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>        <span class="keywordflow">if</span> (newr[i]) deg_newr = i;</div>
 <div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>    }</div>
 <div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span> </div>
@@ -296,15 +296,15 @@ $(function() {
 <div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>    <span class="keywordflow">while</span> (deg_newr &gt; 0) {</div>
 <div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>        <span class="comment">// division loop</span></div>
 <div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>        <span class="keywordflow">while</span> (deg_r &gt;= deg_newr) {</div>
-<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>            <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i=0; i &lt;= MaxDeg+1; i++) temp[i] = 0;</div>
-<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>            <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i=0; i &lt;= deg_newr; i++)</div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>            <span class="keywordflow">for</span> (uint64_t i=0; i &lt;= MaxDeg+1; i++) temp[i] = 0;</div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>            <span class="keywordflow">for</span> (uint64_t i=0; i &lt;= deg_newr; i++)</div>
 <div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>                temp[i + deg_r - deg_newr] = newr[i];</div>
 <div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>            q[deg_r - deg_newr] =</div>
 <div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>                (r[deg_r] * <a class="code hl_function" href="_polynomial_8hpp.html#a1dd3a3950d63574bd47995c9429256e2">RingInverse</a>(temp[deg_r], mod)) % mod;</div>
-<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span>            <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i=0; i &lt;= deg_r; i++)</div>
+<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span>            <span class="keywordflow">for</span> (uint64_t i=0; i &lt;= deg_r; i++)</div>
 <div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>                temp[i] = (temp[i] * q[deg_r - deg_newr]) % mod;</div>
 <div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>            temp = temp % mod;</div>
-<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>            <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i=0; i &lt;= deg_r; i++) r[i] = r[i] - temp[i];</div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>            <span class="keywordflow">for</span> (uint64_t i=0; i &lt;= deg_r; i++) r[i] = r[i] - temp[i];</div>
 <div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span>            r = r % mod;</div>
 <div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>            deg_r -= 1;</div>
 <div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>        }</div>
@@ -319,11 +319,11 @@ $(function() {
 <div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>        t = temp;</div>
 <div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span> </div>
 <div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>        <span class="comment">// reset variables:</span></div>
-<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>        <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i=0; i &lt;= MaxDeg+1; i++) q[i] = 0;</div>
-<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>        <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i=0; i &lt;= MaxDeg+1; i++) {</div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>        <span class="keywordflow">for</span> (uint64_t i=0; i &lt;= MaxDeg+1; i++) q[i] = 0;</div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>        <span class="keywordflow">for</span> (uint64_t i=0; i &lt;= MaxDeg+1; i++) {</div>
 <div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>            <span class="keywordflow">if</span> (newr[i]) deg_newr = i;</div>
 <div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>        }</div>
-<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>        <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i=0; i &lt;= MaxDeg+1; i++) {</div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>        <span class="keywordflow">for</span> (uint64_t i=0; i &lt;= MaxDeg+1; i++) {</div>
 <div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>            <span class="keywordflow">if</span> (r[i]) deg_r = i;</div>
 <div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>        }</div>
 <div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>    }</div>
@@ -334,7 +334,7 @@ $(function() {
 <div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>    <span class="comment">// construct the inverse polynomial</span></div>
 <div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>    int64_t multiplier = <a class="code hl_function" href="_polynomial_8hpp.html#a1dd3a3950d63574bd47995c9429256e2">RingInverse</a>(newr[0], mod);</div>
 <div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>    <a class="code hl_class" href="class_polynomial.html">Polynomial&lt;MaxDeg&gt;</a> inverse;</div>
-<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>    <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i=0; i &lt;= MaxDeg; i++) inverse[i] = newt[i];</div>
+<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>    <span class="keywordflow">for</span> (uint64_t i=0; i &lt;= MaxDeg; i++) inverse[i] = newt[i];</div>
 <div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span>    inverse = (multiplier * inverse) % mod;</div>
 <div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span> </div>
 <div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span>    <span class="comment">// test: P * 1/P == 1</span></div>
@@ -357,12 +357,12 @@ $(function() {
 <div class="ttc" id="a_polynomial_8hpp_html_af487fd9106ac42a95572f44669c8bdd2"><div class="ttname"><a href="_polynomial_8hpp.html#af487fd9106ac42a95572f44669c8bdd2">operator%</a></div><div class="ttdeci">Polynomial&lt; MaxDeg &gt; operator%(const Polynomial&lt; MaxDeg &gt; &amp;P, const int64_t x)</div><div class="ttdoc">Coefficient reduction modulo a scalar.</div><div class="ttdef"><b>Definition:</b> Polynomial.hpp:236</div></div>
 <div class="ttc" id="aclass_polynomial_html"><div class="ttname"><a href="class_polynomial.html">Polynomial</a></div><div class="ttdef"><b>Definition:</b> Polynomial.hpp:41</div></div>
 <div class="ttc" id="aclass_polynomial_html_a1667b8e7a33c32bc14eda25cf8cface4"><div class="ttname"><a href="class_polynomial.html#a1667b8e7a33c32bc14eda25cf8cface4">Polynomial::Polynomial</a></div><div class="ttdeci">Polynomial()</div><div class="ttdoc">This is the default constructor.</div><div class="ttdef"><b>Definition:</b> Polynomial.hpp:71</div></div>
-<div class="ttc" id="aclass_polynomial_html_a3cd44d51da4a73ea65f3fe3e145f28a4"><div class="ttname"><a href="class_polynomial.html#a3cd44d51da4a73ea65f3fe3e145f28a4">Polynomial::operator[]</a></div><div class="ttdeci">int64_t const &amp; operator[](const unsigned int i) const</div><div class="ttdoc">Access operator (const)</div><div class="ttdef"><b>Definition:</b> Polynomial.hpp:106</div></div>
-<div class="ttc" id="aclass_polynomial_html_a3fbc2b909192f3d288aaf43e6b155be6"><div class="ttname"><a href="class_polynomial.html#a3fbc2b909192f3d288aaf43e6b155be6">Polynomial::operator[]</a></div><div class="ttdeci">int64_t &amp; operator[](const unsigned int i)</div><div class="ttdoc">Access operator (non-const)</div><div class="ttdef"><b>Definition:</b> Polynomial.hpp:115</div></div>
 <div class="ttc" id="aclass_polynomial_html_a63d435f5b4017a2439803abb9bab27b9"><div class="ttname"><a href="class_polynomial.html#a63d435f5b4017a2439803abb9bab27b9">Polynomial::operator-</a></div><div class="ttdeci">Polynomial operator-() const</div><div class="ttdoc">Create an additive inverse of a given polynomial.</div><div class="ttdef"><b>Definition:</b> Polynomial.hpp:95</div></div>
 <div class="ttc" id="aclass_polynomial_html_a8214bcae2f76460adc3abd46eff1c915"><div class="ttname"><a href="class_polynomial.html#a8214bcae2f76460adc3abd46eff1c915">Polynomial::Polynomial</a></div><div class="ttdeci">Polynomial(const Polynomial &amp;P)</div><div class="ttdoc">This is the copy constructor.</div><div class="ttdef"><b>Definition:</b> Polynomial.hpp:62</div></div>
 <div class="ttc" id="aclass_polynomial_html_a91c6dabfdd7e061c40aee967574d6277"><div class="ttname"><a href="class_polynomial.html#a91c6dabfdd7e061c40aee967574d6277">Polynomial::Polynomial</a></div><div class="ttdeci">Polynomial(const int64_t *arr)</div><div class="ttdoc">This is the main constructor.</div><div class="ttdef"><b>Definition:</b> Polynomial.hpp:52</div></div>
+<div class="ttc" id="aclass_polynomial_html_abf62a29e534dad5e6f40324a7a670a77"><div class="ttname"><a href="class_polynomial.html#abf62a29e534dad5e6f40324a7a670a77">Polynomial::operator[]</a></div><div class="ttdeci">int64_t const &amp; operator[](const uint64_t i) const</div><div class="ttdoc">Access operator (const)</div><div class="ttdef"><b>Definition:</b> Polynomial.hpp:106</div></div>
 <div class="ttc" id="aclass_polynomial_html_ace51411fa33baaaf127fadc5f6e59bb9"><div class="ttname"><a href="class_polynomial.html#ace51411fa33baaaf127fadc5f6e59bb9">Polynomial::operator=</a></div><div class="ttdeci">Polynomial &amp; operator=(const Polynomial &amp;P)</div><div class="ttdoc">Assignment operator.</div><div class="ttdef"><b>Definition:</b> Polynomial.hpp:83</div></div>
+<div class="ttc" id="aclass_polynomial_html_aeab7252128f262a78fd7a08a36d8647c"><div class="ttname"><a href="class_polynomial.html#aeab7252128f262a78fd7a08a36d8647c">Polynomial::operator[]</a></div><div class="ttdeci">int64_t &amp; operator[](const uint64_t i)</div><div class="ttdoc">Access operator (non-const)</div><div class="ttdef"><b>Definition:</b> Polynomial.hpp:115</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
