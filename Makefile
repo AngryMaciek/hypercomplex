@@ -10,7 +10,8 @@
 ###############################################################################
 
 SRC1 = Hypercomplex.hpp
-SRC2 = Polynomial.hpp
+SRC2 = Hypercomplex_MPFR.hpp
+SRC3 = Polynomial.hpp
 
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
@@ -42,7 +43,7 @@ help:
 # Install
 # =============================================================================
 
-install: $(INCLUDE_PREFIX)/Hypercomplex/$(SRC1) $(INCLUDE_PREFIX)/Hypercomplex/$(SRC2)
+install: $(INCLUDE_PREFIX)/Hypercomplex/$(SRC1) $(INCLUDE_PREFIX)/Hypercomplex/$(SRC2) $(INCLUDE_PREFIX)/Hypercomplex/$(SRC3)
 
 # Create a separate directory for the header-only library
 $(INCLUDE_PREFIX)/Hypercomplex:
@@ -52,8 +53,12 @@ $(INCLUDE_PREFIX)/Hypercomplex:
 $(INCLUDE_PREFIX)/Hypercomplex/$(SRC1): hypercomplex/$(SRC1) $(INCLUDE_PREFIX)/Hypercomplex
 	@cp $< $@
 
-# Copy the helper library file into the right directory
+# Copy the class specialisation file into the right directory
 $(INCLUDE_PREFIX)/Hypercomplex/$(SRC2): hypercomplex/$(SRC2) $(INCLUDE_PREFIX)/Hypercomplex
+	@cp $< $@
+
+# Copy the helper library file into the right directory
+$(INCLUDE_PREFIX)/Hypercomplex/$(SRC3): hypercomplex/$(SRC3) $(INCLUDE_PREFIX)/Hypercomplex
 	@cp $< $@
 
 # =============================================================================
@@ -72,6 +77,7 @@ uninstall:
 test:
 	@mkdir .test/unit/hypercomplex
 	@cp hypercomplex/Hypercomplex.hpp .test/unit/hypercomplex/Hypercomplex.hpp
+	@cp hypercomplex/Hypercomplex_MPFR.hpp .test/unit/hypercomplex/Hypercomplex_MPFR.hpp
 	@cp hypercomplex/Polynomial.hpp .test/unit/hypercomplex/Polynomial.hpp
 	@g++ -DUSEMPFR=1 -O0 -Wall --std=c++17 -o test .test/unit/test.cpp -lmpfr -lgmp
 	@./test [unit] -d yes -w NoAssertions --use-colour yes --benchmark-samples 100 --benchmark-resamples 100000
@@ -84,6 +90,7 @@ test:
 # Run static code analysis
 lint:
 	@cpplint hypercomplex/Hypercomplex.hpp
+	@cpplint hypercomplex/Hypercomplex_MPFR.hpp
 	@cpplint hypercomplex/Polynomial.hpp
 
 # =============================================================================
