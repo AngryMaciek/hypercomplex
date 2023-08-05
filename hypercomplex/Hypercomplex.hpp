@@ -20,6 +20,8 @@
 
 // Conditional MPFR inclusion
 #ifndef USEMPFR
+/** \brief Compile-time flag to include MPFR class specialisation (default: false).
+  */
 #define USEMPFR 0
 #endif
 #if USEMPFR
