@@ -16,7 +16,21 @@
  *
  * \section install_sec Installation
  *
- * As a prerequisite it is essential to install the
+ * The following is a _header-only_ library, meaning that the easiest way to use it
+ * is to copy the core _hpp_ files alongside your main program and include it into the code
+ * with the directive:
+ * \code{.cpp}
+ * #include "Hypercomplex.hpp"
+ * \endcode
+ *
+ * Remember to specify a proper langauge standard and optimisation level
+ * for the compiler, as in the command below:
+ * \code
+ * g++ -O2 --std=c++17 main.cpp -o main
+ * \endcode
+ *
+ * For computations based on high precision arithmetics
+ * it is essential to install the
  * <a href="https://www.mpfr.org/">MPFR library</a> first.
  * This should be rather straightforward with the following commands:
  * \code
@@ -29,19 +43,12 @@
  * brew install mpfr
  * \endcode
  *
- * The following is a _header-only_ library, meaning that the easiest way to use it
- * is to copy the core _hpp_ file alongside the main program and include it into the code
- * with the directive:
- * \code{.cpp}
- * #include "Hypercomplex.hpp"
- * \endcode
- *
- * Remember to specify a proper langauge standard for the compiler as well as
- * linking with _GNU MP_ and _GNU MPFR_ libraries, as in the command below:
+ * It is then essential to provide a preprocessor macro specifying the
+ * use of this library at the compile time as well as
+ * linking with _GNU MP_ and _GNU MPFR_ as in the command below:
  * \code
- * g++ -O2 --std=c++17 test.cpp -o test -lmpfr -lgmp
+ * g++ -O2 -DUSEMPFR=1 --std=c++17 main.cpp -o main -lmpfr -lgmp
  * \endcode
- *
  *
  * Alternatively, if you work with conda environments this library is installable with:
  * \code
@@ -53,7 +60,7 @@
  *
  * The command above would be adjusted to:
  * \code
- * g++ -O2 --std=c++17 -I$CONDA_PREFIX/include -L$CONDA_PREFIX/lib test.cpp -o test -lmpfr -lgmp
+ * g++ -O2 -DUSEMPFR=1 --std=c++17 -I$CONDA_PREFIX/include -L$CONDA_PREFIX/lib main.cpp -o main -lmpfr -lgmp
  * \endcode
  *
  *
