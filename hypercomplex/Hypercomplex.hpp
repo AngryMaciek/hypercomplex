@@ -18,7 +18,14 @@
 #ifndef HYPERCOMPLEX_HYPERCOMPLEX_HPP_
 #define HYPERCOMPLEX_HYPERCOMPLEX_HPP_
 
+// Conditional MPFR inclusion
+#ifndef USEMPFR
+#define USEMPFR 0
+#endif
+#if USEMPFR
 #include <mpfr.h>
+#endif
+
 #include <cassert>
 #include <cmath>
 #include <iostream>

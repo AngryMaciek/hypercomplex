@@ -59,7 +59,7 @@ jobs:
 
       - name: Compile Test Program
         working-directory: ${{env.working-directory}}
-        run: g++ -O0 -fprofile-arcs -ftest-coverage -fno-elide-constructors -Wall --std=c++17 --coverage -o test test.cpp -lmpfr -lgmp
+        run: g++ -DUSEMPFR=1 -O0 -fprofile-arcs -ftest-coverage -fno-elide-constructors -Wall --std=c++17 --coverage -o test test.cpp -lmpfr -lgmp
 
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}
@@ -107,7 +107,7 @@ jobs:
 
       - name: Compile Test Program
         working-directory: ${{env.working-directory}}
-        run: g++ -O0 -Wall --std=c++17 -o test test.cpp -lmpfr -lgmp
+        run: g++ -DUSEMPFR=1 -O0 -Wall --std=c++17 -o test test.cpp -lmpfr -lgmp
 
       - name: Analyze Test Program Exec
         working-directory: ${{env.working-directory}}

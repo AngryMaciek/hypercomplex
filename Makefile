@@ -73,7 +73,7 @@ test:
 	@mkdir .test/unit/hypercomplex
 	@cp hypercomplex/Hypercomplex.hpp .test/unit/hypercomplex/Hypercomplex.hpp
 	@cp hypercomplex/Polynomial.hpp .test/unit/hypercomplex/Polynomial.hpp
-	@g++ -O0 -Wall --std=c++17 -o test .test/unit/test.cpp -lmpfr -lgmp
+	@g++ -DUSEMPFR=1 -O0 -Wall --std=c++17 -o test .test/unit/test.cpp -lmpfr -lgmp
 	@./test [unit] -d yes -w NoAssertions --use-colour yes --benchmark-samples 100 --benchmark-resamples 100000
 	@rm -rf .test/unit/hypercomplex test
 
