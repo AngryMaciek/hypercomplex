@@ -29,7 +29,7 @@
 int64_t RingInverse(const int64_t x, const int64_t mod) {
     int64_t y = x % mod;
     if (y < 0) y += mod;
-    for (unsigned int i=1; i < mod; i++) {
+    for (uint64_t i=1; i < mod; i++) {
         if ((y*i) % mod == 1) return i;
     }
     throw std::invalid_argument("non-invertible element");
@@ -37,7 +37,7 @@ int64_t RingInverse(const int64_t x, const int64_t mod) {
 
 /** Helper class for polynomials
   */
-template <const unsigned int MaxDeg>
+template <const uint64_t MaxDeg>
 class Polynomial {
  private:
     int64_t* coefficients = new int64_t[MaxDeg+1];
@@ -50,7 +50,7 @@ class Polynomial {
       * * maximum degree of the polynomial
       */
     explicit Polynomial(const int64_t* arr) {
-        for (unsigned int i=0; i <= MaxDeg; i++) coefficients[i] = arr[i];
+        for (uint64_t i=0; i <= MaxDeg; i++) coefficients[i] = arr[i];
     }
 
     /** \brief This is the copy constructor
@@ -60,7 +60,7 @@ class Polynomial {
       * * maximum degree of the polynomial
       */
     Polynomial(const Polynomial &P) {
-        for (unsigned int i=0; i <= MaxDeg; i++) coefficients[i] = P[i];
+        for (uint64_t i=0; i <= MaxDeg; i++) coefficients[i] = P[i];
     }
 
     /** \brief This is the default constructor
@@ -69,7 +69,7 @@ class Polynomial {
       * * maximum degree of the polynomial
       */
     Polynomial() {
-        for (unsigned int i=0; i <= MaxDeg; i++) coefficients[i] = 0;
+        for (uint64_t i=0; i <= MaxDeg; i++) coefficients[i] = 0;
     }
 
     ~Polynomial() {
@@ -84,7 +84,7 @@ class Polynomial {
         // self-assignment guard
         if (this == &P) return *this;
         // reassign
-        for (unsigned int i=0; i <= MaxDeg; i++) coefficients[i] = P[i];
+        for (uint64_t i=0; i <= MaxDeg; i++) coefficients[i] = P[i];
         // return the existing object so we can chain this operator
         return *this;
     }
@@ -94,7 +94,7 @@ class Polynomial {
       */
     Polynomial operator-() const {
         int64_t temparr[MaxDeg+1];
-        for (unsigned int i=0; i <= MaxDeg; i++) temparr[i] = -coefficients[i];
+        for (uint64_t i=0; i <= MaxDeg; i++) temparr[i] = -coefficients[i];
         Polynomial<MaxDeg> P(temparr);
         return P;
     }
@@ -103,7 +103,7 @@ class Polynomial {
       * \param [in] i index for the element to access
       * \return i-th element of the number
       */
-    int64_t const & operator[](const unsigned int i) const {
+    int64_t const & operator[](const uint64_t i) const {
         assert(0 <= i && i <= MaxDeg);
         return coefficients[i];
     }
@@ -112,7 +112,7 @@ class Polynomial {
       * \param [in] i index for the element to access
       * \return i-th element of the number
       */
-    int64_t & operator[](const unsigned int i) {
+    int64_t & operator[](const uint64_t i) {
         assert(0 <= i && i <= MaxDeg);
         return coefficients[i];
     }
@@ -123,12 +123,12 @@ class Polynomial {
   * \param [in] P2 RHS operand
   * \return boolean value after the comparison
   */
-template <const unsigned int MaxDeg>
+template <const uint64_t MaxDeg>
 bool operator==(
     const Polynomial<MaxDeg> &P1,
     const Polynomial<MaxDeg> &P2
 ) {
-    for (unsigned int i=0; i <= MaxDeg; i++) {
+    for (uint64_t i=0; i <= MaxDeg; i++) {
         if (P1[i] != P2[i]) return false;
     }
     return true;
@@ -139,7 +139,7 @@ bool operator==(
   * \param [in] P2 RHS operand
   * \return boolean value after the comparison
   */
-template <const unsigned int MaxDeg>
+template <const uint64_t MaxDeg>
 bool operator!=(
     const Polynomial<MaxDeg> &P1,
     const Polynomial<MaxDeg> &P2
@@ -152,9 +152,9 @@ bool operator!=(
   * \param [in] P existing class instance
   * \return output stream
   */
-template <const unsigned int MaxDeg>
+template <const uint64_t MaxDeg>
 std::ostream& operator<< (std::ostream &os, const Polynomial<MaxDeg> &P) {
-    for (unsigned int i=0; i < MaxDeg; i++) os << P[i] << ",";
+    for (uint64_t i=0; i < MaxDeg; i++) os << P[i] << ",";
     os << P[MaxDeg];
     return os;
 }
@@ -164,10 +164,10 @@ std::ostream& operator<< (std::ostream &os, const Polynomial<MaxDeg> &P) {
   * \param [in] P RHS operand (polynomial)
   * \return new class instance
   */
-template <const unsigned int MaxDeg>
+template <const uint64_t MaxDeg>
 Polynomial<MaxDeg> operator*(const int64_t x, const Polynomial<MaxDeg> &P) {
     int64_t temparr[MaxDeg+1];
-    for (unsigned int i=0; i <= MaxDeg; i++) temparr[i] = P[i] * x;
+    for (uint64_t i=0; i <= MaxDeg; i++) temparr[i] = P[i] * x;
     Polynomial<MaxDeg> p(temparr);
     return p;
 }
@@ -177,13 +177,13 @@ Polynomial<MaxDeg> operator*(const int64_t x, const Polynomial<MaxDeg> &P) {
   * \param [in] P2 RHS operand
   * \return new class instance
   */
-template <const unsigned int MaxDeg>
+template <const uint64_t MaxDeg>
 Polynomial<MaxDeg> operator+(
     const Polynomial<MaxDeg> &P1,
     const Polynomial<MaxDeg> &P2
 ) {
     int64_t temparr[MaxDeg+1];
-    for (unsigned int i=0; i <= MaxDeg; i++) temparr[i] = P1[i] + P2[i];
+    for (uint64_t i=0; i <= MaxDeg; i++) temparr[i] = P1[i] + P2[i];
     Polynomial<MaxDeg> p(temparr);
     return p;
 }
@@ -193,13 +193,13 @@ Polynomial<MaxDeg> operator+(
   * \param [in] P2 RHS operand
   * \return new class instance
   */
-template <const unsigned int MaxDeg>
+template <const uint64_t MaxDeg>
 Polynomial<MaxDeg> operator-(
     const Polynomial<MaxDeg> &P1,
     const Polynomial<MaxDeg> &P2
 ) {
     int64_t temparr[MaxDeg+1];
-    for (unsigned int i=0; i <= MaxDeg; i++) temparr[i] = P1[i] - P2[i];
+    for (uint64_t i=0; i <= MaxDeg; i++) temparr[i] = P1[i] - P2[i];
     Polynomial<MaxDeg> p(temparr);
     return p;
 }
@@ -209,20 +209,20 @@ Polynomial<MaxDeg> operator-(
   * \param [in] P2 RHS operand
   * \return new class instance
   */
-template <const unsigned int MaxDeg>
+template <const uint64_t MaxDeg>
 Polynomial<MaxDeg> operator*(
     const Polynomial<MaxDeg> &P1,
     const Polynomial<MaxDeg> &P2
 ) {
     int64_t prod[2*MaxDeg+1];
     int64_t conv[MaxDeg+1];
-    for (unsigned int i=0; i < 2*MaxDeg+1; i++) prod[i] = 0;
-    for (unsigned int i=0; i <= MaxDeg; i++) conv[i] = 0;
-    for (unsigned int i=0; i <= MaxDeg; i++) {
-        for (unsigned int j=0; j <= MaxDeg; j++)
+    for (uint64_t i=0; i < 2*MaxDeg+1; i++) prod[i] = 0;
+    for (uint64_t i=0; i <= MaxDeg; i++) conv[i] = 0;
+    for (uint64_t i=0; i <= MaxDeg; i++) {
+        for (uint64_t j=0; j <= MaxDeg; j++)
             prod[i+j] += P1[i]*P2[j];
     }
-    for (unsigned int i=0; i < 2*MaxDeg+1; i++) conv[i%(MaxDeg+1)] += prod[i];
+    for (uint64_t i=0; i < 2*MaxDeg+1; i++) conv[i%(MaxDeg+1)] += prod[i];
     Polynomial<MaxDeg> p(conv);
     return p;
 }
@@ -232,10 +232,10 @@ Polynomial<MaxDeg> operator*(
   * \param [in] x RHS operand (scalar)
   * \return new class instance
   */
-template <const unsigned int MaxDeg>
+template <const uint64_t MaxDeg>
 Polynomial<MaxDeg> operator%(const Polynomial<MaxDeg> &P, const int64_t x) {
     int64_t temparr[MaxDeg+1];
-    for (unsigned int i=0; i <= MaxDeg; i++) {
+    for (uint64_t i=0; i <= MaxDeg; i++) {
         temparr[i] = P[i] % x;
         if (temparr[i] < 0) temparr[i] += x;
     }
@@ -247,11 +247,11 @@ Polynomial<MaxDeg> operator%(const Polynomial<MaxDeg> &P, const int64_t x) {
   * \param [in] P existing class instance (pointer)
   * \param [in] mod positive integer
   */
-template <const unsigned int MaxDeg>
+template <const uint64_t MaxDeg>
 void CenteredLift(Polynomial<MaxDeg> *P, const int64_t mod) {
     int64_t lower = -mod/2;
     int64_t upper = mod/2;
-    for (unsigned int i = 0; i <= MaxDeg; i++) {
+    for (uint64_t i = 0; i <= MaxDeg; i++) {
         if (mod % 2) {  // odd: <lower, upper>
             if ((*P)[i] < lower) (*P)[i] = (*P)[i] + mod;
             if ((*P)[i] > upper) (*P)[i] = (*P)[i] - mod;
@@ -267,7 +267,7 @@ void CenteredLift(Polynomial<MaxDeg> *P, const int64_t mod) {
   * \param [in] mod positive integer
   * \return new class instance
   */
-template <const unsigned int MaxDeg>
+template <const uint64_t MaxDeg>
 Polynomial<MaxDeg> RingInverse(
     const Polynomial<MaxDeg> &P,
     const int64_t &mod
@@ -287,11 +287,11 @@ Polynomial<MaxDeg> RingInverse(
     Polynomial<MaxDeg+1> r;
     r[0] = mod-1;
     r[MaxDeg+1] = 1;
-    unsigned int deg_r = MaxDeg+1;
-    for (unsigned int i=0; i <= MaxDeg; i++) temp[i] = P_[i];
+    uint64_t deg_r = MaxDeg+1;
+    for (uint64_t i=0; i <= MaxDeg; i++) temp[i] = P_[i];
     Polynomial<MaxDeg+1> newr(temp);
-    unsigned int deg_newr = 0;
-    for (unsigned int i=0; i <= MaxDeg+1; i++) {
+    uint64_t deg_newr = 0;
+    for (uint64_t i=0; i <= MaxDeg+1; i++) {
         if (newr[i]) deg_newr = i;
     }
 
@@ -299,15 +299,15 @@ Polynomial<MaxDeg> RingInverse(
     while (deg_newr > 0) {
         // division loop
         while (deg_r >= deg_newr) {
-            for (unsigned int i=0; i <= MaxDeg+1; i++) temp[i] = 0;
-            for (unsigned int i=0; i <= deg_newr; i++)
+            for (uint64_t i=0; i <= MaxDeg+1; i++) temp[i] = 0;
+            for (uint64_t i=0; i <= deg_newr; i++)
                 temp[i + deg_r - deg_newr] = newr[i];
             q[deg_r - deg_newr] =
                 (r[deg_r] * RingInverse(temp[deg_r], mod)) % mod;
-            for (unsigned int i=0; i <= deg_r; i++)
+            for (uint64_t i=0; i <= deg_r; i++)
                 temp[i] = (temp[i] * q[deg_r - deg_newr]) % mod;
             temp = temp % mod;
-            for (unsigned int i=0; i <= deg_r; i++) r[i] = r[i] - temp[i];
+            for (uint64_t i=0; i <= deg_r; i++) r[i] = r[i] - temp[i];
             r = r % mod;
             deg_r -= 1;
         }
@@ -322,11 +322,11 @@ Polynomial<MaxDeg> RingInverse(
         t = temp;
 
         // reset variables:
-        for (unsigned int i=0; i <= MaxDeg+1; i++) q[i] = 0;
-        for (unsigned int i=0; i <= MaxDeg+1; i++) {
+        for (uint64_t i=0; i <= MaxDeg+1; i++) q[i] = 0;
+        for (uint64_t i=0; i <= MaxDeg+1; i++) {
             if (newr[i]) deg_newr = i;
         }
-        for (unsigned int i=0; i <= MaxDeg+1; i++) {
+        for (uint64_t i=0; i <= MaxDeg+1; i++) {
             if (r[i]) deg_r = i;
         }
     }
@@ -337,7 +337,7 @@ Polynomial<MaxDeg> RingInverse(
     // construct the inverse polynomial
     int64_t multiplier = RingInverse(newr[0], mod);
     Polynomial<MaxDeg> inverse;
-    for (unsigned int i=0; i <= MaxDeg; i++) inverse[i] = newt[i];
+    for (uint64_t i=0; i <= MaxDeg; i++) inverse[i] = newt[i];
     inverse = (multiplier * inverse) % mod;
 
     // test: P * 1/P == 1

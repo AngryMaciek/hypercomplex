@@ -32,7 +32,7 @@ jobs:
 
       - name: Compile Docs Test Program
         working-directory: ${{env.test-directory}}
-        run: g++ --std=c++17 test.cpp -o test -lmpfr -lgmp
+        run: g++ -DUSEMPFR=1 --std=c++17 test.cpp -o test -lmpfr -lgmp
 
       - name: Execute Test Program
         working-directory: ${{env.test-directory}}

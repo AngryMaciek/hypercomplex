@@ -18,16 +18,6 @@ jobs:
       - name: Display Compiler Version
         run: g++ --version
 
-      - name: Install MPFR
-        run: |
-          if [ "$RUNNER_OS" == "Linux" ]; then
-            sudo apt-get update -y
-            sudo apt-get install -y libmpfr-dev
-          elif [ "$RUNNER_OS" == "macOS" ]; then
-            brew update
-            brew install mpfr
-          fi
-
       - name: Checkout Repository
         uses: actions/checkout@v3
 
@@ -37,7 +27,7 @@ jobs:
 
       - name: Compile Test Program
         working-directory: ${{env.working-directory}}
-        run: g++ --std=c++17 test.cpp -o test -lmpfr -lgmp
+        run: g++ --std=c++17 test.cpp -o test
 
       - name: Execute Test Program
         working-directory: ${{env.working-directory}}
@@ -57,16 +47,6 @@ jobs:
       - name: Display Compiler Version
         run: g++ --version
 
-      - name: Install MPFR
-        run: |
-          if [ "$RUNNER_OS" == "Linux" ]; then
-            sudo apt-get update -y
-            sudo apt-get install -y libmpfr-dev
-          elif [ "$RUNNER_OS" == "macOS" ]; then
-            brew update
-            brew install mpfr
-          fi
-
       - name: Checkout Repository
         uses: actions/checkout@v3
 
@@ -75,7 +55,7 @@ jobs:
 
       - name: Compile Test Program
         working-directory: ${{env.test-directory}}
-        run: g++ --std=c++17 test.cpp -o test -lmpfr -lgmp
+        run: g++ --std=c++17 test.cpp -o test
 
       - name: Execute Test Program
         working-directory: ${{env.test-directory}}
@@ -123,7 +103,7 @@ jobs:
 
       - name: Compile Test Program
         shell: bash -l {0}
-        run: g++ --std=c++17 -I$CONDA_PREFIX/include -L$CONDA_PREFIX/lib .test/install/test.cpp -o test -lmpfr -lgmp
+        run: g++ --std=c++17 -I$CONDA_PREFIX/include .test/install/test.cpp -o test
 
       - name: Execute Test Program
         shell: bash -l {0}
