@@ -103,7 +103,7 @@ jobs:
 
       - name: Compile Test Program
         shell: bash -l {0}
-        run: g++ --std=c++17 .test/install/test.cpp -o test
+        run: g++ --std=c++17 -I$CONDA_PREFIX/include .test/install/test.cpp -o test
 
       - name: Execute Test Program
         shell: bash -l {0}
