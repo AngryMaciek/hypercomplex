@@ -28,6 +28,7 @@ jobs:
         working-directory: ${{env.test-directory}}
         run: |
           cp ../../hypercomplex/Hypercomplex.hpp Hypercomplex.hpp
+          cp ../../hypercomplex/Hypercomplex_MPFR.hpp Hypercomplex_MPFR.hpp
           cp ../../hypercomplex/Polynomial.hpp Polynomial.hpp
 
       - name: Compile Docs Test Program
