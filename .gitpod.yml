@@ -25,6 +25,6 @@ github:
     # add a check to pull requests
     addCheck: prevent-merge-on-error
     # add a "Review in Gitpod" button as a comment to pull requests
-    addComment: false
+    addComment: true
     # add a "Review in Gitpod" button to the pull request's description
     addBadge: true
