@@ -1,7 +1,6 @@
 {
 
     "name": "dev",
-    "remoteUser": "user",
 
     "build": {
         "dockerfile": "../Dockerfile"
